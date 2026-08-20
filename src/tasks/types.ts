@@ -58,6 +58,12 @@ export interface ChoiceGroup {
   label: string;
   question: string;
   hint?: string;
+  /**
+   * Bentuk kartu pilihan. Kosongkan untuk kartu biasa (judul + poin).
+   * "profile" menampilkan kartu Audience Profile lengkap dengan ilustrasi,
+   * supaya peserta memilih satu profil utuh, bukan lima bagian terpisah.
+   */
+  card?: "profile";
   options: ChoiceOption[];
 }
 
@@ -87,20 +93,67 @@ export interface Submission {
 
 /* ------------------------------------------------------------------ */
 /* Model dokumen: satu model, tiga renderer (preview HTML, PDF, DOCX)   */
+/*                                                                      */
+/* Blok-blok di bawah ini meniru template resmi Plan International yang */
+/* dibagikan ke peserta: A4 lanskap, font Poppins, judul rata tengah,   */
+/* label biru di atas blok kuning, dan tabel bergaris biru.             */
+/* Warna diambil langsung dari berkas template, lihat PLAN_WARNA.       */
 /* ------------------------------------------------------------------ */
 
+/** Potongan teks dengan penekanan miring, mis. kata "Brand" pada judul. */
+export interface RichSpan {
+  text: string;
+  italic?: boolean;
+}
+
+/** Teks biasa, atau rangkaian potongan bila sebagian perlu dicetak miring. */
+export type Rich = string | RichSpan[];
+
+/** Warna resmi template, diambil dari w:shd dan w:color pada berkas DOCX. */
+export const PLAN_WARNA = {
+  biru: "0072CE",
+  kuning: "FFD500",
+  hijau: "D6D839",
+  salem: "F47A68",
+  langit: "58CAE8",
+  abu: "999999",
+  hitam: "000000",
+  putih: "FFFFFF",
+} as const;
+
 export type DocBlock =
-  | { type: "title"; text: string; subtitle?: string }
-  | { type: "meta"; rows: [string, string][] }
-  | { type: "heading"; text: string; number?: number }
-  | { type: "subheading"; text: string }
-  | { type: "paragraph"; text: string }
-  | { type: "bullets"; items: string[] }
-  | { type: "table"; head: string[]; rows: string[][]; caption?: string }
-  | { type: "quote"; text: string; caption?: string }
-  | { type: "mindmap"; root: string; branches: { label: string; children: string[] }[] }
-  | { type: "flow"; nodes: { label: string; caption: string }[] }
-  | { type: "divider" };
+  /** Judul halaman: tebal, rata tengah. */
+  | { type: "title"; text: Rich }
+  /** Baris kecil abu di bawah judul, dipakai untuk nama peserta. */
+  | { type: "byline"; text: string }
+  /** Label bagian: teks biru tebal di atas blok kuning. */
+  | { type: "label"; text: string }
+  /** Tabel dua kolom: label tebal di kiri, jawaban di kanan. */
+  | {
+      type: "fieldTable";
+      rows: { label: Rich; value: string }[];
+      /** Template memusatkan label pada tabel segmentasi, dan merapatkan kiri pada tabel kompetitor. */
+      labelAlign?: "center" | "left";
+    }
+  /** Kartu Audience Profile: ilustrasi di kiri, tiga blok berwarna di kanan. */
+  | {
+      type: "profile";
+      /** Kunci ilustrasi, mis. "a1". */
+      avatar: string;
+      channel: string;
+      description: string;
+      demographic: [string, string][];
+      psychographic: [string, string][];
+      painPoints: string[];
+    }
+  /** Tabel analisis tiga kolom: kepala biru, kolom pengamatan menyatu di kiri. */
+  | {
+      type: "analysis";
+      observation: { title: Rich; lines: string[] };
+      rows: { label: Rich; value: string }[];
+    }
+  /** Mulai halaman baru. */
+  | { type: "pageBreak" };
 
 /** Jawaban yang sudah "diselesaikan": grade + varian terpilih. */
 export interface ResolvedAnswer {

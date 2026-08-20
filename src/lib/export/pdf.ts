@@ -1,30 +1,45 @@
-import type { DocBlock } from "@/tasks/types";
+import type { DocBlock, Rich, RichSpan } from "@/tasks/types";
 import { downloadBlob, safeFileName } from "../download";
+import { AVATAR_PNG, LOGO_PLAN_PNG } from "./assets";
 
-/** Helvetica bawaan jsPDF hanya mendukung Latin-1, jadi tanda kutip melengkung diluruskan. */
-function ascii(text: string): string {
-  return text
-    .replace(/[‘’‚‛]/g, "'")
-    .replace(/[“”„‟]/g, '"')
-    .replace(/[–—]/g, "-")
-    .replace(/…/g, "...")
-    .replace(/ /g, " ");
-}
+/* ------------------------------------------------------------------ */
+/* Geometri halaman — mengikuti template resmi: A4 lanskap, margin 1"   */
+/* ------------------------------------------------------------------ */
 
-const MARGIN = 18;
-const PAGE_W = 210;
-const PAGE_H = 297;
+const PAGE_W = 297;
+const PAGE_H = 210;
+const MARGIN = 25.4;
 const CONTENT_W = PAGE_W - MARGIN * 2;
-/** Selisih kecil metrik font antara jsPDF dan pembaca PDF; dipotong agar teks pasti di dalam margin. */
-const WRAP_SLACK = 1.5;
+/** Selisih kecil metrik font antara jsPDF dan pembaca PDF. */
+const WRAP_SLACK = 1;
 
-const NAVY: [number, number, number] = [15, 42, 84];
-const BLUE: [number, number, number] = [21, 101, 216];
-const GREY: [number, number, number] = [90, 100, 118];
-const LINE: [number, number, number] = [214, 221, 232];
-const SOFT: [number, number, number] = [240, 245, 253];
-/** Abu sangat muda untuk kode penilaian di kaki halaman: terbaca bila dicari, tidak mencolok. */
-const FAINT: [number, number, number] = [198, 205, 216];
+/** Logo Plan di pojok kanan atas, di dalam area header (di atas margin isi). */
+const LOGO_W = 30;
+const LOGO_H = (LOGO_W * 360) / 640;
+const LOGO_Y = 7;
+
+const BIRU: [number, number, number] = [0, 114, 206];
+const KUNING: [number, number, number] = [255, 213, 0];
+const HIJAU: [number, number, number] = [214, 216, 57];
+const SALEM: [number, number, number] = [244, 122, 104];
+const LANGIT: [number, number, number] = [88, 202, 232];
+const ABU: [number, number, number] = [153, 153, 153];
+const HITAM: [number, number, number] = [0, 0, 0];
+const PUTIH: [number, number, number] = [255, 255, 255];
+/** Abu sangat muda untuk kode penilaian: terbaca bila dicari, tidak mencolok. */
+const SAMAR: [number, number, number] = [198, 205, 216];
+
+/** Tebal garis tabel: w:sz="18" pada template = 2,25pt. */
+const GARIS = 0.79;
+const PAD = 2.4;
+/** Jarak antarbaris teks, sebagai kelipatan ukuran font. */
+const LEADING = 1.42;
+
+const PT = 25.4 / 72;
+
+function spans(text: Rich): RichSpan[] {
+  return typeof text === "string" ? [{ text }] : text;
+}
 
 export async function exportPdf(
   blocks: DocBlock[],
@@ -33,369 +48,476 @@ export async function exportPdf(
   kodeNilai?: string
 ): Promise<void> {
   const { jsPDF } = await import("jspdf");
-  const doc = new jsPDF({ unit: "mm", format: "a4", compress: true });
+  const {
+    POPPINS_REGULAR,
+    POPPINS_BOLD,
+    POPPINS_ITALIC,
+    POPPINS_BOLDITALIC,
+  } = await import("./poppins");
+
+  const doc = new jsPDF({ unit: "mm", format: "a4", orientation: "landscape", compress: true });
+
+  // Template memakai Poppins, jadi fontnya disematkan supaya bentuk hurufnya sama.
+  const fonts: [string, string, string][] = [
+    ["Poppins-Regular.ttf", POPPINS_REGULAR, "normal"],
+    ["Poppins-Bold.ttf", POPPINS_BOLD, "bold"],
+    ["Poppins-Italic.ttf", POPPINS_ITALIC, "italic"],
+    ["Poppins-BoldItalic.ttf", POPPINS_BOLDITALIC, "bolditalic"],
+  ];
+  for (const [nama, data, gaya] of fonts) {
+    doc.addFileToVFS(nama, data);
+    doc.addFont(nama, "Poppins", gaya);
+  }
+
+  const gaya = (bold?: boolean, italic?: boolean) =>
+    bold && italic ? "bolditalic" : bold ? "bold" : italic ? "italic" : "normal";
+
+  const set = (size: number, bold?: boolean, italic?: boolean, warna: [number, number, number] = HITAM) => {
+    doc.setFont("Poppins", gaya(bold, italic));
+    doc.setFontSize(size);
+    doc.setTextColor(...warna);
+  };
+
+  const lh = (size: number) => size * LEADING * PT;
+
+  /** Memecah teks menjadi baris yang muat pada lebar tertentu. */
+  const pecah = (teks: string, size: number, lebar: number, bold?: boolean, italic?: boolean) => {
+    doc.setFont("Poppins", gaya(bold, italic));
+    doc.setFontSize(size);
+    return doc.splitTextToSize(teks, lebar - WRAP_SLACK) as string[];
+  };
+
+  const logo = () => doc.addImage(LOGO_PLAN_PNG, "PNG", PAGE_W - MARGIN - LOGO_W, LOGO_Y, LOGO_W, LOGO_H);
 
   let y = MARGIN;
+  logo();
 
-  const ensure = (needed: number) => {
-    if (y + needed > PAGE_H - MARGIN) {
-      doc.addPage();
-      y = MARGIN;
-    }
+  const halamanBaru = () => {
+    doc.addPage();
+    logo();
+    y = MARGIN;
   };
 
-  const text = (
-    value: string,
-    opts: {
-      size?: number;
-      style?: "normal" | "bold" | "italic";
-      color?: [number, number, number];
-      x?: number;
-      width?: number;
-      lineGap?: number;
-    } = {}
+  /** Memastikan ruang tersedia; pindah halaman bila kurang. */
+  const muat = (tinggi: number) => {
+    if (y + tinggi > PAGE_H - MARGIN) halamanBaru();
+  };
+
+  /** Menulis satu baris teks bergaya campuran, rata tengah. */
+  const richTengah = (text: Rich, size: number) => {
+    const bagian = spans(text);
+    const lebar = bagian.map((s) => {
+      doc.setFont("Poppins", gaya(true, s.italic));
+      doc.setFontSize(size);
+      return doc.getTextWidth(s.text);
+    });
+    const total = lebar.reduce((a, b) => a + b, 0);
+    let x = (PAGE_W - total) / 2;
+    for (let i = 0; i < bagian.length; i++) {
+      set(size, true, bagian[i].italic, HITAM);
+      doc.text(bagian[i].text, x, y + size * PT * 0.95);
+      x += lebar[i];
+    }
+    y += lh(size) + 4;
+  };
+
+  /** Menulis teks bergaya campuran mulai dari x tertentu, membungkus bila perlu. */
+  const richKiri = (
+    text: Rich,
+    size: number,
+    x: number,
+    lebarMaks: number,
+    warna: [number, number, number],
+    yAwal: number
+  ): number => {
+    const bagian = spans(text);
+    let cx = x;
+    let cy = yAwal;
+    for (const s of bagian) {
+      set(size, true, s.italic, warna);
+      for (const kata of s.text.split(/(\s+)/)) {
+        if (!kata) continue;
+        const w = doc.getTextWidth(kata);
+        if (cx + w > x + lebarMaks && cx > x) {
+          cx = x;
+          cy += lh(size);
+        }
+        doc.text(kata, cx, cy + size * PT * 0.95);
+        cx += w;
+      }
+    }
+    return cy + lh(size);
+  };
+
+  /** Tinggi yang dibutuhkan teks bergaya campuran pada lebar tertentu. */
+  const richTinggi = (text: Rich, size: number, lebarMaks: number): number => {
+    const bagian = spans(text);
+    let cx = 0;
+    let baris = 1;
+    for (const s of bagian) {
+      doc.setFont("Poppins", gaya(true, s.italic));
+      doc.setFontSize(size);
+      for (const kata of s.text.split(/(\s+)/)) {
+        if (!kata) continue;
+        const w = doc.getTextWidth(kata);
+        if (cx + w > lebarMaks && cx > 0) {
+          cx = 0;
+          baris++;
+        }
+        cx += w;
+      }
+    }
+    return baris * lh(size);
+  };
+
+  /* ---------------- blok ---------------- */
+
+  const blokJudul = (text: Rich) => {
+    muat(16);
+    richTengah(text, 18);
+  };
+
+  const blokByline = (text: string) => {
+    muat(8);
+    set(10, false, true, ABU);
+    doc.text(text, PAGE_W / 2, y + 3, { align: "center" });
+    y += lh(10) + 4;
+  };
+
+  const blokLabel = (text: string) => {
+    const size = 13;
+    const tinggi = lh(size) + 2.6;
+    muat(tinggi + 3);
+    set(size, true, false, BIRU);
+    const w = doc.getTextWidth(text) + 7;
+    doc.setFillColor(...KUNING);
+    doc.rect(MARGIN, y, w, tinggi, "F");
+    doc.text(text, MARGIN + 3.5, y + tinggi - size * PT * 0.42);
+    y += tinggi + 3.5;
+  };
+
+  /** Menggambar kotak bergaris biru. */
+  const kotak = (x: number, yy: number, w: number, h: number, isi?: [number, number, number]) => {
+    if (isi) {
+      doc.setFillColor(...isi);
+      doc.rect(x, yy, w, h, "F");
+    }
+    doc.setDrawColor(...BIRU);
+    doc.setLineWidth(GARIS);
+    doc.rect(x, yy, w, h, "S");
+  };
+
+  const blokFieldTable = (
+    rows: { label: Rich; value: string }[],
+    labelAlign: "center" | "left"
   ) => {
-    const size = opts.size ?? 10.5;
-    const x = opts.x ?? MARGIN;
-    const width = opts.width ?? CONTENT_W;
-    const gap = opts.lineGap ?? 1.45;
-    doc.setFont("helvetica", opts.style ?? "normal");
-    doc.setFontSize(size);
-    doc.setTextColor(...(opts.color ?? NAVY));
-    const lines = doc.splitTextToSize(ascii(value), width - WRAP_SLACK) as string[];
-    const lh = (size * gap) / 2.83465;
-    for (const line of lines) {
-      ensure(lh + 1);
-      doc.text(line, x, y + lh * 0.75);
-      y += lh;
+    const wLabel = CONTENT_W * 0.2133;
+    const wIsi = CONTENT_W - wLabel;
+    const size = 13;
+
+    for (const row of rows) {
+      const barisIsi = pecah(row.value, size, wIsi - PAD * 2);
+      const tLabel = richTinggi(row.label, size, wLabel - PAD * 2);
+      const tIsi = barisIsi.length * lh(size);
+      const tinggi = Math.max(tLabel, tIsi) + PAD * 2 + 2;
+      muat(tinggi);
+
+      kotak(MARGIN, y, wLabel, tinggi);
+      kotak(MARGIN + wLabel, y, wIsi, tinggi);
+
+      if (labelAlign === "center") {
+        const wl = richTinggi(row.label, size, wLabel - PAD * 2);
+        const yl = y + (tinggi - wl) / 2;
+        // Rata tengah hanya rapi bila labelnya satu baris; template pun begitu.
+        const teks = spans(row.label);
+        const total = teks.reduce((a, s) => {
+          doc.setFont("Poppins", gaya(true, s.italic));
+          doc.setFontSize(size);
+          return a + doc.getTextWidth(s.text);
+        }, 0);
+        let x = MARGIN + (wLabel - total) / 2;
+        for (const s of teks) {
+          set(size, true, s.italic, HITAM);
+          doc.text(s.text, x, yl + size * PT * 0.95);
+          x += doc.getTextWidth(s.text);
+        }
+      } else {
+        richKiri(row.label, size, MARGIN + PAD, wLabel - PAD * 2, HITAM, y + PAD);
+      }
+
+      set(size, false, false, HITAM);
+      let yi = y + PAD;
+      for (const b of barisIsi) {
+        doc.text(b, MARGIN + wLabel + PAD, yi + size * PT * 0.95);
+        yi += lh(size);
+      }
+      y += tinggi;
     }
+    y += 6;
   };
 
-  const measure = (value: string, size: number, width: number, gap = 1.45) => {
-    doc.setFontSize(size);
-    doc.setFont("helvetica", "normal");
-    const lines = doc.splitTextToSize(ascii(value), width - WRAP_SLACK) as string[];
-    return { lines, height: (lines.length * (size * gap)) / 2.83465 };
+  const blokProfile = (b: Extract<DocBlock, { type: "profile" }>) => {
+    const w0 = CONTENT_W * 0.2583;
+    const w1 = CONTENT_W * 0.2208;
+    const w2 = CONTENT_W - w0 - w1;
+    const x0 = MARGIN;
+    const x1 = x0 + w0;
+    const x2 = x1 + w1;
+    // Kartu profil memuat jauh lebih banyak teks daripada template kosongnya,
+    // jadi ukurannya dirapatkan agar seluruh kartu tetap muat dalam satu halaman.
+    const sJudul = 14;
+    const s = 11;
+    const sKecil = 9;
+    const sLabel = 10;
+
+    /**
+     * Menyiapkan pasangan "Kunci: nilai" dengan gantung baris: nilai yang
+     * panjang dibungkus dan barisnya menjorok sejajar di bawah nilai pertama.
+     */
+    const pasangan = (list: [string, string][], lebar: number) =>
+      list.map(([k, v]) => {
+        doc.setFont("Poppins", "italic");
+        doc.setFontSize(sKecil);
+        const wk = doc.getTextWidth(`${k}: `);
+        return { k, wk, baris: pecah(v, sKecil, Math.max(lebar - wk, 20)) };
+      });
+
+    const isiDemo = pasangan(b.demographic, w2 - PAD * 2);
+    const isiPsy = pasangan(b.psychographic, w2 - PAD * 2);
+
+    const barisDesc = pecah(b.description, s, w1 + w2 - PAD * 2);
+    const barisPain = b.painPoints.flatMap((p) => pecah(`• ${p}`, sKecil, w2 - PAD * 2));
+
+    const tJudul = lh(sJudul) + PAD * 2;
+    // Satu baris tambahan untuk label "Description:" di atas isinya.
+    const tDesc = Math.max((barisDesc.length + 1) * lh(s) + PAD * 2, 14);
+    const tinggiPasangan = (isi: ReturnType<typeof pasangan>) =>
+      Math.max(isi.reduce((a, x) => a + x.baris.length * lh(sKecil), 0) + PAD * 2, 14);
+    const tDemo = tinggiPasangan(isiDemo);
+    const tPsy = tinggiPasangan(isiPsy);
+    const tPain = Math.max(barisPain.length * lh(sKecil) + PAD * 2, 14);
+
+    const total = tJudul + tDesc + tDemo + tPsy + tPain;
+    muat(total);
+    const atas = y;
+
+    // Kolom kiri: ilustrasi audiens + saluran komunikasi utama.
+    kotak(x0, atas, w0, total);
+    const gambar = AVATAR_PNG[b.avatar] ?? AVATAR_PNG.a1;
+    const gW = Math.min(w0 - 16, 32);
+    doc.addImage(gambar, "PNG", x0 + (w0 - gW) / 2, atas + 5, gW, gW);
+    let yCh = atas + 5 + gW + 6;
+    set(sLabel, true, true, HITAM);
+    for (const baris of pecah("Key Communication Channel:", sLabel, w0 - PAD * 2 - 2, true, true)) {
+      doc.text(baris, x0 + PAD + 1, yCh + sLabel * PT * 0.95);
+      yCh += lh(sLabel);
+    }
+    set(sKecil, false, false, HITAM);
+    for (const baris of pecah(b.channel, sKecil, w0 - PAD * 2 - 2)) {
+      if (yCh + lh(sKecil) > atas + total - 2) break;
+      doc.text(baris, x0 + PAD + 1, yCh + sKecil * PT * 0.95);
+      yCh += lh(sKecil);
+    }
+
+    // Kepala biru.
+    let cy = atas;
+    kotak(x1, cy, w1 + w2, tJudul, BIRU);
+    set(sJudul, true, true, PUTIH);
+    doc.text("Audience Profile", x1 + (w1 + w2) / 2, cy + tJudul / 2 + sJudul * PT * 0.36, {
+      align: "center",
+    });
+    cy += tJudul;
+
+    // Description.
+    kotak(x1, cy, w1 + w2, tDesc);
+    set(s, true, true, HITAM);
+    doc.text("Description:", x1 + PAD, cy + PAD + s * PT * 0.95);
+    set(s, false, false, HITAM);
+    let yd = cy + PAD + lh(s);
+    for (const baris of barisDesc) {
+      doc.text(baris, x1 + PAD, yd + s * PT * 0.95);
+      yd += lh(s);
+    }
+    cy += tDesc;
+
+    // Tiga blok berwarna: demografi, psikografi, pain points.
+    const gambarPasangan = (isi: ReturnType<typeof pasangan>, yMulai: number) => {
+      let yi = yMulai;
+      for (const { k, wk, baris } of isi) {
+        set(sKecil, false, true, HITAM);
+        doc.text(`${k}:`, x2 + PAD, yi + sKecil * PT * 0.95);
+        set(sKecil, false, false, HITAM);
+        for (const baris1 of baris) {
+          doc.text(baris1, x2 + PAD + wk, yi + sKecil * PT * 0.95);
+          yi += lh(sKecil);
+        }
+      }
+    };
+
+    for (const [judul, warna, tinggi, jenis] of [
+      ["Key Demographic", HIJAU, tDemo, "demo"],
+      ["Key Psychographic", SALEM, tPsy, "psy"],
+      ["Customer Pain Points", LANGIT, tPain, "pain"],
+    ] as [string, [number, number, number], number, string][]) {
+      kotak(x1, cy, w1, tinggi, warna);
+      kotak(x2, cy, w2, tinggi, warna);
+      set(s, true, true, HITAM);
+      for (const [i, baris] of pecah(judul, s, w1 - PAD * 2, true, true).entries()) {
+        doc.text(baris, x1 + PAD, cy + PAD + i * lh(s) + s * PT * 0.95);
+      }
+      if (jenis === "pain") {
+        set(sKecil, false, false, HITAM);
+        let yi = cy + PAD;
+        for (const baris of barisPain) {
+          doc.text(baris, x2 + PAD, yi + sKecil * PT * 0.95);
+          yi += lh(sKecil);
+        }
+      } else {
+        gambarPasangan(jenis === "demo" ? isiDemo : isiPsy, cy + PAD);
+      }
+      cy += tinggi;
+    }
+    y = atas + total + 6;
   };
+
+  const blokAnalysis = (b: Extract<DocBlock, { type: "analysis" }>) => {
+    const w0 = CONTENT_W * 0.3441;
+    const w1 = CONTENT_W * 0.2462;
+    const w2 = CONTENT_W - w0 - w1;
+    const x0 = MARGIN;
+    const x1 = x0 + w0;
+    const x2 = x1 + w1;
+    const s = 13;
+    // Isi jawaban jauh lebih panjang daripada teks contoh pada template,
+    // jadi ukurannya dirapatkan supaya tidak hanya satu baris per halaman.
+    const sIsi = 10;
+
+    const judulKepala: [number, number, Rich][] = [
+      [x0, w0, b.observation.title],
+      [x1, w1, "Elemen yang Dianalisis"],
+      [x2, w2, "Hasil Analisis"],
+    ];
+    // Kepala tabel bisa lebih dari satu baris, jadi tingginya ikut diukur.
+    const tinggiKepala =
+      Math.max(...judulKepala.map(([, w, t]) => richTinggi(t, s, w - PAD * 2))) + PAD * 2;
+
+    const barisPengamatan = b.observation.lines.flatMap((l) => pecah(l, sIsi, w0 - PAD * 2));
+
+    // Hitung tinggi tiap baris lebih dulu, lalu bagi ke halaman.
+    const ukur = b.rows.map((r) => {
+      const isi = pecah(r.value, sIsi, w2 - PAD * 2);
+      const tLabel = richTinggi(r.label, s, w1 - PAD * 2);
+      return {
+        row: r,
+        isi,
+        tinggi: Math.max(tLabel, isi.length * lh(sIsi)) + PAD * 2 + 1,
+      };
+    });
+
+    const kepala = () => {
+      for (const [x, w, t] of judulKepala) {
+        kotak(x, y, w, tinggiKepala, BIRU);
+        richKiri(t, s, x + PAD, w - PAD * 2, PUTIH, y + PAD);
+      }
+      y += tinggiKepala;
+    };
+
+    let i = 0;
+    // Penunjuk baris kolom pengamatan; isinya diteruskan ke potongan halaman
+    // berikutnya bila tidak habis, bukan dipotong begitu saja.
+    let oi = 0;
+    while (i < ukur.length) {
+      if (y + tinggiKepala + ukur[i].tinggi > PAGE_H - MARGIN) halamanBaru();
+      kepala();
+
+      // Kumpulkan baris yang muat di halaman ini.
+      const potong: typeof ukur = [];
+      let tinggiTotal = 0;
+      while (i < ukur.length && y + tinggiTotal + ukur[i].tinggi <= PAGE_H - MARGIN) {
+        tinggiTotal += ukur[i].tinggi;
+        potong.push(ukur[i]);
+        i++;
+      }
+      if (potong.length === 0) {
+        // Baris tunggal lebih tinggi dari satu halaman: tetap digambar apa adanya.
+        potong.push(ukur[i]);
+        tinggiTotal = ukur[i].tinggi;
+        i++;
+      }
+
+      // Kolom pengamatan menyatu untuk seluruh baris di halaman ini.
+      kotak(x0, y, w0, tinggiTotal);
+      set(sIsi, false, false, HITAM);
+      let yo = y + PAD;
+      while (oi < barisPengamatan.length && yo + lh(sIsi) <= y + tinggiTotal) {
+        doc.text(barisPengamatan[oi], x0 + PAD, yo + sIsi * PT * 0.95);
+        yo += lh(sIsi);
+        oi++;
+      }
+
+      let cy = y;
+      for (const u of potong) {
+        kotak(x1, cy, w1, u.tinggi);
+        kotak(x2, cy, w2, u.tinggi);
+        richKiri(u.row.label, s, x1 + PAD, w1 - PAD * 2, HITAM, cy + PAD);
+        set(sIsi, false, false, HITAM);
+        let yi = cy + PAD;
+        for (const baris of u.isi) {
+          doc.text(baris, x2 + PAD, yi + sIsi * PT * 0.95);
+          yi += lh(sIsi);
+        }
+        cy += u.tinggi;
+      }
+      y = cy;
+    }
+    y += 6;
+  };
+
+  /* ---------------- jalankan ---------------- */
 
   for (const block of blocks) {
     switch (block.type) {
-      case "title": {
-        ensure(30);
-        doc.setFillColor(...NAVY);
-        doc.rect(MARGIN, y, CONTENT_W, 0.9, "F");
-        y += 6;
-        text(block.text, { size: 19, style: "bold", lineGap: 1.25 });
-        if (block.subtitle) {
-          y += 1;
-          text(block.subtitle, { size: 10.5, color: GREY });
-        }
-        y += 2;
-        doc.setFillColor(...BLUE);
-        doc.rect(MARGIN, y, 28, 1.2, "F");
-        y += 6;
+      case "title":
+        blokJudul(block.text);
         break;
-      }
-
-      case "meta": {
-        const labelW = 42;
-        for (const [k, v] of block.rows) {
-          const m = measure(v, 10, CONTENT_W - labelW - 4);
-          ensure(m.height + 2);
-          const rowTop = y;
-          doc.setFont("helvetica", "bold");
-          doc.setFontSize(10);
-          doc.setTextColor(...GREY);
-          doc.text(ascii(k), MARGIN, y + 3.4);
-          doc.setFont("helvetica", "normal");
-          doc.setTextColor(...NAVY);
-          let ly = y;
-          for (const line of m.lines) {
-            doc.text(line, MARGIN + labelW, ly + 3.4);
-            ly += (10 * 1.45) / 2.83465;
-          }
-          y = rowTop + m.height + 1.6;
-        }
-        y += 2;
+      case "byline":
+        blokByline(block.text);
         break;
-      }
-
-      case "divider": {
-        ensure(6);
-        doc.setDrawColor(...LINE);
-        doc.setLineWidth(0.3);
-        doc.line(MARGIN, y + 1, PAGE_W - MARGIN, y + 1);
-        y += 6;
+      case "label":
+        blokLabel(block.text);
         break;
-      }
-
-      case "heading": {
-        ensure(16);
-        y += 3;
-        const label = block.number ? `${block.number}. ${block.text}` : block.text;
-        doc.setFillColor(...BLUE);
-        doc.rect(MARGIN, y, 2.2, 6.4, "F");
-        text(label.toUpperCase(), { size: 12.5, style: "bold", x: MARGIN + 5.5, width: CONTENT_W - 5.5 });
-        y += 3.5;
+      case "fieldTable":
+        blokFieldTable(block.rows, block.labelAlign ?? "center");
         break;
-      }
-
-      case "subheading": {
-        ensure(10);
-        y += 1.5;
-        text(block.text, { size: 11, style: "bold", color: BLUE });
-        y += 1.2;
+      case "profile":
+        blokProfile(block);
         break;
-      }
-
-      case "paragraph": {
-        text(block.text, { size: 10.5, lineGap: 1.55 });
-        y += 2.6;
+      case "analysis":
+        blokAnalysis(block);
         break;
-      }
-
-      case "bullets": {
-        for (const item of block.items) {
-          const m = measure(item, 10.5, CONTENT_W - 6, 1.5);
-          ensure(m.height + 1);
-          doc.setFillColor(...BLUE);
-          doc.circle(MARGIN + 1.6, y + 2.5, 0.85, "F");
-          let ly = y;
-          doc.setFont("helvetica", "normal");
-          doc.setFontSize(10.5);
-          doc.setTextColor(...NAVY);
-          for (const line of m.lines) {
-            doc.text(line, MARGIN + 6, ly + 3.5);
-            ly += (10.5 * 1.5) / 2.83465;
-          }
-          y += m.height + 1.4;
-        }
-        y += 2;
+      case "pageBreak":
+        halamanBaru();
         break;
-      }
-
-      case "quote": {
-        const m = measure(block.text, 12, CONTENT_W - 14, 1.4);
-        const capH = block.caption ? measure(block.caption, 9, CONTENT_W - 14, 1.4).height : 0;
-        const boxH = m.height + capH + (block.caption ? 10 : 7);
-        ensure(boxH + 4);
-        doc.setFillColor(...SOFT);
-        doc.roundedRect(MARGIN, y, CONTENT_W, boxH, 2, 2, "F");
-        doc.setFillColor(...BLUE);
-        doc.rect(MARGIN, y, 2.2, boxH, "F");
-        let ly = y + 3;
-        doc.setFont("helvetica", "bolditalic");
-        doc.setFontSize(12);
-        doc.setTextColor(...NAVY);
-        for (const line of m.lines) {
-          doc.text(`${line}`, MARGIN + 8, ly + 4);
-          ly += (12 * 1.4) / 2.83465;
-        }
-        if (block.caption) {
-          const cm = measure(block.caption, 9, CONTENT_W - 14, 1.4);
-          doc.setFont("helvetica", "normal");
-          doc.setFontSize(9);
-          doc.setTextColor(...GREY);
-          ly += 1;
-          for (const line of cm.lines) {
-            doc.text(line, MARGIN + 8, ly + 4);
-            ly += (9 * 1.4) / 2.83465;
-          }
-        }
-        y += boxH + 5;
-        break;
-      }
-
-      case "table": {
-        const cols = block.head.length;
-        const widths =
-          cols === 3 ? [CONTENT_W * 0.24, CONTENT_W * 0.34, CONTENT_W * 0.42] : Array(cols).fill(CONTENT_W / cols);
-        const cellPad = 2.2;
-
-        const drawHead = () => {
-          ensure(11);
-          doc.setFillColor(...NAVY);
-          doc.rect(MARGIN, y, CONTENT_W, 8.5, "F");
-          doc.setFont("helvetica", "bold");
-          doc.setFontSize(9.5);
-          doc.setTextColor(255, 255, 255);
-          let x = MARGIN;
-          block.head.forEach((h, i) => {
-            doc.text(ascii(h), x + cellPad, y + 5.6);
-            x += widths[i];
-          });
-          y += 8.5;
-        };
-
-        drawHead();
-
-        block.rows.forEach((row, ri) => {
-          const cellLines = row.map((cell, i) => {
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(9);
-            return doc.splitTextToSize(ascii(cell), widths[i] - cellPad * 2 - WRAP_SLACK) as string[];
-          });
-          const maxLines = Math.max(...cellLines.map((l) => l.length));
-          const lh = (9 * 1.45) / 2.83465;
-          const rowH = maxLines * lh + cellPad * 2;
-
-          if (y + rowH > PAGE_H - MARGIN) {
-            doc.addPage();
-            y = MARGIN;
-            drawHead();
-          }
-
-          if (ri % 2 === 1) {
-            doc.setFillColor(248, 250, 254);
-            doc.rect(MARGIN, y, CONTENT_W, rowH, "F");
-          }
-          doc.setDrawColor(...LINE);
-          doc.setLineWidth(0.2);
-          doc.line(MARGIN, y + rowH, PAGE_W - MARGIN, y + rowH);
-
-          let x = MARGIN;
-          cellLines.forEach((lines, i) => {
-            doc.setFont("helvetica", i === 0 ? "bold" : "normal");
-            doc.setFontSize(9);
-            doc.setTextColor(...(i === 0 ? BLUE : NAVY));
-            let ly = y + cellPad;
-            for (const line of lines) {
-              doc.text(line, x + cellPad, ly + 3.1);
-              ly += lh;
-            }
-            x += widths[i];
-          });
-          y += rowH;
-        });
-
-        if (block.caption) {
-          y += 2;
-          text(block.caption, { size: 8.5, style: "italic", color: GREY });
-        }
-        y += 5;
-        break;
-      }
-
-      case "flow": {
-        for (let i = 0; i < block.nodes.length; i++) {
-          const node = block.nodes[i];
-          const cm = measure(node.caption, 9, CONTENT_W - 16, 1.45);
-          const boxH = cm.height + 12;
-          ensure(boxH + 12);
-          doc.setFillColor(...SOFT);
-          doc.setDrawColor(...BLUE);
-          doc.setLineWidth(0.4);
-          doc.roundedRect(MARGIN, y, CONTENT_W, boxH, 2.5, 2.5, "FD");
-          doc.setFont("helvetica", "bold");
-          doc.setFontSize(10);
-          doc.setTextColor(...BLUE);
-          doc.text(ascii(node.label), MARGIN + 6, y + 6.5);
-          doc.setFont("helvetica", "normal");
-          doc.setFontSize(9);
-          doc.setTextColor(...NAVY);
-          let ly = y + 8.5;
-          for (const line of cm.lines) {
-            doc.text(line, MARGIN + 6, ly + 3.1);
-            ly += (9 * 1.45) / 2.83465;
-          }
-          y += boxH;
-
-          if (i < block.nodes.length - 1) {
-            const cx = PAGE_W / 2;
-            doc.setDrawColor(...BLUE);
-            doc.setLineWidth(0.6);
-            doc.line(cx, y + 1.5, cx, y + 7);
-            doc.setFillColor(...BLUE);
-            doc.triangle(cx - 1.8, y + 6.4, cx + 1.8, y + 6.4, cx, y + 9, "F");
-            y += 10.5;
-          }
-        }
-        y += 5;
-        break;
-      }
-
-      case "mindmap": {
-        ensure(20);
-        const rootW = 52;
-        doc.setFillColor(...NAVY);
-        doc.roundedRect(MARGIN, y, rootW, 9, 2, 2, "F");
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(11);
-        doc.setTextColor(255, 255, 255);
-        doc.text(ascii(block.root), MARGIN + 5, y + 6);
-        const rootCenterY = y + 4.5;
-        y += 12;
-
-        const trunkX = MARGIN + 10;
-        const startY = rootCenterY;
-
-        for (const branch of block.branches) {
-          ensure(14);
-          const branchY = y + 3.5;
-          doc.setDrawColor(...BLUE);
-          doc.setLineWidth(0.5);
-          doc.line(trunkX, y - 2.5, trunkX, branchY);
-          doc.line(trunkX, branchY, trunkX + 8, branchY);
-          doc.setFillColor(...BLUE);
-          doc.roundedRect(trunkX + 8, y, 44, 7, 1.6, 1.6, "F");
-          doc.setFont("helvetica", "bold");
-          doc.setFontSize(9.5);
-          doc.setTextColor(255, 255, 255);
-          doc.text(ascii(branch.label), trunkX + 12, y + 4.8);
-          y += 9;
-
-          for (const child of branch.children) {
-            const cm = measure(child, 9, CONTENT_W - 40, 1.45);
-            ensure(cm.height + 3);
-            const childX = trunkX + 22;
-            doc.setDrawColor(...LINE);
-            doc.setLineWidth(0.4);
-            doc.line(childX - 6, y - 1, childX - 6, y + 3);
-            doc.line(childX - 6, y + 3, childX - 2, y + 3);
-            doc.setFillColor(...BLUE);
-            doc.circle(childX, y + 3, 0.9, "F");
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(9);
-            doc.setTextColor(...NAVY);
-            let ly = y;
-            for (const line of cm.lines) {
-              doc.text(line, childX + 3.5, ly + 4.1);
-              ly += (9 * 1.45) / 2.83465;
-            }
-            y += cm.height + 2;
-          }
-          y += 2.5;
-        }
-        void startY;
-        y += 4;
-        break;
-      }
     }
   }
 
-  // Kaki halaman: nomor halaman di tengah, kode penilaian kecil di kanan.
-  const total = doc.getNumberOfPages();
-  for (let p = 1; p <= total; p++) {
-    doc.setPage(p);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(8);
-    doc.setTextColor(...GREY);
-    doc.text(`Halaman ${p} dari ${total}`, PAGE_W / 2, PAGE_H - 9, { align: "center" });
-
-    if (kodeNilai) {
-      doc.setFontSize(5.5);
-      doc.setTextColor(...FAINT);
-      doc.text(kodeNilai, PAGE_W - MARGIN, PAGE_H - 9, { align: "right" });
+  // Kode penilaian kecil di kaki tiap halaman, untuk pemeriksa.
+  if (kodeNilai) {
+    const total = doc.getNumberOfPages();
+    for (let i = 1; i <= total; i++) {
+      doc.setPage(i);
+      set(5.5, false, false, SAMAR);
+      doc.text(kodeNilai, PAGE_W - MARGIN, PAGE_H - 8, { align: "right" });
+      set(7, false, false, SAMAR);
+      doc.text(`Halaman ${i} dari ${total}`, MARGIN, PAGE_H - 8);
     }
   }
 
   doc.setProperties({
     title: fileBaseName,
     subject: "Tugas Praktik Mandiri",
-    creator: "Generator Tugas Praktik Mandiri",
-    // Disalin juga ke metadata agar pemeriksa bisa membacanya secara massal.
     keywords: kodeNilai ?? "",
   });
-  const blob = doc.output("blob");
-  downloadBlob(blob, `${safeFileName(fileBaseName)}.pdf`);
+
+  downloadBlob(doc.output("blob"), `${safeFileName(fileBaseName)}.pdf`);
 }

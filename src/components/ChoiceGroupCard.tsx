@@ -1,6 +1,6 @@
 "use client";
 
-import type { ChoiceGroup, Grade, Pilihan } from "@/tasks/types";
+import type { ChoiceGroup, Grade, Pilihan, Variant } from "@/tasks/types";
 import { optionOrder, variantFor } from "@/lib/resolve";
 
 interface Props {
@@ -80,24 +80,122 @@ export default function ChoiceGroupCard({
                 className="opt"
                 onClick={() => onSelect(group.id, grade, variant.id)}
               >
-                <span className="block text-[0.9rem] font-semibold leading-snug">
-                  {fill(variant.headline)}
-                </span>
-                <ul className="mt-1.5 space-y-1">
-                  {variant.points.map((point, i) => (
-                    <li
-                      key={i}
-                      className="relative pl-3 text-[0.8rem] leading-relaxed text-ink-soft before:absolute before:left-0 before:top-[0.55em] before:h-1 before:w-1 before:rounded-full before:bg-ink-soft/50"
-                    >
-                      {fill(point)}
-                    </li>
-                  ))}
-                </ul>
+                {group.card === "profile" ? (
+                  <KartuProfil variant={variant} fill={fill} />
+                ) : (
+                  <>
+                    <span className="block text-[0.9rem] font-semibold leading-snug">
+                      {fill(variant.headline)}
+                    </span>
+                    <ul className="mt-1.5 space-y-1">
+                      {variant.points.map((point, i) => (
+                        <li
+                          key={i}
+                          className="relative pl-3 text-[0.8rem] leading-relaxed text-ink-soft before:absolute before:left-0 before:top-[0.55em] before:h-1 before:w-1 before:rounded-full before:bg-ink-soft/50"
+                        >
+                          {fill(point)}
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
               </button>
             );
           })}
         </div>
       </div>
     </section>
+  );
+}
+
+/* Warna template resmi Plan International. */
+const BIRU = "#0072CE";
+const HIJAU = "#D6D839";
+const SALEM = "#F47A68";
+const LANGIT = "#58CAE8";
+
+/**
+ * Kartu profil audiens utuh: ilustrasi, deskripsi, tiga blok berwarna, dan
+ * saluran utama. Bentuknya sengaja meniru tata letak dokumen hasil unduhan,
+ * supaya peserta memilih satu profil lengkap berdasarkan tampilan akhirnya.
+ */
+function KartuProfil({ variant, fill }: { variant: Variant; fill: (t: string) => string }) {
+  const f = (k: string, fallback = "-") => {
+    const v = variant.fields?.[k];
+    return v ? fill(v) : fallback;
+  };
+  const pasangan = (list: [string, string][]) =>
+    list.map(([k, v]) => (
+      <p key={k} className="leading-snug">
+        <em>{k}:</em> {v}
+      </p>
+    ));
+
+  return (
+    <div className="grid gap-3 sm:grid-cols-[86px_1fr]">
+      <div className="text-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`/plan/av-${f("avatar", "a1")}.png`}
+          alt=""
+          className="mx-auto h-16 w-16 sm:h-20 sm:w-20"
+        />
+      </div>
+
+      <div className="min-w-0">
+        <span
+          className="mb-1.5 block rounded px-2 py-1 text-center text-[0.8rem] font-bold italic text-white"
+          style={{ background: BIRU }}
+        >
+          {f("nama", fill(variant.headline))}
+        </span>
+
+        <p className="text-[0.78rem] leading-relaxed text-ink-soft">
+          <span className="font-semibold italic text-ink">Description: </span>
+          {f("description")}
+        </p>
+
+        <div className="mt-1.5 space-y-1 text-[0.72rem]">
+          <div className="rounded px-2 py-1" style={{ background: HIJAU }}>
+            <span className="font-bold italic">Key Demographic</span>
+            <div className="mt-0.5">
+              {pasangan([
+                ["Age", f("age")],
+                ["Gender", f("gender")],
+                ["Education", f("education")],
+                ["Income", f("income")],
+              ])}
+            </div>
+          </div>
+
+          <div className="rounded px-2 py-1" style={{ background: SALEM }}>
+            <span className="font-bold italic">Key Psychographic</span>
+            <div className="mt-0.5">
+              {pasangan([
+                ["Values", f("values")],
+                ["Interest", f("interest")],
+                ["Opinions", f("opinions")],
+              ])}
+            </div>
+          </div>
+
+          <div className="rounded px-2 py-1" style={{ background: LANGIT }}>
+            <span className="font-bold italic">Customer Pain Points</span>
+            <ul className="mt-0.5 space-y-0.5">
+              {variant.points.map((p, i) => (
+                <li key={i} className="relative pl-3 before:absolute before:left-0 before:content-['\\2022']">
+                  {fill(p)}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <p className="mt-1.5 text-[0.72rem] leading-snug text-ink-soft">
+          <span className="font-semibold italic text-ink">Key Communication Channel: </span>
+          {f("channel")}
+        </p>
+      </div>
+    </div>
   );
 }

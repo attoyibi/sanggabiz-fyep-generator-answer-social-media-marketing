@@ -872,554 +872,142 @@ const psychographic: ChoiceGroup = {
 
 /* ================================================================== */
 /* LANGKAH 2 — PROFIL AUDIENS                                          */
-/* 2.1 Description                                                     */
+/*                                                                     */
+/* Template menampilkan profil audiens sebagai SATU kartu utuh, jadi   */
+/* peserta memilih satu profil lengkap, bukan lima bagian terpisah.    */
+/* Age/Gender/Education/Income dan Values/Interest/Opinions memakai    */
+/* token supaya selalu sejalan dengan hasil segmentasi di langkah 1.   */
+/* Poin varian dipakai sebagai isi Customer Pain Points.               */
 /* ================================================================== */
 
-const description: ChoiceGroup = {
-  id: "desc",
-  label: "Description",
-  question: "Description — deskripsi singkat siapa target audiens secara umum",
-  hint: "Berisi pekerjaan atau peran, tujuan utama terkait produk, dan karakter umum audiens.",
+const profilAudiens: ChoiceGroup = {
+  id: "profil",
+  label: "Profil Audiens",
+  question: "Pilih satu profil audiens utama {{brand}}",
+  hint: "Satu kartu berisi profil lengkap: ilustrasi, deskripsi, saluran utama, dan customer pain points.",
+  card: "profile",
   options: [
     {
       grade: "tepat",
       variants: [
         {
-          id: "des1a",
-          headline: "Karyawan muda urban yang menjaga rutinitas olahraga di sela jam kerja",
+          id: "pr1a",
+          headline: "Rani, Karyawan Muda Urban",
           fields: {
+            avatar: "a1",
             nama: "Rani, Karyawan Muda Urban",
-            isi: "Karyawan swasta di kota besar yang berolahraga tiga sampai empat kali sepekan di sela jam kerja. Tujuan utamanya menemukan pakaian olahraga yang nyaman dipakai berjam-jam, tidak gerah di cuaca panas, dan harganya masuk akal. Karakternya disiplin, teliti membaca ulasan, dan tidak mudah percaya klaim iklan.",
-          },
-          points: [
-            "Peran: karyawan swasta di kota besar dengan jam kerja padat",
-            "Tujuan terkait produk: pakaian olahraga nyaman, tidak gerah, dan harganya masuk akal",
-            "Karakter umum: disiplin, teliti membaca ulasan, tidak mudah percaya klaim iklan",
-          ],
-        },
-        {
-          id: "des1b",
-          headline: "Anggota komunitas lari yang butuh perlengkapan andal",
-          fields: {
-            nama: "Dimas, Anggota Komunitas Lari",
-            isi: "Pekerja muda yang tergabung dalam komunitas lari kota dan berlatih bersama dua kali sepekan. Tujuan utamanya mendapatkan pakaian yang tidak menyerap keringat berlebihan saat berlari jarak menengah dan tetap pantas dipakai berkumpul setelah latihan. Karakternya sosial, mudah merekomendasikan produk yang cocok ke sesama anggota.",
-          },
-          points: [
-            "Peran: pekerja muda anggota komunitas lari kota, berlatih dua kali sepekan",
-            "Tujuan terkait produk: pakaian yang tidak menyerap keringat berlebihan dan tetap pantas dipakai berkumpul",
-            "Karakter umum: sosial dan mudah merekomendasikan produk ke sesama anggota",
-          ],
-        },
-        {
-          id: "des1c",
-          headline: "Perempuan urban yang memakai pakaian olahraga untuk keseharian",
-          fields: {
-            nama: "Sekar, Perempuan Urban Aktif",
-            isi: "Perempuan pekerja dengan jam kerja lentur yang memakai pakaian olahraga tidak hanya untuk berlatih tetapi juga untuk berkegiatan sehari-hari. Tujuan utamanya menemukan koleksi berpotongan rapi yang bisa dipadupadankan. Karakternya memperhatikan tampilan, aktif di Instagram, dan menyimpan referensi gaya busana.",
-          },
-          points: [
-            "Peran: perempuan pekerja dengan jam kerja lentur",
-            "Tujuan terkait produk: koleksi berpotongan rapi yang bisa dipadupadankan untuk latihan dan keseharian",
-            "Karakter umum: memperhatikan tampilan, aktif di Instagram, gemar menyimpan referensi gaya",
-          ],
-        },
-        {
-          id: "des1d",
-          headline: "Pekerja tahun pertama dengan anggaran terbatas",
-          fields: {
-            nama: "Bagas, Pekerja Tahun Pertama",
-            isi: "Pekerja tahun pertama yang baru mulai rutin berolahraga di pusat kebugaran dekat kantor. Tujuan utamanya mendapatkan pakaian olahraga layak dengan harga yang masih terjangkau penghasilannya. Karakternya cermat membandingkan harga, menunggu promo, dan mengandalkan ulasan pembeli sebelum memutuskan.",
-          },
-          points: [
-            "Peran: pekerja tahun pertama yang baru rutin berolahraga di pusat kebugaran dekat kantor",
-            "Tujuan terkait produk: pakaian olahraga layak dengan harga yang terjangkau penghasilannya",
-            "Karakter umum: cermat membandingkan harga, menunggu promo, mengandalkan ulasan pembeli",
-          ],
-        },
-        {
-          id: "des1e",
-          headline: "Profesional yang berolahraga untuk menjaga keseimbangan hidup",
-          fields: {
-            nama: "Laras, Profesional Kota Besar",
-            isi: "Profesional di kota besar yang berolahraga untuk melepas tekanan pekerjaan. Tujuan utamanya memiliki beberapa potong pakaian olahraga awet yang tidak perlu sering diganti. Karakternya menghargai kepraktisan, bersedia membayar lebih untuk bahan yang tahan lama, dan tidak tertarik mengikuti tren sesaat.",
-          },
-          points: [
-            "Peran: profesional di kota besar",
-            "Tujuan terkait produk: beberapa potong pakaian olahraga awet yang tidak perlu sering diganti",
-            "Karakter umum: menghargai kepraktisan, membayar lebih untuk bahan tahan lama, tidak mengejar tren",
-          ],
-        },
-      ],
-    },
-    {
-      grade: "sebagian",
-      variants: [
-        {
-          id: "des2a",
-          headline: "Orang yang suka olahraga dan butuh baju olahraga",
-          fields: {
-            nama: "Audiens Olahraga",
-            isi: "Orang-orang yang suka berolahraga dan membutuhkan pakaian olahraga yang nyaman.",
-          },
-          points: [
-            "Tujuan terkait produk sudah disebut, yaitu pakaian olahraga yang nyaman",
-            "Peran atau pekerjaan audiens tidak dijelaskan",
-            "Karakter umum audiens belum digambarkan sama sekali",
-          ],
-        },
-        {
-          id: "des2b",
-          headline: "Karyawan yang aktif",
-          fields: {
-            nama: "Karyawan Aktif",
-            isi: "Karyawan kantoran yang aktif berolahraga di waktu luangnya.",
-          },
-          points: [
-            "Peran audiens sudah disebut, yaitu karyawan kantoran",
-            "Tujuan utama terkait produk {{brand}} belum dinyatakan",
-            "Karakter umum audiens belum diuraikan",
-          ],
-        },
-        {
-          id: "des2c",
-          headline: "Anak muda yang ingin tampil keren saat olahraga",
-          fields: {
-            nama: "Anak Muda",
-            isi: "Anak muda yang ingin tampil keren dan kekinian ketika berolahraga.",
-          },
-          points: [
-            "Karakter umum sudah disinggung sedikit",
-            "Peran atau pekerjaan audiens tidak disebut",
-            "Deskripsi berhenti pada penampilan, belum menyentuh kebutuhan atas produk",
-          ],
-        },
-      ],
-    },
-    {
-      grade: "kurang",
-      variants: [
-        {
-          id: "des3a",
-          headline: "Semua orang yang butuh pakaian",
-          fields: {
-            nama: "Semua Orang",
-            isi: "Semua orang yang membutuhkan pakaian, karena setiap orang pasti berpakaian.",
-          },
-          points: [
-            "Bukan profil audiens, melainkan pernyataan yang berlaku untuk siapa pun",
-            "Tidak menyebut peran, tujuan, maupun karakter audiens",
-            "Hasil segmentasi di langkah sebelumnya tidak dipakai sama sekali",
-          ],
-        },
-        {
-          id: "des3b",
-          headline: "Pelanggan {{brand}}",
-          fields: {
-            nama: "Pelanggan {{brand}}",
-            isi: "Orang-orang yang sudah pernah membeli produk {{brand}}.",
-          },
-          points: [
-            "Profil audiens seharusnya menggambarkan calon audiens yang ingin dijangkau",
-            "Membatasi diri pada pembeli lama menutup peluang menjangkau audiens baru",
-            "Tujuan dan karakter audiens tetap tidak dijelaskan",
-          ],
-        },
-        {
-          id: "des3c",
-          headline: "Belum tahu",
-          fields: {
-            nama: "Belum Ditentukan",
-            isi: "Profil audiens belum bisa ditentukan karena datanya belum lengkap.",
-          },
-          points: [
-            "Instruksi memetakan hasil segmentasi menjadi profil audiens tidak dijalankan",
-            "Data yang diperlukan sebenarnya sudah tersedia dari hasil segmentasi",
-            "Riset kompetitor pada langkah berikutnya kehilangan pembandingnya",
-          ],
-        },
-      ],
-    },
-  ],
-};
-
-/* ================================================================== */
-/* 2.2 Key Demographic                                                 */
-/* ================================================================== */
-
-const keyDemographic: ChoiceGroup = {
-  id: "keydemo",
-  label: "Key Demographic",
-  question: "Key Demographic — data faktual audiens yang bisa diukur",
-  hint: "Terdiri dari Age, Gender, Education, dan Income sesuai template profil audiens.",
-  options: [
-    {
-      grade: "tepat",
-      variants: [
-        {
-          id: "kd1a",
-          headline: "Mengikuti hasil segmentasi demographic",
-          fields: {
+            description:
+              "Karyawan swasta di kota besar yang berolahraga tiga sampai empat kali sepekan di sela jam kerja. Tujuan utamanya menemukan pakaian olahraga yang nyaman dipakai berjam-jam, tidak gerah di cuaca panas, dan harganya masuk akal. Karakternya disiplin, teliti membaca ulasan, dan tidak mudah percaya klaim iklan.",
             age: "{{age}}",
             gender: "{{gender}}",
             education: "{{education}}",
             income: "{{income}}",
-          },
-          points: [
-            "Age: {{age}}",
-            "Gender: {{gender}}",
-            "Education: {{education}}",
-            "Income: {{income}}",
-            "Keempat data diambil langsung dari hasil segmentasi demographic agar profil audiens tidak bertentangan dengan segmentasinya.",
-          ],
-        },
-        {
-          id: "kd1b",
-          headline: "Data demografis audiens utama {{brand}}",
-          fields: {
-            age: "{{age}}",
-            gender: "{{gender}}",
-            education: "{{education}}",
-            income: "{{income}}",
-          },
-          points: [
-            "Age: {{age}}",
-            "Gender: {{gender}}",
-            "Education: {{education}}",
-            "Income: {{income}}",
-            "Rentang usia dan pendapatan dipakai sebagai patokan menentukan rentang harga produk yang ditonjolkan di konten.",
-          ],
-        },
-        {
-          id: "kd1c",
-          headline: "Ringkasan data terukur target audiens",
-          fields: {
-            age: "{{age}}",
-            gender: "{{gender}}",
-            education: "{{education}}",
-            income: "{{income}}",
-          },
-          points: [
-            "Age: {{age}}",
-            "Gender: {{gender}}",
-            "Education: {{education}}",
-            "Income: {{income}}",
-            "Data ini dipakai tim konten untuk menentukan pilihan kata dan tingkat kedalaman penjelasan produk.",
-          ],
-        },
-      ],
-    },
-    {
-      grade: "sebagian",
-      variants: [
-        {
-          id: "kd2a",
-          headline: "18-40 tahun, semua gender, penghasilan menengah",
-          fields: {
-            age: "18-40 tahun",
-            gender: "Semua gender",
-            education: "Bebas",
-            income: "Penghasilan menengah",
-          },
-          points: [
-            "Keempat kolom sudah terisi",
-            "Rentang usia 18-40 tahun terlalu lebar untuk satu profil audiens",
-            "Penghasilan menengah belum diberi angka sehingga tidak terukur",
-          ],
-        },
-        {
-          id: "kd2b",
-          headline: "Usia produktif, perempuan, lulusan kuliah",
-          fields: {
-            age: "Usia produktif",
-            gender: "Perempuan",
-            education: "Lulusan perguruan tinggi",
-            income: "Belum ditentukan",
-          },
-          points: [
-            "Gender dan pendidikan sudah cukup jelas",
-            "Usia produktif bukan angka sehingga tidak bisa dijadikan patokan",
-            "Income dibiarkan kosong padahal diminta template",
-          ],
-        },
-        {
-          id: "kd2c",
-          headline: "20-30 tahun, gender bebas, penghasilan tidak dibatasi",
-          fields: {
-            age: "20-30 tahun",
-            gender: "Bebas",
-            education: "Bebas",
-            income: "Tidak dibatasi",
-          },
-          points: [
-            "Rentang usia sudah spesifik dan wajar",
-            "Tiga kolom lainnya dibiarkan terbuka sehingga tidak menyaring audiens",
-            "Profil belum bisa dipakai menentukan rentang harga produk yang ditonjolkan",
-          ],
-        },
-      ],
-    },
-    {
-      grade: "kurang",
-      variants: [
-        {
-          id: "kd3a",
-          headline: "Semua umur, semua gender, semua penghasilan",
-          fields: {
-            age: "Semua umur",
-            gender: "Semua gender",
-            education: "Semua jenjang",
-            income: "Semua tingkat penghasilan",
-          },
-          points: [
-            "Tidak menyaring audiens sama sekali",
-            "Key demographic seharusnya berisi data yang bisa diukur dengan angka atau kategori",
-            "Sama artinya dengan tidak membuat profil audiens",
-          ],
-        },
-        {
-          id: "kd3b",
-          headline: "Tidak diisi",
-          fields: {
-            age: "-",
-            gender: "-",
-            education: "-",
-            income: "-",
-          },
-          points: [
-            "Empat kolom wajib pada template profil audiens dibiarkan kosong",
-            "Instruksi memetakan segmentasi menjadi profil audiens tidak terpenuhi",
-            "Tidak ada dasar untuk menentukan gaya bahasa maupun rentang harga di konten",
-          ],
-        },
-        {
-          id: "kd3c",
-          headline: "Anak-anak usia sekolah dasar",
-          fields: {
-            age: "6-12 tahun",
-            gender: "Perempuan dan laki-laki",
-            education: "Sekolah dasar",
-            income: "Belum berpenghasilan",
-          },
-          points: [
-            "Tidak sesuai dengan segmentasi yang sudah disusun di langkah pertama",
-            "Kelompok ini belum berpenghasilan sehingga bukan pengambil keputusan pembelian",
-            "{{brand}} menyasar gaya hidup aktif masyarakat urban dewasa, bukan anak sekolah",
-          ],
-        },
-      ],
-    },
-  ],
-};
-
-/* ================================================================== */
-/* 2.3 Key Psychographic                                               */
-/* ================================================================== */
-
-const keyPsychographic: ChoiceGroup = {
-  id: "keypsycho",
-  label: "Key Psychographic",
-  question: "Key Psychographic — nilai, minat, dan pendapat audiens",
-  hint: "Terdiri dari Values, Interest, dan Opinions sesuai template profil audiens.",
-  options: [
-    {
-      grade: "tepat",
-      variants: [
-        {
-          id: "kp1a",
-          headline: "Mengikuti hasil segmentasi psychographic",
-          fields: {
             values: "{{values}}",
             interest: "{{interest}}",
             opinions: "{{opinions}}",
+            channel:
+              "Instagram sebagai kanal utama: Reels untuk menjangkau audiens baru dan carousel untuk penjelasan bahan. TikTok dipakai sebagai kanal pendukung dengan potongan video yang sama.",
           },
-          points: [
-            "Values: {{values}}",
-            "Interest: {{interest}}",
-            "Opinions: {{opinions}}",
-            "Ketiganya diambil dari hasil segmentasi psychographic agar profil audiens tetap sejalan dengan segmentasinya.",
-          ],
-        },
-        {
-          id: "kp1b",
-          headline: "Nilai, minat, dan pendapat audiens utama {{brand}}",
-          fields: {
-            values: "{{values}}",
-            interest: "{{interest}}",
-            opinions: "{{opinions}}",
-          },
-          points: [
-            "Values: {{values}}",
-            "Interest: {{interest}}",
-            "Opinions: {{opinions}}",
-            "Bagian ini menjadi dasar penentuan nada bicara konten, bukan sekadar pelengkap profil.",
-          ],
-        },
-        {
-          id: "kp1c",
-          headline: "Cara pandang audiens terhadap produk dan olahraga",
-          fields: {
-            values: "{{values}}",
-            interest: "{{interest}}",
-            opinions: "{{opinions}}",
-          },
-          points: [
-            "Values: {{values}}",
-            "Interest: {{interest}}",
-            "Opinions: {{opinions}}",
-            "Pendapat audiens dipakai untuk memilih topik konten yang terasa dekat dengan keseharian mereka.",
-          ],
-        },
-      ],
-    },
-    {
-      grade: "sebagian",
-      variants: [
-        {
-          id: "kp2a",
-          headline: "Suka sehat, suka olahraga, suka produk bagus",
-          fields: {
-            values: "Menyukai hidup sehat",
-            interest: "Olahraga",
-            opinions: "Ingin produk yang bagus",
-          },
-          points: [
-            "Ketiga kolom sudah terisi",
-            "Isinya terlalu singkat dan berlaku untuk hampir semua pembeli pakaian olahraga",
-            "Belum ada pendapat khas yang bisa dipakai menentukan sudut pandang konten",
-          ],
-        },
-        {
-          id: "kp2b",
-          headline: "Nilai dan minat terisi, pendapat kosong",
-          fields: {
-            values: "Menghargai gaya hidup aktif dan penampilan yang rapi",
-            interest: "Kebugaran, gaya busana, dan komunitas olahraga",
-            opinions: "-",
-          },
-          points: [
-            "Values dan Interest sudah cukup menggambarkan audiens",
-            "Kolom Opinions dibiarkan kosong padahal diminta template",
-            "Tanpa pendapat audiens, pesan utama konten sulit dirumuskan",
-          ],
-        },
-        {
-          id: "kp2c",
-          headline: "Mengikuti tren tanpa nilai yang jelas",
-          fields: {
-            values: "Mengikuti apa yang sedang tren",
-            interest: "Konten yang sedang viral",
-            opinions: "Suka produk yang banyak dipakai orang",
-          },
-          points: [
-            "Sudah menggambarkan satu kecenderungan audiens",
-            "Nilai yang dipegang audiens belum benar-benar terungkap",
-            "Konten yang dibangun di atas tren semata akan cepat kehilangan arah",
-          ],
-        },
-      ],
-    },
-    {
-      grade: "kurang",
-      variants: [
-        {
-          id: "kp3a",
-          headline: "Tidak diisi",
-          fields: { values: "-", interest: "-", opinions: "-" },
-          points: [
-            "Tiga kolom wajib pada template profil audiens dibiarkan kosong",
-            "Hasil segmentasi psychographic di langkah pertama tidak dipakai",
-            "Konten kehilangan dasar untuk memilih nada bicara dan topik",
-          ],
-        },
-        {
-          id: "kp3b",
-          headline: "Menyalin ulang data demografis",
-          fields: {
-            values: "Usia 25 tahun",
-            interest: "Berpenghasilan Rp8 juta",
-            opinions: "Lulusan S1",
-          },
-          points: [
-            "Yang diisi adalah data demografis, bukan nilai, minat, dan pendapat",
-            "Kolom Key Demographic dan Key Psychographic menjadi tumpang tindih",
-            "Tidak ada tambahan pemahaman tentang cara berpikir audiens",
-          ],
-        },
-        {
-          id: "kp3c",
-          headline: "Semua orang sama saja",
-          fields: {
-            values: "Sama seperti orang pada umumnya",
-            interest: "Apa saja",
-            opinions: "Tidak punya pendapat khusus",
-          },
-          points: [
-            "Menyatakan audiens tidak punya ciri khas, padahal itu inti dari profil audiens",
-            "Tidak dapat diturunkan menjadi ide konten apa pun",
-            "Instruksi membuat profil audiens tidak terpenuhi",
-          ],
-        },
-      ],
-    },
-  ],
-};
-
-/* ================================================================== */
-/* 2.4 Customer Pain Points                                            */
-/* ================================================================== */
-
-const painPoints: ChoiceGroup = {
-  id: "pain",
-  label: "Pain Points",
-  question: "Customer Pain Points — masalah audiens yang bisa diselesaikan produk",
-  hint: "Masalah, hambatan, atau kebutuhan mendesak yang dialami audiens.",
-  options: [
-    {
-      grade: "tepat",
-      variants: [
-        {
-          id: "pp1a",
-          headline: "Gerah, harga mahal, dan ukuran sering tidak pas",
           points: [
             "Pakaian olahraga yang dimiliki terasa gerah dan menempel di badan saat dipakai di cuaca panas dan lembap.",
-            "Brand luar dengan bahan breathable harganya di luar anggaran bulanan mereka.",
-            "Ukuran brand luar sering tidak pas di postur tubuh Indonesia sehingga harus ditukar atau terpaksa dipakai apa adanya.",
-            "Kesulitan menemukan brand yang menjelaskan jenis bahan secara terbuka sebelum pembelian.",
+            "Brand luar dengan bahan breathable harganya di luar anggaran bulanan.",
+            "Ukuran brand luar sering tidak pas di postur tubuh Indonesia sehingga harus ditukar.",
+            "Sulit menemukan brand yang menjelaskan jenis bahan secara terbuka sebelum pembelian.",
           ],
         },
         {
-          id: "pp1b",
-          headline: "Cepat rusak, sulit dipadupadankan, dan bingung memilih",
+          id: "pr1b",
+          headline: "Dimas, Anggota Komunitas Lari",
+          fields: {
+            avatar: "a2",
+            nama: "Dimas, Anggota Komunitas Lari",
+            description:
+              "Pekerja muda yang tergabung dalam komunitas lari kota dan berlatih bersama dua kali sepekan. Tujuan utamanya mendapatkan pakaian yang tidak menyerap keringat berlebihan saat berlari jarak menengah dan tetap pantas dipakai berkumpul setelah latihan. Karakternya sosial dan mudah merekomendasikan produk yang cocok ke sesama anggota.",
+            age: "{{age}}",
+            gender: "{{gender}}",
+            education: "{{education}}",
+            income: "{{income}}",
+            values: "{{values}}",
+            interest: "{{interest}}",
+            opinions: "{{opinions}}",
+            channel:
+              "Instagram sebagai kanal utama, memadukan feed, Reels, dan unggahan bersama komunitas lari. Didukung kolaborasi dengan akun komunitas olahraga kota untuk menjangkau anggota barunya.",
+          },
           points: [
             "Pakaian olahraga murah cepat melar dan warnanya pudar setelah beberapa kali dicuci.",
-            "Potongan dan warnanya terlalu mencolok sehingga tidak bisa dipakai di luar tempat latihan.",
+            "Potongan dan warnanya terlalu mencolok sehingga tidak bisa dipakai berkumpul setelah latihan.",
             "Terlalu banyak pilihan brand di marketplace tanpa penjelasan pembeda yang jelas.",
-            "Ragu membeli karena tidak bisa mencoba langsung ukurannya saat belanja daring.",
+            "Sulit menilai daya tahan bahan hanya dari foto katalog di media sosial.",
           ],
         },
         {
-          id: "pp1c",
-          headline: "Waktu terbatas, anggaran ketat, dan informasi produk membingungkan",
-          points: [
-            "Waktu berolahraga sangat terbatas di sela jam kerja sehingga perlengkapan harus praktis dan mudah dirawat.",
-            "Anggaran bulanan untuk perlengkapan olahraga ketat, sehingga salah beli terasa memberatkan.",
-            "Istilah bahan seperti breathable dan moisture wicking dipakai semua brand tanpa penjelasan yang mudah dipahami.",
-            "Sulit menilai mutu produk hanya dari foto katalog di media sosial.",
-          ],
-        },
-        {
-          id: "pp1d",
-          headline: "Tidak percaya diri dan takut salah beli",
+          id: "pr1c",
+          headline: "Sekar, Perempuan Urban Aktif",
+          fields: {
+            avatar: "a3",
+            nama: "Sekar, Perempuan Urban Aktif",
+            description:
+              "Perempuan pekerja dengan jam kerja lentur yang memakai pakaian olahraga tidak hanya untuk berlatih tetapi juga untuk berkegiatan sehari-hari. Tujuan utamanya menemukan koleksi berpotongan rapi yang bisa dipadupadankan. Karakternya memperhatikan tampilan, aktif di Instagram, dan gemar menyimpan referensi gaya busana.",
+            age: "{{age}}",
+            gender: "{{gender}}",
+            education: "{{education}}",
+            income: "{{income}}",
+            values: "{{values}}",
+            interest: "{{interest}}",
+            opinions: "{{opinions}}",
+            channel:
+              "Instagram sebagai kanal utama, dengan Reels sebagai penarik audiens baru dan Story sebagai ruang interaksi harian. WhatsApp dipakai untuk menjawab pertanyaan ukuran yang butuh jawaban panjang.",
+          },
           points: [
             "Merasa kurang percaya diri memakai pakaian olahraga yang potongannya tidak sesuai bentuk tubuh.",
             "Takut salah memilih ukuran karena panduan ukuran tiap brand berbeda-beda.",
             "Khawatir produk yang datang tidak sesuai dengan foto yang ditampilkan di media sosial.",
-            "Tidak menemukan contoh pemakaian oleh orang dengan bentuk tubuh yang serupa dengan mereka.",
+            "Tidak menemukan contoh pemakaian oleh orang dengan bentuk tubuh yang serupa.",
           ],
         },
         {
-          id: "pp1e",
-          headline: "Ragu pada brand lokal dan minim bukti pemakaian nyata",
+          id: "pr1d",
+          headline: "Bagas, Pekerja Tahun Pertama",
+          fields: {
+            avatar: "a4",
+            nama: "Bagas, Pekerja Tahun Pertama",
+            description:
+              "Pekerja tahun pertama yang baru mulai rutin berolahraga di pusat kebugaran dekat kantor. Tujuan utamanya mendapatkan pakaian olahraga layak dengan harga yang masih terjangkau penghasilannya. Karakternya cermat membandingkan harga, menunggu promo, dan mengandalkan ulasan pembeli sebelum memutuskan.",
+            age: "{{age}}",
+            gender: "{{gender}}",
+            education: "{{education}}",
+            income: "{{income}}",
+            values: "{{values}}",
+            interest: "{{interest}}",
+            opinions: "{{opinions}}",
+            channel:
+              "TikTok sebagai kanal utama karena biaya menjangkau audiens baru paling rendah, dengan Instagram sebagai kanal pendukung tempat calon pembeli mencari informasi lebih lengkap.",
+          },
+          points: [
+            "Anggaran bulanan untuk perlengkapan olahraga ketat, sehingga salah beli terasa memberatkan.",
+            "Istilah bahan seperti breathable dipakai semua brand tanpa penjelasan yang mudah dipahami.",
+            "Waktu berolahraga terbatas di sela jam kerja sehingga perlengkapan harus praktis dan mudah dirawat.",
+            "Sulit menilai mutu produk hanya dari foto katalog di media sosial.",
+          ],
+        },
+        {
+          id: "pr1e",
+          headline: "Laras, Profesional Kota Besar",
+          fields: {
+            avatar: "a5",
+            nama: "Laras, Profesional Kota Besar",
+            description:
+              "Profesional di kota besar yang berolahraga untuk melepas tekanan pekerjaan. Tujuan utamanya memiliki beberapa potong pakaian olahraga awet yang tidak perlu sering diganti. Karakternya menghargai kepraktisan, bersedia membayar lebih untuk bahan yang tahan lama, dan tidak tertarik mengikuti tren sesaat.",
+            age: "{{age}}",
+            gender: "{{gender}}",
+            education: "{{education}}",
+            income: "{{income}}",
+            values: "{{values}}",
+            interest: "{{interest}}",
+            opinions: "{{opinions}}",
+            channel:
+              "Instagram sebagai tempat memperkenalkan produk dan membangun kepercayaan, dengan marketplace sebagai penutup transaksi lewat tautan di bio dan stiker tautan di Story.",
+          },
           points: [
             "Masih ragu apakah brand lokal mampu menandingi ketahanan bahan brand luar.",
             "Sulit menemukan ulasan jangka panjang, misalnya kondisi produk setelah enam bulan pemakaian.",
@@ -1427,36 +1015,100 @@ const painPoints: ChoiceGroup = {
             "Tidak ada penjelasan cara merawat agar produk tetap awet setelah dibeli.",
           ],
         },
+        {
+          id: "pr1f",
+          headline: "Nadia, Pencari Informasi Bahan",
+          fields: {
+            avatar: "a6",
+            nama: "Nadia, Pencari Informasi Bahan",
+            description:
+              "Pekerja muda yang selalu memeriksa komposisi bahan sebelum membeli dan gemar membandingkan spesifikasi antarbrand. Tujuan utamanya memastikan bahan yang dibeli benar-benar sesuai untuk cuaca panas dan latihan rutin. Karakternya teliti, banyak bertanya di kolom komentar, dan menyimpan konten sebagai rujukan.",
+            age: "{{age}}",
+            gender: "{{gender}}",
+            education: "{{education}}",
+            income: "{{income}}",
+            values: "{{values}}",
+            interest: "{{interest}}",
+            opinions: "{{opinions}}",
+            channel:
+              "Instagram sebagai kanal utama lewat carousel penjelas bahan dan panduan ukuran yang disimpan di sorotan akun, didukung Reels untuk menjangkau audiens di luar pengikut.",
+          },
+          points: [
+            "Klaim bahan disebut dengan istilah teknis tanpa penjelasan yang mudah dipahami audiens awam.",
+            "Panduan ukuran sulit ditemukan karena tidak disimpan di sorotan akun.",
+            "Pertanyaan di kolom komentar sering tidak dijawab sehingga harus mencari ke akun lain.",
+            "Sulit membandingkan bahan antarbrand karena tiap brand memakai istilah yang berbeda.",
+          ],
+        },
       ],
     },
     {
       grade: "sebagian",
       variants: [
         {
-          id: "pp2a",
-          headline: "Harganya mahal",
+          id: "pr2a",
+          headline: "Audiens Olahraga",
+          fields: {
+            avatar: "a1",
+            nama: "Audiens Olahraga",
+            description: "Orang-orang yang suka berolahraga dan membutuhkan pakaian olahraga yang nyaman.",
+            age: "{{age}}",
+            gender: "{{gender}}",
+            education: "{{education}}",
+            income: "{{income}}",
+            values: "{{values}}",
+            interest: "{{interest}}",
+            opinions: "{{opinions}}",
+            channel: "Media sosial.",
+          },
           points: [
             "Pakaian olahraga harganya mahal.",
-            "Hanya satu masalah yang disebut, padahal audiens menghadapi beberapa hambatan sekaligus.",
-            "Belum dijelaskan mahal dibanding apa dan seberapa jauh dari anggaran audiens.",
+            "Deskripsi belum menyebut peran atau pekerjaan audiens.",
+            "Saluran utama hanya ditulis media sosial tanpa menyebut platformnya.",
           ],
         },
         {
-          id: "pp2b",
-          headline: "Masalah umum tanpa kaitan ke produk",
+          id: "pr2b",
+          headline: "Karyawan Aktif",
+          fields: {
+            avatar: "a2",
+            nama: "Karyawan Aktif",
+            description: "Karyawan kantoran yang aktif berolahraga di waktu luangnya.",
+            age: "{{age}}",
+            gender: "{{gender}}",
+            education: "{{education}}",
+            income: "{{income}}",
+            values: "{{values}}",
+            interest: "{{interest}}",
+            opinions: "{{opinions}}",
+            channel: "Instagram.",
+          },
+          points: [
+            "Audiens bingung memilih pakaian olahraga yang cocok.",
+            "Belum dijelaskan penyebab kebingungannya sehingga konten belum tahu harus menjawab apa.",
+            "Saluran sudah disebut, tetapi belum menyebut fitur maupun bentuk kontennya.",
+          ],
+        },
+        {
+          id: "pr2c",
+          headline: "Anak Muda Kekinian",
+          fields: {
+            avatar: "a5",
+            nama: "Anak Muda Kekinian",
+            description: "Anak muda yang ingin tampil keren dan kekinian ketika berolahraga.",
+            age: "{{age}}",
+            gender: "{{gender}}",
+            education: "{{education}}",
+            income: "{{income}}",
+            values: "{{values}}",
+            interest: "{{interest}}",
+            opinions: "{{opinions}}",
+            channel: "Instagram, TikTok, Facebook, X, dan YouTube sekaligus.",
+          },
           points: [
             "Audiens sibuk bekerja dan sulit meluangkan waktu berolahraga.",
             "Masalah waktu memang nyata, tetapi tidak bisa diselesaikan oleh pakaian olahraga.",
-            "Pain point seharusnya masalah yang dapat dijawab oleh produk {{brand}}.",
-          ],
-        },
-        {
-          id: "pp2c",
-          headline: "Bingung memilih produk",
-          points: [
-            "Audiens bingung memilih pakaian olahraga yang cocok.",
-            "Sudah menyentuh hambatan nyata saat hendak membeli.",
-            "Belum dijelaskan penyebab kebingungannya sehingga konten belum tahu harus menjawab apa.",
+            "Menyebut banyak platform sekaligus tanpa menetapkan mana yang utama.",
           ],
         },
       ],
@@ -1465,173 +1117,69 @@ const painPoints: ChoiceGroup = {
       grade: "kurang",
       variants: [
         {
-          id: "pp3a",
-          headline: "Tidak ada masalah",
+          id: "pr3a",
+          headline: "Semua Orang",
+          fields: {
+            avatar: "a1",
+            nama: "Semua Orang",
+            description: "Semua orang yang membutuhkan pakaian, karena setiap orang pasti berpakaian.",
+            age: "Semua umur",
+            gender: "Semua gender",
+            education: "Semua jenjang",
+            income: "Semua tingkat penghasilan",
+            values: "Tidak dipilah",
+            interest: "Apa saja",
+            opinions: "Tidak punya pendapat khusus",
+            channel: "Brosur dan spanduk di pinggir jalan.",
+          },
           points: [
             "Audiens tidak punya masalah apa pun terkait pakaian olahraga.",
-            "Menghapus dasar utama penyusunan pesan konten.",
-            "Kolom customer pain points pada template menjadi tidak terisi secara berarti.",
+            "Hasil segmentasi di langkah sebelumnya tidak dipakai sama sekali.",
+            "Saluran yang dipilih tidak menjawab tantangan engagement Instagram pada studi kasus.",
           ],
         },
         {
-          id: "pp3b",
-          headline: "Masalahnya karena tidak punya uang",
-          points: [
-            "Audiens tidak punya uang untuk membeli produk.",
-            "Bertentangan dengan hasil segmentasi yang menetapkan audiens kelas menengah dengan daya beli memadai.",
-            "Tidak bisa dijawab oleh konten maupun produk {{brand}}.",
-          ],
-        },
-        {
-          id: "pp3c",
-          headline: "Masalah brand, bukan masalah audiens",
+          id: "pr3b",
+          headline: "Pelanggan {{brand}}",
+          fields: {
+            avatar: "a3",
+            nama: "Pelanggan {{brand}}",
+            description: "Orang-orang yang sudah pernah membeli produk {{brand}}.",
+            age: "Tidak disebut",
+            gender: "Tidak disebut",
+            education: "Tidak disebut",
+            income: "Tidak disebut",
+            values: "Tidak disebut",
+            interest: "Tidak disebut",
+            opinions: "Tidak disebut",
+            channel: "Panggilan telepon satu per satu.",
+          },
           points: [
             "Engagement Instagram {{brand}} masih rendah.",
             "Ini masalah yang dihadapi brand, bukan masalah yang dialami audiens.",
-            "Pain point harus ditulis dari sudut pandang audiens agar konten menjawab kebutuhan mereka.",
-          ],
-        },
-      ],
-    },
-  ],
-};
-
-/* ================================================================== */
-/* 2.5 Key Communication Channel                                       */
-/* ================================================================== */
-
-const channelGroup: ChoiceGroup = {
-  id: "channel",
-  label: "Channel",
-  question: "Key Communication Channel — saluran utama untuk menjangkau audiens",
-  hint: "Sebut kanal utama beserta alasan dan bentuk konten yang dipakai di sana.",
-  options: [
-    {
-      grade: "tepat",
-      variants: [
-        {
-          id: "ch1a",
-          headline: "Instagram sebagai kanal utama, TikTok pendukung",
-          fields: { channel: "Instagram (Reels dan carousel)" },
-          points: [
-            "Kanal utama: Instagram, lewat Reels untuk menjangkau audiens baru dan carousel untuk penjelasan bahan.",
-            "Kanal pendukung: TikTok, memakai potongan video yang sama agar biaya produksi tidak bertambah.",
-            "Alasan: audiens membuka Instagram beberapa kali sehari dan terbiasa mencari produk lewat kolom pencarian di sana.",
-            "Bentuk konten: video pendek pemakaian produk, carousel penjelasan bahan, dan Story tanya jawab ukuran.",
+            "Membatasi diri pada pembeli lama menutup peluang menjangkau audiens baru.",
           ],
         },
         {
-          id: "ch1b",
-          headline: "Instagram Reels dan Story untuk interaksi harian",
-          fields: { channel: "Instagram (Reels dan Story)" },
+          id: "pr3c",
+          headline: "Belum Ditentukan",
+          fields: {
+            avatar: "a4",
+            nama: "Belum Ditentukan",
+            description: "Profil audiens belum bisa ditentukan karena datanya belum lengkap.",
+            age: "-",
+            gender: "-",
+            education: "-",
+            income: "-",
+            values: "-",
+            interest: "-",
+            opinions: "-",
+            channel: "Belum ditentukan.",
+          },
           points: [
-            "Kanal utama: Instagram, dengan Reels sebagai penarik audiens baru dan Story sebagai ruang interaksi harian.",
-            "Kanal pendukung: WhatsApp untuk menjawab pertanyaan ukuran yang butuh jawaban panjang.",
-            "Alasan: audiens aktif membalas jajak pendapat dan kotak pertanyaan di Story, sehingga interaksi mudah ditumbuhkan.",
-            "Bentuk konten: Reels pemakaian produk, Story jajak pendapat ukuran, dan sesi tanya jawab mingguan.",
-          ],
-        },
-        {
-          id: "ch1c",
-          headline: "Instagram dengan dukungan konten komunitas",
-          fields: { channel: "Instagram (feed, Reels, dan kolaborasi komunitas)" },
-          points: [
-            "Kanal utama: Instagram, memadukan feed, Reels, dan unggahan bersama komunitas lari.",
-            "Kanal pendukung: kolaborasi dengan akun komunitas olahraga kota untuk menjangkau anggota barunya.",
-            "Alasan: audiens tergabung dalam komunitas dan lebih percaya rekomendasi sesama anggota daripada iklan brand.",
-            "Bentuk konten: liputan latihan bersama, unggahan ulang foto pengguna, dan kolaborasi dengan pegiat komunitas.",
-          ],
-        },
-        {
-          id: "ch1d",
-          headline: "Instagram untuk membangun kepercayaan, marketplace untuk transaksi",
-          fields: { channel: "Instagram (utama) dan marketplace (penutup transaksi)" },
-          points: [
-            "Kanal utama: Instagram sebagai tempat memperkenalkan produk dan membangun kepercayaan.",
-            "Kanal penutup transaksi: marketplace yang ditautkan lewat bio dan stiker tautan di Story.",
-            "Alasan: audiens terbiasa membaca ulasan di Instagram tetapi menyelesaikan pembayaran di marketplace.",
-            "Bentuk konten: Reels pemakaian produk, carousel panduan ukuran, dan Story pengingat promo tanggal kembar.",
-          ],
-        },
-        {
-          id: "ch1e",
-          headline: "Instagram dengan jadwal unggah mengikuti jam aktif audiens",
-          fields: { channel: "Instagram (Reels, carousel, dan Story)" },
-          points: [
-            "Kanal utama: Instagram, dengan jadwal unggah pada pukul 06.00-07.00 dan 19.00-21.00 mengikuti jam aktif audiens.",
-            "Kanal pendukung: TikTok untuk menjangkau audiens di luar pengikut yang sudah ada.",
-            "Alasan: audiens membuka media sosial sebelum berolahraga pagi dan setelah pulang kerja.",
-            "Bentuk konten: Reels rutinitas pagi, carousel penjelasan bahan, dan Story di jam malam.",
-          ],
-        },
-      ],
-    },
-    {
-      grade: "sebagian",
-      variants: [
-        {
-          id: "ch2a",
-          headline: "Media sosial",
-          fields: { channel: "Media sosial" },
-          points: [
-            "Sudah mengarah ke kanal digital.",
-            "Tidak menyebut platform tertentu sehingga format kontennya belum bisa ditentukan.",
-            "Studi kasus menyebut Instagram secara khusus, tetapi itu tidak ditegaskan di sini.",
-          ],
-        },
-        {
-          id: "ch2b",
-          headline: "Instagram saja tanpa penjelasan",
-          fields: { channel: "Instagram" },
-          points: [
-            "Platform utama sudah disebut dan sesuai dengan studi kasus.",
-            "Belum menjelaskan fitur mana yang dipakai, apakah Reels, carousel, atau Story.",
-            "Alasan pemilihan kanal dan bentuk kontennya belum diuraikan.",
-          ],
-        },
-        {
-          id: "ch2c",
-          headline: "Semua platform sekaligus",
-          fields: { channel: "Instagram, TikTok, Facebook, X, YouTube, dan LinkedIn" },
-          points: [
-            "Menyebut banyak platform sekaligus tanpa menetapkan mana yang utama.",
-            "Sumber daya tim akan terbagi habis tanpa hasil yang berarti di kanal mana pun.",
-            "Key communication channel seharusnya menunjuk saluran utama, bukan mendaftar semuanya.",
-          ],
-        },
-      ],
-    },
-    {
-      grade: "kurang",
-      variants: [
-        {
-          id: "ch3a",
-          headline: "Brosur dan spanduk",
-          fields: { channel: "Brosur dan spanduk di pinggir jalan" },
-          points: [
-            "Tidak menjawab tantangan studi kasus yang berfokus pada engagement Instagram.",
-            "Audiens yang dipetakan aktif di media sosial, bukan di media cetak luar ruang.",
-            "Hasil riset audiens tidak dipakai untuk menentukan saluran.",
-          ],
-        },
-        {
-          id: "ch3b",
-          headline: "Belum ditentukan",
-          fields: { channel: "Belum ditentukan" },
-          points: [
-            "Kolom wajib pada template profil audiens dibiarkan kosong.",
-            "Tanpa kanal utama, riset konten kompetitor di langkah berikutnya kehilangan pembandingnya.",
-            "Instruksi membuat profil audiens tidak terpenuhi.",
-          ],
-        },
-        {
-          id: "ch3c",
-          headline: "Telepon langsung ke calon pembeli",
-          fields: { channel: "Panggilan telepon satu per satu" },
-          points: [
-            "Tidak sebanding dengan jumlah audiens yang ingin dijangkau.",
-            "Bertentangan dengan tujuan tugas, yaitu menyusun strategi konten media sosial.",
-            "Berpotensi mengganggu dan merusak citra brand di mata calon pembeli.",
+            "Audiens tidak punya uang untuk membeli produk.",
+            "Bertentangan dengan hasil segmentasi yang menetapkan audiens dengan daya beli memadai.",
+            "Instruksi memetakan hasil segmentasi menjadi profil audiens tidak dijalankan.",
           ],
         },
       ],
@@ -3102,11 +2650,7 @@ export const tpm1Groups: ChoiceGroup[] = [
   demographic,
   behavioral,
   psychographic,
-  description,
-  keyDemographic,
-  keyPsychographic,
-  painPoints,
-  channelGroup,
+  profilAudiens,
   kompetitorUtama,
   elemenVisual,
   pesanUtama,
@@ -3125,11 +2669,7 @@ export const bankTpm1 = {
   demographic,
   behavioral,
   psychographic,
-  description,
-  keyDemographic,
-  keyPsychographic,
-  painPoints,
-  channelGroup,
+  profilAudiens,
   kompetitorUtama,
   elemenVisual,
   pesanUtama,

@@ -39,8 +39,7 @@ dan membuka ulang halaman pun menghasilkan susunan baru. Yang disimpan di localS
 pilihan peserta, sehingga progres tidak hilang saat halaman dimuat ulang meski kalimatnya berganti.
 
 Hasilnya, dua peserta yang sama-sama memilih semua jawaban `tepat` tetap menghasilkan dokumen yang berbeda isinya.
-Untuk TPM 1 tersedia lebih dari 34 triliun kombinasi dokumen "semua benar", belum termasuk variasi
-kalimat pembuka, pengantar tiap bagian, dan penutup.
+Untuk TPM 1 tersedia lebih dari 183 miliar kombinasi dokumen "semua benar".
 
 Tingkat kualitas **tidak pernah ditampilkan kepada peserta**. Ketiga kartu tampil sama saja,
 tanpa penanda mana yang benar, sehingga pemilihannya tetap menjadi latihan.
@@ -55,8 +54,8 @@ Setiap dokumen hasil unduhan memuat kode kecil di kaki halaman, contohnya `fyep-
 
 Nilai dihitung dari pilihan peserta: jawaban `tepat` bernilai 100, `sebagian` bernilai 50,
 `kurang` bernilai 0, lalu dirata-rata dari seluruh pertanyaan dan dibulatkan.
-Untuk TPM 1 yang punya 20 pertanyaan, semua benar menghasilkan `fyep-100`,
-satu jawaban salah menjadi `fyep-95`, dan seterusnya.
+Untuk TPM 1 yang punya 16 pertanyaan, semua benar menghasilkan `fyep-100`,
+satu jawaban salah menjadi `fyep-94`, dan seterusnya.
 
 Kode dicetak dengan ukuran 5,5pt berwarna abu sangat muda di pojok kanan bawah setiap halaman:
 terbaca bila dicari, tetapi tidak mencolok. Kode yang sama juga disalin ke metadata berkas
@@ -88,7 +87,7 @@ src/
     types.ts        Tipe inti seluruh tugas
     registry.ts     Daftar tugas + jumlah slot navbar
     tpm-1/
-      bank.ts       Bank jawaban (20 grup, semua varian per tingkat kualitas)
+      bank.ts       Bank jawaban (16 grup, semua varian per tingkat kualitas)
       index.ts      Studi kasus, instruksi, langkah, dan penyusun dokumen
   lib/
     rng.ts          Pengacak deterministik berbasis seed
@@ -97,6 +96,8 @@ src/
     template.ts     Pengganti token {{brand}}, {{nama}}, {{kompetitor}}, dst.
     export/pdf.ts   Penulis PDF (jsPDF)
     export/docx.ts  Penulis DOCX (docx)
+    export/assets.ts   Logo Plan dan ilustrasi audiens (base64, khusus ekspor)
+    export/poppins.ts  Font Poppins subset Latin (base64, khusus PDF)
   components/       Navbar, kartu pilihan, pratinjau dokumen, halaman tugas
 ```
 
@@ -138,37 +139,60 @@ Tugas ini mengikuti PDF *1.8 Praktik Mandiri 1 - Merancang Strategi Marketing (T
 Kompetitor)* dengan studi kasus brand pakaian olahraga lokal **FitActive**, beserta dua template
 yang dibagikan ke peserta: *Template Profil Audiens* dan *Template Riset Kompetitor*.
 
-Dokumen hasil unduhan memuat, berurutan:
+### Format dokumen mengikuti template resmi
 
-1. **Segmentasi Audiens** — lima kriteria sesuai template: `geographic`, `sociographic`,
-   `demographic`, `behavioral`, dan `psychographic`.
-2. **Profil Audiens** — `description`, `key demographic` (Age, Gender, Education, Income),
-   `key psychographic` (Values, Interest, Opinions), `customer pain points`, dan
-   `key communication channel`.
-3. **Riset Konten Kompetitor** — empat langkah: identifikasi kompetitor utama; analisis konten
-   pada lima elemen (Elemen Visual, Pesan Utama, Call to Action, Diskon atau Promo, Engagement);
-   identifikasi kekuatan dan kelemahan; serta peluang dan ancaman yang menjadi inspirasi.
+Dokumen hasil unduhan dibuat semirip mungkin dengan template Plan International:
 
-Nama file mengikuti format `TPM 1 - [Nama Lengkap Peserta]`.
+| Unsur | Nilai, diambil langsung dari berkas template |
+| --- | --- |
+| Ukuran halaman | A4 **lanskap**, margin 1 inci (sesuai `sectPr` template) |
+| Font | **Poppins**, disematkan ke PDF dari `@fontsource/poppins` (SIL OFL) |
+| Biru | `#0072CE` — garis tabel, kepala tabel, teks label |
+| Kuning | `#FFD500` — blok di belakang label bagian |
+| Hijau / salem / langit | `#D6D839`, `#F47A68`, `#58CAE8` — tiga blok pada kartu profil |
+| Abu | `#999999` — baris nama peserta |
+| Logo | Logo Plan International asli dari template, di pojok kanan atas tiap halaman |
+
+Susunan dokumen mengikuti urutan template: judul rata tengah dengan kata *Brand* dicetak miring,
+label bagian di atas blok kuning, lalu tabel bergaris biru. Halaman pertama memuat Segmentasi
+Audiens dan kartu Profil Audiens; halaman berikutnya memuat Riset Kompetitor Langkah 1 sampai 4.
+
+Nama peserta dicetak sebagai satu baris kecil abu di bawah judul, karena template tidak
+menyediakan kolomnya. Kode nilai `fyep-NN` tetap tercetak sangat kecil di kaki tiap halaman dan
+disalin ke metadata berkas.
 
 ### Bagian screenshot pada template
 
 Template Riset Kompetitor meminta empat gambar: logo brand, tangkapan layar halaman depan akun
 Instagram, dan tangkapan layar cuplikan konten feed di tiga langkah. Bagian itu **tidak bisa
-diselesaikan dengan klik**, sementara aturan generator ini adalah peserta tidak mengetik atau
-menyiapkan apa pun selain nama.
-
-Karena itu baris gambar diganti menjadi tabel hasil pengamatan berbentuk teks:
+diselesaikan dengan klik**, sementara aturan generator ini adalah peserta tidak menyiapkan apa pun
+selain nama. Baris gambar diganti catatan pengamatan berbentuk teks pada posisi kolom yang sama:
 
 | Baris asli di template | Diganti menjadi |
 | --- | --- |
-| Logo Brand Kompetitor | Baris "Identitas Visual Brand" |
-| Screenshot halaman depan akun | Tabel berisi isi bio, sorotan, dan kesan tampilan grid |
-| Screenshot cuplikan konten feed | Tabel "Konten Feed yang Diamati" (format, tema, pesan, CTA) |
+| Logo *Brand* Kompetitor | Baris "Identitas Visual *Brand* Kompetitor" |
+| *Screenshot* halaman depan akun | Baris "Pengamatan Halaman Depan Akun": kategori, isi bio, sorotan, kesan grid |
+| *Screenshot* cuplikan konten feed | Kolom "Pengamatan Beberapa Konten *Feed*": daftar konten beserta format, tema, pesan, dan CTA |
 
-Tabel-tabel itu diberi keterangan *"dicatat dalam bentuk uraian"*, jadi dokumen tidak mengaku
-memuat tangkapan layar. Tidak ada tipe blok baru yang ditambahkan — semuanya memakai blok `table`
-yang sudah ada, sehingga renderer PDF, DOCX, dan pratinjau tidak perlu diubah.
+Kolom pengamatan mengalir antarhalaman bila isinya panjang, jadi tidak ada teks yang terpotong.
+
+### Profil audiens dipilih sebagai satu kartu utuh
+
+Template menampilkan profil audiens sebagai satu kartu, jadi peserta memilih **satu kartu profil
+lengkap** — ilustrasi, description, key demographic, key psychographic, customer pain points, dan
+key communication channel sekaligus — bukan lima pertanyaan terpisah. Tersedia enam varian profil
+dengan ilustrasi berbeda; varian warna avatar dibuat dari ilustrasi asli template.
+
+Karena penggabungan mengurangi jumlah kombinasi, jumlah varian pada grup ini sengaja dibuat lebih
+banyak. Uji `cek-variasi 500` tetap menghasilkan 100% dokumen unik.
+
+### Konsistensi profil audiens dengan segmentasi
+
+`Key Demographic` dan `Key Psychographic` tidak diacak sendiri, melainkan mengambil nilainya dari
+jawaban segmen `demographic` dan `psychographic` lewat token (`{{age}}`, `{{gender}}`,
+`{{education}}`, `{{income}}`, `{{values}}`, `{{interest}}`, `{{opinions}}`). Tanpa ini, profil
+audiens bisa menyebut "karyawan 24-32 tahun" padahal segmentasinya menyebut "mahasiswa 18-28
+tahun" — pertentangan yang mudah terlihat pemeriksa.
 
 ### Kompetitor pada bank jawaban
 
@@ -180,10 +204,9 @@ Analisisnya sengaja dibuat kualitatif. **Tidak ada angka followers, likes, atau 
 di dalam bank jawaban, karena angka semacam itu akan menjadi klaim karangan tentang perusahaan
 nyata dan cepat basi.
 
-### Konsistensi profil audiens dengan segmentasi
+### Catatan ukuran teks
 
-`Key Demographic` dan `Key Psychographic` pada profil audiens tidak diacak sendiri, melainkan
-mengambil nilainya dari jawaban segmen `demographic` dan `psychographic` lewat token
-(`{{age}}`, `{{gender}}`, `{{education}}`, `{{income}}`, `{{values}}`, `{{interest}}`,
-`{{opinions}}`). Tanpa ini, profil audiens bisa menyebut "karyawan 24-32 tahun" padahal
-segmentasinya menyebut "mahasiswa 18-28 tahun" — pertentangan yang mudah terlihat pemeriksa.
+Isi jawaban jauh lebih panjang daripada teks contoh `[Tulis jawaban kamu di sini]` pada template.
+Judul, label, dan kepala tabel memakai ukuran yang sama persis dengan template, sedangkan isi
+jawaban dirapatkan (10-11pt) agar dokumen tidak membengkak menjadi puluhan halaman. Dokumen
+"semua tepat" berakhir sekitar 9 halaman.

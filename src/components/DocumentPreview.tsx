@@ -1,11 +1,34 @@
 "use client";
 
-import type { DocBlock } from "@/tasks/types";
+import type { DocBlock, Rich } from "@/tasks/types";
 
-/** Menampilkan model dokumen yang sama persis dengan yang diekspor ke PDF/DOCX. */
+/* Warna template resmi Plan International. */
+const BIRU = "#0072CE";
+const KUNING = "#FFD500";
+const HIJAU = "#D6D839";
+const SALEM = "#F47A68";
+const LANGIT = "#58CAE8";
+
+const garis = `1.5px solid ${BIRU}`;
+
+/** Teks yang sebagian potongannya dicetak miring, mis. kata "Brand". */
+function RichText({ text }: { text: Rich }) {
+  if (typeof text === "string") return <>{text}</>;
+  return (
+    <>
+      {text.map((s, i) => (s.italic ? <em key={i}>{s.text}</em> : <span key={i}>{s.text}</span>))}
+    </>
+  );
+}
+
+/**
+ * Menampilkan model dokumen yang sama persis dengan yang diekspor ke PDF/DOCX,
+ * mengikuti tata letak template resmi: judul rata tengah, label biru di atas
+ * blok kuning, dan tabel bergaris biru.
+ */
 export default function DocumentPreview({ blocks }: { blocks: DocBlock[] }) {
   return (
-    <article className="doc-sheet">
+    <article className="doc-sheet" style={{ fontFamily: "var(--font-poppins), var(--font-inter), sans-serif" }}>
       {blocks.map((block, i) => (
         <Block key={i} block={block} />
       ))}
@@ -17,143 +40,194 @@ function Block({ block }: { block: DocBlock }) {
   switch (block.type) {
     case "title":
       return (
-        <div className="mb-5 border-b-[3px] border-brand pb-3">
-          <h1>{block.text}</h1>
-          {block.subtitle && <p className="!mb-0 !text-left text-ink-soft">{block.subtitle}</p>}
+        <div className="relative mb-1 mt-2 flex items-start gap-3">
+          <h2 className="flex-1 text-center text-[1.15rem] font-bold leading-snug text-black">
+            <RichText text={block.text} />
+          </h2>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/plan/logo-plan.png"
+            alt="Plan International"
+            className="h-9 w-auto shrink-0"
+          />
         </div>
       );
 
-    case "meta":
+    case "byline":
+      return <p className="mb-4 text-center text-[0.78rem] italic text-ink-soft">{block.text}</p>;
+
+    case "label":
       return (
-        <dl className="mb-5 grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-3 gap-y-1.5 text-[0.85rem]">
-          {block.rows.map(([k, v]) => (
-            <div key={k} className="contents">
-              <dt className="font-semibold text-ink-soft">{k}</dt>
-              <dd className="text-ink">{v}</dd>
-            </div>
-          ))}
-        </dl>
+        <p className="mb-2 mt-5">
+          <span
+            className="px-1.5 py-0.5 text-[0.85rem] font-bold"
+            style={{ background: KUNING, color: BIRU }}
+          >
+            {block.text}
+          </span>
+        </p>
       );
 
-    case "divider":
-      return <hr className="my-5 border-line" />;
-
-    case "heading":
-      return <h2>{block.number ? `${block.number}. ${block.text}` : block.text}</h2>;
-
-    case "subheading":
-      return <h3>{block.text}</h3>;
-
-    case "paragraph":
-      return <p>{block.text}</p>;
-
-    case "bullets":
-      return (
-        <ul>
-          {block.items.map((item, i) => (
-            <li key={i}>{item}</li>
-          ))}
-        </ul>
-      );
-
-    case "quote":
-      return (
-        <figure className="my-3 rounded-r-lg border-l-[3px] border-brand bg-brand-soft px-4 py-3">
-          <blockquote className="text-[0.95rem] font-bold italic leading-snug">
-            “{block.text}”
-          </blockquote>
-          {block.caption && (
-            <figcaption className="mt-1.5 text-[0.75rem] text-ink-soft">{block.caption}</figcaption>
-          )}
-        </figure>
-      );
-
-    case "table":
+    case "fieldTable":
       return (
         <div className="my-2 overflow-x-auto">
-          <table>
-            <thead>
-              <tr>
-                {block.head.map((h) => (
-                  <th key={h}>{h}</th>
-                ))}
-              </tr>
-            </thead>
+          <table className="w-full border-collapse" style={{ border: garis }}>
             <tbody>
-              {block.rows.map((row, ri) => (
-                <tr key={ri}>
-                  {row.map((cell, ci) => (
-                    <td key={ci}>{cell}</td>
-                  ))}
+              {block.rows.map((r, i) => (
+                <tr key={i}>
+                  <th
+                    scope="row"
+                    className={`w-[21%] p-2 align-top text-[0.82rem] font-bold ${
+                      (block.labelAlign ?? "center") === "center" ? "text-center" : "text-left"
+                    }`}
+                    style={{ border: garis }}
+                  >
+                    <RichText text={r.label} />
+                  </th>
+                  <td className="p-2 align-top text-[0.82rem]" style={{ border: garis }}>
+                    {r.value}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          {block.caption && (
-            <p className="!mb-3 !text-left text-[0.75rem] italic text-ink-soft">{block.caption}</p>
-          )}
         </div>
       );
 
-    case "flow":
+    case "profile":
       return (
-        <div className="my-3 space-y-0">
-          {block.nodes.map((node, i) => (
-            <div key={i}>
-              <div className="rounded-lg border-2 border-brand bg-brand-soft px-4 py-3">
-                <p className="!mb-1 !text-left text-[0.85rem] font-bold text-brand">{node.label}</p>
-                <p className="!mb-0 !text-left whitespace-pre-line text-[0.82rem]">{node.caption}</p>
-              </div>
-              {i < block.nodes.length - 1 && (
-                <div className="flex justify-center py-1.5 text-brand" aria-hidden="true">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M12 4v16m0 0 6-6m-6 6-6-6"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      );
-
-    case "mindmap":
-      return (
-        <div className="my-3">
-          <div className="inline-block rounded-lg bg-ink px-4 py-2 text-[0.95rem] font-bold text-white">
-            {block.root}
-          </div>
-          <div className="mt-2 space-y-3 border-l-2 border-brand pl-4">
-            {block.branches.map((branch) => (
-              <div key={branch.label}>
-                <div className="relative">
-                  <span
-                    className="absolute -left-4 top-1/2 h-0.5 w-3 bg-brand"
-                    aria-hidden="true"
+        <div className="my-2 overflow-x-auto">
+          <table className="w-full border-collapse" style={{ border: garis }}>
+            <tbody>
+              <tr>
+                <td rowSpan={5} className="w-[26%] p-3 align-top text-center" style={{ border: garis }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`/plan/av-${block.avatar}.png`}
+                    alt="Ilustrasi target audiens"
+                    className="mx-auto h-24 w-24"
                   />
-                  <span className="inline-block rounded-md bg-brand px-3 py-1 text-[0.8rem] font-bold text-white">
-                    {branch.label}
-                  </span>
-                </div>
-                <ul className="mt-1.5 ml-3 border-l border-line pl-3">
-                  {branch.children.map((child, i) => (
-                    <li key={i} className="!pl-3 text-[0.82rem]">
-                      {child}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+                  <p className="mt-3 text-left text-[0.82rem] font-bold italic">
+                    Key Communication Channel:
+                  </p>
+                  <p className="mt-1 text-left text-[0.75rem]">{block.channel}</p>
+                </td>
+                <td
+                  colSpan={2}
+                  className="p-2 text-center text-[0.95rem] font-bold italic text-white"
+                  style={{ border: garis, background: BIRU }}
+                >
+                  Audience Profile
+                </td>
+              </tr>
+              <tr>
+                <td colSpan={2} className="p-2 align-top text-[0.82rem]" style={{ border: garis }}>
+                  <span className="font-bold italic">Description: </span>
+                  {block.description}
+                </td>
+              </tr>
+              <BarisWarna judul="Key Demographic" warna={HIJAU} pasangan={block.demographic} />
+              <BarisWarna judul="Key Psychographic" warna={SALEM} pasangan={block.psychographic} />
+              <tr>
+                <td
+                  className="w-[22%] p-2 align-top text-[0.82rem] font-bold italic"
+                  style={{ border: garis, background: LANGIT }}
+                >
+                  Customer Pain Points
+                </td>
+                <td className="p-2 align-top text-[0.75rem]" style={{ border: garis, background: LANGIT }}>
+                  <ul className="space-y-0.5">
+                    {block.painPoints.map((p, i) => (
+                      <li key={i} className="relative pl-3 before:absolute before:left-0 before:content-['•']">
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       );
+
+    case "analysis":
+      return (
+        <div className="my-2 overflow-x-auto">
+          <table className="w-full border-collapse" style={{ border: garis }}>
+            <thead>
+              <tr>
+                {[block.observation.title, "Elemen yang Dianalisis", "Hasil Analisis"].map((t, i) => (
+                  <th
+                    key={i}
+                    className="p-2 text-left text-[0.82rem] font-bold text-white"
+                    style={{ border: garis, background: BIRU, width: ["34%", "25%", "41%"][i] }}
+                  >
+                    <RichText text={t} />
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {block.rows.map((r, i) => (
+                <tr key={i}>
+                  {i === 0 && (
+                    <td
+                      rowSpan={block.rows.length}
+                      className="p-2 align-top text-[0.75rem]"
+                      style={{ border: garis }}
+                    >
+                      {block.observation.lines.map((l, j) => (
+                        <p key={j} className="mb-1">
+                          {l}
+                        </p>
+                      ))}
+                    </td>
+                  )}
+                  <td className="p-2 align-top text-[0.82rem] font-bold" style={{ border: garis }}>
+                    <RichText text={r.label} />
+                  </td>
+                  <td className="p-2 align-top text-[0.75rem] whitespace-pre-line" style={{ border: garis }}>
+                    {r.value}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+
+    case "pageBreak":
+      return <hr className="my-6 border-dashed" style={{ borderColor: BIRU }} />;
 
     default:
       return null;
   }
+}
+
+function BarisWarna({
+  judul,
+  warna,
+  pasangan,
+}: {
+  judul: string;
+  warna: string;
+  pasangan: [string, string][];
+}) {
+  return (
+    <tr>
+      <td
+        className="w-[22%] p-2 align-top text-[0.82rem] font-bold italic"
+        style={{ border: garis, background: warna }}
+      >
+        {judul}
+      </td>
+      <td className="p-2 align-top text-[0.75rem]" style={{ border: garis, background: warna }}>
+        {pasangan.map(([k, v], i) => (
+          <p key={i}>
+            <em>{k}:</em> {v}
+          </p>
+        ))}
+      </td>
+    </tr>
+  );
 }

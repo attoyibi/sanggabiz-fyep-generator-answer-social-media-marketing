@@ -11,15 +11,26 @@ function teks(blocks: DocBlock[]): string {
   return blocks
     .map((b) => {
       switch (b.type) {
-        case "title": return b.text + (b.subtitle ?? "");
-        case "meta": return b.rows.map((r) => r.join(":")).join("|");
-        case "heading": case "subheading": case "paragraph": return b.text;
-        case "quote": return b.text + (b.caption ?? "");
-        case "bullets": return b.items.join("|");
-        case "table": return b.head.join("|") + b.rows.map((r) => r.join("|")).join("|");
-        case "flow": return b.nodes.map((n) => n.label + n.caption).join("|");
-        case "mindmap": return b.root + b.branches.map((x) => x.label + x.children.join("|")).join("|");
-        default: return "";
+        case "title":
+          return typeof b.text === "string" ? b.text : b.text.map((s) => s.text).join("");
+        case "byline":
+        case "label":
+          return b.text;
+        case "fieldTable":
+          return b.rows.map((r) => r.value).join("|");
+        case "profile":
+          return [
+            b.avatar,
+            b.channel,
+            b.description,
+            b.demographic.map((d) => d.join(":")).join("|"),
+            b.psychographic.map((d) => d.join(":")).join("|"),
+            b.painPoints.join("|"),
+          ].join("~");
+        case "analysis":
+          return b.observation.lines.join("|") + b.rows.map((r) => r.value).join("|");
+        default:
+          return "";
       }
     })
     .join("\n");
