@@ -226,7 +226,76 @@ export interface SheetSpec {
 }
 
 /** Format berkas yang bisa diunduh peserta untuk sebuah tugas. */
-export type FormatUnduhan = "pdf" | "docx" | "xlsx";
+export type FormatUnduhan = "pdf" | "docx" | "xlsx" | "png";
+
+/* ------------------------------------------------------------------ */
+/* Model desain: dipakai tugas yang hasilnya berupa konten visual       */
+/*                                                                      */
+/* Satu model dipakai dua tempat: penulis PNG lewat canvas, dan         */
+/* pratinjau di layar. Warnanya memakai palet Brand Guideline.          */
+/* ------------------------------------------------------------------ */
+
+/** Palet resmi Brand Guideline. */
+export const BRAND_WARNA = {
+  planBlue: "#0072CE",
+  lightBlue: "#58CAE7",
+  orange: "#ED632F",
+  yellow: "#FFD500",
+  purple: "#9900FF",
+  black: "#000000",
+  white: "#FFFFFF",
+  lightGrey: "#D9D9D6",
+  magenta: "#DC0080",
+  darkBlue: "#243C4B",
+  green: "#8AC208",
+  red: "#D40D15",
+} as const;
+
+/** Panduan merek yang ditampilkan di layar, dipakai TPM 4. */
+export interface BrandGuide {
+  judul: string;
+  pengantar: string;
+  /** Nama warna pada palet resmi; kodenya diambil dari BRAND_WARNA. */
+  warna: { kunci: keyof typeof BRAND_WARNA; nama: string }[];
+  font: { peran: string; nama: string; contoh: string }[];
+  catatan: string[];
+}
+
+/** Satu unsur di atas kanvas. Koordinat dalam piksel, dari pojok kiri atas. */
+export type DesignLayer =
+  | { type: "rect"; x: number; y: number; w: number; h: number; fill: string; radius?: number }
+  | {
+      type: "text";
+      x: number;
+      y: number;
+      /** Lebar maksimum sebelum teks dibungkus ke baris berikutnya. */
+      w: number;
+      text: string;
+      size: number;
+      color: string;
+      /** "judul" memakai Poppins, "teks" memakai Arial, sesuai brand guideline. */
+      font: "judul" | "teks";
+      weight?: "normal" | "bold";
+      align?: "left" | "center";
+      /** Jarak antarbaris sebagai kelipatan ukuran font. */
+      leading?: number;
+    };
+
+export interface DesignSpec {
+  /** Nama berkas tanpa ekstensi, mis. "slide-1". */
+  name: string;
+  /** Keterangan singkat untuk pratinjau dan resep Canva. */
+  label: string;
+  width: number;
+  height: number;
+  background: string;
+  layers: DesignLayer[];
+  /**
+   * Batas aman dalam piksel dari tiap tepi. Unsur penting tidak boleh keluar
+   * dari batas ini supaya tidak tertutup antarmuka platform.
+   */
+  safeZone: { top: number; bottom: number; left: number; right: number };
+}
 
 /** Jawaban yang sudah "diselesaikan": grade + varian terpilih. */
 export interface ResolvedAnswer {
@@ -270,6 +339,8 @@ export interface TaskDefinition {
   meta: TaskMeta;
   caseStudy: { title: string; paragraphs: string[] };
   instructionSummary: string[];
+  /** Panduan merek yang ditampilkan sebelum daftar pertanyaan. */
+  brandGuide?: BrandGuide;
   submission: Submission;
   steps: TaskStep[];
   /** Token dinamis untuk teks varian, mis. {{brand}}. */
@@ -287,4 +358,6 @@ export interface TaskDefinition {
   buildDocument: (ctx: BuildContext) => DocBlock[];
   /** Penyusun lembar kerja; wajib bila "xlsx" ada di daftar unduhan. */
   buildWorkbook?: (ctx: BuildContext) => SheetSpec[];
+  /** Penyusun desain visual; wajib bila "png" ada di daftar unduhan. */
+  buildDesigns?: (ctx: BuildContext) => DesignSpec[];
 }

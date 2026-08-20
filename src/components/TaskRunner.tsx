@@ -4,8 +4,10 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Navbar from "./Navbar";
 import ChoiceGroupCard from "./ChoiceGroupCard";
 import DocumentPreview from "./DocumentPreview";
+import DesignPreview from "./DesignPreview";
+import BrandGuidePanel from "./BrandGuidePanel";
 import { getTask } from "@/tasks/registry";
-import type { FormatUnduhan, Grade, Pilihan } from "@/tasks/types";
+import type { BuildContext, FormatUnduhan, Grade, Pilihan } from "@/tasks/types";
 import { allGroups, buildContext, progressOf } from "@/lib/resolve";
 import { kodeNilai } from "@/lib/scoring";
 import { createSeed } from "@/lib/rng";
@@ -17,6 +19,7 @@ const LABEL_UNDUHAN: Record<FormatUnduhan, string> = {
   pdf: "PDF",
   docx: "DOCX",
   xlsx: "Excel",
+  png: "PNG Desain",
 };
 
 export default function TaskRunner({ taskId }: { taskId: string }) {
@@ -60,19 +63,37 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
    * sama persis dengan yang dulu dilihat peserta, berapa pun seed hari ini.
    */
   const sumber = useMemo(() => {
-    if (!task.dependsOn) return undefined;
-    const tugasSumber = getTask(task.dependsOn);
-    if (!tugasSumber) return undefined;
-    const pilihanSumber = state.selections[task.dependsOn] ?? {};
-    return buildContext(tugasSumber, state.nama || "Nama Peserta", state.seed, pilihanSumber);
+    // Rantainya bisa lebih dari satu tingkat: TPM 4 memakai TPM 3, dan TPM 3
+    // memakai TPM 2. Konteks tiap tingkat dibangun berurutan dari yang terjauh.
+    const rantai = (id?: string): BuildContext | undefined => {
+      if (!id) return undefined;
+      const t = getTask(id);
+      if (!t) return undefined;
+      return buildContext(
+        t,
+        state.nama || "Nama Peserta",
+        state.seed,
+        state.selections[id] ?? {},
+        rantai(t.dependsOn)
+      );
+    };
+    return rantai(task.dependsOn);
   }, [task.dependsOn, state.selections, state.nama, state.seed]);
 
-  /** Berapa bagian tugas sumber yang belum dijawab; 0 berarti sudah lengkap. */
-  const sumberBelum = useMemo(() => {
-    if (!task.dependsOn) return 0;
-    const tugasSumber = getTask(task.dependsOn);
-    if (!tugasSumber) return 0;
-    return progressOf(tugasSumber, state.selections[task.dependsOn] ?? {}).belum;
+  /**
+   * Berapa bagian yang belum dijawab pada seluruh tugas prasyarat, dihitung
+   * sampai ujung rantai. Dipakai untuk menahan tugas ini sampai bahannya siap.
+   */
+  const prasyarat = useMemo(() => {
+    let id = task.dependsOn;
+    while (id) {
+      const t = getTask(id);
+      if (!t) break;
+      const belum = progressOf(t, state.selections[id] ?? {}).belum;
+      if (belum > 0) return { task: t, belum };
+      id = t.dependsOn;
+    }
+    return null;
   }, [task.dependsOn, state.selections]);
 
   const ctx = useMemo(
@@ -159,6 +180,9 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
         } else if (format === "xlsx") {
           const { exportXlsx } = await import("@/lib/export/xlsx");
           await exportXlsx(task.buildWorkbook!(ctx), namaFile, kode);
+        } else if (format === "png") {
+          const { exportPng } = await import("@/lib/export/png");
+          await exportPng(task.buildDesigns!(ctx), namaFile, kode);
         } else {
           const { exportDocx } = await import("@/lib/export/docx");
           await exportDocx(blocks, namaFile, kode);
@@ -259,6 +283,9 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
             </ol>
           </div>
         </div>
+
+        {/* Brand Guideline, bila tugasnya menyediakan */}
+        {task.brandGuide && <BrandGuidePanel guide={task.brandGuide} />}
 
         {/* Gerbang nama */}
         {!sudahMulai ? (
@@ -370,26 +397,26 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
 
             {/* Langkah-langkah */}
             {/* Tugas lanjutan butuh jawaban tugas sebelumnya sebagai bahan. */}
-            {sumberBelum > 0 && (
+            {prasyarat && (
               <section className="card mb-6 border-amber-300 bg-amber-50 p-4 sm:p-5">
                 <h2 className="text-[1.05rem] font-bold text-amber-900">
-                  Selesaikan {getTask(task.dependsOn!)?.code} lebih dahulu
+                  Selesaikan {prasyarat.task.code} lebih dahulu
                 </h2>
                 <p className="mt-1 text-[0.85rem] leading-relaxed text-amber-900/80">
-                  Tugas ini mengembangkan content plan yang kamu susun di{" "}
-                  {getTask(task.dependsOn!)?.code}. Masih ada {sumberBelum} bagian yang belum
-                  dipilih di sana, jadi rencana kontenmu belum bisa ditampilkan di sini.
+                  Tugas ini memakai jawaban yang kamu susun di {prasyarat.task.code}. Masih ada{" "}
+                  {prasyarat.belum} bagian yang belum dipilih di sana, jadi bahannya belum bisa
+                  ditampilkan di sini.
                 </p>
                 <a
-                  href={`/tugas/${task.dependsOn}`}
+                  href={`/tugas/${prasyarat.task.id}`}
                   className="mt-3 inline-block rounded-lg bg-amber-600 px-4 py-2 text-[0.82rem] font-semibold text-white transition hover:bg-amber-700"
                 >
-                  Buka {getTask(task.dependsOn!)?.code}
+                  Buka {prasyarat.task.code}
                 </a>
               </section>
             )}
 
-            {sumberBelum === 0 &&
+            {!prasyarat &&
               task.steps.map((step) => {
               const mulaiIndex = groups.findIndex((g) => g.id === step.groups[0]?.id);
               return (
@@ -448,6 +475,16 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
                 setiap peserta berbeda. Pilihan yang sudah kamu tentukan tetap tersimpan.
               </p>
             </section>
+
+            {/* Pratinjau desain, untuk tugas yang hasilnya berupa konten visual */}
+            {task.buildDesigns && (
+              <section className="card mb-6 overflow-hidden">
+                <div className="bar-blue">Pratinjau Desain</div>
+                <div className="p-4 sm:p-5">
+                  <DesignPreview designs={task.buildDesigns(ctx)} />
+                </div>
+              </section>
+            )}
 
             {/* Pratinjau dokumen */}
             <section className="mb-6">

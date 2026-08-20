@@ -2,7 +2,8 @@
 
 Website untuk membantu peserta pelatihan menyelesaikan Tugas Praktik Mandiri **tanpa mengetik dokumen sendiri**.
 Peserta cukup memasukkan nama lengkap, lalu memilih jawaban dengan klik. Dokumen final langsung tersusun dan
-dapat diunduh sebagai **PDF** dan **DOCX** dengan nama file sesuai ketentuan.
+dapat diunduh dengan nama file sesuai ketentuan — formatnya menyesuaikan tugasnya: **PDF**, **DOCX**,
+**Excel**, atau **PNG**.
 
 Seluruh data disimpan di **localStorage** peserta — tidak ada server, tidak ada pengiriman data ke mana pun.
 Nama dan pilihan tetap ada setelah halaman di-reload, dan tersedia tombol **Reset** untuk mulai dari awal
@@ -95,6 +96,9 @@ src/
     tpm-3/
       bank.ts       Bank jawaban (8 grup, satu di antaranya tanpa penilaian)
       index.ts      Melanjutkan content plan TPM 2 lewat dependsOn
+    tpm-4/
+      bank.ts       Bank jawaban (6 grup: format, layout, warna, teks, safe zone, finalisasi)
+      index.ts      Penyusun desain PNG + resep Canva, melanjutkan TPM 3
   lib/
     rng.ts          Pengacak deterministik berbasis seed
     resolve.ts      Menggabungkan pilihan peserta menjadi konteks dokumen
@@ -103,9 +107,11 @@ src/
     export/pdf.ts   Penulis PDF (jsPDF)
     export/docx.ts  Penulis DOCX (docx)
     export/xlsx.ts  Penulis Excel (exceljs)
+    export/png.ts   Penggambar desain ke canvas, dipakai pratinjau dan unduhan
     export/assets.ts   Logo Plan dan potret audiens (base64, khusus ekspor)
     export/poppins.ts  Font Poppins subset Latin (base64, khusus PDF)
-  components/       Navbar, kartu pilihan, pratinjau dokumen, halaman tugas
+  components/       Navbar, kartu pilihan, pratinjau dokumen, pratinjau desain,
+                    panel Brand Guideline, halaman tugas
 ```
 
 Model dokumen (`DocBlock`) ditulis sekali, lalu dipakai tiga renderer sekaligus:
@@ -136,7 +142,13 @@ npm run cek -- cek-nilai tpm-2           # cek perhitungan kode nilai
 npm run cek -- render-pdf tpm-1 12345 "Putri Amalia" tepat out.pdf     # PDF contoh
 npm run cek -- render-docx tpm-1 12345 "Putri Amalia" tepat out.docx   # DOCX contoh
 npm run cek -- render-xlsx tpm-2 12345 "Putri Amalia" tepat out.xlsx   # Excel contoh
+npm run cek -- render-halaman tpm-4 12345 "Putri Amalia" tepat hal     # pecah PDF per halaman
+npm run cek -- cek-safezone                                            # cek batas aman desain TPM 4
 ```
+
+`render-halaman` ada karena `qlmanage` di macOS hanya merender halaman pertama sebuah PDF.
+Skrip ini menulis `hal-1.pdf`, `hal-2.pdf`, dan seterusnya, sehingga tiap halaman bisa
+diperiksa tampilannya satu per satu.
 
 Argumen `tepat` bisa diganti `sebagian` atau `kurang` untuk memeriksa tampilan dokumen
 ketika peserta memilih jawaban yang tidak sesuai.
@@ -152,6 +164,7 @@ di layar dan tampil sebagai tombol utama.
 | TPM 1 | `["pdf", "docx"]` | PDF |
 | TPM 2 | `["xlsx", "pdf"]` | Excel |
 | TPM 3 | `["pdf", "docx"]` | PDF |
+| TPM 4 | `["png", "pdf"]` | PNG |
 
 Tugas yang menyertakan `"xlsx"` wajib punya `buildWorkbook`, yang menghasilkan `SheetSpec[]`
 berisi nama sheet, lebar kolom, dan baris berisi sel bergaya. Warna gayanya diambil dari
@@ -222,6 +235,46 @@ sendiri di tugas-tugas sebelumnya.
 
 Caption ditulis memakai salah satu formula yang diminta instruksi: AIDA, FAB, PAS, atau ACCA.
 Strukturnya sengaja ditulis eksplisit di dalam naskah supaya penerapan formulanya bisa diperiksa.
+
+## Ketentuan TPM 4 yang dipenuhi
+
+Mengikuti PDF *2.24 Praktik Mandiri 4 - Mendesain Konten Visual di Canva* beserta berkas
+*Brand Guideline*. Tugas ini melanjutkan TPM 3 lewat `dependsOn`, jadi desainnya dibuat dari
+konten yang peserta pilih dan kembangkan sendiri di tugas sebelumnya.
+
+### Desain dibuat di sini, resep Canva tetap diberikan
+
+Peserta tidak perlu keluar ke Canva: situs menggambar desainnya sendiri ke canvas lalu
+mengunduhnya sebagai PNG pada ukuran tayang sebenarnya. Untuk carousel, jumlah lembarnya
+mengikuti tipe visual pada rancangan TPM 3, dibatasi 2 sampai 6 lembar.
+
+PDF pendampingnya berisi **Resep Canva**: delapan langkah lengkap dengan ukuran kanvas, kode
+hex, ukuran font, dan posisi x/y tiap unsur. Angka-angka pada resep itu **dibaca balik dari
+lembar yang benar-benar digambar**, bukan ditulis ulang secara terpisah, jadi resep dan
+gambarnya tidak mungkin berbeda meskipun pola tata letaknya berubah.
+
+Perlu dicatat: salah satu capaian yang dinilai instruksi aslinya adalah "mengoperasikan tools
+desain dan fitur-fitur Canva". Menggambar di situs ini melewati capaian tersebut. Berkas yang
+dikumpulkan sendiri sama saja, karena instruksinya hanya meminta ekspor PNG — resep Canva
+disediakan supaya peserta yang mau tetap bisa melatih fiturnya sendiri.
+
+### Brand Guideline tampil di layar
+
+Palet resmi beserta kode hex-nya dan pasangan fontnya (judul Poppins, teks Arial) ditampilkan
+sebagai panel tersendiri sebelum daftar pertanyaan, lewat `brandGuide` pada definisi tugas.
+Seluruh pilihan warna pada bank jawaban hanya memakai warna dari palet itu.
+
+Semua kombinasi warna pada jawaban tingkat **tepat** punya rasio kontras teks minimal 4,5:1.
+Kombinasi pada tingkat *sebagian* dan *kurang* sengaja lebih rendah — itulah yang membedakan
+tingkatannya — dan hasilnya digambar apa adanya supaya peserta melihat sendiri akibatnya.
+
+### Wordmark dan safe zone
+
+Setiap lembar membawa wordmark FitActive; yang menyesuaikan pola tata letak adalah posisinya,
+bukan ada-tidaknya. Pratinjau di layar bisa menampilkan garis putus-putus safe zone, dan
+persentasenya mengikuti jawaban peserta.
+
+Brand FitActive tidak punya berkas logo, jadi wordmark-nya ditulis sebagai teks Poppins Bold.
 
 ## Ketentuan TPM 1 yang dipenuhi
 

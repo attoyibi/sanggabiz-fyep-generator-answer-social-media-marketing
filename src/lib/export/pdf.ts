@@ -187,7 +187,10 @@ export async function exportPdf(
   const blokLabel = (text: string) => {
     const size = 13;
     const tinggi = lh(size) + 2.6;
-    muat(tinggi + 3);
+    // Label ditahan bersama awal isinya: bila sisa halaman hanya cukup untuk
+    // labelnya saja, keduanya dipindah ke halaman berikutnya.
+    const RUANG_ISI = 24;
+    muat(tinggi + 3 + RUANG_ISI);
     set(size, true, false, BIRU);
     const w = doc.getTextWidth(text) + 7;
     doc.setFillColor(...KUNING);
