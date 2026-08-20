@@ -3,6 +3,10 @@ import { tpm1Groups } from "./bank";
 
 const BRAND = "FitActive";
 
+/** Teks cadangan saat segmen sumbernya belum dipilih peserta. */
+const IKUT_DEMO = "mengikuti jawaban segmen Demographic";
+const IKUT_PSYCHO = "mengikuti jawaban segmen Psychographic";
+
 /** Judul template: kata "Brand" dicetak miring, sama seperti berkas aslinya. */
 const judulAudiens: Rich = [
   { text: "Membuat Riset Target Audiens " },
@@ -117,13 +121,16 @@ const tpm1: TaskDefinition = {
     kompetitor: ctx.answers["kompetitor"]?.variant.fields?.nama ?? "kompetitor utama",
     audiens: ctx.answers["profil"]?.variant.fields?.nama ?? "target audiens utama",
     channel: ctx.answers["profil"]?.variant.fields?.channel ?? "Instagram",
-    age: ctx.answers["demo"]?.variant.fields?.age ?? "belum ditentukan",
-    gender: ctx.answers["demo"]?.variant.fields?.gender ?? "belum ditentukan",
-    education: ctx.answers["demo"]?.variant.fields?.education ?? "belum ditentukan",
-    income: ctx.answers["demo"]?.variant.fields?.income ?? "belum ditentukan",
-    values: ctx.answers["psycho"]?.variant.fields?.values ?? "belum ditentukan",
-    interest: ctx.answers["psycho"]?.variant.fields?.interest ?? "belum ditentukan",
-    opinions: ctx.answers["psycho"]?.variant.fields?.opinions ?? "belum ditentukan",
+    // Cadangan dipakai hanya selama segmen terkait belum dipilih, mis. saat
+    // peserta melihat kartu profil sebelum menjawab langkah 1. Kalimatnya dibuat
+    // menjelaskan asalnya, bukan sekadar tanda kosong.
+    age: ctx.answers["demo"]?.variant.fields?.age ?? IKUT_DEMO,
+    gender: ctx.answers["demo"]?.variant.fields?.gender ?? IKUT_DEMO,
+    education: ctx.answers["demo"]?.variant.fields?.education ?? IKUT_DEMO,
+    income: ctx.answers["demo"]?.variant.fields?.income ?? IKUT_DEMO,
+    values: ctx.answers["psycho"]?.variant.fields?.values ?? IKUT_PSYCHO,
+    interest: ctx.answers["psycho"]?.variant.fields?.interest ?? IKUT_PSYCHO,
+    opinions: ctx.answers["psycho"]?.variant.fields?.opinions ?? IKUT_PSYCHO,
   }),
 
   steps: [

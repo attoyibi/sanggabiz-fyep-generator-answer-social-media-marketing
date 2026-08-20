@@ -147,8 +147,8 @@ const geographic: ChoiceGroup = {
         },
         {
           id: "geo3c",
-          headline: "Belum ditentukan",
-          fields: { isi: "Lokasi audiens akan ditentukan nanti setelah akun ramai." },
+          headline: "Ditentukan menyusul setelah akun ramai",
+          fields: { isi: "Wilayah audiens sengaja tidak dibatasi lebih dulu; penentuannya menunggu sampai jumlah pengikut akun bertambah banyak." },
           points: [
             "Tidak ada segmen geografis yang disusun",
             "Menunda penentuan wilayah membuat jadwal unggah dan pilihan bahasa tidak bisa ditetapkan",
@@ -439,7 +439,7 @@ const demographic: ChoiceGroup = {
             age: "Usia produktif, tanpa angka",
             gender: "Perempuan",
             education: "Lulusan perguruan tinggi",
-            income: "Belum ditentukan",
+            income: "Cukup untuk memenuhi kebutuhan sehari-hari",
             isi: "Anak muda yang sudah bekerja dan punya penghasilan.",
           },
           points: [
@@ -454,8 +454,8 @@ const demographic: ChoiceGroup = {
           fields: {
             age: "Usia produktif, tanpa angka",
             gender: "Perempuan",
-            education: "Belum disebut",
-            income: "Belum disebut",
+            education: "Semua jenjang pendidikan",
+            income: "Menyesuaikan kemampuan masing-masing",
             isi: "Perempuan usia produktif yang aktif berolahraga.",
           },
           points: [
@@ -489,10 +489,10 @@ const demographic: ChoiceGroup = {
           id: "dem3b",
           headline: "Siapa saja yang mau beli",
           fields: {
-            age: "Tidak disebut",
-            gender: "Tidak disebut",
-            education: "Tidak disebut",
-            income: "Tidak disebut",
+            age: "Berapa pun",
+            gender: "Laki-laki dan perempuan",
+            education: "Apa saja",
+            income: "Berapa pun, yang penting bersedia membeli",
             isi: "Siapa saja yang mau membeli produk {{brand}}.",
           },
           points: [
@@ -776,7 +776,7 @@ const psychographic: ChoiceGroup = {
           fields: {
             values: "Menyukai gaya hidup sehat",
             interest: "Olahraga secara umum",
-            opinions: "Belum disebut",
+            opinions: "Menganggap olahraga itu penting untuk menjaga kesehatan",
             isi: "Audiens yang menyukai gaya hidup sehat.",
           },
           points: [
@@ -791,7 +791,7 @@ const psychographic: ChoiceGroup = {
           fields: {
             values: "Mengikuti tren terbaru",
             interest: "Konten yang sedang tren",
-            opinions: "Belum disebut",
+            opinions: "Menganggap produk yang sedang ramai dibicarakan pasti bagus",
             isi: "Audiens yang senang mengikuti tren terbaru.",
           },
           points: [
@@ -806,7 +806,7 @@ const psychographic: ChoiceGroup = {
           fields: {
             values: "Kepedulian pada penampilan",
             interest: "Penampilan saat berolahraga",
-            opinions: "Belum disebut",
+            opinions: "Menganggap penampilan saat berolahraga ikut menaikkan rasa percaya diri",
             isi: "Audiens yang peduli pada penampilannya saat berolahraga.",
           },
           points: [
@@ -824,9 +824,9 @@ const psychographic: ChoiceGroup = {
           id: "psy3a",
           headline: "Semua orang ingin sehat",
           fields: {
-            values: "Tidak dipilah",
-            interest: "Tidak dipilah",
-            opinions: "Tidak dipilah",
+            values: "Ingin sehat sebagaimana orang pada umumnya",
+            interest: "Segala hal yang berkaitan dengan kesehatan",
+            opinions: "Menganggap keinginan semua orang pada dasarnya sama",
             isi: "Semua orang pasti ingin sehat, jadi tidak perlu dipilah.",
           },
           points: [
@@ -841,7 +841,7 @@ const psychographic: ChoiceGroup = {
           fields: {
             values: "Gemar berbelanja",
             interest: "Belanja apa saja",
-            opinions: "Tidak disebut",
+            opinions: "Menganggap berbelanja adalah hiburan tersendiri",
             isi: "Audiens yang gemar berbelanja apa saja.",
           },
           points: [
@@ -854,9 +854,9 @@ const psychographic: ChoiceGroup = {
           id: "psy3c",
           headline: "Tidak bisa ditebak",
           fields: {
-            values: "Berubah-ubah",
-            interest: "Tidak menentu",
-            opinions: "Tidak dapat ditebak",
+            values: "Berubah-ubah mengikuti suasana hati",
+            interest: "Berganti-ganti setiap beberapa bulan",
+            opinions: "Menganggap seleranya sendiri sulit ditebak",
             isi: "Gaya hidup audiens tidak bisa ditebak dan berubah-ubah.",
           },
           points: [
@@ -919,7 +919,7 @@ const profilAudiens: ChoiceGroup = {
           id: "pr1b",
           headline: "Dimas, Anggota Komunitas Lari",
           fields: {
-            avatar: "a2",
+            avatar: "a4",
             nama: "Dimas, Anggota Komunitas Lari",
             description:
               "Pekerja muda yang tergabung dalam komunitas lari kota dan berlatih bersama dua kali sepekan. Tujuan utamanya mendapatkan pakaian yang tidak menyerap keringat berlebihan saat berlari jarak menengah dan tetap pantas dipakai berkumpul setelah latihan. Karakternya sosial dan mudah merekomendasikan produk yang cocok ke sesama anggota.",
@@ -944,7 +944,7 @@ const profilAudiens: ChoiceGroup = {
           id: "pr1c",
           headline: "Sekar, Perempuan Urban Aktif",
           fields: {
-            avatar: "a3",
+            avatar: "a2",
             nama: "Sekar, Perempuan Urban Aktif",
             description:
               "Perempuan pekerja dengan jam kerja lentur yang memakai pakaian olahraga tidak hanya untuk berlatih tetapi juga untuk berkegiatan sehari-hari. Tujuan utamanya menemukan koleksi berpotongan rapi yang bisa dipadupadankan. Karakternya memperhatikan tampilan, aktif di Instagram, dan gemar menyimpan referensi gaya busana.",
@@ -969,7 +969,7 @@ const profilAudiens: ChoiceGroup = {
           id: "pr1d",
           headline: "Bagas, Pekerja Tahun Pertama",
           fields: {
-            avatar: "a4",
+            avatar: "a5",
             nama: "Bagas, Pekerja Tahun Pertama",
             description:
               "Pekerja tahun pertama yang baru mulai rutin berolahraga di pusat kebugaran dekat kantor. Tujuan utamanya mendapatkan pakaian olahraga layak dengan harga yang masih terjangkau penghasilannya. Karakternya cermat membandingkan harga, menunggu promo, dan mengandalkan ulasan pembeli sebelum memutuskan.",
@@ -994,7 +994,7 @@ const profilAudiens: ChoiceGroup = {
           id: "pr1e",
           headline: "Laras, Profesional Kota Besar",
           fields: {
-            avatar: "a5",
+            avatar: "a3",
             nama: "Laras, Profesional Kota Besar",
             description:
               "Profesional di kota besar yang berolahraga untuk melepas tekanan pekerjaan. Tujuan utamanya memiliki beberapa potong pakaian olahraga awet yang tidak perlu sering diganti. Karakternya menghargai kepraktisan, bersedia membayar lebih untuk bahan yang tahan lama, dan tidak tertarik mengikuti tren sesaat.",
@@ -1017,10 +1017,10 @@ const profilAudiens: ChoiceGroup = {
         },
         {
           id: "pr1f",
-          headline: "Nadia, Pencari Informasi Bahan",
+          headline: "Rizky, Pencari Informasi Bahan",
           fields: {
             avatar: "a6",
-            nama: "Nadia, Pencari Informasi Bahan",
+            nama: "Rizky, Pencari Informasi Bahan",
             description:
               "Pekerja muda yang selalu memeriksa komposisi bahan sebelum membeli dan gemar membandingkan spesifikasi antarbrand. Tujuan utamanya memastikan bahan yang dibeli benar-benar sesuai untuk cuaca panas dan latihan rutin. Karakternya teliti, banyak bertanya di kolom komentar, dan menyimpan konten sebagai rujukan.",
             age: "{{age}}",
@@ -1127,9 +1127,9 @@ const profilAudiens: ChoiceGroup = {
             gender: "Semua gender",
             education: "Semua jenjang",
             income: "Semua tingkat penghasilan",
-            values: "Tidak dipilah",
-            interest: "Apa saja",
-            opinions: "Tidak punya pendapat khusus",
+            values: "Ingin tampil pantas tanpa memikirkan mereknya",
+            interest: "Beragam, tidak terpusat pada olahraga",
+            opinions: "Menganggap semua pakaian olahraga pada dasarnya sama saja",
             channel: "Brosur dan spanduk di pinggir jalan.",
           },
           points: [
@@ -1145,14 +1145,14 @@ const profilAudiens: ChoiceGroup = {
             avatar: "a3",
             nama: "Pelanggan {{brand}}",
             description: "Orang-orang yang sudah pernah membeli produk {{brand}}.",
-            age: "Tidak disebut",
-            gender: "Tidak disebut",
-            education: "Tidak disebut",
-            income: "Tidak disebut",
-            values: "Tidak disebut",
-            interest: "Tidak disebut",
-            opinions: "Tidak disebut",
-            channel: "Panggilan telepon satu per satu.",
+            age: "Seluruh pembeli lama, tanpa rentang usia tertentu",
+            gender: "Laki-laki dan perempuan",
+            education: "Beragam, tidak dicatat saat pembelian",
+            income: "Beragam, mengikuti riwayat belanja masing-masing",
+            values: "Sudah telanjur percaya pada brand",
+            interest: "Promo khusus untuk pembeli lama",
+            opinions: "Menganggap pembeli baru tidak perlu dikejar lagi",
+            channel: "Panggilan telepon satu per satu ke nomor pembeli lama.",
           },
           points: [
             "Engagement Instagram {{brand}} masih rendah.",
@@ -1162,24 +1162,26 @@ const profilAudiens: ChoiceGroup = {
         },
         {
           id: "pr3c",
-          headline: "Belum Ditentukan",
+          headline: "Atlet Profesional Nasional",
           fields: {
             avatar: "a4",
-            nama: "Belum Ditentukan",
-            description: "Profil audiens belum bisa ditentukan karena datanya belum lengkap.",
-            age: "-",
-            gender: "-",
-            education: "-",
-            income: "-",
-            values: "-",
-            interest: "-",
-            opinions: "-",
-            channel: "Belum ditentukan.",
+            nama: "Atlet Profesional Nasional",
+            description:
+              "Atlet yang berlatih setiap hari di pemusatan latihan dan bertanding mewakili daerah atau negara. Tujuan utamanya memperoleh perlengkapan bertanding berstandar kompetisi. Karakternya menuntut spesifikasi teknis yang ketat dan terikat kontrak dengan penyedia perlengkapan resmi.",
+            age: "18-30 tahun",
+            gender: "Laki-laki dan perempuan",
+            education: "SMA sampai S1",
+            income: "Bergantung pada bonus dan kontrak sponsor",
+            values: "Prestasi dan hasil pertandingan di atas segalanya",
+            interest: "Program latihan, nutrisi kompetisi, dan perlengkapan bertanding",
+            opinions: "Menganggap pakaian olahraga harian tidak memadai untuk kompetisi",
+            channel: "Kerja sama langsung dengan pelatih dan pengurus cabang olahraga.",
           },
           points: [
-            "Audiens tidak punya uang untuk membeli produk.",
-            "Bertentangan dengan hasil segmentasi yang menetapkan audiens dengan daya beli memadai.",
-            "Instruksi memetakan hasil segmentasi menjadi profil audiens tidak dijalankan.",
+            "Jumlah atlet profesional terlalu sedikit untuk menopang penjualan brand.",
+            "Kebutuhan perlengkapan bertanding berbeda jauh dari koleksi harian {{brand}}.",
+            "Bertentangan dengan fokus {{brand}} pada gaya hidup aktif masyarakat urban.",
+            "Saluran yang dipilih tidak menjawab tantangan engagement Instagram pada studi kasus.",
           ],
         },
       ],
@@ -1340,17 +1342,17 @@ const kompetitorUtama: ChoiceGroup = {
           id: "kom2a",
           headline: "Brand olahraga lokal (tanpa menyebut nama)",
           fields: {
-            nama: "Salah satu brand olahraga lokal",
-            akun: "Belum dicatat",
+            nama: "Salah satu brand pakaian olahraga lokal",
+            akun: "Akun brand pakaian olahraga lokal di Instagram, nama akunnya tidak dicatat",
             kategori: "Brand pakaian olahraga lokal",
-            identitas: "Belum dicatat",
-            bio: "Belum dicatat",
-            highlight: "Belum dicatat",
-            grid: "Isi grid belum diamati secara rinci",
-            konten1: "Feed foto | Foto produk | Menampilkan produk | Belum dicatat",
-            konten2: "Reels | Video produk | Menampilkan produk bergerak | Belum dicatat",
-            konten3: "Feed foto | Foto model | Menampilkan model memakai produk | Belum dicatat",
-            konten4: "Feed foto | Foto promo | Menampilkan potongan harga | Belum dicatat",
+            identitas: "Logo bertuliskan nama brand dengan warna gelap dan foto profil polos",
+            bio: "Berisi nama brand dan satu tautan menuju toko daring",
+            highlight: "Katalog produk dan cara pemesanan",
+            grid: "Grid berisi campuran foto produk dan foto model, tampak cukup rapi tetapi warnanya belum seragam",
+            konten1: "Feed foto | Foto produk di atas latar polos | Menampilkan pilihan warna produk | Ajakan berbelanja di toko daring",
+            konten2: "Reels | Model memakai produk sambil berjalan | Produk nyaman dipakai bergerak | Ajakan melihat tautan di bio",
+            konten3: "Feed foto | Model memakai produk di luar ruang | Produk cocok untuk kegiatan harian | Ajakan menandai teman",
+            konten4: "Feed foto | Pengumuman potongan harga | Menonjolkan harga miring | Ajakan segera memesan",
           },
           points: [
             "Kategori kompetitor sudah tepat, yaitu brand pakaian olahraga lokal",
@@ -1453,24 +1455,24 @@ const kompetitorUtama: ChoiceGroup = {
         },
         {
           id: "kom3c",
-          headline: "Belum menentukan kompetitor",
+          headline: "Akun komunitas penggemar olahraga",
           fields: {
-            nama: "Belum ditentukan",
-            akun: "Belum ditentukan",
-            kategori: "Belum ditentukan",
-            identitas: "Belum ditentukan",
-            bio: "Belum ditentukan",
-            highlight: "Belum ditentukan",
-            grid: "Belum diamati",
-            konten1: "- | - | - | -",
-            konten2: "- | - | - | -",
-            konten3: "- | - | - | -",
-            konten4: "- | - | - | -",
+            nama: "Akun komunitas penggemar olahraga",
+            akun: "Akun komunitas penggemar, bukan akun brand penjual produk",
+            kategori: "Komunitas penggemar, tidak menjual produk apa pun",
+            identitas: "Foto profil berupa lambang komunitas dengan warna cerah",
+            bio: "Berisi nama komunitas, kota asal, dan jadwal kegiatan bersama",
+            highlight: "Dokumentasi kegiatan, daftar anggota, dan jadwal latihan",
+            grid: "Grid berisi foto kegiatan bersama dan potret anggota, warnanya beragam tanpa pola tetap",
+            konten1: "Feed foto | Dokumentasi lari bersama akhir pekan | Mengajak anggota baru bergabung | Ajakan mendaftar kegiatan berikutnya",
+            konten2: "Reels | Cuplikan kegiatan komunitas | Menunjukkan keseruan berlatih bersama | Ajakan menandai teman satu komunitas",
+            konten3: "Feed foto | Ucapan selamat kepada anggota | Mempererat hubungan antaranggota | Ajakan memberi ucapan di kolom komentar",
+            konten4: "Feed foto | Pengumuman jadwal latihan | Menyampaikan informasi internal | Ajakan menyimpan tanggalnya",
           },
           points: [
-            "Tidak ada kompetitor yang diidentifikasi",
-            "Tiga langkah riset kompetitor berikutnya menjadi tidak bisa dikerjakan",
-            "Instruksi ketiga pada daftar tugas tidak terpenuhi",
+            "Komunitas penggemar tidak menjual produk, jadi bukan kompetitor {{brand}}",
+            "Riset kompetitor mensyaratkan brand yang menjual produk atau layanan sejenis",
+            "Strategi kontennya tidak sebanding untuk dijadikan rujukan brand yang berjualan",
           ],
         },
       ],
