@@ -5,7 +5,8 @@ Peserta cukup memasukkan nama lengkap, lalu memilih jawaban dengan klik. Dokumen
 dapat diunduh sebagai **PDF** dan **DOCX** dengan nama file sesuai ketentuan.
 
 Seluruh data disimpan di **localStorage** peserta — tidak ada server, tidak ada pengiriman data ke mana pun.
-Progres tetap ada setelah halaman di-reload, dan tersedia tombol **Reset** untuk mulai dari awal.
+Nama dan pilihan tetap ada setelah halaman di-reload, dan tersedia tombol **Reset** untuk mulai dari awal
+serta tombol **Ubah nama** untuk memperbaiki salah ketik.
 
 ## Menjalankan
 
@@ -26,17 +27,19 @@ Setiap pertanyaan punya tiga kartu pilihan yang mewakili tiga tingkat kualitas:
 | `sebagian` | Setengah benar, ada bagian yang kurang |
 | `kurang` | Jauh dari yang diminta PDF |
 
-Tiap tingkat kualitas berisi **banyak varian** jawaban. Saat peserta pertama kali memasukkan namanya,
-sistem membuat satu *seed* acak yang disimpan di localStorage. Seed itu menentukan:
+Tiap tingkat kualitas berisi **banyak varian** jawaban. Setiap kali halaman dimuat, sistem membuat
+satu *seed* acak baru. Seed itu menentukan:
 
 1. varian mana yang muncul untuk setiap kartu,
 2. urutan tampil ketiga kartu,
 3. kalimat pembuka, pengantar tiap bagian, dan penutup dokumen.
 
+Seed **tidak disimpan**, jadi setiap orang yang membuka halaman ini mendapat isi jawaban yang berbeda,
+dan membuka ulang halaman pun menghasilkan susunan baru. Yang disimpan di localStorage hanya nama dan
+pilihan peserta, sehingga progres tidak hilang saat halaman dimuat ulang meski kalimatnya berganti.
+
 Hasilnya, dua peserta yang sama-sama memilih semua jawaban `tepat` tetap menghasilkan dokumen yang berbeda isinya.
 Untuk TPM 1 tersedia lebih dari 900.000 kombinasi dokumen "semua benar".
-
-Peserta juga bisa menekan **Acak ulang isi** bila ingin kalimat yang berbeda tanpa kehilangan pilihannya.
 
 Tingkat kualitas **tidak pernah ditampilkan kepada peserta**. Ketiga kartu tampil sama saja,
 tanpa penanda mana yang benar, sehingga pemilihannya tetap menjadi latihan.

@@ -9,13 +9,13 @@ import type { Grade } from "@/tasks/types";
 import { allGroups, buildContext, progressOf } from "@/lib/resolve";
 import { kodeNilai } from "@/lib/scoring";
 import { createSeed } from "@/lib/rng";
-import { EMPTY_STATE, loadState, saveState, clearState, type PesertaState } from "@/lib/storage";
+import { EMPTY_TERSIMPAN, loadState, saveState, clearState, type PesertaState } from "@/lib/storage";
 import { safeFileName } from "@/lib/download";
 
 export default function TaskRunner({ taskId }: { taskId: string }) {
   const task = getTask(taskId)!;
 
-  const [state, setState] = useState<PesertaState>(EMPTY_STATE);
+  const [state, setState] = useState<PesertaState>({ ...EMPTY_TERSIMPAN, seed: 0 });
   const [hydrated, setHydrated] = useState(false);
   const [namaInput, setNamaInput] = useState("");
   const [busy, setBusy] = useState<null | "pdf" | "docx">(null);
@@ -25,8 +25,11 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
 
   /* ---------- muat & simpan localStorage ---------- */
   useEffect(() => {
+    // Nama dan pilihan diambil dari localStorage, tetapi seed selalu dibuat baru.
+    // Akibatnya setiap orang yang membuka halaman ini mendapat varian jawaban
+    // yang berbeda, dan halaman yang dimuat ulang pun menghasilkan isi baru.
     const loaded = loadState();
-    setState(loaded);
+    setState({ ...loaded, seed: createSeed() });
     setNamaInput(loaded.nama);
     setHydrated(true);
   }, []);
@@ -61,11 +64,7 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
       e.preventDefault();
       const nama = namaInput.trim().replace(/\s+/g, " ");
       if (nama.length < 3) return;
-      setState((prev) => ({
-        ...prev,
-        nama,
-        seed: prev.seed || createSeed(nama),
-      }));
+      setState((prev) => ({ ...prev, nama }));
     },
     [namaInput]
   );
@@ -101,14 +100,9 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
     [taskId]
   );
 
-  const acakUlang = useCallback(() => {
-    setState((prev) => ({ ...prev, seed: createSeed(prev.nama || "peserta") }));
-    setPesan("Isi jawaban diacak ulang. Pilihanmu tetap, tetapi kalimatnya berganti.");
-  }, []);
-
   const reset = useCallback(() => {
     clearState();
-    setState(EMPTY_STATE);
+    setState({ ...EMPTY_TERSIMPAN, seed: createSeed() });
     setNamaInput("");
     setKonfirmasiReset(false);
     setUbahNama(false);
@@ -329,14 +323,6 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
                   >
                     Ubah nama
                   </button>
-                  <button
-                    type="button"
-                    onClick={acakUlang}
-                    title="Ganti pilihan kata jawaban tanpa menghapus progres"
-                    className="rounded-lg border border-line px-3 py-2 text-[0.8rem] font-semibold text-ink transition hover:border-brand hover:text-brand"
-                  >
-                    Acak ulang isi
-                  </button>
                 </div>
               )}
             </div>
@@ -395,6 +381,10 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
                   mengunduh dokumen.
                 </p>
               )}
+              <p className="mt-2.5 border-t border-line pt-2.5 text-[0.78rem] text-ink-soft">
+                Pilihan jawaban disusun ulang setiap kali halaman dibuka, sehingga isi dokumen
+                setiap peserta berbeda. Pilihan yang sudah kamu tentukan tetap tersimpan.
+              </p>
             </section>
 
             {/* Pratinjau dokumen */}

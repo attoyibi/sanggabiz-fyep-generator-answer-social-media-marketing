@@ -1,6 +1,7 @@
 /**
- * PRNG deterministik. Seed disimpan di localStorage sehingga varian jawaban
- * seorang peserta tetap sama saat halaman di-reload, tapi berbeda antar peserta.
+ * PRNG deterministik. Seed dibuat ulang setiap halaman dimuat, lalu dipakai
+ * konsisten selama halaman terbuka: varian jawaban dan urutan kartu stabil saat
+ * peserta mengerjakan, tetapi berbeda bagi setiap orang yang membuka halaman.
  */
 
 export function hashString(str: string): number {
@@ -23,13 +24,20 @@ export function mulberry32(seed: number): () => number {
   };
 }
 
-/** Seed baru yang benar-benar acak (dipakai saat peserta pertama kali mengisi nama). */
-export function createSeed(nama: string): number {
+/**
+ * Seed acak baru. Dipanggil sekali setiap halaman dimuat, sehingga dua orang
+ * yang membuka halaman ini — bahkan orang yang sama membukanya dua kali —
+ * mendapat varian jawaban yang berbeda.
+ *
+ * Sengaja tidak diturunkan dari nama peserta: dua peserta bernama sama pun
+ * harus tetap memperoleh isi jawaban yang berbeda.
+ */
+export function createSeed(): number {
   const entropy =
     typeof crypto !== "undefined" && "getRandomValues" in crypto
       ? crypto.getRandomValues(new Uint32Array(1))[0]
       : Math.floor(Math.random() * 0xffffffff);
-  return (hashString(nama) ^ entropy ^ Date.now()) >>> 0;
+  return (entropy ^ Math.imul(Date.now() >>> 0, 2654435761)) >>> 0;
 }
 
 /**
