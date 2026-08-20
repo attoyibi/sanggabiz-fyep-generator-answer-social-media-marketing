@@ -1,4 +1,4 @@
-import type { BuildContext, DocBlock, Rich, TaskDefinition } from "../types";
+import { KODE_KELAS, type BuildContext, type DocBlock, type Rich, type TaskDefinition } from "../types";
 import { tpm1Groups } from "./bank";
 
 const BRAND = "FitActive";
@@ -101,11 +101,11 @@ const tpm1: TaskDefinition = {
     "Lakukan riset konten kompetitor memakai 4 langkah: identifikasi kompetitor utama, analisis konten kompetitor, identifikasi kekuatan dan kelemahan, serta temukan peluang dan inspirasi.",
   ],
   submission: {
-    fileNamePattern: "TPM 1 - [Nama Lengkap Peserta]",
-    fileName: (nama) => `TPM 1 - ${nama}`,
+    fileNamePattern: `${KODE_KELAS}-tpm1-[Nama Lengkap Peserta]`,
+    fileName: (nama) => `${KODE_KELAS}-tpm1-${nama}`,
     notes: [
       "Kirimkan file dalam bentuk PDF yang berisi hasil riset target audiens dan riset konten kompetitor.",
-      "Nama file ditulis dengan format TPM 1 - [Nama Lengkap Peserta]. Contoh: TPM 1 - Putri Amalia.pdf",
+      `Nama file ditulis dengan format ${KODE_KELAS}-tpm1-[Nama Lengkap Peserta]. Contoh: ${KODE_KELAS}-tpm1-Putri Amalia.pdf`,
       "Cek kembali kelengkapan dan kesesuaian jawaban sebelum dikirimkan.",
     ],
   },

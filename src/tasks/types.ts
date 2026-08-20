@@ -4,6 +4,13 @@
  * lalu mendaftarkannya di src/tasks/registry.ts. Tidak ada file lain yang perlu disentuh.
  */
 
+/**
+ * Kode kelas untuk nama berkas unduhan. Repo ini dipakai program
+ * Social Media Marketing, jadi nama berkasnya berpola
+ * "SMM-tpm1-[Nama Lengkap Peserta]".
+ */
+export const KODE_KELAS = "SMM";
+
 /** Kualitas jawaban. Peserta tidak melihat label ini saat memilih. */
 export type Grade = "tepat" | "sebagian" | "kurang";
 
@@ -90,7 +97,7 @@ export interface TaskMeta {
 }
 
 export interface Submission {
-  /** Pola nama file sesuai PDF, mis. "TPM 1 - [Nama Lengkap Peserta]". */
+  /** Pola nama file, mis. "SMM-tpm1-[Nama Lengkap Peserta]". */
   fileNamePattern: string;
   /** Fungsi nama file final tanpa ekstensi. */
   fileName: (nama: string) => string;
