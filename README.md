@@ -39,7 +39,7 @@ dan membuka ulang halaman pun menghasilkan susunan baru. Yang disimpan di localS
 pilihan peserta, sehingga progres tidak hilang saat halaman dimuat ulang meski kalimatnya berganti.
 
 Hasilnya, dua peserta yang sama-sama memilih semua jawaban `tepat` tetap menghasilkan dokumen yang berbeda isinya.
-Untuk TPM 1 tersedia lebih dari 183 miliar kombinasi dokumen "semua benar".
+Untuk TPM 1 tersedia lebih dari 6 miliar kombinasi dokumen "semua benar".
 
 Tingkat kualitas **tidak pernah ditampilkan kepada peserta**. Ketiga kartu tampil sama saja,
 tanpa penanda mana yang benar, sehingga pemilihannya tetap menjadi latihan.
@@ -54,8 +54,8 @@ Setiap dokumen hasil unduhan memuat kode kecil di kaki halaman, contohnya `fyep-
 
 Nilai dihitung dari pilihan peserta: jawaban `tepat` bernilai 100, `sebagian` bernilai 50,
 `kurang` bernilai 0, lalu dirata-rata dari seluruh pertanyaan dan dibulatkan.
-Untuk TPM 1 yang punya 16 pertanyaan, semua benar menghasilkan `fyep-100`,
-satu jawaban salah menjadi `fyep-94`, dan seterusnya.
+Untuk TPM 1 yang punya 14 pertanyaan, semua benar menghasilkan `fyep-100`,
+satu jawaban salah menjadi `fyep-93`, dan seterusnya.
 
 Kode dicetak dengan ukuran 5,5pt berwarna abu sangat muda di pojok kanan bawah setiap halaman:
 terbaca bila dicari, tetapi tidak mencolok. Kode yang sama juga disalin ke metadata berkas
@@ -87,7 +87,7 @@ src/
     types.ts        Tipe inti seluruh tugas
     registry.ts     Daftar tugas + jumlah slot navbar
     tpm-1/
-      bank.ts       Bank jawaban (16 grup, semua varian per tingkat kualitas)
+      bank.ts       Bank jawaban (14 grup, semua varian per tingkat kualitas)
       index.ts      Studi kasus, instruksi, langkah, dan penyusun dokumen
   lib/
     rng.ts          Pengacak deterministik berbasis seed
@@ -96,7 +96,7 @@ src/
     template.ts     Pengganti token {{brand}}, {{nama}}, {{kompetitor}}, dst.
     export/pdf.ts   Penulis PDF (jsPDF)
     export/docx.ts  Penulis DOCX (docx)
-    export/assets.ts   Logo Plan dan ilustrasi audiens (base64, khusus ekspor)
+    export/assets.ts   Logo Plan dan potret audiens (base64, khusus ekspor)
     export/poppins.ts  Font Poppins subset Latin (base64, khusus PDF)
   components/       Navbar, kartu pilihan, pratinjau dokumen, halaman tugas
 ```
@@ -152,6 +152,7 @@ Dokumen hasil unduhan dibuat semirip mungkin dengan template Plan International:
 | Hijau / salem / langit | `#D6D839`, `#F47A68`, `#58CAE8` — tiga blok pada kartu profil |
 | Abu | `#999999` — baris nama peserta |
 | Logo | Logo Plan International asli dari template, di pojok kanan atas tiap halaman |
+| Potret audiens | Foto dari Unsplash, lisensinya bebas dipakai tanpa atribusi |
 
 Susunan dokumen mengikuti urutan template: judul rata tengah dengan kata *Brand* dicetak miring,
 label bagian di atas blok kuning, lalu tabel bergaris biru. Halaman pertama memuat Segmentasi
@@ -176,15 +177,33 @@ selain nama. Baris gambar diganti catatan pengamatan berbentuk teks pada posisi 
 
 Kolom pengamatan mengalir antarhalaman bila isinya panjang, jadi tidak ada teks yang terpotong.
 
-### Profil audiens dipilih sebagai satu kartu utuh
+### Pertanyaan mengikuti unit visual pada template
 
-Template menampilkan profil audiens sebagai satu kartu, jadi peserta memilih **satu kartu profil
-lengkap** — ilustrasi, description, key demographic, key psychographic, customer pain points, dan
-key communication channel sekaligus — bukan lima pertanyaan terpisah. Tersedia enam varian profil
-dengan ilustrasi berbeda; varian warna avatar dibuat dari ilustrasi asli template.
+Setiap bagian yang di template tampil sebagai **satu unit visual** dijadikan **satu pilihan**,
+bukan beberapa pertanyaan terpisah:
 
-Karena penggabungan mengurangi jumlah kombinasi, jumlah varian pada grup ini sengaja dibuat lebih
+| Bagian template | Jumlah pertanyaan |
+| --- | --- |
+| Segmentasi Audiens (tabel 5 baris) | 5 |
+| Profil Audiens (satu kartu) | 1 |
+| Langkah 1: identifikasi kompetitor | 1 |
+| Langkah 2: analisis konten (5 elemen) | 5 |
+| Langkah 3: kekuatan + kelemahan (satu tabel) | 1 |
+| Langkah 4: peluang + inspirasi (satu tabel) | 1 |
+
+Totalnya 14 pertanyaan. Kartu Profil Audiens memuat potret, description, key demographic, key
+psychographic, customer pain points, dan key communication channel sekaligus. Kartu Langkah 3 dan
+4 memuat dua blok berlabel dalam satu kartu.
+
+Penggabungan mengurangi jumlah kombinasi, jadi jumlah varian pada grup gabungan dibuat lebih
 banyak. Uji `cek-variasi 500` tetap menghasilkan 100% dokumen unik.
+
+### Potret audiens
+
+Enam potret pada kartu profil diunduh dari **Unsplash**, yang lisensinya membebaskan pemakaian
+termasuk untuk keperluan komersial tanpa kewajiban atribusi. Fotonya dipotong persegi pada wajah,
+diperkecil ke 320px, dan disimpan sebagai JPEG di `public/plan/foto-a1.jpg` sampai `foto-a6.jpg`.
+Ganti berkas itu bila ingin memakai foto sendiri; nama berkasnya yang dipakai kode, bukan isinya.
 
 ### Konsistensi profil audiens dengan segmentasi
 

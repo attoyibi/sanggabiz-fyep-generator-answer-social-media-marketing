@@ -31,6 +31,11 @@ function f(ctx: BuildContext, groupId: string, key: string, fallback = "-"): str
   return value ? ctx.fill(value) : fallback;
 }
 
+/** Isi salah satu blok pada grup gabungan (kartu "dual"). */
+function blokGanda(ctx: BuildContext, groupId: string, kunci: "a" | "b"): string {
+  return f(ctx, groupId, kunci, "Belum dijawab");
+}
+
 /** Ringkasan satu jawaban untuk sel tabel: headline diikuti poin-poinnya. */
 function ringkas(ctx: BuildContext, groupId: string): string {
   const a = ctx.answers[groupId];
@@ -55,13 +60,9 @@ function barisPengamatan(ctx: BuildContext): string[] {
       const [format, tema, pesan, cta] = v.split("|").map((x) => x.trim());
       return `${i + 1}. ${format ?? "-"} — ${tema ?? "-"}\n     Pesan: ${pesan ?? "-"}\n     CTA: ${cta ?? "-"}`;
     });
-  return [
-    `Akun: ${f(ctx, "kompetitor", "akun")}`,
-    "",
-    ...baris,
-    "",
-    "Dicatat dalam bentuk uraian hasil pengamatan.",
-  ];
+  // Kepala kolomnya sudah berbunyi "Pengamatan", jadi tidak perlu keterangan
+  // penutup yang berulang di tiap tabel.
+  return [`Akun: ${f(ctx, "kompetitor", "akun")}`, "", ...baris];
 }
 
 /* ------------------------------------------------------------------ */
@@ -161,10 +162,10 @@ const tpm1: TaskDefinition = {
       number: 4,
       title: "Riset Kompetitor: Kekuatan, Kelemahan, dan Peluang",
       brief: [
-        "Langkah 3: identifikasi kekuatan dan kelemahan kompetitor.",
+        "Langkah 3: identifikasi kekuatan dan kelemahan kompetitor dalam satu kartu.",
         "Langkah 4: temukan peluang dan ancaman yang bisa menjadi inspirasi bagi FitActive.",
       ],
-      groups: tpm1Groups.slice(12, 16),
+      groups: tpm1Groups.slice(12, 14),
     },
   ],
 
@@ -274,8 +275,8 @@ const tpm1: TaskDefinition = {
       type: "analysis",
       observation: pengamatan,
       rows: [
-        { label: "Kekuatan", value: ringkas(ctx, "kekuatan") },
-        { label: "Kelemahan", value: ringkas(ctx, "kelemahan") },
+        { label: "Kekuatan", value: blokGanda(ctx, "kuatlemah", "a") },
+        { label: "Kelemahan", value: blokGanda(ctx, "kuatlemah", "b") },
       ],
     });
 
@@ -284,8 +285,8 @@ const tpm1: TaskDefinition = {
       type: "analysis",
       observation: pengamatan,
       rows: [
-        { label: "Peluang", value: ringkas(ctx, "peluang") },
-        { label: "Ancaman menjadi Inspirasi", value: ringkas(ctx, "inspirasi") },
+        { label: "Peluang", value: blokGanda(ctx, "peluanginspirasi", "a") },
+        { label: "Ancaman menjadi Inspirasi", value: blokGanda(ctx, "peluanginspirasi", "b") },
       ],
     });
 

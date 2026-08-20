@@ -1,6 +1,6 @@
 import type { DocBlock, Rich, RichSpan } from "@/tasks/types";
 import { downloadBlob, safeFileName } from "../download";
-import { AVATAR_PNG, LOGO_PLAN_PNG } from "./assets";
+import { FOTO_JPEG, LOGO_PLAN_PNG } from "./assets";
 
 /* ------------------------------------------------------------------ */
 /* Geometri halaman — mengikuti template resmi: A4 lanskap, margin 1"   */
@@ -303,9 +303,9 @@ export async function exportPdf(
 
     // Kolom kiri: ilustrasi audiens + saluran komunikasi utama.
     kotak(x0, atas, w0, total);
-    const gambar = AVATAR_PNG[b.avatar] ?? AVATAR_PNG.a1;
+    const foto = FOTO_JPEG[b.avatar] ?? FOTO_JPEG.a1;
     const gW = Math.min(w0 - 16, 32);
-    doc.addImage(gambar, "PNG", x0 + (w0 - gW) / 2, atas + 5, gW, gW);
+    doc.addImage(foto, "JPEG", x0 + (w0 - gW) / 2, atas + 5, gW, gW);
     let yCh = atas + 5 + gW + 6;
     set(sLabel, true, true, HITAM);
     for (const baris of pecah("Key Communication Channel:", sLabel, w0 - PAD * 2 - 2, true, true)) {
@@ -443,6 +443,20 @@ export async function exportPdf(
         potong.push(ukur[i]);
         tinggiTotal = ukur[i].tinggi;
         i++;
+      }
+
+      // Pada potongan terakhir, catatan pengamatan yang masih tersisa bisa lebih
+      // tinggi daripada kumpulan barisnya. Baris terakhir dipanjangkan supaya
+      // catatan itu muat utuh dan tabel tetap rata di bawah.
+      if (i >= ukur.length) {
+        const sisa = (barisPengamatan.length - oi) * lh(sIsi) + PAD * 2;
+        const kurang = sisa - tinggiTotal;
+        const ruang = PAGE_H - MARGIN - y - tinggiTotal;
+        if (kurang > 0) {
+          const tambah = Math.min(kurang, Math.max(ruang, 0));
+          potong[potong.length - 1].tinggi += tambah;
+          tinggiTotal += tambah;
+        }
       }
 
       // Kolom pengamatan menyatu untuk seluruh baris di halaman ini.

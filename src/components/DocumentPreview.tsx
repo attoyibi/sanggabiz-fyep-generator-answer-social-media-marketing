@@ -103,9 +103,9 @@ function Block({ block }: { block: DocBlock }) {
                 <td rowSpan={5} className="w-[26%] p-3 align-top text-center" style={{ border: garis }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={`/plan/av-${block.avatar}.png`}
-                    alt="Ilustrasi target audiens"
-                    className="mx-auto h-24 w-24"
+                    src={`/plan/foto-${block.avatar}.jpg`}
+                    alt="Potret target audiens"
+                    className="mx-auto h-24 w-24 object-cover"
                   />
                   <p className="mt-3 text-left text-[0.82rem] font-bold italic">
                     Key Communication Channel:

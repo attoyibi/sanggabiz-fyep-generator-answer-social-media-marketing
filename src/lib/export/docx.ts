@@ -1,6 +1,6 @@
 import type { DocBlock, Rich, RichSpan } from "@/tasks/types";
 import { downloadBlob, safeFileName } from "../download";
-import { AVATAR_PNG, LOGO_PLAN_PNG } from "./assets";
+import { FOTO_JPEG, LOGO_PLAN_PNG } from "./assets";
 
 /* Warna template resmi. */
 const BIRU = "0072CE";
@@ -217,15 +217,15 @@ export async function exportDocx(
         const w0 = Math.round(ISI_W * 0.2583);
         const w1 = Math.round(ISI_W * 0.2208);
         const w2 = ISI_W - w0 - w1;
-        const gambar = AVATAR_PNG[block.avatar] ?? AVATAR_PNG.a1;
+        const foto = FOTO_JPEG[block.avatar] ?? FOTO_JPEG.a1;
 
         const kolomKiri = [
           new Paragraph({
             alignment: AlignmentType.CENTER,
             children: [
               new ImageRun({
-                type: "png",
-                data: base64ToBytes(gambar),
+                type: "jpg",
+                data: base64ToBytes(foto),
                 transformation: { width: 120, height: 120 },
               }),
             ],

@@ -60,10 +60,16 @@ export interface ChoiceGroup {
   hint?: string;
   /**
    * Bentuk kartu pilihan. Kosongkan untuk kartu biasa (judul + poin).
-   * "profile" menampilkan kartu Audience Profile lengkap dengan ilustrasi,
+   *
+   * "profile" menampilkan kartu Audience Profile lengkap dengan potret audiens,
    * supaya peserta memilih satu profil utuh, bukan lima bagian terpisah.
+   *
+   * "dual" menampilkan dua blok berlabel dalam satu kartu, untuk tabel template
+   * yang memang berisi dua baris sekaligus seperti Kekuatan/Kelemahan.
    */
-  card?: "profile";
+  card?: "profile" | "dual";
+  /** Label kedua blok pada kartu "dual", mis. ["Kekuatan", "Kelemahan"]. */
+  dualLabels?: [string, string];
   options: ChoiceOption[];
 }
 

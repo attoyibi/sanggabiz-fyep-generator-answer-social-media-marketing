@@ -82,6 +82,12 @@ export default function ChoiceGroupCard({
               >
                 {group.card === "profile" ? (
                   <KartuProfil variant={variant} fill={fill} />
+                ) : group.card === "dual" ? (
+                  <KartuGanda
+                    variant={variant}
+                    labels={group.dualLabels ?? ["Bagian 1", "Bagian 2"]}
+                    fill={fill}
+                  />
                 ) : (
                   <>
                     <span className="block text-[0.9rem] font-semibold leading-snug">
@@ -136,9 +142,9 @@ function KartuProfil({ variant, fill }: { variant: Variant; fill: (t: string) =>
       <div className="text-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={`/plan/av-${f("avatar", "a1")}.png`}
+          src={`/plan/foto-${f("avatar", "a1")}.jpg`}
           alt=""
-          className="mx-auto h-16 w-16 sm:h-20 sm:w-20"
+          className="mx-auto h-16 w-16 rounded object-cover sm:h-20 sm:w-20"
         />
       </div>
 
@@ -196,6 +202,51 @@ function KartuProfil({ variant, fill }: { variant: Variant; fill: (t: string) =>
           {f("channel")}
         </p>
       </div>
+    </div>
+  );
+}
+
+/**
+ * Kartu dengan dua blok berlabel, untuk tabel template yang memang berisi dua
+ * baris sekaligus (Kekuatan/Kelemahan dan Peluang/Inspirasi). Isinya diambil
+ * dari field "a" dan "b"; baris pertama tiap blok adalah judulnya.
+ */
+function KartuGanda({
+  variant,
+  labels,
+  fill,
+}: {
+  variant: Variant;
+  labels: [string, string];
+  fill: (t: string) => string;
+}) {
+  const blok = (kunci: "a" | "b", label: string) => {
+    const isi = fill(variant.fields?.[kunci] ?? "");
+    const [judul, ...poin] = isi.split("\n");
+    return (
+      <div key={kunci} className="min-w-0">
+        <span
+          className="mb-1 inline-block rounded px-1.5 py-0.5 text-[0.7rem] font-bold uppercase tracking-wide text-white"
+          style={{ background: BIRU }}
+        >
+          {label}
+        </span>
+        <p className="text-[0.85rem] font-semibold leading-snug">{judul}</p>
+        <ul className="mt-1 space-y-0.5">
+          {poin.map((t, i) => (
+            <li key={i} className="text-[0.76rem] leading-relaxed text-ink-soft">
+              {t}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
+  return (
+    <div className="grid gap-3 sm:grid-cols-2">
+      {blok("a", labels[0])}
+      {blok("b", labels[1])}
     </div>
   );
 }

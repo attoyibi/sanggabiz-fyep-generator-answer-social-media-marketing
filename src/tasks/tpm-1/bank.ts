@@ -2126,63 +2126,75 @@ const engagementGroup: ChoiceGroup = {
 /* 3.3 Identifikasi kekuatan dan kelemahan kompetitor                  */
 /* ================================================================== */
 
-const kekuatanGroup: ChoiceGroup = {
-  id: "kekuatan",
-  label: "Kekuatan",
-  question: "Langkah 3 — Kekuatan konten {{kompetitor}}",
-  hint: "Kekuatan adalah hal yang sudah dikerjakan kompetitor dengan baik dan berdampak pada audiens.",
+const kekuatanKelemahan: ChoiceGroup = {
+  id: "kuatlemah",
+  label: "Kekuatan & Kelemahan",
+  question: "Langkah 3 — kekuatan dan kelemahan konten {{kompetitor}}",
+  hint: "Satu kartu berisi kekuatan sekaligus kelemahan, sesuai bentuk tabelnya pada template.",
+  card: "dual",
+  dualLabels: ["Kekuatan", "Kelemahan"],
   options: [
     {
       grade: "tepat",
       variants: [
         {
-          id: "kek1a",
+          id: "kk1a",
           headline: "Identitas visual konsisten dan mudah dikenali",
+          fields: {
+            a: "Identitas visual konsisten dan mudah dikenali\n• Gaya visual yang seragam membuat unggahan mereka langsung dikenali meski muncul di beranda tanpa nama akun.\n• Jadwal unggah teratur sehingga akun selalu hadir di beranda pengikutnya.\n• Konten edukasi dan konten jualan diselang-seling, sehingga akun tidak terasa berjualan terus-menerus.\n• Panduan ukuran yang lengkap mengurangi keraguan calon pembeli sebelum bertransaksi.",
+            b: "Terlalu banyak konten jualan, sedikit konten edukasi\n• Sebagian besar unggahan berisi penawaran produk sehingga audiens jenuh dan interaksinya menurun.\n• Pertanyaan dasar audiens seperti cara memilih ukuran jarang dijawab lewat konten.\n• Nada bicara terasa satu arah, lebih banyak mengumumkan daripada mengajak berbicara.\n• Celah ini bisa diisi {{brand}} dengan konten yang menjawab keraguan audiens sebelum membeli.",
+          },
           points: [
-            "Gaya visual yang seragam membuat unggahan mereka langsung dikenali meski muncul di beranda tanpa nama akun.",
-            "Jadwal unggah teratur sehingga akun selalu hadir di beranda pengikutnya.",
-            "Konten edukasi dan konten jualan diselang-seling, sehingga akun tidak terasa berjualan terus-menerus.",
-            "Panduan ukuran yang lengkap mengurangi keraguan calon pembeli sebelum bertransaksi.",
+            "Kekuatan: Identitas visual konsisten dan mudah dikenali",
+            "Kelemahan: Terlalu banyak konten jualan, sedikit konten edukasi",
           ],
         },
         {
-          id: "kek1b",
+          id: "kk1b",
           headline: "Dekat dengan komunitas dan pemakai nyata",
+          fields: {
+            a: "Dekat dengan komunitas dan pemakai nyata\n• Rutin mengunggah ulang foto pembeli sehingga audiens merasa dilibatkan, bukan sekadar ditawari produk.\n• Aktif membalas komentar dan pertanyaan sehingga kolom komentar terasa hidup.\n• Kegiatan komunitas menghasilkan bahan konten tanpa biaya produksi besar.\n• Rekomendasi antaraudiens berjalan sendiri karena pemakainya merasa menjadi bagian dari brand.",
+            b: "Kolom komentar jarang dibalas\n• Banyak pertanyaan audiens di kolom komentar dibiarkan tanpa jawaban.\n• Audiens yang tidak terjawab berpindah mencari informasi ke akun lain.\n• Interaksi berhenti di satu putaran karena percakapan tidak dilanjutkan brand.\n• Celah ini bisa diisi {{brand}} dengan membalas komentar secara cepat dan ramah.",
+          },
           points: [
-            "Rutin mengunggah ulang foto pembeli sehingga audiens merasa dilibatkan, bukan sekadar ditawari produk.",
-            "Aktif membalas komentar dan pertanyaan sehingga kolom komentar terasa hidup.",
-            "Kegiatan komunitas menghasilkan bahan konten tanpa biaya produksi besar.",
-            "Rekomendasi antaraudiens berjalan sendiri karena pemakainya merasa menjadi bagian dari brand.",
+            "Kekuatan: Dekat dengan komunitas dan pemakai nyata",
+            "Kelemahan: Kolom komentar jarang dibalas",
           ],
         },
         {
-          id: "kek1c",
+          id: "kk1c",
           headline: "Penjelasan produk terbuka dan mudah dipahami",
+          fields: {
+            a: "Penjelasan produk terbuka dan mudah dipahami\n• Jenis bahan dan cara perawatan dijelaskan dengan bahasa sederhana, bukan istilah teknis yang membingungkan.\n• Setiap klaim produk disertai penjelasan pendukung sehingga terasa dapat dipercaya.\n• Konten panduan banyak disimpan audiens, sehingga jangkauannya bertahan lama.\n• Keterbukaan ini menekan jumlah pertanyaan berulang dan mempercepat keputusan membeli.",
+            b: "Konten terasa jauh dari keseharian audiens\n• Foto kampanye bergaya profesional mendominasi, sementara contoh pemakaian sehari-hari jarang muncul.\n• Model yang ditampilkan cenderung seragam sehingga audiens sulit membayangkan produk di tubuhnya sendiri.\n• Situasi yang ditampilkan lebih mirip pemotretan daripada kegiatan olahraga sungguhan.\n• Celah ini bisa diisi {{brand}} dengan menampilkan pemakai nyata dengan beragam bentuk tubuh.",
+          },
           points: [
-            "Jenis bahan dan cara perawatan dijelaskan dengan bahasa sederhana, bukan istilah teknis yang membingungkan.",
-            "Setiap klaim produk disertai penjelasan pendukung sehingga terasa dapat dipercaya.",
-            "Konten panduan banyak disimpan audiens, sehingga jangkauannya bertahan lama.",
-            "Keterbukaan ini menekan jumlah pertanyaan berulang dan mempercepat keputusan membeli.",
+            "Kekuatan: Penjelasan produk terbuka dan mudah dipahami",
+            "Kelemahan: Konten terasa jauh dari keseharian audiens",
           ],
         },
         {
-          id: "kek1d",
+          id: "kk1d",
           headline: "Format video pendek digarap dengan matang",
+          fields: {
+            a: "Format video pendek digarap dengan matang\n• Tiga detik pertama selalu langsung menampilkan produk atau gerakan sehingga penonton tidak cepat menggeser.\n• Durasi video dijaga tetap pendek sehingga banyak yang menonton sampai selesai.\n• Sampul video dibuat seragam sehingga grid tetap rapi meski isinya video.\n• Video yang sama dipakai ulang di kanal lain sehingga biaya produksi lebih hemat.",
+            b: "Penjelasan bahan dan ukuran kurang lengkap\n• Klaim bahan disebut dengan istilah teknis tanpa penjelasan yang mudah dipahami audiens awam.\n• Panduan ukuran sulit ditemukan karena tidak disimpan di sorotan akun.\n• Pertanyaan tentang ukuran berulang terus di kolom komentar tiap unggahan produk.\n• Celah ini bisa diisi {{brand}} dengan panduan ukuran tetap yang mudah diakses.",
+          },
           points: [
-            "Tiga detik pertama selalu langsung menampilkan produk atau gerakan sehingga penonton tidak cepat menggeser.",
-            "Durasi video dijaga tetap pendek sehingga banyak yang menonton sampai selesai.",
-            "Sampul video dibuat seragam sehingga grid tetap rapi meski isinya video.",
-            "Video yang sama dipakai ulang di kanal lain sehingga biaya produksi lebih hemat.",
+            "Kekuatan: Format video pendek digarap dengan matang",
+            "Kelemahan: Penjelasan bahan dan ukuran kurang lengkap",
           ],
         },
         {
-          id: "kek1e",
+          id: "kk1e",
           headline: "Penawaran dikemas rapi tanpa merusak citra brand",
+          fields: {
+            a: "Penawaran dikemas rapi tanpa merusak citra brand\n• Promo disampaikan dengan tenggat waktu yang jelas sehingga mendorong keputusan cepat.\n• Unggahan promo tidak mendominasi grid, sehingga citra brand tidak turun menjadi sekadar toko diskon.\n• Paket pembelian beberapa potong menaikkan nilai belanja tanpa memangkas harga satuan terlalu dalam.\n• Alur dari konten menuju pembelian pendek karena tautan selalu tersedia dan mudah ditemukan.",
+            b: "Jadwal unggah tidak teratur dan format kurang beragam\n• Jeda antarunggahan kadang panjang sehingga akun hilang dari beranda pengikutnya.\n• Format yang dipakai berulang pada bentuk yang sama sehingga terasa monoton.\n• Fitur Story dan sorotan kurang dimanfaatkan untuk menjaga interaksi harian.\n• Celah ini bisa diisi {{brand}} dengan jadwal tetap dan variasi format yang terencana.",
+          },
           points: [
-            "Promo disampaikan dengan tenggat waktu yang jelas sehingga mendorong keputusan cepat.",
-            "Unggahan promo tidak mendominasi grid, sehingga citra brand tidak turun menjadi sekadar toko diskon.",
-            "Paket pembelian beberapa potong menaikkan nilai belanja tanpa memangkas harga satuan terlalu dalam.",
-            "Alur dari konten menuju pembelian pendek karena tautan selalu tersedia dan mudah ditemukan.",
+            "Kekuatan: Penawaran dikemas rapi tanpa merusak citra brand",
+            "Kelemahan: Jadwal unggah tidak teratur dan format kurang beragam",
           ],
         },
       ],
@@ -2191,30 +2203,39 @@ const kekuatanGroup: ChoiceGroup = {
       grade: "sebagian",
       variants: [
         {
-          id: "kek2a",
+          id: "kk2a",
           headline: "Kontennya bagus",
+          fields: {
+            a: "Kontennya bagus\n• Konten kompetitor terlihat bagus dan menarik.\n• Belum menjelaskan bagian mana yang membuatnya bagus.\n• Tidak bisa dijadikan pelajaran karena tidak ada hal khusus yang bisa ditiru.",
+            b: "Kontennya kurang menarik\n• Konten kompetitor kurang menarik untuk dilihat.\n• Belum menjelaskan bagian mana yang membuatnya kurang menarik.\n• Belum bisa diubah menjadi peluang bagi {{brand}} pada langkah berikutnya.",
+          },
           points: [
-            "Konten kompetitor terlihat bagus dan menarik.",
-            "Belum menjelaskan bagian mana yang membuatnya bagus.",
-            "Tidak bisa dijadikan pelajaran karena tidak ada hal khusus yang bisa ditiru.",
+            "Kekuatan: Kontennya bagus",
+            "Kelemahan: Kontennya kurang menarik",
           ],
         },
         {
-          id: "kek2b",
+          id: "kk2b",
           headline: "Followers-nya banyak",
+          fields: {
+            a: "Followers-nya banyak\n• Kompetitor memiliki pengikut yang jauh lebih banyak.\n• Jumlah pengikut adalah hasil, bukan kekuatan strategi kontennya.\n• Belum menjelaskan apa yang mereka lakukan sehingga pengikutnya bertambah.",
+            b: "Jarang mengunggah\n• Kompetitor jarang mengunggah konten baru.\n• Satu kelemahan nyata sudah teridentifikasi.\n• Belum dilengkapi kelemahan lain sehingga celah yang tersedia belum terlihat utuh.",
+          },
           points: [
-            "Kompetitor memiliki pengikut yang jauh lebih banyak.",
-            "Jumlah pengikut adalah hasil, bukan kekuatan strategi kontennya.",
-            "Belum menjelaskan apa yang mereka lakukan sehingga pengikutnya bertambah.",
+            "Kekuatan: Followers-nya banyak",
+            "Kelemahan: Jarang mengunggah",
           ],
         },
         {
-          id: "kek2c",
+          id: "kk2c",
           headline: "Rajin mengunggah",
+          fields: {
+            a: "Rajin mengunggah\n• Kompetitor rajin mengunggah konten setiap hari.\n• Keteraturan unggah memang salah satu kekuatan yang nyata.\n• Belum dilengkapi kekuatan lain sehingga gambarannya belum utuh.",
+            b: "Harganya terlalu mahal\n• Produk kompetitor dijual dengan harga yang terlalu mahal.\n• Ini kelemahan pada sisi produk dan harga, bukan pada kontennya.\n• Template langkah 3 meminta kelemahan yang terlihat dari konten media sosialnya.",
+          },
           points: [
-            "Kompetitor rajin mengunggah konten setiap hari.",
-            "Keteraturan unggah memang salah satu kekuatan yang nyata.",
-            "Belum dilengkapi kekuatan lain sehingga gambarannya belum utuh.",
+            "Kekuatan: Rajin mengunggah",
+            "Kelemahan: Harganya terlalu mahal",
           ],
         },
       ],
@@ -2223,158 +2244,39 @@ const kekuatanGroup: ChoiceGroup = {
       grade: "kurang",
       variants: [
         {
-          id: "kek3a",
+          id: "kk3a",
           headline: "Tidak punya kekuatan",
+          fields: {
+            a: "Tidak punya kekuatan\n• Kompetitor tidak punya kekuatan apa pun yang perlu dicatat.\n• Penilaian ini menutup kemungkinan belajar dari pesaing.\n• Instruksi langkah 3 untuk mengidentifikasi kekuatan tidak terpenuhi.",
+            b: "Tidak punya kelemahan\n• Kompetitor tidak punya kelemahan sama sekali.\n• Menutup peluang yang seharusnya ditemukan pada langkah berikutnya.\n• Instruksi langkah 3 untuk mengidentifikasi kelemahan tidak terpenuhi.",
+          },
           points: [
-            "Kompetitor tidak punya kekuatan apa pun yang perlu dicatat.",
-            "Penilaian ini menutup kemungkinan belajar dari pesaing.",
-            "Instruksi langkah 3 untuk mengidentifikasi kekuatan tidak terpenuhi.",
+            "Kekuatan: Tidak punya kekuatan",
+            "Kelemahan: Tidak punya kelemahan",
           ],
         },
         {
-          id: "kek3b",
+          id: "kk3b",
           headline: "Kekuatannya karena modalnya besar",
+          fields: {
+            a: "Kekuatannya karena modalnya besar\n• Kompetitor unggul semata-mata karena punya modal besar.\n• Tidak menjelaskan keputusan konten apa yang membuat mereka berhasil.\n• Tidak ada satu pun pelajaran yang bisa diterapkan {{brand}}.",
+            b: "Menjelekkan kompetitor\n• Kompetitor payah dan tidak pantas dijadikan pembanding.\n• Bukan analisis, melainkan penilaian yang merendahkan.\n• Tidak menghasilkan celah yang bisa dimanfaatkan {{brand}}.",
+          },
           points: [
-            "Kompetitor unggul semata-mata karena punya modal besar.",
-            "Tidak menjelaskan keputusan konten apa yang membuat mereka berhasil.",
-            "Tidak ada satu pun pelajaran yang bisa diterapkan {{brand}}.",
+            "Kekuatan: Kekuatannya karena modalnya besar",
+            "Kelemahan: Menjelekkan kompetitor",
           ],
         },
         {
-          id: "kek3c",
+          id: "kk3c",
           headline: "Menyebut kekuatan produk, bukan konten",
+          fields: {
+            a: "Menyebut kekuatan produk, bukan konten\n• Kekuatan kompetitor adalah bahan produknya yang bagus.\n• Yang diminta adalah kekuatan pada konten media sosialnya.\n• Analisis produk tidak menjawab pertanyaan pada template riset konten.",
+            b: "Tidak diamati karena akunnya besar\n• Kompetitor terlalu besar sehingga tidak perlu dicari kelemahannya.\n• Akun besar tetap memiliki celah, terutama pada kedekatan dengan audiens.\n• Baris wajib pada template dibiarkan tanpa hasil pengamatan.",
+          },
           points: [
-            "Kekuatan kompetitor adalah bahan produknya yang bagus.",
-            "Yang diminta adalah kekuatan pada konten media sosialnya.",
-            "Analisis produk tidak menjawab pertanyaan pada template riset konten.",
-          ],
-        },
-      ],
-    },
-  ],
-};
-
-const kelemahanGroup: ChoiceGroup = {
-  id: "kelemahan",
-  label: "Kelemahan",
-  question: "Langkah 3 — Kelemahan konten {{kompetitor}}",
-  hint: "Kelemahan adalah celah pada konten kompetitor yang bisa dimanfaatkan {{brand}}.",
-  options: [
-    {
-      grade: "tepat",
-      variants: [
-        {
-          id: "kel1a",
-          headline: "Terlalu banyak konten jualan, sedikit konten edukasi",
-          points: [
-            "Sebagian besar unggahan berisi penawaran produk sehingga audiens jenuh dan interaksinya menurun.",
-            "Pertanyaan dasar audiens seperti cara memilih ukuran jarang dijawab lewat konten.",
-            "Nada bicara terasa satu arah, lebih banyak mengumumkan daripada mengajak berbicara.",
-            "Celah ini bisa diisi {{brand}} dengan konten yang menjawab keraguan audiens sebelum membeli.",
-          ],
-        },
-        {
-          id: "kel1b",
-          headline: "Kolom komentar jarang dibalas",
-          points: [
-            "Banyak pertanyaan audiens di kolom komentar dibiarkan tanpa jawaban.",
-            "Audiens yang tidak terjawab berpindah mencari informasi ke akun lain.",
-            "Interaksi berhenti di satu putaran karena percakapan tidak dilanjutkan brand.",
-            "Celah ini bisa diisi {{brand}} dengan membalas komentar secara cepat dan ramah.",
-          ],
-        },
-        {
-          id: "kel1c",
-          headline: "Konten terasa jauh dari keseharian audiens",
-          points: [
-            "Foto kampanye bergaya profesional mendominasi, sementara contoh pemakaian sehari-hari jarang muncul.",
-            "Model yang ditampilkan cenderung seragam sehingga audiens sulit membayangkan produk di tubuhnya sendiri.",
-            "Situasi yang ditampilkan lebih mirip pemotretan daripada kegiatan olahraga sungguhan.",
-            "Celah ini bisa diisi {{brand}} dengan menampilkan pemakai nyata dengan beragam bentuk tubuh.",
-          ],
-        },
-        {
-          id: "kel1d",
-          headline: "Penjelasan bahan dan ukuran kurang lengkap",
-          points: [
-            "Klaim bahan disebut dengan istilah teknis tanpa penjelasan yang mudah dipahami audiens awam.",
-            "Panduan ukuran sulit ditemukan karena tidak disimpan di sorotan akun.",
-            "Pertanyaan tentang ukuran berulang terus di kolom komentar tiap unggahan produk.",
-            "Celah ini bisa diisi {{brand}} dengan panduan ukuran tetap yang mudah diakses.",
-          ],
-        },
-        {
-          id: "kel1e",
-          headline: "Jadwal unggah tidak teratur dan format kurang beragam",
-          points: [
-            "Jeda antarunggahan kadang panjang sehingga akun hilang dari beranda pengikutnya.",
-            "Format yang dipakai berulang pada bentuk yang sama sehingga terasa monoton.",
-            "Fitur Story dan sorotan kurang dimanfaatkan untuk menjaga interaksi harian.",
-            "Celah ini bisa diisi {{brand}} dengan jadwal tetap dan variasi format yang terencana.",
-          ],
-        },
-      ],
-    },
-    {
-      grade: "sebagian",
-      variants: [
-        {
-          id: "kel2a",
-          headline: "Kontennya kurang menarik",
-          points: [
-            "Konten kompetitor kurang menarik untuk dilihat.",
-            "Belum menjelaskan bagian mana yang membuatnya kurang menarik.",
-            "Belum bisa diubah menjadi peluang bagi {{brand}} pada langkah berikutnya.",
-          ],
-        },
-        {
-          id: "kel2b",
-          headline: "Jarang mengunggah",
-          points: [
-            "Kompetitor jarang mengunggah konten baru.",
-            "Satu kelemahan nyata sudah teridentifikasi.",
-            "Belum dilengkapi kelemahan lain sehingga celah yang tersedia belum terlihat utuh.",
-          ],
-        },
-        {
-          id: "kel2c",
-          headline: "Harganya terlalu mahal",
-          points: [
-            "Produk kompetitor dijual dengan harga yang terlalu mahal.",
-            "Ini kelemahan pada sisi produk dan harga, bukan pada kontennya.",
-            "Template langkah 3 meminta kelemahan yang terlihat dari konten media sosialnya.",
-          ],
-        },
-      ],
-    },
-    {
-      grade: "kurang",
-      variants: [
-        {
-          id: "kel3a",
-          headline: "Tidak punya kelemahan",
-          points: [
-            "Kompetitor tidak punya kelemahan sama sekali.",
-            "Menutup peluang yang seharusnya ditemukan pada langkah berikutnya.",
-            "Instruksi langkah 3 untuk mengidentifikasi kelemahan tidak terpenuhi.",
-          ],
-        },
-        {
-          id: "kel3b",
-          headline: "Menjelekkan kompetitor",
-          points: [
-            "Kompetitor payah dan tidak pantas dijadikan pembanding.",
-            "Bukan analisis, melainkan penilaian yang merendahkan.",
-            "Tidak menghasilkan celah yang bisa dimanfaatkan {{brand}}.",
-          ],
-        },
-        {
-          id: "kel3c",
-          headline: "Tidak diamati karena akunnya besar",
-          points: [
-            "Kompetitor terlalu besar sehingga tidak perlu dicari kelemahannya.",
-            "Akun besar tetap memiliki celah, terutama pada kedekatan dengan audiens.",
-            "Baris wajib pada template dibiarkan tanpa hasil pengamatan.",
+            "Kekuatan: Menyebut kekuatan produk, bukan konten",
+            "Kelemahan: Tidak diamati karena akunnya besar",
           ],
         },
       ],
@@ -2386,63 +2288,75 @@ const kelemahanGroup: ChoiceGroup = {
 /* 3.4 Temukan peluang dan inspirasi                                   */
 /* ================================================================== */
 
-const peluangGroup: ChoiceGroup = {
-  id: "peluang",
-  label: "Peluang",
-  question: "Langkah 4 — Peluang yang bisa diambil {{brand}}",
-  hint: "Peluang lahir dari kelemahan kompetitor yang belum tergarap.",
+const peluangInspirasi: ChoiceGroup = {
+  id: "peluanginspirasi",
+  label: "Peluang & Inspirasi",
+  question: "Langkah 4 — peluang dan ancaman yang bisa menjadi inspirasi bagi {{brand}}",
+  hint: "Satu kartu berisi peluang sekaligus ancaman yang diubah menjadi inspirasi.",
+  card: "dual",
+  dualLabels: ["Peluang", "Ancaman menjadi Inspirasi"],
   options: [
     {
       grade: "tepat",
       variants: [
         {
-          id: "pel1a",
+          id: "pi1a",
           headline: "Menjadi akun yang paling jelas menjelaskan ukuran dan bahan",
+          fields: {
+            a: "Menjadi akun yang paling jelas menjelaskan ukuran dan bahan\n• Peluang: mengisi celah penjelasan ukuran dan bahan yang belum digarap kompetitor secara tuntas.\n• Bentuk konten: carousel panduan ukuran tetap yang disimpan di sorotan akun dan diperbarui tiap koleksi baru.\n• Dampak yang diharapkan: keraguan calon pembeli berkurang sehingga jarak dari melihat konten ke membeli menjadi lebih pendek.\n• Ukuran keberhasilan: jumlah simpanan unggahan naik dan pertanyaan ukuran di kolom komentar berkurang.",
+            b: "Konsistensi visual mereka jadi acuan panduan gaya {{brand}}\n• Ancaman: identitas visual kompetitor yang konsisten membuat akun mereka lebih mudah dikenali daripada {{brand}}.\n• Inspirasi: menyusun panduan gaya sederhana berisi tiga warna utama, satu jenis huruf, dan pola tata letak tetap.\n• Penerapan: seluruh unggahan {{brand}} mengikuti panduan tersebut agar grid terbaca sebagai satu kesatuan.\n• Pembeda yang dijaga: warna dan nada bicara {{brand}} tetap dibuat berbeda agar tidak terlihat meniru.",
+          },
           points: [
-            "Peluang: mengisi celah penjelasan ukuran dan bahan yang belum digarap kompetitor secara tuntas.",
-            "Bentuk konten: carousel panduan ukuran tetap yang disimpan di sorotan akun dan diperbarui tiap koleksi baru.",
-            "Dampak yang diharapkan: keraguan calon pembeli berkurang sehingga jarak dari melihat konten ke membeli menjadi lebih pendek.",
-            "Ukuran keberhasilan: jumlah simpanan unggahan naik dan pertanyaan ukuran di kolom komentar berkurang.",
+            "Peluang: Menjadi akun yang paling jelas menjelaskan ukuran dan bahan",
+            "Ancaman menjadi Inspirasi: Konsistensi visual mereka jadi acuan panduan gaya {{brand}}",
           ],
         },
         {
-          id: "pel1b",
+          id: "pi1b",
           headline: "Membangun kedekatan lewat balasan komentar dan pesan",
+          fields: {
+            a: "Membangun kedekatan lewat balasan komentar dan pesan\n• Peluang: memanfaatkan kebiasaan kompetitor yang jarang membalas komentar audiens.\n• Bentuk konten: menjawab komentar dalam bentuk video pendek dan mengangkat pertanyaan audiens menjadi bahan unggahan.\n• Dampak yang diharapkan: kolom komentar {{brand}} terasa hidup sehingga unggahan bertahan lebih lama di beranda.\n• Ukuran keberhasilan: jumlah komentar dan pesan langsung per unggahan meningkat.",
+            b: "Kedekatan mereka dengan komunitas jadi acuan program komunitas {{brand}}\n• Ancaman: kompetitor sudah lebih dulu dekat dengan komunitas olahraga sehingga rekomendasi mengalir sendiri.\n• Inspirasi: menjalankan program lari bersama berkala dan mengunggah ulang foto peserta.\n• Penerapan: menjadikan kegiatan komunitas sebagai sumber bahan konten mingguan yang murah diproduksi.\n• Pembeda yang dijaga: {{brand}} menyasar komunitas pemula yang belum banyak digarap kompetitor.",
+          },
           points: [
-            "Peluang: memanfaatkan kebiasaan kompetitor yang jarang membalas komentar audiens.",
-            "Bentuk konten: menjawab komentar dalam bentuk video pendek dan mengangkat pertanyaan audiens menjadi bahan unggahan.",
-            "Dampak yang diharapkan: kolom komentar {{brand}} terasa hidup sehingga unggahan bertahan lebih lama di beranda.",
-            "Ukuran keberhasilan: jumlah komentar dan pesan langsung per unggahan meningkat.",
+            "Peluang: Membangun kedekatan lewat balasan komentar dan pesan",
+            "Ancaman menjadi Inspirasi: Kedekatan mereka dengan komunitas jadi acuan program komunitas {{brand}}",
           ],
         },
         {
-          id: "pel1c",
+          id: "pi1c",
           headline: "Menampilkan pemakai nyata dengan beragam bentuk tubuh",
+          fields: {
+            a: "Menampilkan pemakai nyata dengan beragam bentuk tubuh\n• Peluang: mengisi celah konten kompetitor yang masih didominasi foto kampanye bergaya profesional.\n• Bentuk konten: unggahan ulang foto pembeli dan kolaborasi dengan pegiat komunitas yang bukan model profesional.\n• Dampak yang diharapkan: audiens lebih mudah membayangkan produk di tubuhnya sendiri.\n• Ukuran keberhasilan: bertambahnya foto pemakaian yang dikirim audiens tanpa diminta.",
+            b: "Video pendek mereka jadi acuan format konten {{brand}}\n• Ancaman: kompetitor sudah mahir menggarap video pendek sehingga menguasai beranda audiens.\n• Inspirasi: mengadopsi pola pembuka tiga detik yang langsung menampilkan produk atau gerakan.\n• Penerapan: menyiapkan tiga pola video tetap yang bisa diproduksi berulang oleh tim kecil.\n• Pembeda yang dijaga: isi video {{brand}} difokuskan pada keluhan gerah di cuaca panas, sudut yang belum digarap kompetitor.",
+          },
           points: [
-            "Peluang: mengisi celah konten kompetitor yang masih didominasi foto kampanye bergaya profesional.",
-            "Bentuk konten: unggahan ulang foto pembeli dan kolaborasi dengan pegiat komunitas yang bukan model profesional.",
-            "Dampak yang diharapkan: audiens lebih mudah membayangkan produk di tubuhnya sendiri.",
-            "Ukuran keberhasilan: bertambahnya foto pemakaian yang dikirim audiens tanpa diminta.",
+            "Peluang: Menampilkan pemakai nyata dengan beragam bentuk tubuh",
+            "Ancaman menjadi Inspirasi: Video pendek mereka jadi acuan format konten {{brand}}",
           ],
         },
         {
-          id: "pel1d",
+          id: "pi1d",
           headline: "Mengangkat keunggulan bahan breathable untuk iklim tropis",
+          fields: {
+            a: "Mengangkat keunggulan bahan breathable untuk iklim tropis\n• Peluang: kompetitor menyebut istilah bahan secara umum, belum mengaitkannya dengan cuaca panas dan lembap di Indonesia.\n• Bentuk konten: uji sederhana yang memperlihatkan perbedaan rasa gerah saat berolahraga di siang hari.\n• Dampak yang diharapkan: keunggulan {{brand}} tersambung langsung dengan keluhan nyata audiens.\n• Ukuran keberhasilan: bertambahnya komentar yang menceritakan pengalaman gerah saat berolahraga.",
+            b: "Kelengkapan panduan produk mereka jadi acuan konten edukasi {{brand}}\n• Ancaman: panduan produk kompetitor membuat calon pembeli lebih percaya kepada mereka.\n• Inspirasi: membuat sorotan tetap berisi panduan ukuran, jenis bahan, dan cara perawatan.\n• Penerapan: memperbarui sorotan tersebut setiap kali koleksi baru dirilis.\n• Pembeda yang dijaga: {{brand}} menulis panduannya dengan bahasa sehari-hari tanpa istilah teknis.",
+          },
           points: [
-            "Peluang: kompetitor menyebut istilah bahan secara umum, belum mengaitkannya dengan cuaca panas dan lembap di Indonesia.",
-            "Bentuk konten: uji sederhana yang memperlihatkan perbedaan rasa gerah saat berolahraga di siang hari.",
-            "Dampak yang diharapkan: keunggulan {{brand}} tersambung langsung dengan keluhan nyata audiens.",
-            "Ukuran keberhasilan: bertambahnya komentar yang menceritakan pengalaman gerah saat berolahraga.",
+            "Peluang: Mengangkat keunggulan bahan breathable untuk iklim tropis",
+            "Ancaman menjadi Inspirasi: Kelengkapan panduan produk mereka jadi acuan konten edukasi {{brand}}",
           ],
         },
         {
-          id: "pel1e",
+          id: "pi1e",
           headline: "Menjaga jadwal unggah tetap dan format yang beragam",
+          fields: {
+            a: "Menjaga jadwal unggah tetap dan format yang beragam\n• Peluang: memanfaatkan jadwal unggah kompetitor yang belum teratur.\n• Bentuk konten: kalender konten mingguan yang memadukan Reels, carousel edukasi, dan Story interaktif.\n• Dampak yang diharapkan: {{brand}} lebih sering hadir di beranda audiens tanpa menambah biaya produksi besar.\n• Ukuran keberhasilan: jangkauan mingguan tumbuh stabil dan interaksi tidak lagi naik turun tajam.",
+            b: "Pengelolaan promo mereka jadi acuan kalender penawaran {{brand}}\n• Ancaman: promo kompetitor yang tertata membuat audiens menunggu penawaran mereka setiap bulan.\n• Inspirasi: menyusun kalender penawaran {{brand}} dengan tenggat yang jelas dan diumumkan jauh hari.\n• Penerapan: menjaga porsi unggahan promo agar tidak mendominasi grid dan menurunkan citra brand.\n• Pembeda yang dijaga: penawaran {{brand}} berbentuk paket padu padan, bukan potongan harga besar-besaran.",
+          },
           points: [
-            "Peluang: memanfaatkan jadwal unggah kompetitor yang belum teratur.",
-            "Bentuk konten: kalender konten mingguan yang memadukan Reels, carousel edukasi, dan Story interaktif.",
-            "Dampak yang diharapkan: {{brand}} lebih sering hadir di beranda audiens tanpa menambah biaya produksi besar.",
-            "Ukuran keberhasilan: jangkauan mingguan tumbuh stabil dan interaksi tidak lagi naik turun tajam.",
+            "Peluang: Menjaga jadwal unggah tetap dan format yang beragam",
+            "Ancaman menjadi Inspirasi: Pengelolaan promo mereka jadi acuan kalender penawaran {{brand}}",
           ],
         },
       ],
@@ -2451,30 +2365,39 @@ const peluangGroup: ChoiceGroup = {
       grade: "sebagian",
       variants: [
         {
-          id: "pel2a",
+          id: "pi2a",
           headline: "Membuat konten lebih bagus",
+          fields: {
+            a: "Membuat konten lebih bagus\n• Peluangnya adalah membuat konten yang lebih bagus dari kompetitor.\n• Arahnya benar, tetapi belum menyebut bentuk konten yang akan dibuat.\n• Belum jelas celah kompetitor mana yang sedang dimanfaatkan.",
+            b: "Belajar dari kompetitor\n• {{brand}} sebaiknya belajar dari kompetitor.\n• Arahnya sudah benar, tetapi belum menyebut apa yang dipelajari.\n• Belum ada bentuk penerapan yang bisa langsung dikerjakan tim konten.",
+          },
           points: [
-            "Peluangnya adalah membuat konten yang lebih bagus dari kompetitor.",
-            "Arahnya benar, tetapi belum menyebut bentuk konten yang akan dibuat.",
-            "Belum jelas celah kompetitor mana yang sedang dimanfaatkan.",
+            "Peluang: Membuat konten lebih bagus",
+            "Ancaman menjadi Inspirasi: Belajar dari kompetitor",
           ],
         },
         {
-          id: "pel2b",
+          id: "pi2b",
           headline: "Lebih sering mengunggah",
+          fields: {
+            a: "Lebih sering mengunggah\n• Peluangnya adalah mengunggah konten lebih sering dibanding kompetitor.\n• Sudah memanfaatkan satu celah yang nyata.\n• Belum menjelaskan isi kontennya, sehingga menambah frekuensi saja belum tentu menaikkan interaksi.",
+            b: "Ancaman disebut, inspirasinya belum\n• Ancamannya adalah kompetitor punya pengikut jauh lebih banyak.\n• Ancaman sudah teridentifikasi dengan jelas.\n• Belum diubah menjadi pelajaran maupun langkah yang bisa diterapkan {{brand}}.",
+          },
           points: [
-            "Peluangnya adalah mengunggah konten lebih sering dibanding kompetitor.",
-            "Sudah memanfaatkan satu celah yang nyata.",
-            "Belum menjelaskan isi kontennya, sehingga menambah frekuensi saja belum tentu menaikkan interaksi.",
+            "Peluang: Lebih sering mengunggah",
+            "Ancaman menjadi Inspirasi: Ancaman disebut, inspirasinya belum",
           ],
         },
         {
-          id: "pel2c",
+          id: "pi2c",
           headline: "Memakai jasa influencer",
+          fields: {
+            a: "Memakai jasa influencer\n• Peluangnya adalah bekerja sama dengan influencer.\n• Bentuk kegiatannya sudah disebut.\n• Belum dikaitkan dengan kelemahan kompetitor maupun kebutuhan audiens yang sudah dipetakan.",
+            b: "Meniru gaya visual kompetitor\n• {{brand}} sebaiknya memakai gaya visual yang sama dengan kompetitor.\n• Mengambil pelajaran dari konsistensi visual memang tepat.\n• Menyamakan gaya justru menghapus pembeda {{brand}} di mata audiens.",
+          },
           points: [
-            "Peluangnya adalah bekerja sama dengan influencer.",
-            "Bentuk kegiatannya sudah disebut.",
-            "Belum dikaitkan dengan kelemahan kompetitor maupun kebutuhan audiens yang sudah dipetakan.",
+            "Peluang: Memakai jasa influencer",
+            "Ancaman menjadi Inspirasi: Meniru gaya visual kompetitor",
           ],
         },
       ],
@@ -2483,158 +2406,39 @@ const peluangGroup: ChoiceGroup = {
       grade: "kurang",
       variants: [
         {
-          id: "pel3a",
+          id: "pi3a",
           headline: "Meniru seluruh konten kompetitor",
+          fields: {
+            a: "Meniru seluruh konten kompetitor\n• Peluangnya adalah meniru persis seluruh konten kompetitor.\n• Meniru bulat-bulat menghapus pembeda {{brand}} di mata audiens.\n• Riset kompetitor bertujuan menemukan celah, bukan menyalin.",
+            b: "Tidak ada ancaman\n• Kompetitor tidak menjadi ancaman bagi {{brand}} sama sekali.\n• Kekuatan kompetitor yang sudah dicatat di langkah 3 diabaikan begitu saja.\n• Instruksi langkah 4 tidak terpenuhi.",
+          },
           points: [
-            "Peluangnya adalah meniru persis seluruh konten kompetitor.",
-            "Meniru bulat-bulat menghapus pembeda {{brand}} di mata audiens.",
-            "Riset kompetitor bertujuan menemukan celah, bukan menyalin.",
+            "Peluang: Meniru seluruh konten kompetitor",
+            "Ancaman menjadi Inspirasi: Tidak ada ancaman",
           ],
         },
         {
-          id: "pel3b",
+          id: "pi3b",
           headline: "Menjatuhkan kompetitor lewat konten",
+          fields: {
+            a: "Menjatuhkan kompetitor lewat konten\n• Peluangnya adalah membuat konten yang menjelekkan kompetitor.\n• Berisiko merusak citra {{brand}} di mata audiens.\n• Tidak menjawab kebutuhan audiens yang sudah dipetakan pada profil audiens.",
+            b: "Menyerah pada kompetitor\n• Kompetitor terlalu kuat sehingga {{brand}} sebaiknya tidak bersaing di Instagram.\n• Bertentangan dengan tujuan tugas, yaitu menyusun strategi konten Instagram ke depan.\n• Seluruh hasil riset audiens dan kompetitor menjadi tidak terpakai.",
+          },
           points: [
-            "Peluangnya adalah membuat konten yang menjelekkan kompetitor.",
-            "Berisiko merusak citra {{brand}} di mata audiens.",
-            "Tidak menjawab kebutuhan audiens yang sudah dipetakan pada profil audiens.",
+            "Peluang: Menjatuhkan kompetitor lewat konten",
+            "Ancaman menjadi Inspirasi: Menyerah pada kompetitor",
           ],
         },
         {
-          id: "pel3c",
+          id: "pi3c",
           headline: "Tidak ada peluang",
+          fields: {
+            a: "Tidak ada peluang\n• Tidak ada peluang yang bisa diambil karena kompetitor sudah unggul.\n• Menutup seluruh hasil riset yang sudah dikerjakan pada langkah sebelumnya.\n• Instruksi langkah 4 untuk menemukan peluang tidak terpenuhi.",
+            b: "Melaporkan akun kompetitor\n• {{brand}} sebaiknya melaporkan akun kompetitor agar tidak bisa mengunggah konten.\n• Bukan langkah strategi konten dan berpotensi merugikan brand sendiri.\n• Tidak menghasilkan inspirasi apa pun bagi konten {{brand}}.",
+          },
           points: [
-            "Tidak ada peluang yang bisa diambil karena kompetitor sudah unggul.",
-            "Menutup seluruh hasil riset yang sudah dikerjakan pada langkah sebelumnya.",
-            "Instruksi langkah 4 untuk menemukan peluang tidak terpenuhi.",
-          ],
-        },
-      ],
-    },
-  ],
-};
-
-const inspirasiGroup: ChoiceGroup = {
-  id: "inspirasi",
-  label: "Ancaman jadi Inspirasi",
-  question: "Langkah 4 — Ancaman yang bisa diubah menjadi inspirasi bagi {{brand}}",
-  hint: "Kekuatan kompetitor adalah ancaman; ubah menjadi pelajaran yang bisa diterapkan.",
-  options: [
-    {
-      grade: "tepat",
-      variants: [
-        {
-          id: "ins1a",
-          headline: "Konsistensi visual mereka jadi acuan panduan gaya {{brand}}",
-          points: [
-            "Ancaman: identitas visual kompetitor yang konsisten membuat akun mereka lebih mudah dikenali daripada {{brand}}.",
-            "Inspirasi: menyusun panduan gaya sederhana berisi tiga warna utama, satu jenis huruf, dan pola tata letak tetap.",
-            "Penerapan: seluruh unggahan {{brand}} mengikuti panduan tersebut agar grid terbaca sebagai satu kesatuan.",
-            "Pembeda yang dijaga: warna dan nada bicara {{brand}} tetap dibuat berbeda agar tidak terlihat meniru.",
-          ],
-        },
-        {
-          id: "ins1b",
-          headline: "Kedekatan mereka dengan komunitas jadi acuan program komunitas {{brand}}",
-          points: [
-            "Ancaman: kompetitor sudah lebih dulu dekat dengan komunitas olahraga sehingga rekomendasi mengalir sendiri.",
-            "Inspirasi: menjalankan program lari bersama berkala dan mengunggah ulang foto peserta.",
-            "Penerapan: menjadikan kegiatan komunitas sebagai sumber bahan konten mingguan yang murah diproduksi.",
-            "Pembeda yang dijaga: {{brand}} menyasar komunitas pemula yang belum banyak digarap kompetitor.",
-          ],
-        },
-        {
-          id: "ins1c",
-          headline: "Video pendek mereka jadi acuan format konten {{brand}}",
-          points: [
-            "Ancaman: kompetitor sudah mahir menggarap video pendek sehingga menguasai beranda audiens.",
-            "Inspirasi: mengadopsi pola pembuka tiga detik yang langsung menampilkan produk atau gerakan.",
-            "Penerapan: menyiapkan tiga pola video tetap yang bisa diproduksi berulang oleh tim kecil.",
-            "Pembeda yang dijaga: isi video {{brand}} difokuskan pada keluhan gerah di cuaca panas, sudut yang belum digarap kompetitor.",
-          ],
-        },
-        {
-          id: "ins1d",
-          headline: "Kelengkapan panduan produk mereka jadi acuan konten edukasi {{brand}}",
-          points: [
-            "Ancaman: panduan produk kompetitor membuat calon pembeli lebih percaya kepada mereka.",
-            "Inspirasi: membuat sorotan tetap berisi panduan ukuran, jenis bahan, dan cara perawatan.",
-            "Penerapan: memperbarui sorotan tersebut setiap kali koleksi baru dirilis.",
-            "Pembeda yang dijaga: {{brand}} menulis panduannya dengan bahasa sehari-hari tanpa istilah teknis.",
-          ],
-        },
-        {
-          id: "ins1e",
-          headline: "Pengelolaan promo mereka jadi acuan kalender penawaran {{brand}}",
-          points: [
-            "Ancaman: promo kompetitor yang tertata membuat audiens menunggu penawaran mereka setiap bulan.",
-            "Inspirasi: menyusun kalender penawaran {{brand}} dengan tenggat yang jelas dan diumumkan jauh hari.",
-            "Penerapan: menjaga porsi unggahan promo agar tidak mendominasi grid dan menurunkan citra brand.",
-            "Pembeda yang dijaga: penawaran {{brand}} berbentuk paket padu padan, bukan potongan harga besar-besaran.",
-          ],
-        },
-      ],
-    },
-    {
-      grade: "sebagian",
-      variants: [
-        {
-          id: "ins2a",
-          headline: "Belajar dari kompetitor",
-          points: [
-            "{{brand}} sebaiknya belajar dari kompetitor.",
-            "Arahnya sudah benar, tetapi belum menyebut apa yang dipelajari.",
-            "Belum ada bentuk penerapan yang bisa langsung dikerjakan tim konten.",
-          ],
-        },
-        {
-          id: "ins2b",
-          headline: "Ancaman disebut, inspirasinya belum",
-          points: [
-            "Ancamannya adalah kompetitor punya pengikut jauh lebih banyak.",
-            "Ancaman sudah teridentifikasi dengan jelas.",
-            "Belum diubah menjadi pelajaran maupun langkah yang bisa diterapkan {{brand}}.",
-          ],
-        },
-        {
-          id: "ins2c",
-          headline: "Meniru gaya visual kompetitor",
-          points: [
-            "{{brand}} sebaiknya memakai gaya visual yang sama dengan kompetitor.",
-            "Mengambil pelajaran dari konsistensi visual memang tepat.",
-            "Menyamakan gaya justru menghapus pembeda {{brand}} di mata audiens.",
-          ],
-        },
-      ],
-    },
-    {
-      grade: "kurang",
-      variants: [
-        {
-          id: "ins3a",
-          headline: "Tidak ada ancaman",
-          points: [
-            "Kompetitor tidak menjadi ancaman bagi {{brand}} sama sekali.",
-            "Kekuatan kompetitor yang sudah dicatat di langkah 3 diabaikan begitu saja.",
-            "Instruksi langkah 4 tidak terpenuhi.",
-          ],
-        },
-        {
-          id: "ins3b",
-          headline: "Menyerah pada kompetitor",
-          points: [
-            "Kompetitor terlalu kuat sehingga {{brand}} sebaiknya tidak bersaing di Instagram.",
-            "Bertentangan dengan tujuan tugas, yaitu menyusun strategi konten Instagram ke depan.",
-            "Seluruh hasil riset audiens dan kompetitor menjadi tidak terpakai.",
-          ],
-        },
-        {
-          id: "ins3c",
-          headline: "Melaporkan akun kompetitor",
-          points: [
-            "{{brand}} sebaiknya melaporkan akun kompetitor agar tidak bisa mengunggah konten.",
-            "Bukan langkah strategi konten dan berpotensi merugikan brand sendiri.",
-            "Tidak menghasilkan inspirasi apa pun bagi konten {{brand}}.",
+            "Peluang: Tidak ada peluang",
+            "Ancaman menjadi Inspirasi: Melaporkan akun kompetitor",
           ],
         },
       ],
@@ -2657,10 +2461,8 @@ export const tpm1Groups: ChoiceGroup[] = [
   ctaGroup,
   promoGroup,
   engagementGroup,
-  kekuatanGroup,
-  kelemahanGroup,
-  peluangGroup,
-  inspirasiGroup,
+  kekuatanKelemahan,
+  peluangInspirasi,
 ];
 
 export const bankTpm1 = {
@@ -2676,8 +2478,6 @@ export const bankTpm1 = {
   ctaGroup,
   promoGroup,
   engagementGroup,
-  kekuatanGroup,
-  kelemahanGroup,
-  peluangGroup,
-  inspirasiGroup,
+  kekuatanKelemahan,
+  peluangInspirasi,
 };
