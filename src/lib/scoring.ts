@@ -22,7 +22,9 @@ export function hitungNilai(
   task: TaskDefinition,
   selections: Record<string, PilihanInput>
 ): number {
-  const groups = allGroups(task);
+  // Grup tanpa penilaian tidak ikut dihitung: semua pilihannya sama-sama benar,
+  // jadi memasukkannya hanya akan menggeser nilai tanpa alasan.
+  const groups = allGroups(task).filter((g) => !g.ungraded);
   if (groups.length === 0) return 0;
   let total = 0;
   for (const g of groups) {

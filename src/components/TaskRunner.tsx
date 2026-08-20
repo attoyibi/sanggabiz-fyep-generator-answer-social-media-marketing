@@ -54,9 +54,30 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
 
   const groups = useMemo(() => allGroups(task), [task]);
 
+  /**
+   * Tugas yang melanjutkan tugas sebelumnya membaca jawaban tugas itu dari
+   * localStorage. Jawaban di sana sudah terkunci lewat variantId, jadi isinya
+   * sama persis dengan yang dulu dilihat peserta, berapa pun seed hari ini.
+   */
+  const sumber = useMemo(() => {
+    if (!task.dependsOn) return undefined;
+    const tugasSumber = getTask(task.dependsOn);
+    if (!tugasSumber) return undefined;
+    const pilihanSumber = state.selections[task.dependsOn] ?? {};
+    return buildContext(tugasSumber, state.nama || "Nama Peserta", state.seed, pilihanSumber);
+  }, [task.dependsOn, state.selections, state.nama, state.seed]);
+
+  /** Berapa bagian tugas sumber yang belum dijawab; 0 berarti sudah lengkap. */
+  const sumberBelum = useMemo(() => {
+    if (!task.dependsOn) return 0;
+    const tugasSumber = getTask(task.dependsOn);
+    if (!tugasSumber) return 0;
+    return progressOf(tugasSumber, state.selections[task.dependsOn] ?? {}).belum;
+  }, [task.dependsOn, state.selections]);
+
   const ctx = useMemo(
-    () => buildContext(task, state.nama || "Nama Peserta", state.seed, selections),
-    [task, state.nama, state.seed, selections]
+    () => buildContext(task, state.nama || "Nama Peserta", state.seed, selections, sumber),
+    [task, state.nama, state.seed, selections, sumber]
   );
 
   const blocks = useMemo(() => task.buildDocument(ctx), [task, ctx]);
@@ -348,7 +369,28 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
             </div>
 
             {/* Langkah-langkah */}
-            {task.steps.map((step) => {
+            {/* Tugas lanjutan butuh jawaban tugas sebelumnya sebagai bahan. */}
+            {sumberBelum > 0 && (
+              <section className="card mb-6 border-amber-300 bg-amber-50 p-4 sm:p-5">
+                <h2 className="text-[1.05rem] font-bold text-amber-900">
+                  Selesaikan {getTask(task.dependsOn!)?.code} lebih dahulu
+                </h2>
+                <p className="mt-1 text-[0.85rem] leading-relaxed text-amber-900/80">
+                  Tugas ini mengembangkan content plan yang kamu susun di{" "}
+                  {getTask(task.dependsOn!)?.code}. Masih ada {sumberBelum} bagian yang belum
+                  dipilih di sana, jadi rencana kontenmu belum bisa ditampilkan di sini.
+                </p>
+                <a
+                  href={`/tugas/${task.dependsOn}`}
+                  className="mt-3 inline-block rounded-lg bg-amber-600 px-4 py-2 text-[0.82rem] font-semibold text-white transition hover:bg-amber-700"
+                >
+                  Buka {getTask(task.dependsOn!)?.code}
+                </a>
+              </section>
+            )}
+
+            {sumberBelum === 0 &&
+              task.steps.map((step) => {
               const mulaiIndex = groups.findIndex((g) => g.id === step.groups[0]?.id);
               return (
                 <section key={step.id} className="mb-8" id={step.id}>
@@ -382,9 +424,9 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
                       />
                     ))}
                   </div>
-                </section>
-              );
-            })}
+                  </section>
+                );
+              })}
 
             {/* Status pengerjaan */}
             <section className="card mb-6 p-4 sm:p-5">

@@ -37,6 +37,20 @@ function teks(blocks: DocBlock[]): string {
     .join("\n");
 }
 
+
+/**
+ * Konteks lengkap sebuah tugas, termasuk konteks tugas sumber bila tugas itu
+ * melanjutkan tugas sebelumnya. Dipakai supaya pemeriksaan menilai isi yang
+ * sama dengan yang dilihat peserta.
+ */
+function konteksRantai(id: string, nama: string, seed: number, mode: Grade) {
+  const t = getTask(id)!;
+  const sel: Record<string, Grade> = {};
+  for (const g of allGroups(t)) sel[g.id] = mode;
+  const src = t.dependsOn ? konteksRantai(t.dependsOn, nama, seed, mode) : undefined;
+  return buildContext(t, nama, seed, sel, src);
+}
+
 const N = Number(process.argv[3] ?? 500);
 const hashes = new Set<string>();
 const segmen1 = new Map<string, number>();
@@ -44,9 +58,7 @@ let minLen = Infinity, maxLen = 0;
 
 for (let i = 0; i < N; i++) {
   const seed = (Math.random() * 0xffffffff) >>> 0;
-  const selections: Record<string, Grade> = {};
-  for (const g of groups) selections[g.id] = "tepat";
-  const ctx = buildContext(task, `Peserta ${i}`, seed, selections);
+  const ctx = konteksRantai(taskId, `Peserta ${i}`, seed, "tepat");
   const blocks = task.buildDocument(ctx);
   const t = teks(blocks);
   // hilangkan nama peserta supaya yang dibandingkan murni isi jawabannya

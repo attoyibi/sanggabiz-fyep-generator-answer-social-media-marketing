@@ -27,7 +27,21 @@ const task = getTask(taskId)!;
 const selections: Record<string, Grade> = {};
 for (const g of allGroups(task)) selections[g.id] = mode;
 
-const ctx = buildContext(task, nama, seed, selections);
+
+/**
+ * Konteks lengkap sebuah tugas, termasuk konteks tugas sumber bila tugas itu
+ * melanjutkan tugas sebelumnya. Dipakai supaya pemeriksaan menilai isi yang
+ * sama dengan yang dilihat peserta.
+ */
+function konteksRantai(id: string, nama: string, seed: number, mode: Grade) {
+  const t = getTask(id)!;
+  const sel: Record<string, Grade> = {};
+  for (const g of allGroups(t)) sel[g.id] = mode;
+  const src = t.dependsOn ? konteksRantai(t.dependsOn, nama, seed, mode) : undefined;
+  return buildContext(t, nama, seed, sel, src);
+}
+
+const ctx = konteksRantai(taskId, nama, seed, mode);
 const kode = kodeNilai(task, selections);
 const { exportXlsx } = await import("../src/lib/export/xlsx.ts");
 await exportXlsx(task.buildWorkbook!(ctx), task.submission.fileName(nama), kode);

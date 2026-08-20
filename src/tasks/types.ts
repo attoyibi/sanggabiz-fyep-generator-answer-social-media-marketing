@@ -76,8 +76,17 @@ export interface ChoiceGroup {
    *
    * "plan" menampilkan satu baris content plan utuh: tipe visual, judul,
    * copywriting, platform, referensi, dan catatan produksi.
+   *
+   * "konten" menampilkan ringkasan content plan dari tugas sebelumnya, dengan
+   * rinciannya bisa dibuka saat dibutuhkan.
    */
-  card?: "profile" | "dual" | "plan";
+  card?: "profile" | "dual" | "plan" | "konten";
+  /**
+   * Grup tanpa penilaian. Dipakai untuk pilihan yang semua opsinya sama-sama
+   * benar, mis. konten mana dari tugas sebelumnya yang mau dikembangkan.
+   * Grup seperti ini tetap wajib dijawab, tetapi tidak ikut menghitung nilai.
+   */
+  ungraded?: boolean;
   /** Label kedua blok pada kartu "dual", mis. ["Kekuatan", "Kelemahan"]. */
   dualLabels?: [string, string];
   options: ChoiceOption[];
@@ -239,6 +248,13 @@ export interface BuildContext {
   pick: <T>(bucket: string, items: T[]) => T;
   /** Ganti token {{...}} dengan nilai sebenarnya. */
   fill: (text: string) => string;
+  /**
+   * Konteks tugas sumber, bila tugas ini melanjutkan tugas sebelumnya.
+   * Isinya jawaban yang sudah dikunci peserta pada tugas itu, dibaca dari
+   * localStorage, sehingga rencana konten yang dikembangkan benar-benar
+   * rencana yang ia susun sendiri.
+   */
+  sumber?: BuildContext;
 }
 
 export interface TaskDefinition {
@@ -258,6 +274,11 @@ export interface TaskDefinition {
   steps: TaskStep[];
   /** Token dinamis untuk teks varian, mis. {{brand}}. */
   tokens?: (ctx: Omit<BuildContext, "fill">) => Record<string, string>;
+  /**
+   * Id tugas yang harus sudah dikerjakan lebih dulu. Jawabannya dibaca dari
+   * localStorage dan tersedia lewat ctx.sumber.
+   */
+  dependsOn?: string;
   /**
    * Format berkas yang ditawarkan ke peserta, berurutan sesuai tampilan tombol.
    * Tiap tugas bisa berbeda: TPM 1 dikumpulkan sebagai PDF, TPM 2 sebagai Excel.

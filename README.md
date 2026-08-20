@@ -92,6 +92,9 @@ src/
     tpm-2/
       bank.ts       Bank jawaban (9 grup)
       index.ts      Penyusun dokumen PDF sekaligus lembar kerja Excel
+    tpm-3/
+      bank.ts       Bank jawaban (8 grup, satu di antaranya tanpa penilaian)
+      index.ts      Melanjutkan content plan TPM 2 lewat dependsOn
   lib/
     rng.ts          Pengacak deterministik berbasis seed
     resolve.ts      Menggabungkan pilihan peserta menjadi konteks dokumen
@@ -148,6 +151,7 @@ di layar dan tampil sebagai tombol utama.
 | --- | --- | --- |
 | TPM 1 | `["pdf", "docx"]` | PDF |
 | TPM 2 | `["xlsx", "pdf"]` | Excel |
+| TPM 3 | `["pdf", "docx"]` | PDF |
 
 Tugas yang menyertakan `"xlsx"` wajib punya `buildWorkbook`, yang menghasilkan `SheetSpec[]`
 berisi nama sheet, lebar kolom, dan baris berisi sel bergaya. Warna gayanya diambil dari
@@ -176,6 +180,48 @@ rencana harian tidak pernah bertentangan dengan objective dan jadwal yang sudah 
 
 Kolom *Link Hasil Konten* berisi "Diisi setelah konten tayang", karena pada tahap perencanaan
 kolom itu memang belum bisa diisi.
+
+## Tugas yang melanjutkan tugas sebelumnya
+
+TPM 3 mengembangkan salah satu konten dari content plan TPM 2, sesuai instruksinya. Rantai itu
+diatur lewat `dependsOn` pada definisi tugas:
+
+- `TaskDefinition.dependsOn` berisi id tugas prasyarat.
+- Halaman tugas membaca jawaban tugas itu dari localStorage lalu membangun konteksnya, dan
+  menyediakannya sebagai `ctx.sumber`. Jawaban di sana sudah terkunci lewat `variantId`, jadi
+  isinya sama persis dengan yang dulu dilihat peserta.
+- Selama tugas prasyarat belum lengkap, pertanyaannya tidak ditampilkan. Yang muncul hanya
+  pemberitahuan beserta tautan menuju tugas itu.
+
+Data localStorage tidak pernah dihapus kecuali peserta menekan tombol **Reset**, sehingga
+jawaban TPM 2 tetap tersedia saat ia mengerjakan TPM 3 berhari-hari kemudian.
+
+### Grup tanpa penilaian
+
+Pertanyaan "pilih konten mana yang mau dikembangkan" tidak punya jawaban benar atau salah, jadi
+grupnya ditandai `ungraded: true`. Grup seperti ini tetap wajib dijawab, tetapi tidak ikut
+menghitung nilai, dan kartunya menampilkan **seluruh varian sekaligus** — bukan tiga tingkat
+kualitas seperti grup biasa.
+
+## Ketentuan TPM 3 yang dipenuhi
+
+Mengikuti PDF *2.18 Praktik Mandiri 3 - Merancang Rencana Konten & Copywriting*. Tidak ada berkas
+template untuk tugas ini, jadi dokumennya memakai tata letak yang sama dengan TPM 1 dan TPM 2:
+A4 lanskap, font Poppins, logo Plan di pojok kanan atas, label biru di atas blok kuning.
+
+Delapan pertanyaannya: pilih konten dari content plan, hook, visual hook, storytelling, UGC,
+ide visual, caption beserta formulanya, dan pemeriksaan kesesuaian dengan objective.
+
+Daftar pilih konten menampilkan ringkasannya saja — hari, tanggal, judul, pilar, tipe visual, dan
+platform. Rincian lengkap content plan-nya dibuka lewat "Lihat detail", supaya daftarnya tetap
+enak dibaca. Membuka detail tidak ikut memilih kartunya.
+
+Setelah peserta memilih, seluruh pertanyaan berikutnya menyebut konten itu secara langsung, dan
+jawaban yang tersedia merujuk pada pilar, tipe visual, serta objective yang sudah ia tetapkan
+sendiri di tugas-tugas sebelumnya.
+
+Caption ditulis memakai salah satu formula yang diminta instruksi: AIDA, FAB, PAS, atau ACCA.
+Strukturnya sengaja ditulis eksplisit di dalam naskah supaya penerapan formulanya bisa diperiksa.
 
 ## Ketentuan TPM 1 yang dipenuhi
 

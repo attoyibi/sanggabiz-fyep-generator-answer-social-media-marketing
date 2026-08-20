@@ -40,7 +40,7 @@ export default function ChoiceGroupCard({
           {index}
         </span>
         <h3 id={`label-${group.id}`} className="text-[0.95rem] font-bold">
-          {group.question}
+          {fill(group.question)}
         </h3>
         {selected ? (
           <span className="ml-auto rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700 ring-1 ring-emerald-200">
@@ -54,10 +54,36 @@ export default function ChoiceGroupCard({
       </div>
 
       <div className="px-4 py-4 sm:px-5">
-        {group.hint && <p className="mb-3 text-[0.8rem] text-ink-soft">{group.hint}</p>}
+        {group.hint && <p className="mb-3 text-[0.8rem] text-ink-soft">{fill(group.hint)}</p>}
 
         <div role="radiogroup" aria-labelledby={`label-${group.id}`} className="grid gap-2.5">
-          {order.map((grade) => {
+          {/* Grup tanpa penilaian menampilkan seluruh variannya sekaligus,
+              karena semua pilihannya sama-sama benar dan bukan tiga tingkat
+              kualitas seperti grup biasa. */}
+          {group.ungraded
+            ? group.options[0].variants.map((variant) => {
+                const isSelected = selected?.variantId === variant.id;
+                return (
+                  <button
+                    key={variant.id}
+                    type="button"
+                    role="radio"
+                    aria-checked={isSelected}
+                    data-selected={isSelected}
+                    className="opt"
+                    onClick={() => onSelect(group.id, group.options[0].grade, variant.id)}
+                  >
+                    {group.card === "konten" ? (
+                      <KartuKonten variant={variant} fill={fill} />
+                    ) : (
+                      <span className="block text-[0.9rem] font-semibold leading-snug">
+                        {fill(variant.headline)}
+                      </span>
+                    )}
+                  </button>
+                );
+              })
+            : order.map((grade) => {
             const isSelected = selected?.grade === grade;
             // Hanya kartu yang dipilih peserta yang dikunci; kartu lain tetap
             // ikut seed sehingga isinya berganti tiap halaman dimuat ulang.
@@ -107,9 +133,9 @@ export default function ChoiceGroupCard({
                     </ul>
                   </>
                 )}
-              </button>
-            );
-          })}
+                  </button>
+                );
+              })}
         </div>
       </div>
     </section>
@@ -290,6 +316,56 @@ function KartuPlan({ variant, fill }: { variant: Variant; fill: (t: string) => s
           </div>
         ))}
       </dl>
+    </div>
+  );
+}
+
+/**
+ * Kartu pilih konten: ringkasan satu baris content plan dari tugas sebelumnya,
+ * dengan rinciannya disembunyikan di balik ringkasan supaya daftarnya tetap
+ * enak dibaca. Rincian dibuka lewat elemen details bawaan peramban, jadi tidak
+ * mengganggu pemilihan kartunya.
+ */
+function KartuKonten({ variant, fill }: { variant: Variant; fill: (t: string) => string }) {
+  const f = (k: string) => fill(variant.fields?.[k] ?? "-");
+  const rinci: [string, string][] = [
+    ["Tanggal posting", f("tanggal")],
+    ["Marketing objective", f("objective")],
+    ["Pilar konten", f("pilar")],
+    ["Tipe visual", f("tipe")],
+    ["Platform", f("platform")],
+    ["Jam posting", f("jam")],
+    ["Copywriting", f("copy")],
+    ["Notes", f("catatan")],
+  ];
+
+  return (
+    <div className="min-w-0">
+      <span className="mb-1 block text-[0.72rem] font-semibold uppercase tracking-wide text-brand">
+        Hari ke-{f("hari")} · {f("tanggal")}
+      </span>
+      <span className="block text-[0.92rem] font-bold leading-snug">{f("judul")}</span>
+      <p className="mt-0.5 text-[0.78rem] text-ink-soft">
+        {f("pilar")} · {f("tipe")} · {f("platform")}
+      </p>
+
+      <details
+        className="mt-2"
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <summary className="cursor-pointer text-[0.75rem] font-semibold text-brand">
+          Lihat detail content plan
+        </summary>
+        <dl className="mt-1.5 grid gap-x-3 gap-y-1 rounded-lg bg-surface-soft p-2.5 text-[0.72rem] sm:grid-cols-2">
+          {rinci.map(([k, v]) => (
+            <div key={k} className="min-w-0">
+              <dt className="font-semibold text-ink">{k}</dt>
+              <dd className="text-ink-soft">{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </details>
     </div>
   );
 }

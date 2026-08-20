@@ -37,11 +37,25 @@ const seed = Number(process.argv[3] ?? 12345);
 const nama = process.argv[4] ?? "Putri Amalia";
 const mode = (process.argv[5] ?? "tepat") as Grade;
 
+
+/**
+ * Konteks lengkap sebuah tugas, termasuk konteks tugas sumber bila tugas itu
+ * melanjutkan tugas sebelumnya. Dipakai supaya pemeriksaan menilai isi yang
+ * sama dengan yang dilihat peserta.
+ */
+function konteksRantai(id: string, nama: string, seed: number, mode: Grade) {
+  const t = getTask(id)!;
+  const sel: Record<string, Grade> = {};
+  for (const g of allGroups(t)) sel[g.id] = mode;
+  const src = t.dependsOn ? konteksRantai(t.dependsOn, nama, seed, mode) : undefined;
+  return buildContext(t, nama, seed, sel, src);
+}
+
 const task = getTask(taskId)!;
 const selections: Record<string, Grade> = {};
 for (const g of allGroups(task)) selections[g.id] = mode;
 
-const ctx = buildContext(task, nama, seed, selections);
+const ctx = konteksRantai(taskId, nama, seed, mode);
 const blocks = task.buildDocument(ctx);
 
 const { exportDocx } = await import("../src/lib/export/docx.ts");

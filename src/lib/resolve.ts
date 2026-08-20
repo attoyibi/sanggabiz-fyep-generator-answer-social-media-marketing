@@ -69,7 +69,9 @@ export function buildContext(
   task: TaskDefinition,
   nama: string,
   seed: number,
-  selections: Record<string, PilihanInput>
+  selections: Record<string, PilihanInput>,
+  /** Konteks tugas sumber, untuk tugas yang melanjutkan tugas sebelumnya. */
+  sumber?: BuildContext
 ): BuildContext {
   const answers: Record<string, ResolvedAnswer> = {};
   for (const group of allGroups(task)) {
@@ -95,14 +97,15 @@ export function buildContext(
     pick: <T,>(bucket: string, items: T[]) => pick(`${task.id}:doc:${bucket}`, items),
   };
 
-  const tokens = task.tokens ? task.tokens(base) : { nama };
+  const dasar = { ...base, sumber };
+  const tokens = task.tokens ? task.tokens(dasar) : { nama };
   // Token bisa mengandung token lain, jadi diisi dua putaran.
   const resolvedTokens: Record<string, string> = {};
   for (const [k, v] of Object.entries(tokens)) {
     resolvedTokens[k] = fillTokens(v, tokens);
   }
 
-  return { ...base, fill: (text: string) => fillTokens(text, resolvedTokens) };
+  return { ...dasar, fill: (text: string) => fillTokens(text, resolvedTokens) };
 }
 
 /** Berapa bagian yang sudah dipilih peserta. */
