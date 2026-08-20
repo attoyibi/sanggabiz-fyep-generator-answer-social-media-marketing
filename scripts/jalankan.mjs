@@ -29,7 +29,7 @@ try {
     platform: "node",
     format: "esm",
     target: "node20",
-    external: ["jspdf", "docx"],
+    external: ["jspdf", "docx", "exceljs"],
     outfile: out,
     logLevel: "error",
   });

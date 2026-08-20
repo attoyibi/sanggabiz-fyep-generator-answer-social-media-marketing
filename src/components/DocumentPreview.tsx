@@ -196,6 +196,47 @@ function Block({ block }: { block: DocBlock }) {
         </div>
       );
 
+    case "grid":
+      return (
+        <div className="my-2 overflow-x-auto">
+          <table className="w-full border-collapse" style={{ border: garis }}>
+            {block.head && (
+              <thead>
+                <tr>
+                  {block.head.map((t, i) => (
+                    <th
+                      key={i}
+                      className="p-1.5 text-left text-[0.72rem] font-bold text-white"
+                      style={{ border: garis, background: BIRU }}
+                    >
+                      <RichText text={t} />
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+            )}
+            <tbody>
+              {block.rows.map((baris, i) => (
+                <tr key={i}>
+                  {baris.map((teks, j) => (
+                    <td
+                      key={j}
+                      className={`p-1.5 align-top text-[0.7rem] ${j === 0 ? "font-semibold" : ""}`}
+                      style={{ border: garis }}
+                    >
+                      {teks}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {block.caption && (
+            <p className="mt-1 text-[0.7rem] italic text-ink-soft">{block.caption}</p>
+          )}
+        </div>
+      );
+
     case "pageBreak":
       return <hr className="my-6 border-dashed" style={{ borderColor: BIRU }} />;
 

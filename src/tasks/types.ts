@@ -73,8 +73,11 @@ export interface ChoiceGroup {
    *
    * "dual" menampilkan dua blok berlabel dalam satu kartu, untuk tabel template
    * yang memang berisi dua baris sekaligus seperti Kekuatan/Kelemahan.
+   *
+   * "plan" menampilkan satu baris content plan utuh: tipe visual, judul,
+   * copywriting, platform, referensi, dan catatan produksi.
    */
-  card?: "profile" | "dual";
+  card?: "profile" | "dual" | "plan";
   /** Label kedua blok pada kartu "dual", mis. ["Kekuatan", "Kelemahan"]. */
   dualLabels?: [string, string];
   options: ChoiceOption[];
@@ -165,8 +168,56 @@ export type DocBlock =
       observation: { title: Rich; lines: string[] };
       rows: { label: Rich; value: string }[];
     }
+  /** Tabel umum dengan jumlah kolom bebas, mis. grid kalender konten. */
+  | {
+      type: "grid";
+      head?: Rich[];
+      rows: string[][];
+      /** Bobot lebar tiap kolom; kosongkan untuk lebar sama rata. */
+      widths?: number[];
+      caption?: string;
+    }
   /** Mulai halaman baru. */
   | { type: "pageBreak" };
+
+/* ------------------------------------------------------------------ */
+/* Model lembar kerja: dipakai tugas yang dikumpulkan sebagai Excel     */
+/* ------------------------------------------------------------------ */
+
+/** Gaya sel, mengikuti warna template resmi. */
+export type SheetStyle =
+  | "judul"
+  | "kepala"
+  | "bulan"
+  | "hari"
+  | "tanggal"
+  | "isi"
+  | "krem"
+  | "label"
+  | "kosong";
+
+export interface SheetCell {
+  text?: string;
+  style?: SheetStyle;
+  /** Jumlah kolom yang digabung, termasuk sel ini. */
+  span?: number;
+}
+
+export interface SheetRow {
+  /** Tinggi baris dalam poin. Kosongkan untuk tinggi bawaan. */
+  height?: number;
+  cells: SheetCell[];
+}
+
+export interface SheetSpec {
+  name: string;
+  /** Lebar tiap kolom dalam satuan karakter, mengikuti template. */
+  columns: number[];
+  rows: SheetRow[];
+}
+
+/** Format berkas yang bisa diunduh peserta untuk sebuah tugas. */
+export type FormatUnduhan = "pdf" | "docx" | "xlsx";
 
 /** Jawaban yang sudah "diselesaikan": grade + varian terpilih. */
 export interface ResolvedAnswer {
@@ -205,7 +256,14 @@ export interface TaskDefinition {
   instructionSummary: string[];
   submission: Submission;
   steps: TaskStep[];
-  /** Token dinamis untuk teks varian, mis. {{seg1}}. */
+  /** Token dinamis untuk teks varian, mis. {{brand}}. */
   tokens?: (ctx: Omit<BuildContext, "fill">) => Record<string, string>;
+  /**
+   * Format berkas yang ditawarkan ke peserta, berurutan sesuai tampilan tombol.
+   * Tiap tugas bisa berbeda: TPM 1 dikumpulkan sebagai PDF, TPM 2 sebagai Excel.
+   */
+  downloads: FormatUnduhan[];
   buildDocument: (ctx: BuildContext) => DocBlock[];
+  /** Penyusun lembar kerja; wajib bila "xlsx" ada di daftar unduhan. */
+  buildWorkbook?: (ctx: BuildContext) => SheetSpec[];
 }

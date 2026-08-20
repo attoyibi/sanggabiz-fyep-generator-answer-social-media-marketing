@@ -4,7 +4,8 @@ import { getTask } from "../src/tasks/registry";
 import type { DocBlock, Grade } from "../src/tasks/types";
 import { createHash } from "node:crypto";
 
-const task = getTask("tpm-1")!;
+const taskId = process.argv[2] ?? "tpm-1";
+const task = getTask(taskId)!;
 const groups = allGroups(task);
 
 function teks(blocks: DocBlock[]): string {
@@ -36,9 +37,8 @@ function teks(blocks: DocBlock[]): string {
     .join("\n");
 }
 
-const N = Number(process.argv[2] ?? 500);
+const N = Number(process.argv[3] ?? 500);
 const hashes = new Set<string>();
-const kompetitors = new Map<string, number>();
 const segmen1 = new Map<string, number>();
 let minLen = Infinity, maxLen = 0;
 
@@ -54,14 +54,11 @@ for (let i = 0; i < N; i++) {
   hashes.add(createHash("sha1").update(isi).digest("hex"));
   minLen = Math.min(minLen, isi.length);
   maxLen = Math.max(maxLen, isi.length);
-  const k = ctx.answers["kompetitor"].variant.fields!.nama;
-  kompetitors.set(k, (kompetitors.get(k) ?? 0) + 1);
-  const s1 = ctx.answers["geo"].variant.headline;
+  const s1 = ctx.answers[groups[0].id].variant.headline;
   segmen1.set(s1, (segmen1.get(s1) ?? 0) + 1);
 }
 
-console.log(`${N} peserta -> ${hashes.size} dokumen unik (${((hashes.size / N) * 100).toFixed(1)}% unik)`);
+console.log(`${taskId}: ${N} peserta -> ${hashes.size} dokumen unik (${((hashes.size / N) * 100).toFixed(1)}% unik)`);
 console.log("panjang isi:", minLen, "-", maxLen, "karakter");
-console.log("sebaran kompetitor:", JSON.stringify(Object.fromEntries(kompetitors)));
-console.log("sebaran segmen geographic:");
+console.log(`sebaran jawaban grup pertama (${groups[0].id}):`);
 for (const [k, v] of [...segmen1].sort((a, b) => b[1] - a[1])) console.log(`  ${v.toString().padStart(4)}  ${k}`);

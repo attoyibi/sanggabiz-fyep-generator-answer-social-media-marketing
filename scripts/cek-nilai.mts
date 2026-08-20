@@ -4,7 +4,8 @@ import { getTask } from "../src/tasks/registry";
 import { hitungNilai, kodeNilai } from "../src/lib/scoring";
 import type { Grade } from "../src/tasks/types";
 
-const task = getTask("tpm-1")!;
+const taskId = process.argv[2] ?? "tpm-1";
+const task = getTask(taskId)!;
 const groups = allGroups(task);
 const n = groups.length;
 
@@ -16,7 +17,7 @@ function buat(tepat: number, sebagian: number): Record<string, Grade> {
   return sel;
 }
 
-console.log(`Jumlah pertanyaan: ${n}\n`);
+console.log(`Tugas: ${taskId} | Jumlah pertanyaan: ${n}\n`);
 console.log("tepat sebagian kurang -> nilai   kode");
 const kasus: [number, number][] = [
   [n, 0], [n - 1, 1], [n - 1, 0], [n - 2, 2], [n - 2, 1], [n - 2, 0],

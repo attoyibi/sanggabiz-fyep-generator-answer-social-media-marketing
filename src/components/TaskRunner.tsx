@@ -5,12 +5,19 @@ import Navbar from "./Navbar";
 import ChoiceGroupCard from "./ChoiceGroupCard";
 import DocumentPreview from "./DocumentPreview";
 import { getTask } from "@/tasks/registry";
-import type { Grade, Pilihan } from "@/tasks/types";
+import type { FormatUnduhan, Grade, Pilihan } from "@/tasks/types";
 import { allGroups, buildContext, progressOf } from "@/lib/resolve";
 import { kodeNilai } from "@/lib/scoring";
 import { createSeed } from "@/lib/rng";
 import { EMPTY_TERSIMPAN, loadState, saveState, clearState, type PesertaState } from "@/lib/storage";
 import { safeFileName } from "@/lib/download";
+
+/** Nama format pada tombol unduh. */
+const LABEL_UNDUHAN: Record<FormatUnduhan, string> = {
+  pdf: "PDF",
+  docx: "DOCX",
+  xlsx: "Excel",
+};
 
 export default function TaskRunner({ taskId }: { taskId: string }) {
   const task = getTask(taskId)!;
@@ -18,7 +25,7 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
   const [state, setState] = useState<PesertaState>({ ...EMPTY_TERSIMPAN, seed: 0 });
   const [hydrated, setHydrated] = useState(false);
   const [namaInput, setNamaInput] = useState("");
-  const [busy, setBusy] = useState<null | "pdf" | "docx">(null);
+  const [busy, setBusy] = useState<null | FormatUnduhan>(null);
   const [pesan, setPesan] = useState<string | null>(null);
   const [konfirmasiReset, setKonfirmasiReset] = useState(false);
   const [ubahNama, setUbahNama] = useState(false);
@@ -58,6 +65,8 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
   // Kode untuk pemeriksa; hanya ikut ke berkas hasil unduhan, tidak pernah tampil di layar.
   const kode = useMemo(() => kodeNilai(task, selections), [task, selections]);
   const namaFile = safeFileName(task.submission.fileName(state.nama || "Nama Peserta"));
+  // Format pengumpulan tugas ini, yaitu format pertama pada daftar unduhan.
+  const formatUtama = task.downloads[0];
 
   /* ---------- aksi ---------- */
   const mulai = useCallback(
@@ -78,7 +87,9 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
       if (bersih.length < 3) return;
       setState((prev) => ({ ...prev, nama: bersih }));
       setUbahNama(false);
-      setPesan(`Nama diperbarui. Nama file sekarang: ${safeFileName(task.submission.fileName(bersih))}.pdf`);
+      setPesan(
+        `Nama diperbarui. Nama file sekarang: ${safeFileName(task.submission.fileName(bersih))}.${task.downloads[0]}`
+      );
     },
     [namaInput, task]
   );
@@ -117,13 +128,16 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
   }, []);
 
   const unduh = useCallback(
-    async (format: "pdf" | "docx") => {
+    async (format: FormatUnduhan) => {
       setBusy(format);
       setPesan(null);
       try {
         if (format === "pdf") {
           const { exportPdf } = await import("@/lib/export/pdf");
           await exportPdf(blocks, namaFile, kode);
+        } else if (format === "xlsx") {
+          const { exportXlsx } = await import("@/lib/export/xlsx");
+          await exportXlsx(task.buildWorkbook!(ctx), namaFile, kode);
         } else {
           const { exportDocx } = await import("@/lib/export/docx");
           await exportDocx(blocks, namaFile, kode);
@@ -144,7 +158,7 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
         setBusy(null);
       }
     },
-    [blocks, namaFile, kode]
+    [blocks, namaFile, kode, task, ctx]
   );
 
   useEffect(() => {
@@ -254,7 +268,7 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
               <p className="mt-3 text-[0.8rem] text-ink-soft">
                 File akan bernama{" "}
                 <span className="font-semibold text-brand">
-                  {safeFileName(task.submission.fileName(namaInput.trim().replace(/\s+/g, " ")))}.pdf
+                  {safeFileName(task.submission.fileName(namaInput.trim().replace(/\s+/g, " ")))}.{formatUtama}
                 </span>
               </p>
             )}
@@ -315,7 +329,7 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-[0.95rem] font-bold">{state.nama}</p>
                     <p className="truncate text-[0.78rem] text-ink-soft">
-                      Nama file: {namaFile}.pdf
+                      Nama file: {namaFile}.{formatUtama}
                     </p>
                   </div>
                   <button
@@ -485,22 +499,27 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
                 </button>
               )}
 
-              <button
-                type="button"
-                onClick={() => unduh("docx")}
-                disabled={busy !== null || !lengkap}
-                className="rounded-lg border border-brand px-3.5 py-2 text-[0.82rem] font-semibold text-brand transition hover:bg-brand-soft disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                {busy === "docx" ? "Menyiapkan..." : "Unduh DOCX"}
-              </button>
-              <button
-                type="button"
-                onClick={() => unduh("pdf")}
-                disabled={busy !== null || !lengkap}
-                className="rounded-lg bg-brand px-4 py-2 text-[0.82rem] font-semibold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                {busy === "pdf" ? "Menyiapkan..." : "Unduh PDF"}
-              </button>
+              {/* Format unduhan berbeda tiap tugas: TPM 1 dikumpulkan sebagai PDF,
+                  TPM 2 sebagai Excel. Format pertama pada daftar adalah format
+                  pengumpulannya, dan tampil sebagai tombol utama. */}
+              {task.downloads.map((format, i) => {
+                const utama = i === 0;
+                return (
+                  <button
+                    key={format}
+                    type="button"
+                    onClick={() => unduh(format)}
+                    disabled={busy !== null || !lengkap}
+                    className={
+                      utama
+                        ? "rounded-lg bg-brand px-4 py-2 text-[0.82rem] font-semibold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-40"
+                        : "rounded-lg border border-brand px-3.5 py-2 text-[0.82rem] font-semibold text-brand transition hover:bg-brand-soft disabled:cursor-not-allowed disabled:opacity-40"
+                    }
+                  >
+                    {busy === format ? "Menyiapkan..." : `Unduh ${LABEL_UNDUHAN[format]}`}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>

@@ -82,6 +82,8 @@ export default function ChoiceGroupCard({
               >
                 {group.card === "profile" ? (
                   <KartuProfil variant={variant} fill={fill} />
+                ) : group.card === "plan" ? (
+                  <KartuPlan variant={variant} fill={fill} />
                 ) : group.card === "dual" ? (
                   <KartuGanda
                     variant={variant}
@@ -247,6 +249,47 @@ function KartuGanda({
     <div className="grid gap-3 sm:grid-cols-2">
       {blok("a", labels[0])}
       {blok("b", labels[1])}
+    </div>
+  );
+}
+
+/**
+ * Kartu satu baris content plan. Menampilkan kolom yang benar-benar dipilih
+ * peserta; kolom yang mengikuti jawaban bagian lain (objective, PIC, jam,
+ * status) tidak diulang di sini supaya kartunya tetap terbaca.
+ */
+function KartuPlan({ variant, fill }: { variant: Variant; fill: (t: string) => string }) {
+  const f = (k: string) => fill(variant.fields?.[k] ?? "-");
+  const baris: [string, string][] = [
+    ["Pilar Konten", f("pilar")],
+    ["Tipe Visual", f("tipeVisual")],
+    ["Platform", f("platform")],
+    ["Referensi", f("referensi")],
+    ["Notes", f("catatan")],
+  ];
+
+  return (
+    <div className="min-w-0">
+      <span
+        className="mb-1.5 block rounded px-2 py-1 text-[0.82rem] font-bold text-white"
+        style={{ background: BIRU }}
+      >
+        {f("judul")}
+      </span>
+
+      <p className="text-[0.78rem] leading-relaxed text-ink-soft">
+        <span className="font-semibold italic text-ink">Copywriting: </span>
+        {f("copywriting")}
+      </p>
+
+      <dl className="mt-1.5 grid gap-x-3 gap-y-0.5 text-[0.72rem] sm:grid-cols-2">
+        {baris.map(([k, v]) => (
+          <div key={k} className="min-w-0">
+            <dt className="inline font-semibold text-ink">{k}: </dt>
+            <dd className="inline text-ink-soft">{v}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   );
 }

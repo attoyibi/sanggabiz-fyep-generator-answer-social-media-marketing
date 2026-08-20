@@ -1,5 +1,6 @@
 import type { TaskDefinition } from "./types";
 import tpm1 from "./tpm-1";
+import tpm2 from "./tpm-2";
 
 /**
  * ====================================================================
@@ -12,7 +13,7 @@ import tpm1 from "./tpm-1";
  *    Navbar, penyimpanan localStorage, preview, dan export PDF/DOCX
  *    otomatis mengikuti tanpa perlu diubah.
  */
-export const TASKS: TaskDefinition[] = [tpm1];
+export const TASKS: TaskDefinition[] = [tpm1, tpm2];
 
 /** Jumlah slot yang ditampilkan di navbar, termasuk tugas yang belum tersedia. */
 export const TOTAL_SLOT_TUGAS = 8;

@@ -32,11 +32,12 @@ URL.createObjectURL = (b: Blob) => {
 URL.revokeObjectURL = () => {};
 void origCreate;
 
-const seed = Number(process.argv[2] ?? 12345);
-const nama = process.argv[3] ?? "Putri Amalia";
-const mode = (process.argv[4] ?? "tepat") as Grade;
+const taskId = process.argv[2] ?? "tpm-1";
+const seed = Number(process.argv[3] ?? 12345);
+const nama = process.argv[4] ?? "Putri Amalia";
+const mode = (process.argv[5] ?? "tepat") as Grade;
 
-const task = getTask("tpm-1")!;
+const task = getTask(taskId)!;
 const selections: Record<string, Grade> = {};
 for (const g of allGroups(task)) selections[g.id] = mode;
 
@@ -49,7 +50,7 @@ await exportPdf(blocks, task.submission.fileName(nama), kode);
 console.log("kode nilai:", kode);
 
 const buf = Buffer.from(await captured[0].arrayBuffer());
-const out = process.argv[5] ?? "/tmp/out.pdf";
+const out = process.argv[6] ?? "/tmp/out.pdf";
 writeFileSync(out, buf);
 console.log(`ditulis ${out} (${buf.length} byte)`);
 

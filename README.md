@@ -89,6 +89,9 @@ src/
     tpm-1/
       bank.ts       Bank jawaban (14 grup, semua varian per tingkat kualitas)
       index.ts      Studi kasus, instruksi, langkah, dan penyusun dokumen
+    tpm-2/
+      bank.ts       Bank jawaban (9 grup)
+      index.ts      Penyusun dokumen PDF sekaligus lembar kerja Excel
   lib/
     rng.ts          Pengacak deterministik berbasis seed
     resolve.ts      Menggabungkan pilihan peserta menjadi konteks dokumen
@@ -96,6 +99,7 @@ src/
     template.ts     Pengganti token {{brand}}, {{nama}}, {{kompetitor}}, dst.
     export/pdf.ts   Penulis PDF (jsPDF)
     export/docx.ts  Penulis DOCX (docx)
+    export/xlsx.ts  Penulis Excel (exceljs)
     export/assets.ts   Logo Plan dan potret audiens (base64, khusus ekspor)
     export/poppins.ts  Font Poppins subset Latin (base64, khusus PDF)
   components/       Navbar, kartu pilihan, pratinjau dokumen, halaman tugas
@@ -124,14 +128,54 @@ Slot navbar yang belum terisi tampil sebagai "Tugas N" terkunci sampai tugasnya 
 ## Skrip pemeriksaan
 
 ```bash
-npm run cek -- cek-variasi 500                              # cek keunikan dokumen antar peserta
-npm run cek -- cek-nilai                                    # cek perhitungan kode nilai
-npm run cek -- render-pdf 12345 "Putri Amalia" tepat out.pdf   # buat PDF contoh
-npm run cek -- render-docx 12345 "Putri Amalia" tepat out.docx # buat DOCX contoh
+npm run cek -- cek-variasi tpm-1 500     # cek keunikan dokumen antar peserta
+npm run cek -- cek-nilai tpm-2           # cek perhitungan kode nilai
+npm run cek -- render-pdf tpm-1 12345 "Putri Amalia" tepat out.pdf     # PDF contoh
+npm run cek -- render-docx tpm-1 12345 "Putri Amalia" tepat out.docx   # DOCX contoh
+npm run cek -- render-xlsx tpm-2 12345 "Putri Amalia" tepat out.xlsx   # Excel contoh
 ```
 
 Argumen `tepat` bisa diganti `sebagian` atau `kurang` untuk memeriksa tampilan dokumen
 ketika peserta memilih jawaban yang tidak sesuai.
+
+## Format unduhan berbeda tiap tugas
+
+Setiap tugas menentukan sendiri format berkasnya lewat `downloads` pada definisi tugas.
+**Format pertama pada daftar adalah format pengumpulannya**, dipakai untuk contoh nama berkas
+di layar dan tampil sebagai tombol utama.
+
+| Tugas | `downloads` | Format pengumpulan |
+| --- | --- | --- |
+| TPM 1 | `["pdf", "docx"]` | PDF |
+| TPM 2 | `["xlsx", "pdf"]` | Excel |
+
+Tugas yang menyertakan `"xlsx"` wajib punya `buildWorkbook`, yang menghasilkan `SheetSpec[]`
+berisi nama sheet, lebar kolom, dan baris berisi sel bergaya. Warna gayanya diambil dari
+`styles.xml` berkas template: biru `0072CE`, kuning `FFD500`, dan krem `FFF2CC`.
+
+## Ketentuan TPM 2 yang dipenuhi
+
+Mengikuti PDF *2.17 Praktik Mandiri 2 - Merancang Content Calendar & Content Plan* beserta
+*Template Content Calendar dan Plan*. Studi kasusnya masih FitActive, tetapi masalahnya berbeda:
+jadwal posting tidak konsisten dan jenis kontennya kurang bervariasi.
+
+Berkas Excel hasil unduhan memuat dua sheet, sama seperti template:
+
+1. **Content Calendar** — grid satu bulan (September 2025). Baris nama hari, tanggal, jam unggah,
+   dan rencana konten. Sesuai instruksi, hanya minggu pertama (tanggal 1-7) yang terisi;
+   sisa bulan dibiarkan kosong seperti template.
+2. **Content Plan** — 13 kolom sesuai template, berisi 3 hari pertama (1-3 September 2025).
+
+Sembilan pertanyaannya mengikuti unit yang diminta instruksi: marketing objective, content pillar,
+jam unggah sepekan, rencana konten sepekan, tiga kartu content plan harian, pembagian PIC, dan
+alur status konten.
+
+Kolom yang berulang di content plan — Marketing Objective, Pilar Konten, PIC, Jam Posting, dan
+Status Konten — diambil dari jawaban bagian lain lewat token, bukan diacak sendiri, sehingga
+rencana harian tidak pernah bertentangan dengan objective dan jadwal yang sudah ditetapkan.
+
+Kolom *Link Hasil Konten* berisi "Diisi setelah konten tayang", karena pada tahap perencanaan
+kolom itu memang belum bisa diisi.
 
 ## Ketentuan TPM 1 yang dipenuhi
 

@@ -348,6 +348,43 @@ export async function exportDocx(
         break;
       }
 
+      case "grid": {
+        const n = block.head?.length ?? block.rows[0]?.length ?? 1;
+        const bobot = block.widths ?? Array(n).fill(1);
+        const jumlah = bobot.reduce((a, x) => a + x, 0);
+        const lebar = bobot.map((w) => Math.round((ISI_W * w) / jumlah));
+        const baris: unknown[] = [];
+        if (block.head) {
+          baris.push(
+            new TableRow({
+              tableHeader: true,
+              children: block.head.map((t, i) =>
+                sel([richPara(t, { color: "FFFFFF", size: SZ_KECIL })], { width: lebar[i], fill: BIRU })
+              ),
+            })
+          );
+        }
+        for (const r of block.rows) {
+          baris.push(
+            new TableRow({
+              children: r.map((teks, i) =>
+                sel([isiPara(teks, SZ_KECIL)], { width: lebar[i] })
+              ),
+            })
+          );
+        }
+        push(tabel(baris, lebar));
+        if (block.caption) {
+          push(
+            new Paragraph({
+              children: [new TextRun({ text: block.caption, font: FONT, size: SZ_KECIL, italics: true, color: ABU })],
+            })
+          );
+        }
+        jarak();
+        break;
+      }
+
       case "pageBreak":
         push(new Paragraph({ children: [], pageBreakBefore: true }));
         break;

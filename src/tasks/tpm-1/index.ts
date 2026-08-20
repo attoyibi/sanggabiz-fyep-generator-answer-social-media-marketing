@@ -89,7 +89,7 @@ const tpm1: TaskDefinition = {
   caseStudy: {
     title: "Studi Kasus",
     paragraphs: [
-      "Kamu adalah seorang Social Media Specialist di sebuah perusahaan bernama “FitActive”. FitActive adalah brand pakaian olahraga lokal yang menawarkan koleksi pakaian dengan desain modern dan bahan berkualitas tinggi. Sejak berdiri, FitActive berfokus pada gaya hidup aktif dan sehat untuk masyarakat urban.",
+      "Kamu adalah seorang Social Media Specialist di sebuah perusahaan bernama “FitActive”. FitActive adalah brand pakaian olahraga lokal yang menawarkan koleksi pakaian dengan desain modern dan bahan berkualitas tinggi. Sejak berdiri pada tahun 2020, FitActive berfokus pada gaya hidup aktif dan sehat untuk masyarakat urban.",
       "Keunggulan utamanya ada tiga: Desain Fungsional, yaitu koleksi pakaian yang menggabungkan gaya dan kenyamanan; Bahan Berkualitas, yaitu material breathable yang mendukung aktivitas olahraga; serta Harga Terjangkau, yaitu produk lokal berkualitas tinggi dengan harga yang kompetitif.",
       "Saat ini kamu menghadapi tantangan untuk meningkatkan engagement di Instagram. Meskipun jumlah followers meningkat, interaksi pada setiap unggahan konten masih rendah. FitActive merasa kesulitan memahami siapa sebenarnya target audiens mereka dan seperti apa jenis konten yang sesuai dengan preferensi target market.",
       "Untuk menjawab tantangan ini, FitActive membutuhkan analisis target audiens yang spesifik dan juga riset konten kompetitor untuk menentukan strategi konten Instagram ke depannya.",
@@ -175,6 +175,8 @@ const tpm1: TaskDefinition = {
       groups: tpm1Groups.slice(12, 14),
     },
   ],
+
+  downloads: ["pdf", "docx"],
 
   buildDocument: (ctx) => {
     const b: DocBlock[] = [];

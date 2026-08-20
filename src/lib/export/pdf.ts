@@ -487,6 +487,63 @@ export async function exportPdf(
     y += 6;
   };
 
+  /** Tabel dengan jumlah kolom bebas, mis. grid kalender konten. */
+  const blokGrid = (b: Extract<DocBlock, { type: "grid" }>) => {
+    const n = b.head?.length ?? b.rows[0]?.length ?? 1;
+    const bobot = b.widths ?? Array(n).fill(1);
+    const jumlah = bobot.reduce((a, x) => a + x, 0);
+    const lebar = bobot.map((w) => (CONTENT_W * w) / jumlah);
+    const x0 = (i: number) => MARGIN + lebar.slice(0, i).reduce((a, x) => a + x, 0);
+    const s = 9;
+
+    const tinggiKepala = b.head
+      ? Math.max(...b.head.map((t, i) => richTinggi(t, s, lebar[i] - PAD * 2))) + PAD * 2
+      : 0;
+
+    const gambarKepala = () => {
+      if (!b.head) return;
+      b.head.forEach((t, i) => {
+        kotak(x0(i), y, lebar[i], tinggiKepala, BIRU);
+        richKiri(t, s, x0(i) + PAD, lebar[i] - PAD * 2, PUTIH, y + PAD);
+      });
+      y += tinggiKepala;
+    };
+
+    if (b.head) {
+      muat(tinggiKepala + 12);
+      gambarKepala();
+    }
+
+    for (const baris of b.rows) {
+      const sel = baris.map((teks, i) => pecah(teks, s, lebar[i] - PAD * 2));
+      const tinggi = Math.max(...sel.map((l) => l.length)) * lh(s) + PAD * 2;
+      // Baris yang tidak muat pindah halaman bersama kepala tabelnya, supaya
+      // tidak ada baris yang berdiri sendiri tanpa nama kolom.
+      if (y + tinggi > PAGE_H - MARGIN) {
+        halamanBaru();
+        gambarKepala();
+      }
+      sel.forEach((baris1, i) => {
+        kotak(x0(i), y, lebar[i], tinggi);
+        set(s, i === 0, false, HITAM);
+        let yi = y + PAD;
+        for (const t of baris1) {
+          doc.text(t, x0(i) + PAD, yi + s * PT * 0.95);
+          yi += lh(s);
+        }
+      });
+      y += tinggi;
+    }
+
+    if (b.caption) {
+      y += 2;
+      set(8.5, false, true, ABU);
+      doc.text(b.caption, MARGIN, y + 3);
+      y += 5;
+    }
+    y += 6;
+  };
+
   /* ---------------- jalankan ---------------- */
 
   for (const block of blocks) {
@@ -508,6 +565,9 @@ export async function exportPdf(
         break;
       case "analysis":
         blokAnalysis(block);
+        break;
+      case "grid":
+        blokGrid(block);
         break;
       case "pageBreak":
         halamanBaru();
