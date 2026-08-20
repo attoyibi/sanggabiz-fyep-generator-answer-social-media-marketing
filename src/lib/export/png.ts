@@ -42,6 +42,24 @@ export function gambarDesain(canvas: HTMLCanvasElement, spec: DesignSpec): void 
       continue;
     }
 
+    if (l.type === "ellipse") {
+      c.fillStyle = l.fill;
+      c.beginPath();
+      c.ellipse(l.cx, l.cy, l.rx, l.ry, 0, 0, Math.PI * 2);
+      c.fill();
+      continue;
+    }
+
+    if (l.type === "line") {
+      c.strokeStyle = l.color;
+      c.lineWidth = l.width;
+      c.beginPath();
+      c.moveTo(l.x1, l.y1);
+      c.lineTo(l.x2, l.y2);
+      c.stroke();
+      continue;
+    }
+
     c.fillStyle = l.color;
     c.font = `${l.weight ?? "normal"} ${l.size}px ${KELUARGA[l.font]}`;
     c.textAlign = l.align ?? "left";
@@ -64,7 +82,36 @@ export function gambarDesain(canvas: HTMLCanvasElement, spec: DesignSpec): void 
     }
 
     const lh = l.size * (l.leading ?? 1.25);
-    const x = l.align === "center" ? l.x + l.w / 2 : l.x;
+    const x =
+      l.align === "center" ? l.x + l.w / 2 : l.align === "right" ? l.x + l.w : l.x;
+
+    // Blok warna di belakang teks digambar dulu, selebar tiap barisnya.
+    if (l.highlight) {
+      const padX = l.highlight.padX ?? Math.round(l.size * 0.34);
+      const padY = l.highlight.padY ?? Math.round(l.size * 0.2);
+      const r = l.highlight.radius ?? Math.round(l.size * 0.16);
+      c.fillStyle = l.highlight.fill;
+      baris.forEach((t, i) => {
+        if (!t) return;
+        const lebar = c.measureText(t).width;
+        const kiri =
+          (l.align === "center" ? x - lebar / 2 : l.align === "right" ? x - lebar : x) - padX;
+        const atas = l.y + i * lh - padY;
+        const kotakW = lebar + padX * 2;
+        const kotakH = l.size * 1.16 + padY * 2;
+        const rr = Math.min(r, kotakW / 2, kotakH / 2);
+        c.beginPath();
+        c.moveTo(kiri + rr, atas);
+        c.arcTo(kiri + kotakW, atas, kiri + kotakW, atas + kotakH, rr);
+        c.arcTo(kiri + kotakW, atas + kotakH, kiri, atas + kotakH, rr);
+        c.arcTo(kiri, atas + kotakH, kiri, atas, rr);
+        c.arcTo(kiri, atas, kiri + kotakW, atas, rr);
+        c.closePath();
+        c.fill();
+      });
+      c.fillStyle = l.color;
+    }
+
     baris.forEach((t, i) => c.fillText(t, x, l.y + i * lh));
   }
 }

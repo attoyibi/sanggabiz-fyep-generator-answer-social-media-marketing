@@ -98,7 +98,7 @@ src/
       index.ts      Melanjutkan content plan TPM 2 lewat dependsOn
     tpm-4/
       bank.ts       Bank jawaban (6 grup: format, layout, warna, teks, safe zone, finalisasi)
-      index.ts      Penyusun desain PNG + resep Canva, melanjutkan TPM 3
+      index.ts      Pola desain ala unggahan media sosial + resep Canva, melanjutkan TPM 3
   lib/
     rng.ts          Pengacak deterministik berbasis seed
     resolve.ts      Menggabungkan pilihan peserta menjadi konteks dokumen
@@ -242,16 +242,51 @@ Mengikuti PDF *2.24 Praktik Mandiri 4 - Mendesain Konten Visual di Canva* besert
 *Brand Guideline*. Tugas ini melanjutkan TPM 3 lewat `dependsOn`, jadi desainnya dibuat dari
 konten yang peserta pilih dan kembangkan sendiri di tugas sebelumnya.
 
+### Tata letak meniru unggahan sungguhan
+
+Desainnya disusun dari pola yang biasa dipakai di beranda, bukan dari kotak dan teks polos:
+label pilar berbentuk stiker di kiri atas, wordmark di kanan atas, judul dengan blok warna di
+belakang tiap barisnya, tombol ajakan berbentuk pil, lalu kaki desain berisi nama akun dan
+titik penanda halaman. Dua unsur terakhir itu yang paling membedakan tampilan unggahan dari
+sekadar salindia.
+
+Pertanyaan tata letak sengaja hanya menyediakan **enam pola**, bukan daftar panjang. Variasi
+tampilannya datang dari tempat lain:
+
+| Sumber variasi | Pengaruhnya pada desain |
+| --- | --- |
+| Jawaban tata letak peserta | Rupa sampul: judul disorot, blok warna bawah, atau kotak perbandingan |
+| Tipe visual pada TPM 3 | Ukuran kanvas (1:1 atau 9:16) dan jumlah lembar carousel |
+| Pilar, objective, dan tipe konten | Bentuk lembar isi carousel: kartu bernomor, daftar bertanda, atau kutipan |
+| Caption yang disusun di TPM 3 | Naskah tiap lembar isi, satu bagian formula copywriting per lembar |
+
+Karena itu dua peserta yang memilih tata letak sama tetap memperoleh carousel yang berbeda bila
+konten yang mereka kembangkan di tugas sebelumnya berbeda.
+
+Naskah lembar isi diambil dari caption TPM 3 dengan label formulanya dibuang lebih dulu:
+unggahan sungguhan tidak mencetak kata "Attention" di atas gambar. Bila bagian captionnya lebih
+sedikit daripada jumlah lembar, kalimat pada keterangan pendukung ikut dipakai supaya tidak ada
+dua lembar yang isinya persis sama.
+
+Ukuran huruf tidak dipatok tetap. Canvas baru bisa mengukur teks saat menggambar, sedangkan tata
+letak harus ditentukan lebih awal, jadi tinggi tiap blok ditaksir lebih dulu — sengaja ditaksir
+lebih lebar dari kenyataan — lalu ukurannya dikecilkan sampai muat. Naskah panjang mengecil
+sendiri, bukan menabrak unsur di bawahnya.
+
+Pada kanvas 9:16 batas amannya lebih dalam di atas dan bawah daripada di kiri-kanan, mengikuti
+antarmuka Reels dan Story yang menutupi kedua ujung layar.
+
 ### Desain dibuat di sini, resep Canva tetap diberikan
 
 Peserta tidak perlu keluar ke Canva: situs menggambar desainnya sendiri ke canvas lalu
 mengunduhnya sebagai PNG pada ukuran tayang sebenarnya. Untuk carousel, jumlah lembarnya
 mengikuti tipe visual pada rancangan TPM 3, dibatasi 2 sampai 6 lembar.
 
-PDF pendampingnya berisi **Resep Canva**: delapan langkah lengkap dengan ukuran kanvas, kode
+PDF pendampingnya berisi **Resep Canva**: sepuluh langkah lengkap dengan ukuran kanvas, kode
 hex, ukuran font, dan posisi x/y tiap unsur. Angka-angka pada resep itu **dibaca balik dari
 lembar yang benar-benar digambar**, bukan ditulis ulang secara terpisah, jadi resep dan
-gambarnya tidak mungkin berbeda meskipun pola tata letaknya berubah.
+gambarnya tidak mungkin berbeda meskipun pola tata letaknya berubah. Langkah ajakan bahkan
+dibaca dari lembar penutup carousel, bukan dari sampulnya.
 
 Perlu dicatat: salah satu capaian yang dinilai instruksi aslinya adalah "mengoperasikan tools
 desain dan fitur-fitur Canva". Menggambar di situs ini melewati capaian tersebut. Berkas yang
@@ -270,9 +305,9 @@ tingkatannya — dan hasilnya digambar apa adanya supaya peserta melihat sendiri
 
 ### Wordmark dan safe zone
 
-Setiap lembar membawa wordmark FitActive; yang menyesuaikan pola tata letak adalah posisinya,
-bukan ada-tidaknya. Pratinjau di layar bisa menampilkan garis putus-putus safe zone, dan
-persentasenya mengikuti jawaban peserta.
+Setiap lembar membawa wordmark FitActive di sudut kanan atas, menyeimbangkan label pilar di
+kiri. Pratinjau di layar bisa menampilkan garis putus-putus safe zone, dan persentasenya
+mengikuti jawaban peserta.
 
 Brand FitActive tidak punya berkas logo, jadi wordmark-nya ditulis sebagai teks Poppins Bold.
 

@@ -276,10 +276,18 @@ export type DesignLayer =
       /** "judul" memakai Poppins, "teks" memakai Arial, sesuai brand guideline. */
       font: "judul" | "teks";
       weight?: "normal" | "bold";
-      align?: "left" | "center";
+      align?: "left" | "center" | "right";
       /** Jarak antarbaris sebagai kelipatan ukuran font. */
       leading?: number;
-    };
+      /**
+       * Blok warna di belakang teks, digambar mengikuti lebar tiap baris.
+       * Lebarnya baru diketahui saat menggambar, jadi ditangani penggambar,
+       * bukan disiapkan sebagai rect terpisah.
+       */
+      highlight?: { fill: string; radius?: number; padX?: number; padY?: number };
+    }
+  | { type: "ellipse"; cx: number; cy: number; rx: number; ry: number; fill: string }
+  | { type: "line"; x1: number; y1: number; x2: number; y2: number; color: string; width: number };
 
 export interface DesignSpec {
   /** Nama berkas tanpa ekstensi, mis. "slide-1". */
