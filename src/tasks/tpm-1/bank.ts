@@ -1,128 +1,88 @@
 import type { ChoiceGroup } from "../types";
 
 /**
- * BANK JAWABAN TPM 1 — Strategi STP produk "VitaFresh".
+ * BANK JAWABAN TPM 1 — Riset Target Audiens dan Konten Kompetitor brand "FitActive".
  *
  * Setiap grade punya banyak varian. Satu varian diambil acak per peserta
  * (berdasarkan seed), jadi dua peserta yang sama-sama memilih kartu "tepat"
  * tetap menghasilkan isi dokumen yang berbeda.
  *
- * Token yang tersedia di dalam teks: {{nama}}, {{produk}}, {{seg1}}, {{seg2}}, {{seg3}}.
+ * Token yang tersedia di dalam teks:
+ * {{nama}}, {{brand}}, {{audiens}}, {{channel}}, {{kompetitor}}.
  */
 
 /* ================================================================== */
-/* 1. SEGMENTASI — Segmen 1 (fokus kriteria Demografi)                */
+/* LANGKAH 1 — SEGMENTASI TARGET AUDIENS                              */
+/* 1.1 Geographic                                                      */
 /* ================================================================== */
 
-const segmen1: ChoiceGroup = {
-  id: "seg1",
-  label: "Segmen 1",
-  question: "Segmen pasar pertama — berbasis kriteria Demografi",
-  hint: "Pilih satu paket segmen. Karakteristik dan kebutuhan utamanya sudah ikut terisi.",
+const geographic: ChoiceGroup = {
+  id: "geo",
+  label: "Geographic",
+  question: "Segmen Geographic — lokasi tempat target audiens tinggal",
+  hint: "Geographic menyorot negara, kota, atau wilayah tertentu tempat audiens berada.",
   options: [
     {
       grade: "tepat",
       variants: [
         {
-          id: "s1a",
-          headline: "Mahasiswa & Pelajar Aktif (18-24 tahun)",
+          id: "geo1a",
+          headline: "Jabodetabek dan kota satelit penyangganya",
           fields: {
-            nama: "Mahasiswa & Pelajar Aktif (18-24 tahun)",
-            kriteria: "Demografi",
-            karakteristik:
-              "Mahasiswa dan pelajar di kota besar dengan uang saku Rp1-2,5 juta per bulan, jadwal kuliah dan organisasi padat, terbiasa jajan di minimarket kampus, serta sangat aktif di media sosial.",
-            kebutuhan:
-              "Minuman praktis sekali teguk yang menyegarkan, membantu menjaga daya tahan tubuh saat begadang dan jadwal padat, dengan harga yang masih ramah di kantong.",
+            isi: "Jakarta, Bogor, Depok, Tangerang, dan Bekasi, termasuk kota satelit penyangganya seperti Serpong dan Cibubur. Wilayah ini padat, memiliki banyak pusat kebugaran dan taman kota, serta jaringan pengiriman yang sudah mapan sehingga produk {{brand}} dapat sampai dalam satu sampai dua hari.",
           },
           points: [
-            "Kriteria: Demografi (usia, status pendidikan, tingkat pengeluaran)",
-            "Karakteristik: mahasiswa/pelajar kota besar, uang saku Rp1-2,5 juta per bulan, jadwal padat, aktif di media sosial",
-            "Kebutuhan utama: minuman praktis dan menyegarkan yang menjaga daya tahan tubuh dengan harga terjangkau",
+            "Wilayah: Jakarta, Bogor, Depok, Tangerang, Bekasi beserta kota satelitnya",
+            "Alasan: kepadatan penduduk tinggi dengan banyak pusat kebugaran dan taman kota",
+            "Pendukung: jaringan pengiriman sudah mapan, produk sampai dalam 1-2 hari",
           ],
         },
         {
-          id: "s1b",
-          headline: "Pemuda Usia Produktif (17-25 tahun)",
+          id: "geo1b",
+          headline: "Kota metropolitan di Pulau Jawa",
           fields: {
-            nama: "Pemuda Usia Produktif (17-25 tahun)",
-            kriteria: "Demografi",
-            karakteristik:
-              "Anak muda usia sekolah akhir sampai awal kuliah/kerja, mobilitas tinggi, mudah terpengaruh tren kesehatan di media sosial, dan sering membeli minuman kemasan di perjalanan.",
-            kebutuhan:
-              "Minuman sehat yang tetap terasa enak dan kekinian, mudah dibawa, serta tidak membuat tubuh cepat lelah saat beraktivitas seharian.",
+            isi: "Jakarta, Bandung, Surabaya, Semarang, dan Yogyakarta. Kelima kota ini memiliki komunitas lari dan pesepeda yang aktif, kegiatan car free day rutin setiap pekan, serta daya beli kelas menengah yang sesuai dengan rentang harga {{brand}}.",
           },
           points: [
-            "Kriteria: Demografi (kelompok usia produktif muda)",
-            "Karakteristik: mobilitas tinggi, cepat mengikuti tren kesehatan dari media sosial, rutin membeli minuman kemasan",
-            "Kebutuhan utama: minuman sehat yang rasanya enak, praktis dibawa, dan mendukung stamina harian",
+            "Wilayah: Jakarta, Bandung, Surabaya, Semarang, dan Yogyakarta",
+            "Alasan: komunitas lari dan pesepeda aktif dengan car free day rutin tiap pekan",
+            "Pendukung: daya beli kelas menengah sesuai rentang harga produk",
           ],
         },
         {
-          id: "s1c",
-          headline: "Pekerja Muda / First Jobber (23-30 tahun)",
+          id: "geo1c",
+          headline: "Kawasan urban dengan fasilitas olahraga publik",
           fields: {
-            nama: "Pekerja Muda / First Jobber (23-30 tahun)",
-            kriteria: "Demografi",
-            karakteristik:
-              "Karyawan awal karier dengan penghasilan Rp4-8 juta per bulan, tinggal di kota besar, jam kerja panjang, dan mulai sadar bahwa pola makannya belum sehat.",
-            kebutuhan:
-              "Asupan vitamin C harian yang praktis tanpa harus menyiapkan jus sendiri, untuk menjaga imunitas di tengah beban kerja dan kurang tidur.",
+            isi: "Kawasan perkotaan yang memiliki fasilitas olahraga publik seperti Gelora Bung Karno, Alun-alun Kota Bandung, dan Taman Bungkul Surabaya, tempat audiens berolahraga bersama pada pagi hari maupun akhir pekan.",
           },
           points: [
-            "Kriteria: Demografi (usia, pekerjaan, tingkat penghasilan)",
-            "Karakteristik: penghasilan Rp4-8 juta per bulan, jam kerja panjang, pola makan belum teratur",
-            "Kebutuhan utama: asupan vitamin C harian yang praktis untuk menjaga imunitas di tengah beban kerja",
+            "Wilayah: kawasan urban dengan fasilitas olahraga publik yang ramai dipakai",
+            "Contoh titik: Gelora Bung Karno, Alun-alun Kota Bandung, Taman Bungkul Surabaya",
+            "Alasan: audiens berkumpul dan berolahraga bersama di pagi hari dan akhir pekan",
           ],
         },
         {
-          id: "s1d",
-          headline: "Generasi Z Perkotaan (18-24 tahun)",
+          id: "geo1d",
+          headline: "Kota besar beriklim tropis panas dan lembap",
           fields: {
-            nama: "Generasi Z Perkotaan (18-24 tahun)",
-            kriteria: "Demografi",
-            karakteristik:
-              "Konsumen Gen Z di kota besar yang terbiasa membaca label komposisi, peduli isu gula berlebih, dan gemar membagikan produk favoritnya di media sosial.",
-            kebutuhan:
-              "Minuman dengan bahan alami dan klaim gizi yang jujur, kemasan menarik untuk dibagikan, serta rasa yang tidak terlalu manis.",
+            isi: "Kota-kota besar Indonesia dengan suhu harian di atas 30 derajat dan kelembapan tinggi seperti Jakarta, Surabaya, Medan, dan Makassar. Kondisi ini membuat bahan breathable menjadi kebutuhan nyata, bukan sekadar nilai tambah.",
           },
           points: [
-            "Kriteria: Demografi (generasi dan domisili perkotaan)",
-            "Karakteristik: terbiasa membaca label komposisi, peduli isu gula berlebih, gemar membagikan produk di media sosial",
-            "Kebutuhan utama: minuman berbahan alami dengan klaim gizi jujur dan rasa tidak terlalu manis",
+            "Wilayah: Jakarta, Surabaya, Medan, dan Makassar",
+            "Alasan: suhu harian di atas 30 derajat dengan kelembapan tinggi",
+            "Kaitan produk: bahan breathable {{brand}} menjawab kebutuhan nyata di iklim ini",
           ],
         },
         {
-          id: "s1e",
-          headline: "Karyawan Kantoran Muda (25-34 tahun)",
+          id: "geo1e",
+          headline: "Kawasan perkantoran dan hunian vertikal perkotaan",
           fields: {
-            nama: "Karyawan Kantoran Muda (25-34 tahun)",
-            kriteria: "Demografi",
-            karakteristik:
-              "Pegawai kantor di kawasan bisnis dengan penghasilan menengah, rutin membeli minuman saat jam istirahat, dan kerap melewatkan sarapan karena terburu-buru.",
-            kebutuhan:
-              "Pengganti asupan buah harian yang cepat dikonsumsi di sela pekerjaan dan membantu menjaga kebugaran sampai sore.",
+            isi: "Kawasan pusat bisnis dan hunian vertikal di kota besar seperti Sudirman, Kuningan, SCBD, serta apartemen di sekitarnya yang umumnya menyediakan pusat kebugaran di dalam gedung, sehingga penghuninya berolahraga di sela jam kerja.",
           },
           points: [
-            "Kriteria: Demografi (usia, jenis pekerjaan, kelas penghasilan)",
-            "Karakteristik: bekerja di kawasan bisnis, rutin jajan saat jam istirahat, sering melewatkan sarapan",
-            "Kebutuhan utama: pengganti asupan buah harian yang cepat dikonsumsi di sela pekerjaan",
-          ],
-        },
-        {
-          id: "s1f",
-          headline: "Ibu Muda Kelas Menengah (25-35 tahun)",
-          fields: {
-            nama: "Ibu Muda Kelas Menengah (25-35 tahun)",
-            kriteria: "Demografi",
-            karakteristik:
-              "Ibu dengan satu sampai dua anak usia sekolah, pengambil keputusan belanja rumah tangga, teliti memilih produk yang dikonsumsi keluarga.",
-            kebutuhan:
-              "Minuman sehat yang aman dan disukai anak, tanpa pemanis buatan, serta bisa dibeli dalam jumlah banyak untuk stok di rumah.",
-          },
-          points: [
-            "Kriteria: Demografi (usia, status keluarga, peran belanja rumah tangga)",
-            "Karakteristik: pengambil keputusan belanja keluarga, teliti memilih produk konsumsi anak",
-            "Kebutuhan utama: minuman sehat tanpa pemanis buatan yang aman dan disukai anak",
+            "Wilayah: kawasan pusat bisnis dan hunian vertikal seperti Sudirman, Kuningan, SCBD",
+            "Alasan: gedung perkantoran dan apartemen menyediakan pusat kebugaran di dalamnya",
+            "Perilaku terkait: audiens berolahraga di sela jam kerja dan sepulang kantor",
           ],
         },
       ],
@@ -131,63 +91,906 @@ const segmen1: ChoiceGroup = {
       grade: "sebagian",
       variants: [
         {
-          id: "s1x",
-          headline: "Anak Muda",
+          id: "geo2a",
+          headline: "Kota besar di Indonesia",
+          fields: { isi: "Kota-kota besar di Indonesia yang penduduknya banyak dan aktif berolahraga." },
+          points: [
+            "Sudah menyebut kriteria geografis, yaitu kota besar",
+            "Namun tidak menyebut kota mana saja sehingga sasarannya belum jelas",
+            "Belum menjelaskan mengapa wilayah tersebut yang dipilih",
+          ],
+        },
+        {
+          id: "geo2b",
+          headline: "Pulau Jawa",
+          fields: { isi: "Seluruh wilayah Pulau Jawa." },
+          points: [
+            "Wilayah sudah dipersempit dibanding seluruh Indonesia",
+            "Cakupannya masih terlalu luas, mencakup kota besar sampai wilayah pedesaan",
+            "Kebiasaan berolahraga di dalam wilayah seluas ini sangat berbeda-beda",
+          ],
+        },
+        {
+          id: "geo2c",
+          headline: "Daerah perkotaan",
+          fields: { isi: "Masyarakat yang tinggal di daerah perkotaan." },
+          points: [
+            "Sudah mengarah ke masyarakat urban sesuai fokus {{brand}}",
+            "Tidak menyebut kota atau wilayah tertentu sehingga sulit dipakai menyusun konten",
+            "Tidak ada alasan pemilihan wilayah yang dijelaskan",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "kurang",
+      variants: [
+        {
+          id: "geo3a",
+          headline: "Seluruh dunia",
+          fields: { isi: "Seluruh dunia, karena produk bisa dikirim ke mana saja." },
+          points: [
+            "Tidak melakukan segmentasi geografis sama sekali",
+            "{{brand}} adalah brand lokal yang jangkauan pengirimannya belum sampai lintas negara",
+            "Konten tidak dapat disesuaikan dengan kebiasaan audiens mana pun",
+          ],
+        },
+        {
+          id: "geo3b",
+          headline: "Di mana saja yang ada internet",
+          fields: { isi: "Semua lokasi yang terjangkau internet." },
+          points: [
+            "Bukan pembagian wilayah, melainkan syarat teknis mengakses media sosial",
+            "Tidak menjawab pertanyaan di mana target audiens tinggal",
+            "Instruksi segmentasi geographic tidak terpenuhi",
+          ],
+        },
+        {
+          id: "geo3c",
+          headline: "Belum ditentukan",
+          fields: { isi: "Lokasi audiens akan ditentukan nanti setelah akun ramai." },
+          points: [
+            "Tidak ada segmen geografis yang disusun",
+            "Menunda penentuan wilayah membuat jadwal unggah dan pilihan bahasa tidak bisa ditetapkan",
+            "Tahapan profil audiens dan riset kompetitor jadi tidak punya pijakan",
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+/* ================================================================== */
+/* 1.2 Sociographic                                                    */
+/* ================================================================== */
+
+const sociographic: ChoiceGroup = {
+  id: "socio",
+  label: "Sociographic",
+  question: "Segmen Sociographic — hubungan sosial dan status ekonomi audiens",
+  hint: "Sociographic menyorot lingkungan sosial dan status ekonomi yang memengaruhi keputusan pembelian.",
+  options: [
+    {
+      grade: "tepat",
+      variants: [
+        {
+          id: "soc1a",
+          headline: "Kelas menengah urban yang tergabung di komunitas olahraga",
+          fields: {
+            isi: "Kelas menengah perkotaan dengan pengeluaran rumah tangga Rp4-8 juta per bulan yang tergabung dalam komunitas lari, bersepeda, atau kelas kebugaran. Keputusan membeli banyak dipengaruhi rekomendasi sesama anggota komunitas dan apa yang dipakai saat latihan bersama.",
+          },
+          points: [
+            "Status ekonomi: kelas menengah dengan pengeluaran Rp4-8 juta per bulan",
+            "Hubungan sosial: anggota komunitas lari, bersepeda, atau kelas kebugaran",
+            "Pengaruh pembelian: rekomendasi sesama anggota dan pilihan pakaian saat latihan bersama",
+          ],
+        },
+        {
+          id: "soc1b",
+          headline: "Karyawan kantoran dengan lingkaran pertemanan kantor yang aktif",
+          fields: {
+            isi: "Karyawan kantoran berpenghasilan Rp5-12 juta per bulan yang memiliki lingkaran pertemanan kantor gemar berolahraga bersama, seperti klub lari kantor atau kelas kebugaran sepulang kerja. Pembelian sering terjadi secara bersamaan dalam satu kelompok.",
+          },
+          points: [
+            "Status ekonomi: karyawan berpenghasilan Rp5-12 juta per bulan",
+            "Hubungan sosial: lingkaran pertemanan kantor yang berolahraga bersama",
+            "Pengaruh pembelian: pembelian kerap terjadi bersamaan dalam satu kelompok",
+          ],
+        },
+        {
+          id: "soc1c",
+          headline: "Pekerja muda mandiri yang mengatur anggarannya sendiri",
+          fields: {
+            isi: "Pekerja muda yang sudah berpenghasilan sendiri dan mengatur anggaran belanjanya tanpa campur tangan keluarga, dengan sisa anggaran gaya hidup sekitar Rp500 ribu sampai Rp1,5 juta per bulan yang sebagian dialokasikan untuk perlengkapan olahraga.",
+          },
+          points: [
+            "Status ekonomi: berpenghasilan sendiri, mengatur anggaran belanja secara mandiri",
+            "Hubungan sosial: keputusan membeli tidak bergantung pada persetujuan keluarga",
+            "Pengaruh pembelian: anggaran gaya hidup Rp500 ribu - Rp1,5 juta per bulan",
+          ],
+        },
+        {
+          id: "soc1d",
+          headline: "Mahasiswa dan first jobber yang dipengaruhi lingkar pertemanan",
+          fields: {
+            isi: "Mahasiswa tingkat akhir dan pekerja tahun pertama dengan anggaran terbatas, yang keputusan membelinya sangat dipengaruhi apa yang dipakai teman sepermainan dan senior di komunitas kampus maupun kantor.",
+          },
+          points: [
+            "Status ekonomi: anggaran terbatas, sensitif terhadap harga",
+            "Hubungan sosial: mengikuti pilihan teman sepermainan dan senior di komunitas",
+            "Pengaruh pembelian: keputusan membeli mengikuti tren di dalam lingkar pertemanan",
+          ],
+        },
+        {
+          id: "soc1e",
+          headline: "Keluarga muda kelas menengah dengan gaya hidup sehat",
+          fields: {
+            isi: "Pasangan muda tanpa anak atau dengan satu anak, berpenghasilan gabungan Rp10-18 juta per bulan, yang menjadikan olahraga sebagai kegiatan bersama akhir pekan dan kerap membeli perlengkapan olahraga sekaligus untuk berdua.",
+          },
+          points: [
+            "Status ekonomi: penghasilan gabungan Rp10-18 juta per bulan",
+            "Hubungan sosial: pasangan yang berolahraga bersama pada akhir pekan",
+            "Pengaruh pembelian: kerap membeli sekaligus untuk dua orang dalam satu transaksi",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "sebagian",
+      variants: [
+        {
+          id: "soc2a",
+          headline: "Kelas menengah",
+          fields: { isi: "Masyarakat kelas menengah yang mampu membeli pakaian olahraga." },
+          points: [
+            "Status ekonomi sudah disebut, yaitu kelas menengah",
+            "Belum ada rentang penghasilan atau pengeluaran sebagai patokan",
+            "Hubungan sosial yang memengaruhi keputusan pembelian belum dibahas",
+          ],
+        },
+        {
+          id: "soc2b",
+          headline: "Orang yang suka berolahraga",
+          fields: { isi: "Orang-orang yang gemar berolahraga secara rutin." },
+          points: [
+            "Menyebut kegemaran, padahal sociographic menyorot hubungan sosial dan status ekonomi",
+            "Kegemaran berolahraga lebih tepat masuk ke segmen behavioral atau psychographic",
+            "Status ekonomi audiens tidak disinggung sama sekali",
+          ],
+        },
+        {
+          id: "soc2c",
+          headline: "Sudah punya penghasilan sendiri",
+          fields: { isi: "Orang yang sudah bekerja dan punya penghasilan sendiri." },
+          points: [
+            "Sudah menyentuh sisi status ekonomi audiens",
+            "Rentang penghasilannya tidak disebut sehingga daya belinya belum terukur",
+            "Lingkungan sosial yang memengaruhi keputusan membeli belum dijelaskan",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "kurang",
+      variants: [
+        {
+          id: "soc3a",
+          headline: "Semua kalangan",
+          fields: { isi: "Semua kalangan masyarakat, dari bawah sampai atas." },
+          points: [
+            "Tidak ada pembagian status ekonomi sama sekali",
+            "Rentang harga {{brand}} tidak mungkin cocok untuk semua kalangan sekaligus",
+            "Instruksi segmentasi sociographic tidak terpenuhi",
+          ],
+        },
+        {
+          id: "soc3b",
+          headline: "Orang kaya saja",
+          fields: { isi: "Kalangan atas yang punya banyak uang." },
+          points: [
+            "Bertentangan dengan keunggulan {{brand}} yang menonjolkan harga terjangkau",
+            "Tidak ada penjelasan hubungan sosial yang memengaruhi keputusan membeli",
+            "Menutup pasar kelas menengah yang justru paling sesuai dengan produk",
+          ],
+        },
+        {
+          id: "soc3c",
+          headline: "Tidak perlu dibahas",
+          fields: { isi: "Status ekonomi tidak perlu dibahas karena semua orang butuh pakaian." },
+          points: [
+            "Melewatkan satu dari lima segmen yang diminta instruksi",
+            "Daya beli audiens tidak terpetakan sehingga penetapan harga konten promo tidak berdasar",
+            "Profil audiens pada tahap berikutnya kehilangan salah satu dasar penyusunnya",
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+/* ================================================================== */
+/* 1.3 Demographic                                                     */
+/* ================================================================== */
+
+const demographic: ChoiceGroup = {
+  id: "demo",
+  label: "Demographic",
+  question: "Segmen Demographic — usia, jenis kelamin, pendapatan, pendidikan, pekerjaan",
+  hint: "Demographic berisi data yang bisa diukur dengan angka atau kategori.",
+  options: [
+    {
+      grade: "tepat",
+      variants: [
+        {
+          id: "dem1a",
+          headline: "Usia 22-32 tahun, karyawan awal karier",
+          fields: {
+            age: "22-32 tahun",
+            gender: "Perempuan dan laki-laki dengan komposisi seimbang",
+            education: "D3 sampai S1",
+            income: "Rp5-10 juta per bulan",
+            isi: "Usia 22-32 tahun; perempuan dan laki-laki dengan komposisi seimbang; pendidikan D3 sampai S1; pendapatan Rp5-10 juta per bulan; pekerjaan karyawan swasta di awal sampai pertengahan karier.",
+          },
+          points: [
+            "Usia: 22-32 tahun",
+            "Jenis kelamin: perempuan dan laki-laki dengan komposisi seimbang",
+            "Pendidikan: D3 sampai S1",
+            "Pendapatan: Rp5-10 juta per bulan",
+            "Pekerjaan: karyawan swasta di awal sampai pertengahan karier",
+          ],
+        },
+        {
+          id: "dem1b",
+          headline: "Usia 18-28 tahun, mahasiswa dan pekerja tahun pertama",
+          fields: {
+            age: "18-28 tahun",
+            gender: "Mayoritas perempuan",
+            education: "SMA sampai S1",
+            income: "Rp2-6 juta per bulan termasuk uang saku",
+            isi: "Usia 18-28 tahun; mayoritas perempuan; pendidikan SMA sampai S1; pendapatan atau uang saku Rp2-6 juta per bulan; berstatus mahasiswa tingkat akhir dan pekerja tahun pertama.",
+          },
+          points: [
+            "Usia: 18-28 tahun",
+            "Jenis kelamin: mayoritas perempuan",
+            "Pendidikan: SMA sampai S1",
+            "Pendapatan: Rp2-6 juta per bulan termasuk uang saku",
+            "Pekerjaan: mahasiswa tingkat akhir dan pekerja tahun pertama",
+          ],
+        },
+        {
+          id: "dem1c",
+          headline: "Usia 25-38 tahun, profesional kota besar",
+          fields: {
+            age: "25-38 tahun",
+            gender: "Perempuan dan laki-laki",
+            education: "S1 sampai S2",
+            income: "Rp8-15 juta per bulan",
+            isi: "Usia 25-38 tahun; perempuan dan laki-laki; pendidikan S1 sampai S2; pendapatan Rp8-15 juta per bulan; pekerjaan profesional dan staf tingkat menengah di kota besar.",
+          },
+          points: [
+            "Usia: 25-38 tahun",
+            "Jenis kelamin: perempuan dan laki-laki",
+            "Pendidikan: S1 sampai S2",
+            "Pendapatan: Rp8-15 juta per bulan",
+            "Pekerjaan: profesional dan staf tingkat menengah di kota besar",
+          ],
+        },
+        {
+          id: "dem1d",
+          headline: "Usia 20-30 tahun, mayoritas perempuan urban",
+          fields: {
+            age: "20-30 tahun",
+            gender: "Mayoritas perempuan, sekitar tujuh dari sepuluh audiens",
+            education: "D3 sampai S1",
+            income: "Rp4-9 juta per bulan",
+            isi: "Usia 20-30 tahun; sekitar tujuh dari sepuluh perempuan; pendidikan D3 sampai S1; pendapatan Rp4-9 juta per bulan; pekerjaan karyawan, pekerja lepas kreatif, dan wirausaha kecil.",
+          },
+          points: [
+            "Usia: 20-30 tahun",
+            "Jenis kelamin: mayoritas perempuan, sekitar tujuh dari sepuluh audiens",
+            "Pendidikan: D3 sampai S1",
+            "Pendapatan: Rp4-9 juta per bulan",
+            "Pekerjaan: karyawan, pekerja lepas kreatif, dan wirausaha kecil",
+          ],
+        },
+        {
+          id: "dem1e",
+          headline: "Usia 24-35 tahun, pekerja kantoran dan wirausaha muda",
+          fields: {
+            age: "24-35 tahun",
+            gender: "Perempuan dan laki-laki",
+            education: "S1",
+            income: "Rp6-12 juta per bulan",
+            isi: "Usia 24-35 tahun; perempuan dan laki-laki; pendidikan S1; pendapatan Rp6-12 juta per bulan; pekerjaan pegawai kantoran serta wirausaha muda yang jam kerjanya lentur.",
+          },
+          points: [
+            "Usia: 24-35 tahun",
+            "Jenis kelamin: perempuan dan laki-laki",
+            "Pendidikan: S1",
+            "Pendapatan: Rp6-12 juta per bulan",
+            "Pekerjaan: pegawai kantoran dan wirausaha muda dengan jam kerja lentur",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "sebagian",
+      variants: [
+        {
+          id: "dem2a",
+          headline: "Usia 18-45 tahun",
+          fields: {
+            age: "18-40 tahun",
+            gender: "Semua gender",
+            education: "Tidak dibatasi",
+            income: "Penghasilan menengah, tanpa angka",
+            isi: "Usia 18-45 tahun, laki-laki dan perempuan, sudah bekerja.",
+          },
+          points: [
+            "Usia dan jenis kelamin sudah disebut",
+            "Rentang usianya terlalu lebar sehingga gaya konten yang cocok berbeda jauh di dalamnya",
+            "Pendidikan dan pendapatan belum dicantumkan",
+          ],
+        },
+        {
+          id: "dem2b",
+          headline: "Anak muda yang sudah bekerja",
+          fields: {
+            age: "Usia produktif, tanpa angka",
+            gender: "Perempuan",
+            education: "Lulusan perguruan tinggi",
+            income: "Belum ditentukan",
+            isi: "Anak muda yang sudah bekerja dan punya penghasilan.",
+          },
+          points: [
+            "Pekerjaan sudah disinggung",
+            "Tidak ada angka usia maupun rentang pendapatan yang bisa diukur",
+            "Demographic seharusnya berisi data yang terukur dengan angka atau kategori",
+          ],
+        },
+        {
+          id: "dem2c",
+          headline: "Perempuan usia produktif",
+          fields: {
+            age: "Usia produktif, tanpa angka",
+            gender: "Perempuan",
+            education: "Belum disebut",
+            income: "Belum disebut",
+            isi: "Perempuan usia produktif yang aktif berolahraga.",
+          },
+          points: [
+            "Jenis kelamin sudah ditetapkan",
+            "Istilah usia produktif mencakup 15 sampai 64 tahun sehingga terlalu luas",
+            "Pendidikan, pendapatan, dan pekerjaan belum disebut sama sekali",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "kurang",
+      variants: [
+        {
+          id: "dem3a",
+          headline: "Semua umur",
+          fields: {
+            age: "Semua umur",
+            gender: "Semua gender",
+            education: "Semua jenjang",
+            income: "Semua tingkat penghasilan",
+            isi: "Semua umur dan semua jenis kelamin.",
+          },
+          points: [
+            "Tidak ada pembatasan demografis sama sekali",
+            "Kebutuhan anak-anak, remaja, dan lansia sangat berbeda dan tidak mungkin dijawab satu konten",
+            "Instruksi segmentasi demographic tidak terpenuhi",
+          ],
+        },
+        {
+          id: "dem3b",
+          headline: "Siapa saja yang mau beli",
+          fields: {
+            age: "Tidak disebut",
+            gender: "Tidak disebut",
+            education: "Tidak disebut",
+            income: "Tidak disebut",
+            isi: "Siapa saja yang mau membeli produk {{brand}}.",
+          },
+          points: [
+            "Bukan data demografis, melainkan pernyataan tentang kesediaan membeli",
+            "Tidak ada satu pun dari usia, jenis kelamin, pendidikan, atau pendapatan yang disebut",
+            "Profil audiens pada tahap berikutnya tidak bisa diisi",
+          ],
+        },
+        {
+          id: "dem3c",
+          headline: "Atlet profesional",
+          fields: {
+            age: "6-12 tahun",
+            gender: "Perempuan dan laki-laki",
+            education: "Sekolah dasar",
+            income: "Belum berpenghasilan",
+            isi: "Atlet profesional yang bertanding di kejuaraan nasional.",
+          },
+          points: [
+            "Tidak sesuai fokus {{brand}} yang menyasar gaya hidup aktif masyarakat urban",
+            "Jumlah atlet profesional terlalu sedikit untuk menopang penjualan brand",
+            "Kebutuhan mereka pada perlengkapan bertanding berbeda dari koleksi {{brand}}",
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+/* ================================================================== */
+/* 1.4 Behavioral                                                      */
+/* ================================================================== */
+
+const behavioral: ChoiceGroup = {
+  id: "behav",
+  label: "Behavioral",
+  question: "Segmen Behavioral — kebiasaan, perilaku, dan pola penggunaan produk",
+  hint: "Behavioral menyorot bagaimana audiens berolahraga, mencari, dan membeli produk.",
+  options: [
+    {
+      grade: "tepat",
+      variants: [
+        {
+          id: "beh1a",
+          headline: "Berolahraga 3-4 kali sepekan, membeli saat tanggal kembar",
+          fields: {
+            isi: "Berolahraga tiga sampai empat kali sepekan berupa lari pagi dan kelas kebugaran; membaca ulasan pembeli sebelum memutuskan; menunggu tanggal kembar untuk berbelanja; dan mengganti pakaian olahraga rata-rata setiap enam sampai dua belas bulan.",
+          },
+          points: [
+            "Pola olahraga: tiga sampai empat kali sepekan, lari pagi dan kelas kebugaran",
+            "Pola mencari: membaca ulasan pembeli sebelum memutuskan",
+            "Pola membeli: menunggu tanggal kembar dan promo besar",
+            "Pola pemakaian: mengganti pakaian olahraga setiap 6-12 bulan",
+          ],
+        },
+        {
+          id: "beh1b",
+          headline: "Memakai pakaian olahraga untuk aktivitas harian",
+          fields: {
+            isi: "Memakai pakaian olahraga tidak hanya saat berlatih tetapi juga untuk berkegiatan sehari-hari seperti berbelanja dan bekerja dari kafe; menilai produk dari kenyamanan dipakai berjam-jam; dan cenderung membeli beberapa potong sekaligus agar bisa dipadupadankan.",
+          },
+          points: [
+            "Pola pemakaian: dipakai untuk latihan sekaligus kegiatan harian",
+            "Dasar penilaian: kenyamanan saat dipakai berjam-jam",
+            "Pola membeli: membeli beberapa potong sekaligus agar mudah dipadupadankan",
+          ],
+        },
+        {
+          id: "beh1c",
+          headline: "Mencari produk lewat pencarian dan ulasan di media sosial",
+          fields: {
+            isi: "Mengetik nama produk di kolom pencarian Instagram dan TikTok sebelum membeli; membaca kolom komentar untuk mencari keluhan pembeli lain; membandingkan minimal dua sampai tiga brand; lalu menyelesaikan pembelian lewat marketplace atau tautan di bio.",
+          },
+          points: [
+            "Pola mencari: mengetik nama produk di kolom pencarian media sosial",
+            "Pola memeriksa: membaca kolom komentar untuk mencari keluhan pembeli lain",
+            "Pola membandingkan: menimbang dua sampai tiga brand sebelum memutuskan",
+            "Pola membeli: menyelesaikan transaksi lewat marketplace atau tautan di bio",
+          ],
+        },
+        {
+          id: "beh1d",
+          headline: "Ikut kegiatan komunitas dan membeli menjelang acara lari",
+          fields: {
+            isi: "Rutin mengikuti kegiatan komunitas seperti lari bersama dan kelas kebugaran berkelompok; membeli perlengkapan baru menjelang acara lari atau tantangan olahraga; serta membagikan foto kegiatan olahraganya di media sosial.",
+          },
+          points: [
+            "Pola kegiatan: rutin ikut lari bersama dan kelas kebugaran berkelompok",
+            "Pemicu pembelian: menjelang acara lari atau tantangan olahraga",
+            "Pola berbagi: mengunggah foto kegiatan olahraga ke media sosial",
+          ],
+        },
+        {
+          id: "beh1e",
+          headline: "Membeli berulang dari brand yang sudah cocok",
+          fields: {
+            isi: "Setia pada brand yang ukurannya sudah terbukti pas dan bahannya cocok di kulit; membeli berulang dua sampai tiga kali setahun; serta cenderung merekomendasikan brand tersebut ke teman komunitasnya tanpa diminta.",
+          },
+          points: [
+            "Pola kesetiaan: bertahan pada brand yang ukuran dan bahannya sudah terbukti cocok",
+            "Pola membeli: pembelian berulang dua sampai tiga kali setahun",
+            "Pola menyebarkan: merekomendasikan ke teman komunitas tanpa diminta",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "sebagian",
+      variants: [
+        {
+          id: "beh2a",
+          headline: "Suka berolahraga",
+          fields: { isi: "Audiens yang suka berolahraga dan menjaga kebugaran." },
+          points: [
+            "Kebiasaan berolahraga sudah disebut",
+            "Belum ada frekuensi, jenis olahraga, maupun waktu berlatihnya",
+            "Pola mencari dan membeli produk tidak dibahas sama sekali",
+          ],
+        },
+        {
+          id: "beh2b",
+          headline: "Sering belanja online",
+          fields: { isi: "Terbiasa berbelanja lewat aplikasi belanja daring." },
+          points: [
+            "Pola membeli sudah disinggung",
+            "Belum menjelaskan bagaimana audiens menemukan produk sebelum membeli",
+            "Pola pemakaian produk setelah dibeli belum dibahas",
+          ],
+        },
+        {
+          id: "beh2c",
+          headline: "Suka produk diskon",
+          fields: { isi: "Menunggu diskon sebelum membeli pakaian olahraga." },
+          points: [
+            "Satu pemicu pembelian sudah teridentifikasi, yaitu diskon",
+            "Hanya satu perilaku, belum menggambarkan pola secara utuh",
+            "Frekuensi berolahraga dan pola pemakaian produk tidak disebut",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "kurang",
+      variants: [
+        {
+          id: "beh3a",
+          headline: "Perilakunya bermacam-macam",
+          fields: { isi: "Perilaku audiens bermacam-macam, tidak bisa disamakan." },
+          points: [
+            "Tidak ada pola perilaku yang dipetakan",
+            "Justru menghindari tugas segmentasi behavioral yang diminta instruksi",
+            "Konten tidak bisa dirancang tanpa mengetahui kebiasaan audiens",
+          ],
+        },
+        {
+          id: "beh3b",
+          headline: "Suka warna cerah",
+          fields: { isi: "Audiens menyukai pakaian berwarna cerah." },
+          points: [
+            "Selera warna adalah preferensi produk, bukan pola perilaku",
+            "Tidak menjelaskan kebiasaan berolahraga maupun pola pembelian",
+            "Segmen behavioral tetap kosong meski kolomnya sudah terisi",
+          ],
+        },
+        {
+          id: "beh3c",
+          headline: "Tidak pernah berolahraga",
+          fields: { isi: "Audiens yang tidak pernah berolahraga sama sekali." },
+          points: [
+            "Bertolak belakang dengan fokus {{brand}} pada gaya hidup aktif",
+            "Kelompok ini tidak memiliki kebutuhan terhadap pakaian olahraga",
+            "Segmen yang dipilih tidak relevan dengan produk seperti diminta instruksi",
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+/* ================================================================== */
+/* 1.5 Psychographic                                                   */
+/* ================================================================== */
+
+const psychographic: ChoiceGroup = {
+  id: "psycho",
+  label: "Psychographic",
+  question: "Segmen Psychographic — gaya hidup, nilai, minat, dan kepribadian audiens",
+  hint: "Psychographic menyorot apa yang dianggap penting oleh audiens dan bagaimana mereka ingin dilihat.",
+  options: [
+    {
+      grade: "tepat",
+      variants: [
+        {
+          id: "psy1a",
+          headline: "Gaya hidup aktif dengan nilai konsistensi diri",
+          fields: {
+            values: "Konsistensi dan perbaikan diri secara bertahap",
+            interest: "Kebugaran, nutrisi, dan produktivitas",
+            opinions: "Menganggap olahraga adalah rutinitas yang dijalani terus-menerus, bukan tren sesaat",
+            isi: "Menjadikan olahraga sebagai bagian rutinitas, bukan tren sesaat; memegang nilai konsistensi dan perbaikan diri; berminat pada topik kebugaran, nutrisi, dan produktivitas; berkepribadian disiplin serta senang mencatat perkembangan latihannya.",
+          },
+          points: [
+            "Gaya hidup: olahraga sebagai rutinitas, bukan tren sesaat",
+            "Nilai: konsistensi dan perbaikan diri secara bertahap",
+            "Minat: kebugaran, nutrisi, dan produktivitas",
+            "Kepribadian: disiplin dan senang mencatat perkembangan latihan",
+          ],
+        },
+        {
+          id: "psy1b",
+          headline: "Bangga memakai produk lokal berkualitas",
+          fields: {
+            values: "Kebanggaan memakai produk dalam negeri",
+            interest: "Brand lokal dan cerita di balik pembuatan produk",
+            opinions: "Menganggap brand lokal sudah setara brand luar bila mutunya terbukti",
+            isi: "Memilih brand dalam negeri bila mutunya sebanding dengan brand luar; memegang nilai keberpihakan pada produk lokal; berminat pada cerita di balik pembuatan produk; dan senang membagikan temuan brand lokal ke lingkar pertemanannya.",
+          },
+          points: [
+            "Gaya hidup: mengutamakan brand dalam negeri bila mutunya sebanding",
+            "Nilai: keberpihakan pada produk lokal",
+            "Minat: cerita di balik proses pembuatan produk",
+            "Kepribadian: senang membagikan temuan brand lokal ke lingkar pertemanan",
+          ],
+        },
+        {
+          id: "psy1c",
+          headline: "Menyukai estetika minimalis dan penampilan rapi",
+          fields: {
+            values: "Kesederhanaan, kerapian, dan kepraktisan",
+            interest: "Gaya busana minimalis dan penataan warna netral",
+            opinions: "Menganggap pakaian olahraga harus tetap pantas dipakai di luar tempat latihan",
+            isi: "Memilih pakaian olahraga berpotongan bersih dengan warna netral yang mudah dipadupadankan; memegang nilai kesederhanaan dan kepraktisan; berminat pada topik gaya busana dan penataan ruang; serta ingin terlihat rapi bahkan saat berolahraga.",
+          },
+          points: [
+            "Gaya hidup: memilih potongan bersih dengan warna netral yang mudah dipadupadankan",
+            "Nilai: kesederhanaan dan kepraktisan",
+            "Minat: gaya busana dan penataan ruang",
+            "Kepribadian: ingin tetap terlihat rapi bahkan saat berolahraga",
+          ],
+        },
+        {
+          id: "psy1d",
+          headline: "Mengejar keseimbangan kerja dan kesehatan",
+          fields: {
+            values: "Keseimbangan antara pekerjaan dan kesehatan",
+            interest: "Kesehatan mental, tidur berkualitas, dan pengelolaan waktu",
+            opinions: "Menganggap olahraga adalah bentuk perawatan diri, bukan ajang bersaing",
+            isi: "Berolahraga sebagai cara melepas tekanan pekerjaan dan menjaga kesehatan mental; memegang nilai keseimbangan hidup; berminat pada topik kesehatan mental, tidur berkualitas, dan pengelolaan waktu; berkepribadian tenang dan menghindari pola latihan berlebihan.",
+          },
+          points: [
+            "Gaya hidup: berolahraga untuk melepas tekanan kerja dan menjaga kesehatan mental",
+            "Nilai: keseimbangan antara pekerjaan dan kesehatan",
+            "Minat: kesehatan mental, tidur berkualitas, dan pengelolaan waktu",
+            "Kepribadian: tenang, menghindari pola latihan berlebihan",
+          ],
+        },
+        {
+          id: "psy1e",
+          headline: "Berorientasi nilai uang dan mutu yang sepadan",
+          fields: {
+            values: "Kejujuran dan kewajaran harga",
+            interest: "Ulasan perbandingan produk dan ketahanan bahan",
+            opinions: "Menganggap harga mahal tidak selalu berarti mutu bagus",
+            isi: "Bersedia membayar lebih untuk bahan yang awet, tetapi menolak membayar mahal hanya untuk nama brand; memegang nilai kejujuran dan kewajaran harga; berminat pada ulasan perbandingan produk; serta berkepribadian teliti dan gemar membandingkan sebelum memutuskan.",
+          },
+          points: [
+            "Gaya hidup: bersedia membayar lebih untuk bahan yang awet",
+            "Nilai: kejujuran dan kewajaran harga, menolak membayar sekadar untuk nama brand",
+            "Minat: ulasan perbandingan produk",
+            "Kepribadian: teliti dan gemar membandingkan sebelum memutuskan",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "sebagian",
+      variants: [
+        {
+          id: "psy2a",
+          headline: "Suka gaya hidup sehat",
+          fields: {
+            values: "Menyukai gaya hidup sehat",
+            interest: "Olahraga secara umum",
+            opinions: "Belum disebut",
+            isi: "Audiens yang menyukai gaya hidup sehat.",
+          },
+          points: [
+            "Gaya hidup sudah disebut secara umum",
+            "Nilai, minat, dan kepribadian audiens belum diuraikan",
+            "Ciri ini berlaku untuk hampir semua pembeli pakaian olahraga",
+          ],
+        },
+        {
+          id: "psy2b",
+          headline: "Mengikuti tren kekinian",
+          fields: {
+            values: "Mengikuti tren terbaru",
+            interest: "Konten yang sedang tren",
+            opinions: "Belum disebut",
+            isi: "Audiens yang senang mengikuti tren terbaru.",
+          },
+          points: [
+            "Sudah menyentuh sisi kepribadian audiens",
+            "Belum dijelaskan nilai apa yang mereka pegang saat memilih produk",
+            "Minat di luar tren belum dipetakan sehingga ide konten cepat habis",
+          ],
+        },
+        {
+          id: "psy2c",
+          headline: "Peduli penampilan",
+          fields: {
+            values: "Kepedulian pada penampilan",
+            interest: "Penampilan saat berolahraga",
+            opinions: "Belum disebut",
+            isi: "Audiens yang peduli pada penampilannya saat berolahraga.",
+          },
+          points: [
+            "Satu nilai sudah teridentifikasi, yaitu kepedulian pada penampilan",
+            "Gaya hidup dan minat di luar penampilan belum dibahas",
+            "Belum cukup untuk menentukan sudut pandang konten yang khas",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "kurang",
+      variants: [
+        {
+          id: "psy3a",
+          headline: "Semua orang ingin sehat",
+          fields: {
+            values: "Tidak dipilah",
+            interest: "Tidak dipilah",
+            opinions: "Tidak dipilah",
+            isi: "Semua orang pasti ingin sehat, jadi tidak perlu dipilah.",
+          },
+          points: [
+            "Tidak melakukan pemilahan psikografis sama sekali",
+            "Keinginan umum bukan dasar yang bisa dipakai menyusun sudut pandang konten",
+            "Instruksi segmentasi psychographic tidak terpenuhi",
+          ],
+        },
+        {
+          id: "psy3b",
+          headline: "Yang penting suka belanja",
+          fields: {
+            values: "Gemar berbelanja",
+            interest: "Belanja apa saja",
+            opinions: "Tidak disebut",
+            isi: "Audiens yang gemar berbelanja apa saja.",
+          },
+          points: [
+            "Menggambarkan kebiasaan berbelanja, bukan gaya hidup atau nilai audiens",
+            "Tidak berhubungan dengan olahraga maupun produk {{brand}}",
+            "Kolom terisi tetapi tidak menambah pemahaman tentang audiens",
+          ],
+        },
+        {
+          id: "psy3c",
+          headline: "Tidak bisa ditebak",
+          fields: {
+            values: "Berubah-ubah",
+            interest: "Tidak menentu",
+            opinions: "Tidak dapat ditebak",
+            isi: "Gaya hidup audiens tidak bisa ditebak dan berubah-ubah.",
+          },
+          points: [
+            "Tidak ada hasil segmentasi yang dihasilkan",
+            "Riset audiens memang bertujuan menemukan pola dari keragaman tersebut",
+            "Profil audiens pada tahap berikutnya kehilangan bahan penyusunnya",
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+/* ================================================================== */
+/* LANGKAH 2 — PROFIL AUDIENS                                          */
+/* 2.1 Description                                                     */
+/* ================================================================== */
+
+const description: ChoiceGroup = {
+  id: "desc",
+  label: "Description",
+  question: "Description — deskripsi singkat siapa target audiens secara umum",
+  hint: "Berisi pekerjaan atau peran, tujuan utama terkait produk, dan karakter umum audiens.",
+  options: [
+    {
+      grade: "tepat",
+      variants: [
+        {
+          id: "des1a",
+          headline: "Karyawan muda urban yang menjaga rutinitas olahraga di sela jam kerja",
+          fields: {
+            nama: "Rani, Karyawan Muda Urban",
+            isi: "Karyawan swasta di kota besar yang berolahraga tiga sampai empat kali sepekan di sela jam kerja. Tujuan utamanya menemukan pakaian olahraga yang nyaman dipakai berjam-jam, tidak gerah di cuaca panas, dan harganya masuk akal. Karakternya disiplin, teliti membaca ulasan, dan tidak mudah percaya klaim iklan.",
+          },
+          points: [
+            "Peran: karyawan swasta di kota besar dengan jam kerja padat",
+            "Tujuan terkait produk: pakaian olahraga nyaman, tidak gerah, dan harganya masuk akal",
+            "Karakter umum: disiplin, teliti membaca ulasan, tidak mudah percaya klaim iklan",
+          ],
+        },
+        {
+          id: "des1b",
+          headline: "Anggota komunitas lari yang butuh perlengkapan andal",
+          fields: {
+            nama: "Dimas, Anggota Komunitas Lari",
+            isi: "Pekerja muda yang tergabung dalam komunitas lari kota dan berlatih bersama dua kali sepekan. Tujuan utamanya mendapatkan pakaian yang tidak menyerap keringat berlebihan saat berlari jarak menengah dan tetap pantas dipakai berkumpul setelah latihan. Karakternya sosial, mudah merekomendasikan produk yang cocok ke sesama anggota.",
+          },
+          points: [
+            "Peran: pekerja muda anggota komunitas lari kota, berlatih dua kali sepekan",
+            "Tujuan terkait produk: pakaian yang tidak menyerap keringat berlebihan dan tetap pantas dipakai berkumpul",
+            "Karakter umum: sosial dan mudah merekomendasikan produk ke sesama anggota",
+          ],
+        },
+        {
+          id: "des1c",
+          headline: "Perempuan urban yang memakai pakaian olahraga untuk keseharian",
+          fields: {
+            nama: "Sekar, Perempuan Urban Aktif",
+            isi: "Perempuan pekerja dengan jam kerja lentur yang memakai pakaian olahraga tidak hanya untuk berlatih tetapi juga untuk berkegiatan sehari-hari. Tujuan utamanya menemukan koleksi berpotongan rapi yang bisa dipadupadankan. Karakternya memperhatikan tampilan, aktif di Instagram, dan menyimpan referensi gaya busana.",
+          },
+          points: [
+            "Peran: perempuan pekerja dengan jam kerja lentur",
+            "Tujuan terkait produk: koleksi berpotongan rapi yang bisa dipadupadankan untuk latihan dan keseharian",
+            "Karakter umum: memperhatikan tampilan, aktif di Instagram, gemar menyimpan referensi gaya",
+          ],
+        },
+        {
+          id: "des1d",
+          headline: "Pekerja tahun pertama dengan anggaran terbatas",
+          fields: {
+            nama: "Bagas, Pekerja Tahun Pertama",
+            isi: "Pekerja tahun pertama yang baru mulai rutin berolahraga di pusat kebugaran dekat kantor. Tujuan utamanya mendapatkan pakaian olahraga layak dengan harga yang masih terjangkau penghasilannya. Karakternya cermat membandingkan harga, menunggu promo, dan mengandalkan ulasan pembeli sebelum memutuskan.",
+          },
+          points: [
+            "Peran: pekerja tahun pertama yang baru rutin berolahraga di pusat kebugaran dekat kantor",
+            "Tujuan terkait produk: pakaian olahraga layak dengan harga yang terjangkau penghasilannya",
+            "Karakter umum: cermat membandingkan harga, menunggu promo, mengandalkan ulasan pembeli",
+          ],
+        },
+        {
+          id: "des1e",
+          headline: "Profesional yang berolahraga untuk menjaga keseimbangan hidup",
+          fields: {
+            nama: "Laras, Profesional Kota Besar",
+            isi: "Profesional di kota besar yang berolahraga untuk melepas tekanan pekerjaan. Tujuan utamanya memiliki beberapa potong pakaian olahraga awet yang tidak perlu sering diganti. Karakternya menghargai kepraktisan, bersedia membayar lebih untuk bahan yang tahan lama, dan tidak tertarik mengikuti tren sesaat.",
+          },
+          points: [
+            "Peran: profesional di kota besar",
+            "Tujuan terkait produk: beberapa potong pakaian olahraga awet yang tidak perlu sering diganti",
+            "Karakter umum: menghargai kepraktisan, membayar lebih untuk bahan tahan lama, tidak mengejar tren",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "sebagian",
+      variants: [
+        {
+          id: "des2a",
+          headline: "Orang yang suka olahraga dan butuh baju olahraga",
+          fields: {
+            nama: "Audiens Olahraga",
+            isi: "Orang-orang yang suka berolahraga dan membutuhkan pakaian olahraga yang nyaman.",
+          },
+          points: [
+            "Tujuan terkait produk sudah disebut, yaitu pakaian olahraga yang nyaman",
+            "Peran atau pekerjaan audiens tidak dijelaskan",
+            "Karakter umum audiens belum digambarkan sama sekali",
+          ],
+        },
+        {
+          id: "des2b",
+          headline: "Karyawan yang aktif",
+          fields: {
+            nama: "Karyawan Aktif",
+            isi: "Karyawan kantoran yang aktif berolahraga di waktu luangnya.",
+          },
+          points: [
+            "Peran audiens sudah disebut, yaitu karyawan kantoran",
+            "Tujuan utama terkait produk {{brand}} belum dinyatakan",
+            "Karakter umum audiens belum diuraikan",
+          ],
+        },
+        {
+          id: "des2c",
+          headline: "Anak muda yang ingin tampil keren saat olahraga",
           fields: {
             nama: "Anak Muda",
-            kriteria: "Demografi",
-            karakteristik: "Anak muda yang suka minuman segar dan mengikuti tren.",
-            kebutuhan: "Ingin minuman yang enak dan menyegarkan.",
+            isi: "Anak muda yang ingin tampil keren dan kekinian ketika berolahraga.",
           },
           points: [
-            "Kriteria: Demografi, tetapi batas usianya tidak ditentukan",
-            "Karakteristik: hanya disebut 'suka minuman segar', belum menggambarkan perilaku atau daya beli",
-            "Kebutuhan utama: masih sangat umum, belum terhubung dengan keunggulan produk",
-          ],
-        },
-        {
-          id: "s1y",
-          headline: "Konsumen Usia 15-55 Tahun",
-          fields: {
-            nama: "Konsumen Usia 15-55 Tahun",
-            kriteria: "Demografi",
-            karakteristik: "Laki-laki dan perempuan berusia 15 sampai 55 tahun di seluruh Indonesia.",
-            kebutuhan: "Membutuhkan minuman yang menyehatkan.",
-          },
-          points: [
-            "Kriteria: Demografi, tetapi rentang usianya terlalu lebar sehingga sulit dijadikan sasaran promosi",
-            "Karakteristik: mencakup terlalu banyak kelompok dengan kebiasaan yang berbeda-beda",
-            "Kebutuhan utama: masih normatif, belum spesifik per kelompok",
-          ],
-        },
-        {
-          id: "s1z",
-          headline: "Pelajar dan Mahasiswa",
-          fields: {
-            nama: "Pelajar dan Mahasiswa",
-            kriteria: "Demografi",
-            karakteristik: "Pelajar dan mahasiswa yang masih menempuh pendidikan.",
-            kebutuhan: "Butuh minuman untuk menemani belajar.",
-          },
-          points: [
-            "Kriteria: Demografi sudah benar",
-            "Karakteristik: baru menyebut status pendidikan, belum ada daya beli, kebiasaan belanja, maupun domisili",
-            "Kebutuhan utama: belum dikaitkan dengan manfaat vitamin C dan bahan alami produk",
-          ],
-        },
-        {
-          id: "s1w",
-          headline: "Keluarga Indonesia",
-          fields: {
-            nama: "Keluarga Indonesia",
-            kriteria: "Demografi",
-            karakteristik: "Keluarga yang tinggal di kota maupun desa.",
-            kebutuhan: "Ingin anggota keluarganya sehat.",
-          },
-          points: [
-            "Kriteria: Demografi, tetapi unit segmennya terlalu besar",
-            "Karakteristik: kota dan desa digabung padahal akses distribusi dan daya belinya berbeda",
-            "Kebutuhan utama: terlalu umum untuk dijadikan dasar pesan promosi",
+            "Karakter umum sudah disinggung sedikit",
+            "Peran atau pekerjaan audiens tidak disebut",
+            "Deskripsi berhenti pada penampilan, belum menyentuh kebutuhan atas produk",
           ],
         },
       ],
@@ -196,63 +999,42 @@ const segmen1: ChoiceGroup = {
       grade: "kurang",
       variants: [
         {
-          id: "s1p",
-          headline: "Semua Orang di Indonesia",
+          id: "des3a",
+          headline: "Semua orang yang butuh pakaian",
           fields: {
-            nama: "Semua Orang di Indonesia",
-            kriteria: "Tidak ada kriteria segmentasi",
-            karakteristik: "Siapa saja yang haus dan ingin minum.",
-            kebutuhan: "Membutuhkan minuman.",
+            nama: "Semua Orang",
+            isi: "Semua orang yang membutuhkan pakaian, karena setiap orang pasti berpakaian.",
           },
           points: [
-            "Tidak menggunakan kriteria demografi, psikografi, perilaku, maupun geografis",
-            "Menyasar semua orang sama saja dengan tidak melakukan segmentasi",
-            "Kebutuhan utama tidak menjelaskan apa pun tentang produk",
+            "Bukan profil audiens, melainkan pernyataan yang berlaku untuk siapa pun",
+            "Tidak menyebut peran, tujuan, maupun karakter audiens",
+            "Hasil segmentasi di langkah sebelumnya tidak dipakai sama sekali",
           ],
         },
         {
-          id: "s1q",
-          headline: "Penderita Diabetes yang Harus Menghindari Gula",
+          id: "des3b",
+          headline: "Pelanggan {{brand}}",
           fields: {
-            nama: "Penderita Diabetes yang Harus Menghindari Gula",
-            kriteria: "Demografi/medis",
-            karakteristik: "Konsumen dengan pantangan gula ketat atas anjuran dokter.",
-            kebutuhan: "Membutuhkan minuman tanpa kandungan gula sama sekali.",
+            nama: "Pelanggan {{brand}}",
+            isi: "Orang-orang yang sudah pernah membeli produk {{brand}}.",
           },
           points: [
-            "Bertentangan dengan produk: sari buah alami tetap mengandung gula buah",
-            "Segmen ini justru harus membatasi konsumsi produk sejenis",
-            "Kebutuhan utamanya tidak dapat dipenuhi oleh VitaFresh",
+            "Profil audiens seharusnya menggambarkan calon audiens yang ingin dijangkau",
+            "Membatasi diri pada pembeli lama menutup peluang menjangkau audiens baru",
+            "Tujuan dan karakter audiens tetap tidak dijelaskan",
           ],
         },
         {
-          id: "s1r",
-          headline: "Penggemar Kopi Hitam Tanpa Gula",
+          id: "des3c",
+          headline: "Belum tahu",
           fields: {
-            nama: "Penggemar Kopi Hitam Tanpa Gula",
-            kriteria: "Demografi",
-            karakteristik: "Konsumen yang setiap hari minum kopi hitam pahit.",
-            kebutuhan: "Mencari kopi dengan tingkat kepahitan tertentu.",
+            nama: "Belum Ditentukan",
+            isi: "Profil audiens belum bisa ditentukan karena datanya belum lengkap.",
           },
           points: [
-            "Salah kategori produk: kebutuhannya kopi, bukan sari buah",
-            "Preferensi rasa pahit berlawanan dengan karakter minuman buah",
-            "Bukan kriteria demografi, melainkan preferensi produk lain",
-          ],
-        },
-        {
-          id: "s1s",
-          headline: "Pemilik Kendaraan Bermotor",
-          fields: {
-            nama: "Pemilik Kendaraan Bermotor",
-            kriteria: "Kepemilikan aset",
-            karakteristik: "Orang yang memiliki sepeda motor atau mobil pribadi.",
-            kebutuhan: "Membutuhkan bahan bakar dan perawatan kendaraan.",
-          },
-          points: [
-            "Kepemilikan kendaraan tidak berhubungan dengan kebutuhan minuman kesehatan",
-            "Bukan salah satu dari empat kriteria segmentasi yang diminta",
-            "Kebutuhan utama sama sekali tidak relevan dengan produk",
+            "Instruksi memetakan hasil segmentasi menjadi profil audiens tidak dijalankan",
+            "Data yang diperlukan sebenarnya sudah tersedia dari hasil segmentasi",
+            "Riset kompetitor pada langkah berikutnya kehilangan pembandingnya",
           ],
         },
       ],
@@ -261,118 +1043,67 @@ const segmen1: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 2. SEGMENTASI — Segmen 2 (fokus kriteria Psikografi)               */
+/* 2.2 Key Demographic                                                 */
 /* ================================================================== */
 
-const segmen2: ChoiceGroup = {
-  id: "seg2",
-  label: "Segmen 2",
-  question: "Segmen pasar kedua — berbasis kriteria Psikografi",
-  hint: "Psikografi menyorot gaya hidup, nilai, dan minat konsumen.",
+const keyDemographic: ChoiceGroup = {
+  id: "keydemo",
+  label: "Key Demographic",
+  question: "Key Demographic — data faktual audiens yang bisa diukur",
+  hint: "Terdiri dari Age, Gender, Education, dan Income sesuai template profil audiens.",
   options: [
     {
       grade: "tepat",
       variants: [
         {
-          id: "s2a",
-          headline: "Pegiat Gaya Hidup Sehat (Health Conscious)",
+          id: "kd1a",
+          headline: "Mengikuti hasil segmentasi demographic",
           fields: {
-            nama: "Pegiat Gaya Hidup Sehat (Health Conscious)",
-            kriteria: "Psikografi",
-            karakteristik:
-              "Konsumen yang menjadikan kesehatan sebagai prioritas, rutin membaca label gizi, menghindari pemanis buatan, dan bersedia membayar lebih untuk produk alami.",
-            kebutuhan:
-              "Minuman dengan bahan alami dan kandungan vitamin C yang jelas takarannya, sebagai bagian dari rutinitas menjaga imunitas harian.",
+            age: "{{age}}",
+            gender: "{{gender}}",
+            education: "{{education}}",
+            income: "{{income}}",
           },
           points: [
-            "Kriteria: Psikografi (nilai dan prioritas hidup sehat)",
-            "Karakteristik: rutin membaca label gizi, menghindari pemanis buatan, bersedia membayar lebih untuk produk alami",
-            "Kebutuhan utama: minuman alami dengan kandungan vitamin C yang jelas untuk rutinitas menjaga imunitas",
+            "Age: {{age}}",
+            "Gender: {{gender}}",
+            "Education: {{education}}",
+            "Income: {{income}}",
+            "Keempat data diambil langsung dari hasil segmentasi demographic agar profil audiens tidak bertentangan dengan segmentasinya.",
           ],
         },
         {
-          id: "s2b",
-          headline: "Komunitas Olahraga & Kebugaran",
+          id: "kd1b",
+          headline: "Data demografis audiens utama {{brand}}",
           fields: {
-            nama: "Komunitas Olahraga & Kebugaran",
-            kriteria: "Psikografi",
-            karakteristik:
-              "Anggota komunitas lari, gym, dan bersepeda yang berlatih tiga kali seminggu atau lebih, aktif berbagi rekomendasi produk di dalam komunitasnya.",
-            kebutuhan:
-              "Minuman pemulih setelah berlatih yang menyegarkan, rendah bahan sintetis, dan membantu menjaga stamina tanpa rasa berat di perut.",
+            age: "{{age}}",
+            gender: "{{gender}}",
+            education: "{{education}}",
+            income: "{{income}}",
           },
           points: [
-            "Kriteria: Psikografi (minat dan aktivitas kebugaran)",
-            "Karakteristik: berlatih minimal tiga kali seminggu, aktif berbagi rekomendasi di komunitas",
-            "Kebutuhan utama: minuman pemulih setelah latihan yang menyegarkan dan rendah bahan sintetis",
+            "Age: {{age}}",
+            "Gender: {{gender}}",
+            "Education: {{education}}",
+            "Income: {{income}}",
+            "Rentang usia dan pendapatan dipakai sebagai patokan menentukan rentang harga produk yang ditonjolkan di konten.",
           ],
         },
         {
-          id: "s2c",
-          headline: "Konsumen Sadar Nutrisi (Clean Eating)",
+          id: "kd1c",
+          headline: "Ringkasan data terukur target audiens",
           fields: {
-            nama: "Konsumen Sadar Nutrisi (Clean Eating)",
-            kriteria: "Psikografi",
-            karakteristik:
-              "Konsumen yang menerapkan pola makan minim olahan, memilih produk dengan daftar bahan pendek, dan menaruh curiga pada klaim kesehatan yang berlebihan.",
-            kebutuhan:
-              "Produk dengan komposisi transparan dan bahan yang dapat dikenali, agar bisa masuk ke pola makan sehat yang sudah mereka jalani.",
+            age: "{{age}}",
+            gender: "{{gender}}",
+            education: "{{education}}",
+            income: "{{income}}",
           },
           points: [
-            "Kriteria: Psikografi (nilai dan pola konsumsi)",
-            "Karakteristik: memilih produk dengan daftar bahan pendek, kritis terhadap klaim kesehatan berlebihan",
-            "Kebutuhan utama: komposisi transparan dengan bahan yang mudah dikenali",
-          ],
-        },
-        {
-          id: "s2d",
-          headline: "Penganut Gaya Hidup Aktif & Wellness",
-          fields: {
-            nama: "Penganut Gaya Hidup Aktif & Wellness",
-            kriteria: "Psikografi",
-            karakteristik:
-              "Konsumen yang memandang kesehatan sebagai bagian dari citra diri, mengikuti tren wellness, dan menganggap produk yang dikonsumsi mencerminkan nilai pribadinya.",
-            kebutuhan:
-              "Minuman yang selaras dengan citra hidup aktif, mudah dikonsumsi di sela kegiatan, dan pantas ditampilkan di lingkaran sosialnya.",
-          },
-          points: [
-            "Kriteria: Psikografi (citra diri dan tren wellness)",
-            "Karakteristik: memandang produk yang dikonsumsi sebagai cerminan nilai pribadi",
-            "Kebutuhan utama: minuman yang selaras dengan citra hidup aktif dan mudah dikonsumsi di sela kegiatan",
-          ],
-        },
-        {
-          id: "s2e",
-          headline: "Keluarga Muda Peduli Imunitas",
-          fields: {
-            nama: "Keluarga Muda Peduli Imunitas",
-            kriteria: "Psikografi",
-            karakteristik:
-              "Keluarga muda yang sejak pandemi menjadikan daya tahan tubuh sebagai perhatian utama dan menyediakan stok produk kesehatan di rumah.",
-            kebutuhan:
-              "Minuman bervitamin C yang aman dikonsumsi seluruh anggota keluarga setiap hari, dengan rasa yang disukai anak.",
-          },
-          points: [
-            "Kriteria: Psikografi (nilai dan kekhawatiran terhadap kesehatan keluarga)",
-            "Karakteristik: menjadikan daya tahan tubuh sebagai perhatian utama, rutin menyetok produk kesehatan",
-            "Kebutuhan utama: minuman bervitamin C yang aman untuk seluruh anggota keluarga",
-          ],
-        },
-        {
-          id: "s2f",
-          headline: "Konsumen Peduli Produk Ramah Lingkungan",
-          fields: {
-            nama: "Konsumen Peduli Produk Ramah Lingkungan",
-            kriteria: "Psikografi",
-            karakteristik:
-              "Konsumen yang mempertimbangkan asal bahan baku dan kemasan sebelum membeli, serta cenderung loyal pada merek yang nilainya sejalan dengan mereka.",
-            kebutuhan:
-              "Minuman berbahan buah asli dari sumber yang jelas dengan kemasan yang bertanggung jawab, bukan sekadar sehat di label.",
-          },
-          points: [
-            "Kriteria: Psikografi (nilai keberlanjutan dan etika konsumsi)",
-            "Karakteristik: mempertimbangkan asal bahan baku dan kemasan, loyal pada merek yang nilainya sejalan",
-            "Kebutuhan utama: bahan buah asli dari sumber jelas dengan kemasan yang bertanggung jawab",
+            "Age: {{age}}",
+            "Gender: {{gender}}",
+            "Education: {{education}}",
+            "Income: {{income}}",
+            "Data ini dipakai tim konten untuk menentukan pilihan kata dan tingkat kedalaman penjelasan produk.",
           ],
         },
       ],
@@ -381,63 +1112,48 @@ const segmen2: ChoiceGroup = {
       grade: "sebagian",
       variants: [
         {
-          id: "s2x",
-          headline: "Orang yang Suka Hidup Sehat",
+          id: "kd2a",
+          headline: "18-40 tahun, semua gender, penghasilan menengah",
           fields: {
-            nama: "Orang yang Suka Hidup Sehat",
-            kriteria: "Psikografi",
-            karakteristik: "Orang-orang yang ingin hidup sehat.",
-            kebutuhan: "Butuh minuman yang sehat.",
+            age: "18-40 tahun",
+            gender: "Semua gender",
+            education: "Bebas",
+            income: "Penghasilan menengah",
           },
           points: [
-            "Kriteria: Psikografi sudah benar",
-            "Karakteristik: hanya mengulang nama segmen, belum menjelaskan kebiasaan nyata",
-            "Kebutuhan utama: belum menyebut manfaat spesifik seperti vitamin C atau bahan alami",
+            "Keempat kolom sudah terisi",
+            "Rentang usia 18-40 tahun terlalu lebar untuk satu profil audiens",
+            "Penghasilan menengah belum diberi angka sehingga tidak terukur",
           ],
         },
         {
-          id: "s2y",
-          headline: "Konsumen yang Peduli Penampilan",
+          id: "kd2b",
+          headline: "Usia produktif, perempuan, lulusan kuliah",
           fields: {
-            nama: "Konsumen yang Peduli Penampilan",
-            kriteria: "Psikografi",
-            karakteristik: "Orang yang ingin terlihat menarik dan bugar.",
-            kebutuhan: "Ingin produk yang mendukung penampilan.",
+            age: "Usia produktif",
+            gender: "Perempuan",
+            education: "Lulusan perguruan tinggi",
+            income: "Belum ditentukan",
           },
           points: [
-            "Kriteria: Psikografi sudah benar, tetapi fokusnya bergeser ke penampilan, bukan kesehatan",
-            "Karakteristik: belum menjelaskan kebiasaan konsumsi maupun daya beli",
-            "Kebutuhan utama: hubungan dengan keunggulan VitaFresh masih lemah",
+            "Gender dan pendidikan sudah cukup jelas",
+            "Usia produktif bukan angka sehingga tidak bisa dijadikan patokan",
+            "Income dibiarkan kosong padahal diminta template",
           ],
         },
         {
-          id: "s2z",
-          headline: "Orang yang Suka Berolahraga",
+          id: "kd2c",
+          headline: "20-30 tahun, gender bebas, penghasilan tidak dibatasi",
           fields: {
-            nama: "Orang yang Suka Berolahraga",
-            kriteria: "Psikografi",
-            karakteristik: "Orang yang rutin berolahraga.",
-            kebutuhan: "Butuh minuman setelah olahraga.",
+            age: "20-30 tahun",
+            gender: "Bebas",
+            education: "Bebas",
+            income: "Tidak dibatasi",
           },
           points: [
-            "Kriteria: Psikografi sudah benar",
-            "Karakteristik: belum menyebut frekuensi, jenis olahraga, maupun komunitasnya",
-            "Kebutuhan utama: belum menjelaskan mengapa harus VitaFresh dan bukan air mineral biasa",
-          ],
-        },
-        {
-          id: "s2w",
-          headline: "Pecinta Produk Alami",
-          fields: {
-            nama: "Pecinta Produk Alami",
-            kriteria: "Psikografi",
-            karakteristik: "Konsumen yang menyukai produk berbahan alami.",
-            kebutuhan: "Mencari produk yang tidak mengandung bahan kimia.",
-          },
-          points: [
-            "Kriteria: Psikografi sudah benar",
-            "Karakteristik: masih berupa preferensi umum tanpa gambaran gaya hidup",
-            "Kebutuhan utama: klaim 'tanpa bahan kimia' kurang tepat secara teknis dan tidak terukur",
+            "Rentang usia sudah spesifik dan wajar",
+            "Tiga kolom lainnya dibiarkan terbuka sehingga tidak menyaring audiens",
+            "Profil belum bisa dipakai menentukan rentang harga produk yang ditonjolkan",
           ],
         },
       ],
@@ -446,63 +1162,48 @@ const segmen2: ChoiceGroup = {
       grade: "kurang",
       variants: [
         {
-          id: "s2p",
-          headline: "Pencari Minuman Berenergi Berkafein Tinggi",
+          id: "kd3a",
+          headline: "Semua umur, semua gender, semua penghasilan",
           fields: {
-            nama: "Pencari Minuman Berenergi Berkafein Tinggi",
-            kriteria: "Psikografi",
-            karakteristik: "Konsumen yang mengandalkan kafein dosis tinggi untuk begadang.",
-            kebutuhan: "Efek dorongan energi instan yang kuat.",
+            age: "Semua umur",
+            gender: "Semua gender",
+            education: "Semua jenjang",
+            income: "Semua tingkat penghasilan",
           },
           points: [
-            "Kebutuhan intinya kafein, sementara VitaFresh adalah sari buah bervitamin C",
-            "Menyasar segmen ini akan mengaburkan citra produk sebagai minuman sehat",
-            "Janji produk tidak akan mampu memenuhi ekspektasi segmen tersebut",
+            "Tidak menyaring audiens sama sekali",
+            "Key demographic seharusnya berisi data yang bisa diukur dengan angka atau kategori",
+            "Sama artinya dengan tidak membuat profil audiens",
           ],
         },
         {
-          id: "s2q",
-          headline: "Penggemar Minuman Bersoda Manis",
+          id: "kd3b",
+          headline: "Tidak diisi",
           fields: {
-            nama: "Penggemar Minuman Bersoda Manis",
-            kriteria: "Psikografi",
-            karakteristik: "Konsumen yang menyukai sensasi soda dan rasa sangat manis.",
-            kebutuhan: "Sensasi berkarbonasi dan rasa manis pekat.",
+            age: "-",
+            gender: "-",
+            education: "-",
+            income: "-",
           },
           points: [
-            "Preferensi rasa berlawanan dengan positioning minuman alami rendah gula",
-            "Segmen ini justru menjadi pasar produk pesaing kategori lain",
-            "Kebutuhan utamanya tidak dapat dipenuhi produk",
+            "Empat kolom wajib pada template profil audiens dibiarkan kosong",
+            "Instruksi memetakan segmentasi menjadi profil audiens tidak terpenuhi",
+            "Tidak ada dasar untuk menentukan gaya bahasa maupun rentang harga di konten",
           ],
         },
         {
-          id: "s2r",
-          headline: "Kolektor Barang Antik",
+          id: "kd3c",
+          headline: "Anak-anak usia sekolah dasar",
           fields: {
-            nama: "Kolektor Barang Antik",
-            kriteria: "Minat/hobi",
-            karakteristik: "Orang yang gemar mengumpulkan barang koleksi lama.",
-            kebutuhan: "Mencari barang langka bernilai koleksi.",
+            age: "6-12 tahun",
+            gender: "Perempuan dan laki-laki",
+            education: "Sekolah dasar",
+            income: "Belum berpenghasilan",
           },
           points: [
-            "Minat kolektor tidak berhubungan dengan konsumsi minuman kesehatan",
-            "Tidak ada kebutuhan yang bisa dijawab oleh produk",
-            "Segmen tidak dapat dijadikan dasar strategi promosi VitaFresh",
-          ],
-        },
-        {
-          id: "s2s",
-          headline: "Konsumen yang Anti Membeli Minuman Kemasan",
-          fields: {
-            nama: "Konsumen yang Anti Membeli Minuman Kemasan",
-            kriteria: "Psikografi",
-            karakteristik: "Konsumen yang berprinsip hanya membuat minuman sendiri di rumah.",
-            kebutuhan: "Menghindari seluruh produk minuman kemasan.",
-          },
-          points: [
-            "Nilai yang dianut segmen ini justru menolak kategori produk VitaFresh",
-            "Biaya edukasi pasarnya sangat tinggi dengan peluang konversi kecil",
-            "Bukan pilihan yang masuk akal sebagai segmen potensial",
+            "Tidak sesuai dengan segmentasi yang sudah disusun di langkah pertama",
+            "Kelompok ini belum berpenghasilan sehingga bukan pengambil keputusan pembelian",
+            "{{brand}} menyasar gaya hidup aktif masyarakat urban dewasa, bukan anak sekolah",
           ],
         },
       ],
@@ -511,118 +1212,61 @@ const segmen2: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 3. SEGMENTASI — Segmen 3 (fokus Perilaku / Geografis)              */
+/* 2.3 Key Psychographic                                               */
 /* ================================================================== */
 
-const segmen3: ChoiceGroup = {
-  id: "seg3",
-  label: "Segmen 3",
-  question: "Segmen pasar ketiga — berbasis kriteria Perilaku atau Geografis",
-  hint: "Perilaku menyorot kebiasaan membeli; Geografis menyorot lokasi konsumen.",
+const keyPsychographic: ChoiceGroup = {
+  id: "keypsycho",
+  label: "Key Psychographic",
+  question: "Key Psychographic — nilai, minat, dan pendapat audiens",
+  hint: "Terdiri dari Values, Interest, dan Opinions sesuai template profil audiens.",
   options: [
     {
       grade: "tepat",
       variants: [
         {
-          id: "s3a",
-          headline: "Pekerja Mobilitas Tinggi di Kota Besar",
+          id: "kp1a",
+          headline: "Mengikuti hasil segmentasi psychographic",
           fields: {
-            nama: "Pekerja Mobilitas Tinggi di Kota Besar",
-            kriteria: "Geografis & Perilaku",
-            karakteristik:
-              "Pekerja di Jabodetabek, Bandung, dan Surabaya yang menghabiskan lebih dari dua jam di perjalanan setiap hari dan terbiasa membeli minuman di minimarket atau stasiun.",
-            kebutuhan:
-              "Minuman siap minum yang mudah dijangkau di jalur harian mereka dan membantu menjaga kebugaran meski waktu istirahat terbatas.",
+            values: "{{values}}",
+            interest: "{{interest}}",
+            opinions: "{{opinions}}",
           },
           points: [
-            "Kriteria: Geografis (kota besar) dan Perilaku (kebiasaan membeli saat perjalanan)",
-            "Karakteristik: lebih dari dua jam perjalanan per hari, rutin membeli minuman di minimarket atau stasiun",
-            "Kebutuhan utama: minuman siap minum yang mudah dijangkau di jalur harian",
+            "Values: {{values}}",
+            "Interest: {{interest}}",
+            "Opinions: {{opinions}}",
+            "Ketiganya diambil dari hasil segmentasi psychographic agar profil audiens tetap sejalan dengan segmentasinya.",
           ],
         },
         {
-          id: "s3b",
-          headline: "Pembeli Online & Pengguna Layanan Pesan-Antar",
+          id: "kp1b",
+          headline: "Nilai, minat, dan pendapat audiens utama {{brand}}",
           fields: {
-            nama: "Pembeli Online & Pengguna Layanan Pesan-Antar",
-            kriteria: "Perilaku",
-            karakteristik:
-              "Konsumen yang berbelanja lewat e-commerce dan aplikasi pesan-antar minimal dua kali sebulan, sensitif terhadap promo bundling, dan rutin membaca ulasan sebelum membeli.",
-            kebutuhan:
-              "Kemudahan membeli dalam paket isi banyak dengan harga satuan lebih hemat, tanpa harus keluar rumah.",
+            values: "{{values}}",
+            interest: "{{interest}}",
+            opinions: "{{opinions}}",
           },
           points: [
-            "Kriteria: Perilaku (saluran dan frekuensi pembelian)",
-            "Karakteristik: belanja daring minimal dua kali sebulan, responsif terhadap promo bundling, membaca ulasan",
-            "Kebutuhan utama: pembelian paket isi banyak dengan harga satuan lebih hemat",
+            "Values: {{values}}",
+            "Interest: {{interest}}",
+            "Opinions: {{opinions}}",
+            "Bagian ini menjadi dasar penentuan nada bicara konten, bukan sekadar pelengkap profil.",
           ],
         },
         {
-          id: "s3c",
-          headline: "Konsumen Loyal Produk Kesehatan (Repeat Buyer)",
+          id: "kp1c",
+          headline: "Cara pandang audiens terhadap produk dan olahraga",
           fields: {
-            nama: "Konsumen Loyal Produk Kesehatan (Repeat Buyer)",
-            kriteria: "Perilaku",
-            karakteristik:
-              "Konsumen yang sudah rutin membeli vitamin, madu, atau minuman herbal setiap bulan dan cenderung bertahan pada merek yang terbukti cocok.",
-            kebutuhan:
-              "Produk kesehatan yang konsisten mutunya dan selalu tersedia, agar rutinitas konsumsi bulanannya tidak terputus.",
+            values: "{{values}}",
+            interest: "{{interest}}",
+            opinions: "{{opinions}}",
           },
           points: [
-            "Kriteria: Perilaku (tingkat loyalitas dan pola pembelian berulang)",
-            "Karakteristik: rutin membeli produk kesehatan bulanan, loyal pada merek yang terbukti cocok",
-            "Kebutuhan utama: mutu konsisten dan ketersediaan produk yang terjaga",
-          ],
-        },
-        {
-          id: "s3d",
-          headline: "Pembeli Rutin Minimarket & Convenience Store",
-          fields: {
-            nama: "Pembeli Rutin Minimarket & Convenience Store",
-            kriteria: "Perilaku",
-            karakteristik:
-              "Konsumen yang mampir ke minimarket hampir setiap hari, memutuskan pembelian dalam hitungan detik di depan lemari pendingin, dan mudah tergoda kemasan yang menonjol.",
-            kebutuhan:
-              "Produk yang mudah dikenali di rak pendingin dengan manfaat yang langsung terbaca dari kemasannya.",
-          },
-          points: [
-            "Kriteria: Perilaku (tempat, frekuensi, dan cara mengambil keputusan pembelian)",
-            "Karakteristik: mampir hampir setiap hari, memutuskan pembelian dalam hitungan detik di depan lemari pendingin",
-            "Kebutuhan utama: produk yang mudah dikenali di rak dengan manfaat yang langsung terbaca",
-          ],
-        },
-        {
-          id: "s3e",
-          headline: "Konsumen Kota Besar Jawa (Jabodetabek, Bandung, Surabaya)",
-          fields: {
-            nama: "Konsumen Kota Besar Jawa (Jabodetabek, Bandung, Surabaya)",
-            kriteria: "Geografis",
-            karakteristik:
-              "Penduduk kota besar dengan kepadatan tinggi, akses ritel modern yang merata, tingkat polusi tinggi, dan kesadaran kesehatan di atas rata-rata nasional.",
-            kebutuhan:
-              "Asupan vitamin C harian untuk menjaga daya tahan tubuh di lingkungan padat dan berpolusi, dengan produk yang mudah didapat di sekitar tempat tinggal.",
-          },
-          points: [
-            "Kriteria: Geografis (wilayah dengan kepadatan dan akses ritel tinggi)",
-            "Karakteristik: kepadatan tinggi, ritel modern merata, polusi tinggi, kesadaran kesehatan di atas rata-rata",
-            "Kebutuhan utama: asupan vitamin C harian yang mudah didapat di lingkungan sekitar",
-          ],
-        },
-        {
-          id: "s3f",
-          headline: "Pembeli Saat Momen Tertentu (Sakit, Lelah, Cuaca Ekstrem)",
-          fields: {
-            nama: "Pembeli Saat Momen Tertentu (Sakit, Lelah, Cuaca Ekstrem)",
-            kriteria: "Perilaku",
-            karakteristik:
-              "Konsumen yang membeli minuman kesehatan saat merasa mulai tidak enak badan, sehabis lembur, atau ketika musim pancaroba tiba.",
-            kebutuhan:
-              "Produk yang segera terasa menyegarkan dan dipercaya membantu pemulihan saat kondisi tubuh sedang menurun.",
-          },
-          points: [
-            "Kriteria: Perilaku (kesempatan atau momen pembelian)",
-            "Karakteristik: membeli saat mulai tidak enak badan, sehabis lembur, atau saat pancaroba",
-            "Kebutuhan utama: produk menyegarkan yang dipercaya membantu pemulihan kondisi tubuh",
+            "Values: {{values}}",
+            "Interest: {{interest}}",
+            "Opinions: {{opinions}}",
+            "Pendapat audiens dipakai untuk memilih topik konten yang terasa dekat dengan keseharian mereka.",
           ],
         },
       ],
@@ -631,63 +1275,45 @@ const segmen3: ChoiceGroup = {
       grade: "sebagian",
       variants: [
         {
-          id: "s3x",
-          headline: "Orang yang Belanja Online",
+          id: "kp2a",
+          headline: "Suka sehat, suka olahraga, suka produk bagus",
           fields: {
-            nama: "Orang yang Belanja Online",
-            kriteria: "Perilaku",
-            karakteristik: "Konsumen yang terbiasa belanja lewat aplikasi.",
-            kebutuhan: "Ingin belanja yang praktis.",
+            values: "Menyukai hidup sehat",
+            interest: "Olahraga",
+            opinions: "Ingin produk yang bagus",
           },
           points: [
-            "Kriteria: Perilaku sudah benar",
-            "Karakteristik: belum menyebut frekuensi belanja, jenis produk, maupun sensitivitas harga",
-            "Kebutuhan utama: masih umum dan belum dikaitkan dengan produk minuman kesehatan",
+            "Ketiga kolom sudah terisi",
+            "Isinya terlalu singkat dan berlaku untuk hampir semua pembeli pakaian olahraga",
+            "Belum ada pendapat khas yang bisa dipakai menentukan sudut pandang konten",
           ],
         },
         {
-          id: "s3y",
-          headline: "Konsumen Perkotaan",
+          id: "kp2b",
+          headline: "Nilai dan minat terisi, pendapat kosong",
           fields: {
-            nama: "Konsumen Perkotaan",
-            kriteria: "Geografis",
-            karakteristik: "Orang yang tinggal di kota.",
-            kebutuhan: "Butuh minuman praktis.",
+            values: "Menghargai gaya hidup aktif dan penampilan yang rapi",
+            interest: "Kebugaran, gaya busana, dan komunitas olahraga",
+            opinions: "-",
           },
           points: [
-            "Kriteria: Geografis sudah benar",
-            "Karakteristik: tidak menyebut kota mana, sehingga sulit menyusun rencana distribusi",
-            "Kebutuhan utama: belum menjelaskan alasan spesifik kota memerlukan produk ini",
+            "Values dan Interest sudah cukup menggambarkan audiens",
+            "Kolom Opinions dibiarkan kosong padahal diminta template",
+            "Tanpa pendapat audiens, pesan utama konten sulit dirumuskan",
           ],
         },
         {
-          id: "s3z",
-          headline: "Pembeli di Supermarket",
+          id: "kp2c",
+          headline: "Mengikuti tren tanpa nilai yang jelas",
           fields: {
-            nama: "Pembeli di Supermarket",
-            kriteria: "Perilaku",
-            karakteristik: "Konsumen yang berbelanja di supermarket.",
-            kebutuhan: "Mencari minuman di rak supermarket.",
+            values: "Mengikuti apa yang sedang tren",
+            interest: "Konten yang sedang viral",
+            opinions: "Suka produk yang banyak dipakai orang",
           },
           points: [
-            "Kriteria: Perilaku sudah benar",
-            "Karakteristik: hanya menyebut lokasi belanja tanpa frekuensi atau nilai belanja",
-            "Kebutuhan utama: baru menggambarkan tempat, bukan kebutuhan konsumen",
-          ],
-        },
-        {
-          id: "s3w",
-          headline: "Orang yang Sering Bepergian",
-          fields: {
-            nama: "Orang yang Sering Bepergian",
-            kriteria: "Perilaku",
-            karakteristik: "Konsumen yang sering dalam perjalanan.",
-            kebutuhan: "Butuh minuman yang mudah dibawa.",
-          },
-          points: [
-            "Kriteria: Perilaku sudah benar",
-            "Karakteristik: belum jelas bepergian untuk apa, seberapa sering, dan di wilayah mana",
-            "Kebutuhan utama: baru menyentuh kepraktisan, belum menyentuh manfaat kesehatan produk",
+            "Sudah menggambarkan satu kecenderungan audiens",
+            "Nilai yang dipegang audiens belum benar-benar terungkap",
+            "Konten yang dibangun di atas tren semata akan cepat kehilangan arah",
           ],
         },
       ],
@@ -696,63 +1322,41 @@ const segmen3: ChoiceGroup = {
       grade: "kurang",
       variants: [
         {
-          id: "s3p",
-          headline: "Warga Daerah Tanpa Akses Distribusi Produk",
-          fields: {
-            nama: "Warga Daerah Tanpa Akses Distribusi Produk",
-            kriteria: "Geografis",
-            karakteristik: "Konsumen di wilayah yang belum terjangkau jalur distribusi perusahaan.",
-            kebutuhan: "Tidak dapat membeli produk karena tidak tersedia di daerahnya.",
-          },
+          id: "kp3a",
+          headline: "Tidak diisi",
+          fields: { values: "-", interest: "-", opinions: "-" },
           points: [
-            "Segmen tidak dapat dilayani karena produk belum tersedia di sana",
-            "Biaya membangun distribusi jauh melampaui potensi penjualannya",
-            "Bukan segmen potensial untuk peluncuran awal",
+            "Tiga kolom wajib pada template profil audiens dibiarkan kosong",
+            "Hasil segmentasi psychographic di langkah pertama tidak dipakai",
+            "Konten kehilangan dasar untuk memilih nada bicara dan topik",
           ],
         },
         {
-          id: "s3q",
-          headline: "Pengguna Aplikasi Game Online",
+          id: "kp3b",
+          headline: "Menyalin ulang data demografis",
           fields: {
-            nama: "Pengguna Aplikasi Game Online",
-            kriteria: "Perilaku digital",
-            karakteristik: "Konsumen yang menghabiskan waktu bermain gim daring.",
-            kebutuhan: "Mencari item dan hiburan di dalam gim.",
+            values: "Usia 25 tahun",
+            interest: "Berpenghasilan Rp8 juta",
+            opinions: "Lulusan S1",
           },
           points: [
-            "Perilaku bermain gim tidak menunjukkan kebutuhan akan minuman kesehatan",
-            "Kebutuhan utama yang disebut sama sekali di luar kategori produk",
-            "Tidak dapat dijadikan dasar penyusunan strategi STP",
+            "Yang diisi adalah data demografis, bukan nilai, minat, dan pendapat",
+            "Kolom Key Demographic dan Key Psychographic menjadi tumpang tindih",
+            "Tidak ada tambahan pemahaman tentang cara berpikir audiens",
           ],
         },
         {
-          id: "s3r",
-          headline: "Semua Pembeli Minuman Apa Pun",
+          id: "kp3c",
+          headline: "Semua orang sama saja",
           fields: {
-            nama: "Semua Pembeli Minuman Apa Pun",
-            kriteria: "Tidak ada kriteria segmentasi",
-            karakteristik: "Siapa pun yang pernah membeli minuman.",
-            kebutuhan: "Membeli minuman.",
+            values: "Sama seperti orang pada umumnya",
+            interest: "Apa saja",
+            opinions: "Tidak punya pendapat khusus",
           },
           points: [
-            "Tidak membagi pasar sama sekali, sehingga bukan segmentasi",
-            "Tidak ada karakteristik pembeda yang bisa dipakai menyusun pesan",
-            "Kebutuhan utama hanya mengulang nama segmen",
-          ],
-        },
-        {
-          id: "s3s",
-          headline: "Pelanggan Bengkel Motor",
-          fields: {
-            nama: "Pelanggan Bengkel Motor",
-            kriteria: "Perilaku",
-            karakteristik: "Orang yang rutin menyervis kendaraannya.",
-            kebutuhan: "Membutuhkan suku cadang dan jasa servis.",
-          },
-          points: [
-            "Perilaku servis kendaraan tidak berkaitan dengan konsumsi minuman kesehatan",
-            "Kebutuhan utama berada di kategori jasa, bukan produk minuman",
-            "Tidak mendukung tujuan promosi VitaFresh",
+            "Menyatakan audiens tidak punya ciri khas, padahal itu inti dari profil audiens",
+            "Tidak dapat diturunkan menjadi ide konten apa pun",
+            "Instruksi membuat profil audiens tidak terpenuhi",
           ],
         },
       ],
@@ -761,88 +1365,66 @@ const segmen3: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 4. TARGETING — pilih 1 target pasar utama                          */
+/* 2.4 Customer Pain Points                                            */
 /* ================================================================== */
 
-const targetUtama: ChoiceGroup = {
-  id: "target",
-  label: "Target Utama",
-  question: "Pilih 1 target pasar utama yang paling potensial",
-  hint: "Pilihan akan otomatis mengikuti nama segmen yang sudah kamu tentukan di nomor 1.",
+const painPoints: ChoiceGroup = {
+  id: "pain",
+  label: "Pain Points",
+  question: "Customer Pain Points — masalah audiens yang bisa diselesaikan produk",
+  hint: "Masalah, hambatan, atau kebutuhan mendesak yang dialami audiens.",
   options: [
     {
       grade: "tepat",
       variants: [
         {
-          id: "t1a",
-          headline: "Fokus pada {{seg1}}",
-          narrative:
-            "Target pasar utama yang dipilih adalah {{seg1}}. Perusahaan memusatkan seluruh bauran promosi, penetapan harga, dan penempatan produk pada satu segmen ini terlebih dahulu sebelum melakukan perluasan ke segmen lainnya.",
-          fields: { target: "{{seg1}}" },
+          id: "pp1a",
+          headline: "Gerah, harga mahal, dan ukuran sering tidak pas",
           points: [
-            "Menetapkan {{seg1}} sebagai satu-satunya target utama tahap awal",
-            "Seluruh bauran promosi, harga, dan penempatan produk difokuskan ke segmen ini",
-            "Segmen lain diposisikan sebagai pasar perluasan pada tahap berikutnya",
+            "Pakaian olahraga yang dimiliki terasa gerah dan menempel di badan saat dipakai di cuaca panas dan lembap.",
+            "Brand luar dengan bahan breathable harganya di luar anggaran bulanan mereka.",
+            "Ukuran brand luar sering tidak pas di postur tubuh Indonesia sehingga harus ditukar atau terpaksa dipakai apa adanya.",
+            "Kesulitan menemukan brand yang menjelaskan jenis bahan secara terbuka sebelum pembelian.",
           ],
         },
         {
-          id: "t1b",
-          headline: "Fokus pada {{seg2}}",
-          narrative:
-            "Target pasar utama yang dipilih adalah {{seg2}}. Segmen ini dijadikan pijakan awal karena kebutuhannya paling dekat dengan keunggulan inti VitaFresh, sehingga pesan produk dapat disampaikan tanpa perlu edukasi pasar yang panjang.",
-          fields: { target: "{{seg2}}" },
+          id: "pp1b",
+          headline: "Cepat rusak, sulit dipadupadankan, dan bingung memilih",
           points: [
-            "Menetapkan {{seg2}} sebagai target utama tahap awal",
-            "Kebutuhan segmen paling dekat dengan keunggulan inti produk",
-            "Pesan produk dapat langsung diterima tanpa edukasi pasar yang panjang",
+            "Pakaian olahraga murah cepat melar dan warnanya pudar setelah beberapa kali dicuci.",
+            "Potongan dan warnanya terlalu mencolok sehingga tidak bisa dipakai di luar tempat latihan.",
+            "Terlalu banyak pilihan brand di marketplace tanpa penjelasan pembeda yang jelas.",
+            "Ragu membeli karena tidak bisa mencoba langsung ukurannya saat belanja daring.",
           ],
         },
         {
-          id: "t1c",
-          headline: "Fokus pada {{seg1}} dengan {{seg2}} sebagai pasar sekunder",
-          narrative:
-            "Target pasar utama yang dipilih adalah {{seg1}}, sementara {{seg2}} diperlakukan sebagai pasar sekunder. Sumber daya promosi dialokasikan terutama untuk target utama, dengan porsi kecil untuk menjaga kehadiran produk di pasar sekunder.",
-          fields: { target: "{{seg1}}" },
+          id: "pp1c",
+          headline: "Waktu terbatas, anggaran ketat, dan informasi produk membingungkan",
           points: [
-            "{{seg1}} ditetapkan sebagai target utama dan penerima porsi promosi terbesar",
-            "{{seg2}} diposisikan sebagai pasar sekunder dengan porsi anggaran kecil",
-            "Prioritas sumber daya menjadi jelas dan terukur",
+            "Waktu berolahraga sangat terbatas di sela jam kerja sehingga perlengkapan harus praktis dan mudah dirawat.",
+            "Anggaran bulanan untuk perlengkapan olahraga ketat, sehingga salah beli terasa memberatkan.",
+            "Istilah bahan seperti breathable dan moisture wicking dipakai semua brand tanpa penjelasan yang mudah dipahami.",
+            "Sulit menilai mutu produk hanya dari foto katalog di media sosial.",
           ],
         },
         {
-          id: "t1d",
-          headline: "Fokus pada {{seg2}} dengan pendekatan komunitas",
-          narrative:
-            "Target pasar utama yang dipilih adalah {{seg2}}, dengan pendekatan berbasis komunitas. Perusahaan menggarap segmen ini melalui kegiatan dan kemitraan komunitas agar rekomendasi antarkonsumen berjalan secara alami.",
-          fields: { target: "{{seg2}}" },
+          id: "pp1d",
+          headline: "Tidak percaya diri dan takut salah beli",
           points: [
-            "{{seg2}} ditetapkan sebagai target utama",
-            "Digarap melalui kegiatan dan kemitraan komunitas, bukan iklan massal",
-            "Mendorong rekomendasi antarkonsumen yang berjalan secara alami",
+            "Merasa kurang percaya diri memakai pakaian olahraga yang potongannya tidak sesuai bentuk tubuh.",
+            "Takut salah memilih ukuran karena panduan ukuran tiap brand berbeda-beda.",
+            "Khawatir produk yang datang tidak sesuai dengan foto yang ditampilkan di media sosial.",
+            "Tidak menemukan contoh pemakaian oleh orang dengan bentuk tubuh yang serupa dengan mereka.",
           ],
         },
         {
-          id: "t1e",
-          headline: "Fokus pada {{seg3}}",
-          narrative:
-            "Target pasar utama yang dipilih adalah {{seg3}}. Segmen ini dipilih karena pola pembeliannya sudah terbentuk dan jalur distribusinya paling siap, sehingga produk dapat cepat menjangkau konsumen sejak masa peluncuran.",
-          fields: { target: "{{seg3}}" },
+          id: "pp1e",
+          headline: "Ragu pada brand lokal dan minim bukti pemakaian nyata",
           points: [
-            "{{seg3}} ditetapkan sebagai target utama tahap awal",
-            "Pola pembelian segmen sudah terbentuk sehingga siklus penjualan lebih pendek",
-            "Jalur distribusi paling siap untuk menjangkau segmen sejak masa peluncuran",
-          ],
-        },
-        {
-          id: "t1f",
-          headline: "Fokus pada {{seg1}} sebagai pintu masuk pasar",
-          narrative:
-            "Target pasar utama yang dipilih adalah {{seg1}}, yang diperlakukan sebagai pintu masuk pasar. Keberhasilan di segmen ini akan dijadikan bukti sosial untuk merambah segmen lain pada tahap berikutnya.",
-          fields: { target: "{{seg1}}" },
-          points: [
-            "{{seg1}} dijadikan pintu masuk pasar pada tahap peluncuran",
-            "Keberhasilan di segmen ini dipakai sebagai bukti sosial untuk segmen berikutnya",
-            "Perluasan pasar dilakukan bertahap, bukan serentak",
+            "Masih ragu apakah brand lokal mampu menandingi ketahanan bahan brand luar.",
+            "Sulit menemukan ulasan jangka panjang, misalnya kondisi produk setelah enam bulan pemakaian.",
+            "Konten brand lebih banyak menampilkan foto katalog daripada pemakaian sehari-hari yang nyata.",
+            "Tidak ada penjelasan cara merawat agar produk tetap awet setelah dibeli.",
           ],
         },
       ],
@@ -851,51 +1433,30 @@ const targetUtama: ChoiceGroup = {
       grade: "sebagian",
       variants: [
         {
-          id: "t2a",
-          headline: "Fokus pada {{seg1}}, tetapi tanpa pembatasan yang jelas",
-          narrative:
-            "Target pasar utama yang dipilih adalah {{seg1}}. Namun promosi tetap dijalankan ke semua kalangan yang berminat, sehingga batas segmennya menjadi kabur.",
-          fields: { target: "{{seg1}}" },
+          id: "pp2a",
+          headline: "Harganya mahal",
           points: [
-            "Target utama sudah ditetapkan, yaitu {{seg1}}",
-            "Namun promosi tetap disebar ke semua kalangan sehingga batas segmen menjadi kabur",
-            "Fokus sumber daya belum benar-benar terjadi",
+            "Pakaian olahraga harganya mahal.",
+            "Hanya satu masalah yang disebut, padahal audiens menghadapi beberapa hambatan sekaligus.",
+            "Belum dijelaskan mahal dibanding apa dan seberapa jauh dari anggaran audiens.",
           ],
         },
         {
-          id: "t2b",
-          headline: "Dua segmen sekaligus: {{seg1}} dan {{seg2}}",
-          narrative:
-            "Target pasar utama yang dipilih adalah {{seg1}} dan {{seg2}} secara bersamaan dengan porsi yang sama besar, meskipun instruksi tugas meminta satu target utama.",
-          fields: { target: "{{seg1}} dan {{seg2}}" },
+          id: "pp2b",
+          headline: "Masalah umum tanpa kaitan ke produk",
           points: [
-            "Menetapkan dua segmen dengan porsi sama besar, padahal diminta satu target utama",
-            "Anggaran promosi terbagi sehingga dampaknya di tiap segmen melemah",
-            "Prioritas antar-segmen belum ditentukan",
+            "Audiens sibuk bekerja dan sulit meluangkan waktu berolahraga.",
+            "Masalah waktu memang nyata, tetapi tidak bisa diselesaikan oleh pakaian olahraga.",
+            "Pain point seharusnya masalah yang dapat dijawab oleh produk {{brand}}.",
           ],
         },
         {
-          id: "t2c",
-          headline: "Fokus pada {{seg2}} berdasarkan perkiraan saja",
-          narrative:
-            "Target pasar utama yang dipilih adalah {{seg2}}, dipilih berdasarkan perkiraan bahwa segmen ini terlihat paling ramai, tanpa didukung pertimbangan ukuran pasar maupun daya beli.",
-          fields: { target: "{{seg2}}" },
+          id: "pp2c",
+          headline: "Bingung memilih produk",
           points: [
-            "Target sudah mengerucut ke satu segmen, yaitu {{seg2}}",
-            "Dasar pemilihannya hanya perkiraan, bukan pertimbangan ukuran pasar atau daya beli",
-            "Keputusan sulit dipertanggungjawabkan kepada manajemen",
-          ],
-        },
-        {
-          id: "t2d",
-          headline: "Fokus pada {{seg3}}, tetapi tanpa rencana penggarapan",
-          narrative:
-            "Target pasar utama yang dipilih adalah {{seg3}}, namun belum disertai gambaran bagaimana segmen tersebut akan digarap melalui promosi maupun distribusi.",
-          fields: { target: "{{seg3}}" },
-          points: [
-            "Target utama sudah mengerucut ke {{seg3}}",
-            "Belum ada gambaran cara menggarap segmen melalui promosi maupun distribusi",
-            "Strategi berhenti di tahap penetapan nama segmen",
+            "Audiens bingung memilih pakaian olahraga yang cocok.",
+            "Sudah menyentuh hambatan nyata saat hendak membeli.",
+            "Belum dijelaskan penyebab kebingungannya sehingga konten belum tahu harus menjawab apa.",
           ],
         },
       ],
@@ -904,51 +1465,30 @@ const targetUtama: ChoiceGroup = {
       grade: "kurang",
       variants: [
         {
-          id: "t3a",
-          headline: "Menyasar ketiga segmen sekaligus dengan cara yang sama",
-          narrative:
-            "Perusahaan menyasar ketiga segmen sekaligus dengan pesan, harga, dan saluran promosi yang persis sama, tanpa menetapkan target utama.",
-          fields: { target: "Semua segmen tanpa prioritas" },
+          id: "pp3a",
+          headline: "Tidak ada masalah",
           points: [
-            "Tidak menetapkan target utama seperti yang diminta instruksi",
-            "Pesan, harga, dan saluran dibuat seragam padahal kebutuhan tiap segmen berbeda",
-            "Anggaran habis terbagi tanpa dampak yang terukur di segmen mana pun",
+            "Audiens tidak punya masalah apa pun terkait pakaian olahraga.",
+            "Menghapus dasar utama penyusunan pesan konten.",
+            "Kolom customer pain points pada template menjadi tidak terisi secara berarti.",
           ],
         },
         {
-          id: "t3b",
-          headline: "Menyasar seluruh masyarakat Indonesia",
-          narrative:
-            "Perusahaan memutuskan menyasar seluruh masyarakat Indonesia tanpa membedakan segmen, dengan asumsi semakin luas sasaran maka semakin besar penjualannya.",
-          fields: { target: "Seluruh masyarakat Indonesia" },
+          id: "pp3b",
+          headline: "Masalahnya karena tidak punya uang",
           points: [
-            "Membatalkan seluruh hasil segmentasi yang sudah disusun di nomor 1",
-            "Asumsi 'semakin luas semakin laku' tidak berlaku untuk produk baru dengan anggaran terbatas",
-            "Tidak ada dasar untuk menyusun positioning yang tajam",
+            "Audiens tidak punya uang untuk membeli produk.",
+            "Bertentangan dengan hasil segmentasi yang menetapkan audiens kelas menengah dengan daya beli memadai.",
+            "Tidak bisa dijawab oleh konten maupun produk {{brand}}.",
           ],
         },
         {
-          id: "t3c",
-          headline: "Menyasar segmen di luar hasil analisis",
-          narrative:
-            "Perusahaan memilih menyasar segmen yang sama sekali tidak muncul dalam analisis segmentasi, yaitu konsumen minuman berenergi berkafein tinggi.",
-          fields: { target: "Konsumen minuman berenergi berkafein tinggi" },
+          id: "pp3c",
+          headline: "Masalah brand, bukan masalah audiens",
           points: [
-            "Target tidak berhubungan dengan tiga segmen yang sudah dianalisis",
-            "Kebutuhan segmen tersebut tidak dapat dipenuhi oleh VitaFresh",
-            "Alur Segmentasi ke Targeting menjadi terputus",
-          ],
-        },
-        {
-          id: "t3d",
-          headline: "Menyerahkan penentuan target kepada distributor",
-          narrative:
-            "Perusahaan tidak menetapkan target pasar dan menyerahkan sepenuhnya kepada distributor untuk menjual ke siapa pun yang mau membeli.",
-          fields: { target: "Tidak ditentukan" },
-          points: [
-            "Tidak ada keputusan targeting yang dibuat oleh perusahaan",
-            "Positioning tidak mungkin disusun karena sasarannya tidak diketahui",
-            "Instruksi tugas untuk memilih satu target utama tidak dijalankan",
+            "Engagement Instagram {{brand}} masih rendah.",
+            "Ini masalah yang dihadapi brand, bukan masalah yang dialami audiens.",
+            "Pain point harus ditulis dari sudut pandang audiens agar konten menjawab kebutuhan mereka.",
           ],
         },
       ],
@@ -957,76 +1497,71 @@ const targetUtama: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 5. TARGETING — alasan pemilihan target                             */
+/* 2.5 Key Communication Channel                                       */
 /* ================================================================== */
 
-const alasanTarget: ChoiceGroup = {
-  id: "alasan",
-  label: "Alasan",
-  question: "Alasan pemilihan target pasar tersebut",
-  hint: "PDF meminta alasan seperti ukuran pasar, daya beli, dan potensi pertumbuhan.",
+const channelGroup: ChoiceGroup = {
+  id: "channel",
+  label: "Channel",
+  question: "Key Communication Channel — saluran utama untuk menjangkau audiens",
+  hint: "Sebut kanal utama beserta alasan dan bentuk konten yang dipakai di sana.",
   options: [
     {
       grade: "tepat",
       variants: [
         {
-          id: "a1a",
-          headline: "Ukuran pasar besar, daya beli memadai, pertumbuhan cepat",
+          id: "ch1a",
+          headline: "Instagram sebagai kanal utama, TikTok pendukung",
+          fields: { channel: "Instagram (Reels dan carousel)" },
           points: [
-            "Ukuran pasar: kelompok ini merupakan salah satu populasi konsumen terbesar di kota-kota besar, sehingga potensi volume penjualannya tinggi.",
-            "Daya beli: pengeluaran rutin mereka untuk jajan dan minuman kemasan sudah terbentuk dan sesuai dengan rentang harga VitaFresh.",
-            "Potensi pertumbuhan: kesadaran akan minuman rendah gula dan berbasis buah asli terus meningkat setiap tahun di kelompok ini.",
-            "Kemudahan dijangkau: aktif di media sosial dan ritel modern, sehingga biaya promosi per konsumen relatif efisien.",
+            "Kanal utama: Instagram, lewat Reels untuk menjangkau audiens baru dan carousel untuk penjelasan bahan.",
+            "Kanal pendukung: TikTok, memakai potongan video yang sama agar biaya produksi tidak bertambah.",
+            "Alasan: audiens membuka Instagram beberapa kali sehari dan terbiasa mencari produk lewat kolom pencarian di sana.",
+            "Bentuk konten: video pendek pemakaian produk, carousel penjelasan bahan, dan Story tanya jawab ukuran.",
           ],
         },
         {
-          id: "a1b",
-          headline: "Kebutuhan paling cocok, biaya edukasi rendah, mudah dijangkau",
+          id: "ch1b",
+          headline: "Instagram Reels dan Story untuk interaksi harian",
+          fields: { channel: "Instagram (Reels dan Story)" },
           points: [
-            "Kesesuaian kebutuhan: masalah utama segmen ini, yaitu menjaga daya tahan tubuh secara praktis, persis dijawab oleh keunggulan VitaFresh.",
-            "Biaya edukasi rendah: segmen sudah memahami manfaat vitamin C, sehingga promosi cukup menonjolkan keunggulan produk, bukan mengedukasi dari nol.",
-            "Kemudahan dijangkau: terkonsentrasi di lokasi dan kanal digital tertentu sehingga promosi dapat diarahkan dengan tepat.",
-            "Potensi pertumbuhan: tren gaya hidup sehat membuat jumlah konsumen di segmen ini terus bertambah.",
+            "Kanal utama: Instagram, dengan Reels sebagai penarik audiens baru dan Story sebagai ruang interaksi harian.",
+            "Kanal pendukung: WhatsApp untuk menjawab pertanyaan ukuran yang butuh jawaban panjang.",
+            "Alasan: audiens aktif membalas jajak pendapat dan kotak pertanyaan di Story, sehingga interaksi mudah ditumbuhkan.",
+            "Bentuk konten: Reels pemakaian produk, Story jajak pendapat ukuran, dan sesi tanya jawab mingguan.",
           ],
         },
         {
-          id: "a1c",
-          headline: "Frekuensi konsumsi tinggi dan potensi pembelian berulang",
+          id: "ch1c",
+          headline: "Instagram dengan dukungan konten komunitas",
+          fields: { channel: "Instagram (feed, Reels, dan kolaborasi komunitas)" },
           points: [
-            "Frekuensi konsumsi: kebiasaan membeli minuman kemasan hampir setiap hari membuat nilai pembelian per konsumen dalam setahun cukup besar.",
-            "Potensi pembelian berulang: bila cocok, segmen ini cenderung menjadikan produk sebagai konsumsi rutin, bukan pembelian sesekali.",
-            "Daya beli: rentang harga minuman kesehatan masih berada dalam batas pengeluaran harian mereka.",
-            "Ukuran pasar: jumlahnya besar dan tersebar merata di kota-kota yang sudah terjangkau distribusi perusahaan.",
+            "Kanal utama: Instagram, memadukan feed, Reels, dan unggahan bersama komunitas lari.",
+            "Kanal pendukung: kolaborasi dengan akun komunitas olahraga kota untuk menjangkau anggota barunya.",
+            "Alasan: audiens tergabung dalam komunitas dan lebih percaya rekomendasi sesama anggota daripada iklan brand.",
+            "Bentuk konten: liputan latihan bersama, unggahan ulang foto pengguna, dan kolaborasi dengan pegiat komunitas.",
           ],
         },
         {
-          id: "a1d",
-          headline: "Berpotensi menjadi penyebar rekomendasi ke segmen lain",
+          id: "ch1d",
+          headline: "Instagram untuk membangun kepercayaan, marketplace untuk transaksi",
+          fields: { channel: "Instagram (utama) dan marketplace (penutup transaksi)" },
           points: [
-            "Daya pengaruh: segmen ini aktif membagikan pengalaman produk di media sosial dan komunitasnya, sehingga menekan biaya promosi.",
-            "Ukuran pasar: populasinya besar dan terus bertambah di wilayah perkotaan yang menjadi fokus distribusi awal.",
-            "Daya beli: bersedia membayar lebih untuk produk yang dianggap alami dan bermanfaat bagi kesehatan.",
-            "Potensi pertumbuhan: keberhasilan di segmen ini membuka jalan masuk ke segmen lain tanpa biaya promosi tambahan yang besar.",
+            "Kanal utama: Instagram sebagai tempat memperkenalkan produk dan membangun kepercayaan.",
+            "Kanal penutup transaksi: marketplace yang ditautkan lewat bio dan stiker tautan di Story.",
+            "Alasan: audiens terbiasa membaca ulasan di Instagram tetapi menyelesaikan pembayaran di marketplace.",
+            "Bentuk konten: Reels pemakaian produk, carousel panduan ukuran, dan Story pengingat promo tanggal kembar.",
           ],
         },
         {
-          id: "a1e",
-          headline: "Distribusi siap, persaingan belum padat, margin terjaga",
+          id: "ch1e",
+          headline: "Instagram dengan jadwal unggah mengikuti jam aktif audiens",
+          fields: { channel: "Instagram (Reels, carousel, dan Story)" },
           points: [
-            "Kesiapan distribusi: segmen ini berada di wilayah yang sudah terjangkau jaringan ritel modern dan layanan pesan-antar perusahaan.",
-            "Tingkat persaingan: belum banyak merek yang menggarap segmen ini dengan pesan vitamin C dari buah asli, sehingga peluang masuk masih terbuka.",
-            "Daya beli dan margin: segmen bersedia membayar harga premium wajar sehingga margin produk tetap terjaga.",
-            "Potensi pertumbuhan: permintaan minuman fungsional di segmen ini tumbuh lebih cepat dibanding kategori minuman biasa.",
-          ],
-        },
-        {
-          id: "a1f",
-          headline: "Sesuai kapasitas produksi dan anggaran promosi tahap awal",
-          points: [
-            "Kesesuaian kapasitas: ukuran segmen sebanding dengan kapasitas produksi awal, sehingga permintaan tidak melebihi kemampuan pasokan.",
-            "Efisiensi anggaran: sasaran yang terfokus membuat anggaran promosi tahap awal cukup untuk mencapai jangkauan yang berarti.",
-            "Daya beli: pola pengeluaran segmen sudah mencakup pembelian minuman kemasan secara rutin.",
-            "Potensi pertumbuhan: bila segmen ini berhasil digarap, perluasan ke segmen berikutnya dapat dibiayai dari hasil penjualannya sendiri.",
+            "Kanal utama: Instagram, dengan jadwal unggah pada pukul 06.00-07.00 dan 19.00-21.00 mengikuti jam aktif audiens.",
+            "Kanal pendukung: TikTok untuk menjangkau audiens di luar pengikut yang sudah ada.",
+            "Alasan: audiens membuka media sosial sebelum berolahraga pagi dan setelah pulang kerja.",
+            "Bentuk konten: Reels rutinitas pagi, carousel penjelasan bahan, dan Story di jam malam.",
           ],
         },
       ],
@@ -1035,39 +1570,33 @@ const alasanTarget: ChoiceGroup = {
       grade: "sebagian",
       variants: [
         {
-          id: "a2a",
-          headline: "Hanya menyebut jumlahnya banyak",
+          id: "ch2a",
+          headline: "Media sosial",
+          fields: { channel: "Media sosial" },
           points: [
-            "Ukuran pasar: jumlah orang di segmen ini banyak.",
-            "Belum menjelaskan daya beli maupun potensi pertumbuhan segmen.",
-            "Belum menghubungkan alasan dengan keunggulan produk VitaFresh.",
+            "Sudah mengarah ke kanal digital.",
+            "Tidak menyebut platform tertentu sehingga format kontennya belum bisa ditentukan.",
+            "Studi kasus menyebut Instagram secara khusus, tetapi itu tidak ditegaskan di sini.",
           ],
         },
         {
-          id: "a2b",
-          headline: "Alasan benar tetapi tanpa penjelasan pendukung",
+          id: "ch2b",
+          headline: "Instagram saja tanpa penjelasan",
+          fields: { channel: "Instagram" },
           points: [
-            "Segmen ini dipilih karena punya daya beli yang bagus dan pasarnya sedang tumbuh.",
-            "Tidak dijelaskan seberapa besar daya belinya dan apa yang membuat pasar tersebut tumbuh.",
-            "Belum ada pertimbangan kesiapan distribusi maupun tingkat persaingan.",
+            "Platform utama sudah disebut dan sesuai dengan studi kasus.",
+            "Belum menjelaskan fitur mana yang dipakai, apakah Reels, carousel, atau Story.",
+            "Alasan pemilihan kanal dan bentuk kontennya belum diuraikan.",
           ],
         },
         {
-          id: "a2c",
-          headline: "Hanya menyorot kemudahan promosi",
+          id: "ch2c",
+          headline: "Semua platform sekaligus",
+          fields: { channel: "Instagram, TikTok, Facebook, X, YouTube, dan LinkedIn" },
           points: [
-            "Segmen ini mudah dijangkau lewat media sosial sehingga promosinya gampang.",
-            "Kemudahan promosi memang penting, tetapi bukan satu-satunya pertimbangan targeting.",
-            "Ukuran pasar dan daya beli belum dibahas sama sekali.",
-          ],
-        },
-        {
-          id: "a2d",
-          headline: "Mencampur alasan pasar dengan selera pribadi",
-          points: [
-            "Segmen ini dipilih karena pasarnya cukup besar dan kebetulan paling dekat dengan keseharian penyusun strategi.",
-            "Sebagian alasan sudah tepat, tetapi preferensi pribadi bukan dasar keputusan targeting.",
-            "Potensi pertumbuhan dan daya beli belum diuraikan.",
+            "Menyebut banyak platform sekaligus tanpa menetapkan mana yang utama.",
+            "Sumber daya tim akan terbagi habis tanpa hasil yang berarti di kanal mana pun.",
+            "Key communication channel seharusnya menunjuk saluran utama, bukan mendaftar semuanya.",
           ],
         },
       ],
@@ -1076,39 +1605,33 @@ const alasanTarget: ChoiceGroup = {
       grade: "kurang",
       variants: [
         {
-          id: "a3a",
-          headline: "Karena paling gampang ditemui",
+          id: "ch3a",
+          headline: "Brosur dan spanduk",
+          fields: { channel: "Brosur dan spanduk di pinggir jalan" },
           points: [
-            "Segmen ini dipilih karena paling gampang ditemui di sekitar kantor.",
-            "Tidak mempertimbangkan ukuran pasar, daya beli, maupun potensi pertumbuhan.",
-            "Alasan tidak dapat dipertanggungjawabkan sebagai dasar strategi.",
+            "Tidak menjawab tantangan studi kasus yang berfokus pada engagement Instagram.",
+            "Audiens yang dipetakan aktif di media sosial, bukan di media cetak luar ruang.",
+            "Hasil riset audiens tidak dipakai untuk menentukan saluran.",
           ],
         },
         {
-          id: "a3b",
-          headline: "Karena mengikuti merek pesaing",
+          id: "ch3b",
+          headline: "Belum ditentukan",
+          fields: { channel: "Belum ditentukan" },
           points: [
-            "Segmen ini dipilih semata-mata karena merek pesaing juga menyasar ke sana.",
-            "Tidak ada analisis apakah segmen tersebut cocok dengan keunggulan VitaFresh.",
-            "Berisiko masuk ke persaingan langsung tanpa keunggulan pembeda.",
+            "Kolom wajib pada template profil audiens dibiarkan kosong.",
+            "Tanpa kanal utama, riset konten kompetitor di langkah berikutnya kehilangan pembandingnya.",
+            "Instruksi membuat profil audiens tidak terpenuhi.",
           ],
         },
         {
-          id: "a3c",
-          headline: "Karena arahan atasan tanpa dasar analisis",
+          id: "ch3c",
+          headline: "Telepon langsung ke calon pembeli",
+          fields: { channel: "Panggilan telepon satu per satu" },
           points: [
-            "Segmen ini dipilih karena diminta oleh atasan.",
-            "Tidak ada pertimbangan ukuran pasar, daya beli, maupun potensi pertumbuhan.",
-            "Instruksi tugas untuk menjelaskan alasan pemilihan tidak terpenuhi.",
-          ],
-        },
-        {
-          id: "a3d",
-          headline: "Karena produknya bisa dipakai siapa saja",
-          points: [
-            "Produk ini bisa diminum siapa saja, jadi targetnya tidak perlu dipersempit.",
-            "Pernyataan ini justru menghapus keputusan targeting yang sudah dibuat.",
-            "Tidak ada satu pun kriteria pemilihan target yang dibahas.",
+            "Tidak sebanding dengan jumlah audiens yang ingin dijangkau.",
+            "Bertentangan dengan tujuan tugas, yaitu menyusun strategi konten media sosial.",
+            "Berpotensi mengganggu dan merusak citra brand di mata calon pembeli.",
           ],
         },
       ],
@@ -1117,88 +1640,147 @@ const alasanTarget: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 6. POSITIONING — strategi citra & keunggulan                       */
+/* LANGKAH 3 — RISET KONTEN KOMPETITOR                                 */
+/* 3.1 Identifikasi kompetitor utama                                   */
+/*                                                                     */
+/* Baris "Logo" dan "Screenshot" pada template diganti uraian hasil    */
+/* pengamatan: identitas, isi bio, kesan grid, dan daftar konten feed. */
+/* Field konten1..konten4 berformat:                                   */
+/*   "Format | Tema | Pesan yang ditangkap | Bentuk CTA"               */
 /* ================================================================== */
 
-const strategiPositioning: ChoiceGroup = {
-  id: "posisi",
-  label: "Strategi Positioning",
-  question: "Strategi positioning: citra dan keunggulan yang ingin ditanamkan",
-  hint: "Positioning yang baik menegaskan pembeda produk di benak konsumen.",
+const kompetitorUtama: ChoiceGroup = {
+  id: "kompetitor",
+  label: "Kompetitor",
+  question: "Langkah 1 — identifikasi 1 kompetitor utama beserta akun Instagramnya",
+  hint: "Pilih satu brand. Identitas, isi bio, kesan grid, dan daftar konten feed ikut terisi.",
   options: [
     {
       grade: "tepat",
       variants: [
         {
-          id: "p1a",
-          headline: "Minuman vitamin C dari buah asli untuk generasi aktif",
-          narrative:
-            "VitaFresh diposisikan sebagai minuman sari buah alami dengan kandungan vitamin C tinggi yang menjadi teman harian generasi aktif dalam menjaga daya tahan tubuh.",
+          id: "kom1a",
+          headline: "CoreNation Activewear (@corenationactive)",
+          fields: {
+            nama: "CoreNation Activewear",
+            akun: "@corenationactive",
+            kategori: "Brand activewear lokal asal Surabaya dengan lini khusus perempuan, laki-laki, dan hijab olahraga",
+            identitas:
+              "Wordmark huruf kapital tanpa serif berwarna gelap dengan foto profil berlatar polos, memberi kesan bersih dan modern",
+            bio: "Menyebut posisinya sebagai perlengkapan untuk gaya hidup aktif buatan Indonesia, dilengkapi tautan menuju toko daring dan nomor layanan pelanggan",
+            highlight: "Katalog produk, panduan ukuran, ulasan pembeli, dan informasi pengiriman",
+            grid:
+              "Grid didominasi foto model mengenakan produk dengan latar studio dan luar ruang, warna dominan netral dan pastel, tampak rapi dan seragam antarunggahan",
+            konten1: "Reels | Model memperagakan koleksi terbaru sambil bergerak | Produk nyaman dipakai bergerak aktif | Ajakan melihat koleksi lewat tautan di bio",
+            konten2: "Carousel | Panduan memilih ukuran dan jenis bahan | Brand membantu pembeli memilih dengan tepat | Ajakan menyimpan unggahan sebagai rujukan",
+            konten3: "Feed foto | Foto produk dengan latar bersih | Menonjolkan potongan dan detail jahitan | Ajakan mengunjungi toko daring",
+            konten4: "Reels | Rutinitas latihan singkat memakai produk | Produk menemani rutinitas harian | Ajakan mencoba gerakan yang ditampilkan",
+          },
           points: [
-            "Citra yang dibangun: minuman harian yang alami, jujur, dan dapat diandalkan untuk menjaga imunitas.",
-            "Keunggulan utama: vitamin C tinggi yang berasal dari sari buah asli, bukan dari bahan tambahan sintetis.",
-            "Pembeda dari pesaing: minuman buah kemasan lain menonjolkan rasa dan kesegaran, sementara VitaFresh menonjolkan manfaat gizi yang terukur.",
-            "Bukti pendukung: komposisi buah asli dan takaran vitamin C dicantumkan jelas pada kemasan depan.",
+            "Nama brand: CoreNation Activewear",
+            "Akun Instagram: @corenationactive",
+            "Alasan dipilih: sama-sama brand pakaian olahraga lokal yang menyasar gaya hidup aktif masyarakat urban",
+            "Kesamaan kategori: menawarkan koleksi pakaian olahraga sehari-hari, bukan perlengkapan bertanding",
           ],
         },
         {
-          id: "p1b",
-          headline: "Pengganti jus segar yang praktis tanpa kehilangan manfaat",
-          narrative:
-            "VitaFresh diposisikan sebagai pengganti jus buah segar yang praktis, sehingga konsumen tetap memperoleh asupan vitamin C harian tanpa harus repot membuatnya sendiri.",
+          id: "kom1b",
+          headline: "Ortuseight (@ortuseight)",
+          fields: {
+            nama: "Ortuseight",
+            akun: "@ortuseight",
+            kategori: "Brand olahraga lokal asal Tangerang dengan lini sepatu dan apparel olahraga",
+            identitas:
+              "Logo berbentuk lambang tegas dengan warna kontras tinggi, memberi kesan sporty dan berani",
+            bio: "Menegaskan diri sebagai brand olahraga Indonesia, disertai tautan menuju toko resmi dan penyebutan akun lini produknya",
+            highlight: "Peluncuran produk, kolaborasi atlet, dan katalog per kategori olahraga",
+            grid:
+              "Grid didominasi foto produk berlatar gelap dan cuplikan aksi olahraga, warnanya kontras dan mencolok, terasa energik antarunggahan",
+            konten1: "Reels | Cuplikan aksi olahraga memakai produk | Produk mendukung performa saat bertanding | Ajakan melihat koleksi di toko resmi",
+            konten2: "Feed foto | Peluncuran seri produk baru | Menonjolkan teknologi dan desain terbaru | Ajakan menandai teman di kolom komentar",
+            konten3: "Carousel | Rincian fitur produk per bagian | Menjelaskan keunggulan teknis produk | Ajakan membaca sampai halaman terakhir",
+            konten4: "Reels | Kolaborasi dengan atlet atau komunitas | Brand didukung penggunanya di lapangan | Ajakan mengikuti kegiatan berikutnya",
+          },
           points: [
-            "Citra yang dibangun: kepraktisan yang tidak mengorbankan mutu gizi.",
-            "Keunggulan utama: manfaat setara jus buah segar dalam kemasan siap minum.",
-            "Pembeda dari pesaing: bersaing dengan kerepotan membuat jus sendiri, bukan sekadar dengan sesama minuman kemasan.",
-            "Bukti pendukung: kandungan buah asli dan tanpa tambahan pemanis buatan.",
+            "Nama brand: Ortuseight",
+            "Akun Instagram: @ortuseight",
+            "Alasan dipilih: brand olahraga lokal dengan jangkauan audiens luas yang juga menjual apparel olahraga",
+            "Kesamaan kategori: menyasar audiens muda perkotaan yang aktif berolahraga",
           ],
         },
         {
-          id: "p1c",
-          headline: "Bekal imunitas harian di tengah rutinitas padat",
-          narrative:
-            "VitaFresh diposisikan sebagai bekal imunitas harian bagi konsumen dengan rutinitas padat, yang memerlukan asupan vitamin C tanpa menambah beban waktu maupun biaya.",
+          id: "kom1c",
+          headline: "League Indonesia (@league_world)",
+          fields: {
+            nama: "League Indonesia",
+            akun: "@league_world",
+            kategori: "Brand sportswear lokal dengan lini sepatu dan pakaian olahraga",
+            identitas:
+              "Wordmark huruf tebal dengan penanda tagar #LeadTheWay, warna dominan gelap dan berkesan tegas",
+            bio: "Memuat tagar kampanye brand serta informasi layanan pelanggan dan tautan pembelian",
+            highlight: "Koleksi terbaru, kampanye brand, dan lokasi gerai",
+            grid:
+              "Grid memadukan foto kampanye brand dengan foto produk, warna dominan gelap dan monokrom, terlihat konsisten sebagai satu kesatuan",
+            konten1: "Feed foto | Foto kampanye brand dengan model | Membangun citra brand secara keseluruhan | Ajakan mengikuti tagar kampanye",
+            konten2: "Reels | Cuplikan pemakaian produk saat berolahraga | Produk mengikuti gerak pemakainya | Ajakan berbelanja lewat tautan di bio",
+            konten3: "Carousel | Perkenalan koleksi terbaru per model | Memperlihatkan pilihan warna dan tipe | Ajakan memilih favorit di kolom komentar",
+            konten4: "Feed foto | Informasi ketersediaan di gerai | Mempermudah pembeli menemukan produk | Ajakan mengunjungi gerai terdekat",
+          },
           points: [
-            "Citra yang dibangun: pendamping rutinitas yang membuat konsumen tetap bugar meski jadwal padat.",
-            "Keunggulan utama: satu botol memenuhi sebagian besar kebutuhan vitamin C harian.",
-            "Pembeda dari pesaing: menyasar momen konsumsi harian yang berulang, bukan pembelian sesekali.",
-            "Bukti pendukung: kemasan ukuran sekali minum yang mudah dibawa dan tersedia di ritel yang dilewati setiap hari.",
+            "Nama brand: League Indonesia",
+            "Akun Instagram: @league_world",
+            "Alasan dipilih: brand sportswear lokal mapan yang menjadi pembanding wajar bagi {{brand}}",
+            "Kesamaan kategori: menjual pakaian dan perlengkapan olahraga untuk pemakaian harian",
           ],
         },
         {
-          id: "p1d",
-          headline: "Minuman sehat yang jujur: manis dari buah, bukan dari gula tambahan",
-          narrative:
-            "VitaFresh diposisikan sebagai minuman sehat yang jujur, dengan rasa manis yang berasal dari buah asli dan bukan dari gula tambahan maupun pemanis buatan.",
+          id: "kom1d",
+          headline: "Specs Indonesia (@specs_indonesia)",
+          fields: {
+            nama: "Specs Indonesia",
+            akun: "@specs_indonesia",
+            kategori: "Brand olahraga lokal asal Jakarta dengan lini sepatu dan apparel",
+            identitas:
+              "Logo wordmark miring berwarna kontras yang sudah dikenal luas, berkesan kompetitif",
+            bio: "Menyebut identitasnya sebagai brand olahraga Indonesia disertai tautan menuju toko resmi",
+            highlight: "Katalog produk, kegiatan komunitas, dan kolaborasi",
+            grid:
+              "Grid didominasi foto produk dan momen pertandingan, warnanya kuat dan kontras, terasa lebih ramai dibanding akun activewear",
+            konten1: "Feed foto | Foto produk sepatu dan apparel | Menonjolkan desain dan warna produk | Ajakan berbelanja di toko resmi",
+            konten2: "Reels | Momen pertandingan dan latihan | Produk dipakai di situasi olahraga sungguhan | Ajakan menonton sampai selesai",
+            konten3: "Carousel | Penjelasan seri produk | Membedakan tiap seri bagi calon pembeli | Ajakan bertanya lewat pesan langsung",
+            konten4: "Reels | Kegiatan komunitas dan kompetisi | Brand dekat dengan komunitas olahraga | Ajakan mendaftar kegiatan berikutnya",
+          },
           points: [
-            "Citra yang dibangun: merek yang transparan dan dapat dipercaya soal isi produknya.",
-            "Keunggulan utama: rasa manis alami dari buah tanpa pemanis buatan, dengan vitamin C tinggi.",
-            "Pembeda dari pesaing: menjawab langsung kekhawatiran konsumen terhadap kandungan gula pada minuman kemasan.",
-            "Bukti pendukung: daftar komposisi pendek dan informasi gizi yang ditampilkan terbuka.",
+            "Nama brand: Specs Indonesia",
+            "Akun Instagram: @specs_indonesia",
+            "Alasan dipilih: brand olahraga lokal dengan pengenalan nama yang kuat di kalangan audiens muda",
+            "Kesamaan kategori: menjual apparel olahraga bagi audiens perkotaan yang aktif",
           ],
         },
         {
-          id: "p1e",
-          headline: "Teman pemulihan setelah aktivitas berat",
-          narrative:
-            "VitaFresh diposisikan sebagai minuman pemulih setelah beraktivitas, yang membantu mengembalikan kesegaran tubuh dengan vitamin C dari sari buah alami.",
+          id: "kom1e",
+          headline: "Aruna Sportswear (@arunasportswear)",
+          fields: {
+            nama: "Aruna Sportswear Indonesia",
+            akun: "@arunasportswear",
+            kategori: "Brand sportswear lokal yang menonjolkan kenyamanan dan bahan ringan",
+            identitas:
+              "Wordmark tipis tanpa serif dengan warna lembut, berkesan tenang dan minimalis",
+            bio: "Menyebut janji produknya yang nyaman dan ringan, disertai tautan menuju toko daring",
+            highlight: "Katalog koleksi, panduan ukuran, dan ulasan pembeli",
+            grid:
+              "Grid didominasi foto produk berlatar terang dengan warna lembut, tampak bersih dan seragam antarunggahan",
+            konten1: "Feed foto | Foto produk dengan latar terang | Menonjolkan kesan ringan dan nyaman | Ajakan melihat katalog di tautan bio",
+            konten2: "Carousel | Perbandingan jenis bahan yang dipakai | Membantu pembeli memahami pilihan bahan | Ajakan menyimpan unggahan",
+            konten3: "Reels | Model memperagakan produk saat bergerak | Produk mengikuti gerak tanpa mengganggu | Ajakan mencoba koleksi terbaru",
+            konten4: "Feed foto | Unggahan ulang foto pembeli | Produk sudah dipakai pengguna nyata | Ajakan mengirim foto pemakaian sendiri",
+          },
           points: [
-            "Citra yang dibangun: minuman yang hadir tepat pada momen tubuh membutuhkan pemulihan.",
-            "Keunggulan utama: menyegarkan sekaligus mengembalikan asupan gizi setelah aktivitas berat.",
-            "Pembeda dari pesaing: mengambil momen konsumsi yang berbeda dari minuman berenergi maupun air mineral.",
-            "Bukti pendukung: kandungan vitamin C tinggi dari buah asli tanpa kafein.",
-          ],
-        },
-        {
-          id: "p1f",
-          headline: "Pilihan sehat keluarga yang tetap disukai anak",
-          narrative:
-            "VitaFresh diposisikan sebagai minuman sehat keluarga yang tetap disukai anak-anak, sehingga orang tua tidak perlu memilih antara rasa yang disukai dan kandungan yang menyehatkan.",
-          points: [
-            "Citra yang dibangun: minuman yang membuat orang tua tenang dan anak tetap senang.",
-            "Keunggulan utama: rasa buah asli yang disukai anak dengan vitamin C tinggi tanpa pemanis buatan.",
-            "Pembeda dari pesaing: menghapus pertentangan antara 'enak' dan 'sehat' yang biasa dihadapi orang tua.",
-            "Bukti pendukung: bahan alami, tanpa pewarna sintetis, dan tersedia dalam kemasan isi banyak untuk stok di rumah.",
+            "Nama brand: Aruna Sportswear Indonesia",
+            "Akun Instagram: @arunasportswear",
+            "Alasan dipilih: brand sportswear lokal dengan positioning kenyamanan yang paling dekat dengan {{brand}}",
+            "Kesamaan kategori: menyasar audiens urban yang mencari pakaian olahraga nyaman untuk pemakaian harian",
           ],
         },
       ],
@@ -1207,47 +1789,69 @@ const strategiPositioning: ChoiceGroup = {
       grade: "sebagian",
       variants: [
         {
-          id: "p2a",
-          headline: "Minuman berkualitas dan menyegarkan",
-          narrative:
-            "VitaFresh diposisikan sebagai minuman berkualitas yang menyegarkan dan baik untuk tubuh.",
+          id: "kom2a",
+          headline: "Brand olahraga lokal (tanpa menyebut nama)",
+          fields: {
+            nama: "Salah satu brand olahraga lokal",
+            akun: "Belum dicatat",
+            kategori: "Brand pakaian olahraga lokal",
+            identitas: "Belum dicatat",
+            bio: "Belum dicatat",
+            highlight: "Belum dicatat",
+            grid: "Isi grid belum diamati secara rinci",
+            konten1: "Feed foto | Foto produk | Menampilkan produk | Belum dicatat",
+            konten2: "Reels | Video produk | Menampilkan produk bergerak | Belum dicatat",
+            konten3: "Feed foto | Foto model | Menampilkan model memakai produk | Belum dicatat",
+            konten4: "Feed foto | Foto promo | Menampilkan potongan harga | Belum dicatat",
+          },
           points: [
-            "Citra yang dibangun: produk berkualitas dan menyegarkan.",
-            "Keunggulan utama: rasanya enak dan menyehatkan.",
-            "Belum ada pembeda yang jelas dari minuman kemasan lain, karena hampir semua merek mengaku berkualitas.",
+            "Kategori kompetitor sudah tepat, yaitu brand pakaian olahraga lokal",
+            "Nama brand dan akun Instagramnya tidak dicatat sehingga tidak bisa ditelusuri ulang",
+            "Instruksi langkah 1 meminta identifikasi kompetitor secara spesifik",
           ],
         },
         {
-          id: "p2b",
-          headline: "Minuman sehat untuk semua kalangan",
-          narrative:
-            "VitaFresh diposisikan sebagai minuman sehat yang bisa dinikmati semua kalangan.",
+          id: "kom2b",
+          headline: "Nike (@nike)",
+          fields: {
+            nama: "Nike",
+            akun: "@nike",
+            kategori: "Brand olahraga global",
+            identitas: "Logo centang yang sudah dikenal di seluruh dunia",
+            bio: "Berisi kalimat kampanye global dan tautan menuju situs resmi",
+            highlight: "Kampanye global, kolaborasi atlet dunia, dan peluncuran produk",
+            grid: "Grid berisi foto kampanye berbiaya besar dengan atlet ternama dan penggarapan visual tingkat tinggi",
+            konten1: "Reels | Kampanye global dengan atlet dunia | Membangun citra brand global | Ajakan mengikuti kampanye",
+            konten2: "Feed foto | Peluncuran produk edisi terbatas | Menonjolkan kelangkaan produk | Ajakan mendaftar antrean pembelian",
+            konten3: "Reels | Cerita perjalanan atlet | Menghubungkan brand dengan semangat juang | Ajakan menonton versi panjang",
+            konten4: "Feed foto | Kolaborasi dengan perancang ternama | Menonjolkan nilai eksklusif | Ajakan menantikan tanggal rilis",
+          },
           points: [
-            "Citra yang dibangun: minuman sehat untuk siapa saja.",
-            "Keunggulan utama: menyehatkan dan bisa diminum kapan saja.",
-            "Positioning menjadi kabur karena tidak berpihak pada target pasar yang sudah dipilih.",
+            "Nama brand dan akun sudah spesifik dan mudah ditelusuri",
+            "Namun skala, anggaran, dan audiensnya jauh berbeda dari {{brand}} sebagai brand lokal",
+            "Hasil analisisnya sulit ditiru karena kemampuan produksi kontennya tidak sebanding",
           ],
         },
         {
-          id: "p2c",
-          headline: "Menonjolkan rasa buah tanpa menyebut manfaat gizi",
-          narrative:
-            "VitaFresh diposisikan sebagai minuman dengan rasa buah yang enak dan bervariasi.",
+          id: "kom2c",
+          headline: "Toko daring penjual pakaian olahraga",
+          fields: {
+            nama: "Toko daring penjual berbagai merek",
+            akun: "Akun toko di marketplace",
+            kategori: "Penjual ulang berbagai merek pakaian olahraga",
+            identitas: "Memakai foto produk dari pemasok, tanpa identitas visual sendiri",
+            bio: "Berisi daftar merek yang dijual dan nomor pemesanan",
+            highlight: "Daftar harga dan bukti pengiriman",
+            grid: "Grid berisi foto produk dari berbagai merek tanpa gaya visual yang seragam",
+            konten1: "Feed foto | Foto produk dari berbagai merek | Menampilkan ketersediaan barang | Ajakan memesan lewat pesan langsung",
+            konten2: "Feed foto | Daftar harga | Menonjolkan harga murah | Ajakan menanyakan stok",
+            konten3: "Feed foto | Bukti pengiriman | Menunjukkan toko aktif melayani | Ajakan memesan hari ini",
+            konten4: "Feed foto | Foto produk ulang dari pemasok | Menampilkan pilihan barang | Ajakan menyimpan nomor pemesanan",
+          },
           points: [
-            "Citra yang dibangun: minuman buah dengan rasa yang enak.",
-            "Keunggulan utama: pilihan rasa yang beragam.",
-            "Keunggulan inti berupa vitamin C tinggi justru tidak dimunculkan sama sekali.",
-          ],
-        },
-        {
-          id: "p2d",
-          headline: "Menonjolkan kemasan yang menarik",
-          narrative:
-            "VitaFresh diposisikan sebagai minuman dengan kemasan modern yang menarik untuk dibagikan di media sosial.",
-          points: [
-            "Citra yang dibangun: produk yang tampil menarik dan kekinian.",
-            "Keunggulan utama: desain kemasan yang mencolok.",
-            "Kemasan mudah ditiru pesaing sehingga tidak cukup kuat sebagai dasar positioning.",
+            "Sudah menyasar kategori produk yang sama, yaitu pakaian olahraga",
+            "Namun yang dianalisis adalah penjual ulang, bukan brand yang membangun identitasnya sendiri",
+            "Strategi kontennya tidak sebanding untuk dijadikan rujukan {{brand}}",
           ],
         },
       ],
@@ -1256,47 +1860,69 @@ const strategiPositioning: ChoiceGroup = {
       grade: "kurang",
       variants: [
         {
-          id: "p3a",
-          headline: "Minuman termurah di pasaran",
-          narrative:
-            "VitaFresh diposisikan sebagai minuman paling murah di pasaran agar bisa dibeli siapa saja.",
+          id: "kom3a",
+          headline: "Brand minuman kemasan",
+          fields: {
+            nama: "Brand minuman kemasan",
+            akun: "Akun brand minuman",
+            kategori: "Produk minuman, bukan pakaian olahraga",
+            identitas: "Identitas visual khas kategori minuman",
+            bio: "Berisi kalimat promosi produk minuman",
+            highlight: "Varian rasa dan lokasi pembelian",
+            grid: "Grid berisi foto kemasan minuman dan kegiatan promosi produk",
+            konten1: "Feed foto | Foto kemasan produk minuman | Menonjolkan kesegaran produk | Ajakan mencoba varian baru",
+            konten2: "Reels | Kegiatan promosi di pusat perbelanjaan | Menarik perhatian pengunjung | Ajakan mengunjungi stan",
+            konten3: "Feed foto | Varian rasa baru | Menonjolkan pilihan rasa | Ajakan memilih rasa favorit",
+            konten4: "Feed foto | Undian berhadiah | Mendorong pembelian berulang | Ajakan mengumpulkan tutup botol",
+          },
           points: [
-            "Citra yang dibangun: produk paling murah.",
-            "Bertentangan dengan citra minuman kesehatan berbahan buah asli yang ingin dibangun.",
-            "Memicu perang harga yang menggerus margin dan menurunkan persepsi mutu produk.",
+            "Bukan kompetitor karena tidak menjual produk atau layanan yang sama",
+            "Riset kompetitor mensyaratkan brand yang menjual produk sejenis",
+            "Hasil analisisnya tidak dapat dipakai menyusun strategi konten {{brand}}",
           ],
         },
         {
-          id: "p3b",
-          headline: "Minuman berenergi untuk begadang",
-          narrative:
-            "VitaFresh diposisikan sebagai minuman berenergi yang membantu konsumen kuat begadang.",
+          id: "kom3b",
+          headline: "Akun {{brand}} sendiri",
+          fields: {
+            nama: "{{brand}}",
+            akun: "Akun {{brand}} sendiri",
+            kategori: "Brand sendiri, bukan pesaing",
+            identitas: "Identitas visual {{brand}}",
+            bio: "Bio akun {{brand}}",
+            highlight: "Katalog produk {{brand}}",
+            grid: "Grid akun {{brand}} sendiri",
+            konten1: "Feed foto | Konten {{brand}} sendiri | Konten milik brand sendiri | Ajakan berbelanja",
+            konten2: "Reels | Konten {{brand}} sendiri | Konten milik brand sendiri | Ajakan berbelanja",
+            konten3: "Feed foto | Konten {{brand}} sendiri | Konten milik brand sendiri | Ajakan berbelanja",
+            konten4: "Feed foto | Konten {{brand}} sendiri | Konten milik brand sendiri | Ajakan berbelanja",
+          },
           points: [
-            "Citra yang dibangun keliru karena produk tidak mengandung kafein maupun stimulan.",
-            "Menyesatkan konsumen dan berisiko menimbulkan kekecewaan setelah pembelian pertama.",
-            "Menempatkan produk berhadapan langsung dengan kategori yang bukan keunggulannya.",
+            "Yang dianalisis adalah akun sendiri, bukan pesaing",
+            "Tidak ada pembanding yang diperoleh dari kegiatan riset ini",
+            "Instruksi langkah 1 untuk mengidentifikasi kompetitor utama tidak dijalankan",
           ],
         },
         {
-          id: "p3c",
-          headline: "Obat penyembuh penyakit",
-          narrative:
-            "VitaFresh diposisikan sebagai minuman yang dapat menyembuhkan penyakit dan menggantikan obat.",
+          id: "kom3c",
+          headline: "Belum menentukan kompetitor",
+          fields: {
+            nama: "Belum ditentukan",
+            akun: "Belum ditentukan",
+            kategori: "Belum ditentukan",
+            identitas: "Belum ditentukan",
+            bio: "Belum ditentukan",
+            highlight: "Belum ditentukan",
+            grid: "Belum diamati",
+            konten1: "- | - | - | -",
+            konten2: "- | - | - | -",
+            konten3: "- | - | - | -",
+            konten4: "- | - | - | -",
+          },
           points: [
-            "Klaim menyembuhkan penyakit tidak boleh digunakan untuk produk minuman.",
-            "Berisiko melanggar ketentuan iklan pangan olahan.",
-            "Merusak kepercayaan konsumen begitu klaim tersebut tidak terbukti.",
-          ],
-        },
-        {
-          id: "p3d",
-          headline: "Sama seperti merek lain yang sudah ada",
-          narrative:
-            "VitaFresh diposisikan sama persis dengan merek minuman buah yang sudah lebih dulu terkenal.",
-          points: [
-            "Tidak ada pembeda sehingga konsumen tidak punya alasan untuk berpindah.",
-            "Bersaing langsung dengan merek mapan yang anggaran promosinya jauh lebih besar.",
-            "Bertentangan dengan tujuan positioning, yaitu menempati posisi khas di benak konsumen.",
+            "Tidak ada kompetitor yang diidentifikasi",
+            "Tiga langkah riset kompetitor berikutnya menjadi tidak bisa dikerjakan",
+            "Instruksi ketiga pada daftar tugas tidak terpenuhi",
           ],
         },
       ],
@@ -1305,190 +1931,66 @@ const strategiPositioning: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 7. POSITIONING — kalimat positioning statement                     */
+/* 3.2 Analisis konten kompetitor — 5 elemen sesuai template           */
 /* ================================================================== */
 
-const positioningStatement: ChoiceGroup = {
-  id: "statement",
-  label: "Positioning Statement",
-  question: "Kalimat positioning statement produk",
-  hint: "Satu kalimat singkat yang menempel di benak konsumen.",
-  options: [
-    {
-      grade: "tepat",
-      variants: [
-        {
-          id: "q1a",
-          headline: "VitaFresh, sari buah asli bervitamin C untuk generasi aktif yang menjaga daya tahan tubuh setiap hari.",
-          points: ["Menyebut produk, keunggulan inti, dan sasaran konsumen dalam satu kalimat."],
-          fields: {
-            statement:
-              "VitaFresh, sari buah asli bervitamin C untuk generasi aktif yang menjaga daya tahan tubuh setiap hari.",
-          },
-        },
-        {
-          id: "q1b",
-          headline: "VitaFresh, kesegaran buah asli dengan vitamin C tinggi untuk kamu yang selalu bergerak.",
-          points: ["Menegaskan bahan alami dan kandungan gizi sekaligus menyapa target yang aktif."],
-          fields: {
-            statement:
-              "VitaFresh, kesegaran buah asli dengan vitamin C tinggi untuk kamu yang selalu bergerak.",
-          },
-        },
-        {
-          id: "q1c",
-          headline: "VitaFresh, satu botol vitamin C dari buah asli untuk menemani hari yang padat.",
-          points: ["Menghubungkan keunggulan produk dengan momen konsumsi harian target pasar."],
-          fields: {
-            statement:
-              "VitaFresh, satu botol vitamin C dari buah asli untuk menemani hari yang padat.",
-          },
-        },
-        {
-          id: "q1d",
-          headline: "VitaFresh, manisnya dari buah, sehatnya dari vitamin C alami setiap hari.",
-          points: ["Menonjolkan pembeda utama, yaitu manis alami tanpa gula tambahan."],
-          fields: {
-            statement:
-              "VitaFresh, manisnya dari buah, sehatnya dari vitamin C alami setiap hari.",
-          },
-        },
-        {
-          id: "q1e",
-          headline: "VitaFresh, jaga imunitas dengan cara yang praktis dan alami.",
-          points: ["Menyatakan manfaat inti dengan bahasa singkat yang mudah diingat."],
-          fields: {
-            statement: "VitaFresh, jaga imunitas dengan cara yang praktis dan alami.",
-          },
-        },
-        {
-          id: "q1f",
-          headline: "VitaFresh, minuman sari buah alami bervitamin C tinggi untuk gaya hidup sehat sehari-hari.",
-          points: ["Merangkum keunggulan produk dan janji gaya hidup yang ingin diwakili."],
-          fields: {
-            statement:
-              "VitaFresh, minuman sari buah alami bervitamin C tinggi untuk gaya hidup sehat sehari-hari.",
-          },
-        },
-        {
-          id: "q1g",
-          headline: "VitaFresh, bekal vitamin C harian dari buah asli untuk keluarga yang aktif.",
-          points: ["Menyapa segmen keluarga sambil tetap menegaskan keunggulan gizi produk."],
-          fields: {
-            statement:
-              "VitaFresh, bekal vitamin C harian dari buah asli untuk keluarga yang aktif.",
-          },
-        },
-      ],
-    },
-    {
-      grade: "sebagian",
-      variants: [
-        {
-          id: "q2a",
-          headline: "VitaFresh, minuman segar untuk semua.",
-          points: ["Mudah diingat, tetapi tidak menyebut keunggulan maupun target pasar."],
-          fields: { statement: "VitaFresh, minuman segar untuk semua." },
-        },
-        {
-          id: "q2b",
-          headline: "VitaFresh, minuman sehat pilihan keluarga Indonesia.",
-          points: ["Menyebut sasaran, tetapi belum memunculkan pembeda produk."],
-          fields: { statement: "VitaFresh, minuman sehat pilihan keluarga Indonesia." },
-        },
-        {
-          id: "q2c",
-          headline: "VitaFresh, rasakan kesegarannya sekarang juga.",
-          points: ["Terdengar seperti ajakan iklan, belum menjelaskan posisi produk."],
-          fields: { statement: "VitaFresh, rasakan kesegarannya sekarang juga." },
-        },
-        {
-          id: "q2d",
-          headline: "VitaFresh, minuman buah dengan banyak pilihan rasa.",
-          points: ["Menonjolkan variasi rasa, tetapi keunggulan vitamin C tidak muncul."],
-          fields: { statement: "VitaFresh, minuman buah dengan banyak pilihan rasa." },
-        },
-      ],
-    },
-    {
-      grade: "kurang",
-      variants: [
-        {
-          id: "q3a",
-          headline: "VitaFresh, minuman paling murah se-Indonesia.",
-          points: ["Bertentangan dengan citra produk kesehatan berbahan buah asli."],
-          fields: { statement: "VitaFresh, minuman paling murah se-Indonesia." },
-        },
-        {
-          id: "q3b",
-          headline: "VitaFresh, minuman yang bikin kamu kuat begadang semalaman.",
-          points: ["Menjanjikan manfaat yang tidak dimiliki produk dan menyesatkan konsumen."],
-          fields: { statement: "VitaFresh, minuman yang bikin kamu kuat begadang semalaman." },
-        },
-        {
-          id: "q3c",
-          headline: "VitaFresh, sekali minum penyakit langsung sembuh.",
-          points: ["Klaim menyembuhkan penyakit dilarang untuk produk pangan olahan."],
-          fields: { statement: "VitaFresh, sekali minum penyakit langsung sembuh." },
-        },
-        {
-          id: "q3d",
-          headline: "VitaFresh, produk minuman dari perusahaan kami.",
-          points: ["Tidak menyampaikan manfaat, pembeda, maupun sasaran konsumen."],
-          fields: { statement: "VitaFresh, produk minuman dari perusahaan kami." },
-        },
-      ],
-    },
-  ],
-};
-
-/* ================================================================== */
-/* 8. VISUALISASI STRATEGI                                            */
-/* ================================================================== */
-
-const visualisasi: ChoiceGroup = {
+const elemenVisual: ChoiceGroup = {
   id: "visual",
-  label: "Bentuk Visual",
-  question: "Bentuk visualisasi hubungan Segmentasi - Targeting - Positioning",
-  hint: "Visual akan digambar otomatis dari jawaban nomor 1 sampai 3.",
+  label: "Elemen Visual",
+  question: "Langkah 2 — Elemen Visual konten {{kompetitor}}",
+  hint: "Amati warna, jenis foto, tata letak, dan konsistensi tampilan antarunggahan.",
   options: [
     {
       grade: "tepat",
       variants: [
         {
-          id: "v1a",
-          headline: "Tabel STP",
-          narrative:
-            "Hubungan antara segmentasi, target pasar, dan positioning digambarkan dalam bentuk tabel STP berikut.",
-          fields: { format: "table" },
+          id: "vis1a",
+          headline: "Warna konsisten dengan foto model sebagai tokoh utama",
           points: [
-            "Menampilkan ketiga segmen beserta kriteria, karakteristik, dan kebutuhan utamanya",
-            "Menandai segmen mana yang menjadi target utama",
-            "Menutup tabel dengan baris positioning agar alurnya terlihat utuh",
+            "Warna dominan: satu keluarga warna dipakai berulang di hampir seluruh unggahan sehingga grid terlihat sebagai satu kesatuan.",
+            "Jenis gambar: didominasi foto model mengenakan produk, bukan foto produk yang berdiri sendiri.",
+            "Tata letak: teks pada gambar diletakkan di posisi yang sama antarunggahan dengan ukuran huruf yang seragam.",
+            "Konsistensi: gaya penyuntingan foto tidak berubah-ubah, sehingga akun mudah dikenali meski muncul di beranda orang lain.",
           ],
         },
         {
-          id: "v1b",
-          headline: "Diagram Alur Segmentasi - Targeting - Positioning",
-          narrative:
-            "Hubungan antara segmentasi, target pasar, dan positioning digambarkan sebagai diagram alur tiga tahap berikut.",
-          fields: { format: "flow" },
+          id: "vis1b",
+          headline: "Video pendek vertikal mendominasi, foto sebagai pelengkap",
           points: [
-            "Menggambarkan alur berurutan dari segmentasi, targeting, hingga positioning",
-            "Setiap tahap berisi ringkasan keputusan yang sudah diambil",
-            "Memperlihatkan bahwa positioning merupakan lanjutan logis dari target yang dipilih",
+            "Format utama: video pendek vertikal yang memenuhi layar, dengan foto feed sebagai pelengkap.",
+            "Warna dominan: kontras cukup tinggi agar gerakan tetap terbaca saat ditonton di layar kecil.",
+            "Tata letak: tiga detik pertama selalu menampilkan produk atau gerakan, tanpa pembuka yang bertele-tele.",
+            "Konsistensi: sampul Reels dibuat seragam sehingga grid tetap rapi meski isinya video.",
           ],
         },
         {
-          id: "v1c",
-          headline: "Mind Map Strategi STP",
-          narrative:
-            "Hubungan antara segmentasi, target pasar, dan positioning digambarkan sebagai mind map bercabang berikut.",
-          fields: { format: "mindmap" },
+          id: "vis1c",
+          headline: "Latar bersih dengan penonjolan detail produk",
           points: [
-            "Menempatkan produk sebagai pusat dengan tiga cabang utama STP",
-            "Setiap cabang menurunkan rincian keputusan yang sudah diambil",
-            "Memudahkan pembaca melihat keseluruhan strategi dalam satu tampilan",
+            "Warna dominan: latar polos terang yang membuat produk menjadi pusat perhatian.",
+            "Jenis gambar: banyak foto jarak dekat yang menyorot jahitan, bahan, dan detail potongan.",
+            "Tata letak: satu unggahan menampilkan satu pesan saja, tidak menumpuk banyak informasi dalam satu gambar.",
+            "Konsistensi: sudut pengambilan gambar berulang di tiap seri produk sehingga terasa seperti katalog yang tertata.",
+          ],
+        },
+        {
+          id: "vis1d",
+          headline: "Perpaduan foto kampanye dan foto pemakaian sehari-hari",
+          points: [
+            "Jenis gambar: foto kampanye bergaya profesional diselingi foto pemakaian sehari-hari yang terasa lebih apa adanya.",
+            "Warna dominan: foto kampanye memakai warna yang lebih matang, sementara foto keseharian dibiarkan lebih natural.",
+            "Tata letak: unggahan kampanye ditempatkan berkala agar grid tidak terlihat monoton.",
+            "Konsistensi: meski dua gaya dipakai bersamaan, keduanya tetap memakai logo dan tipografi yang sama.",
+          ],
+        },
+        {
+          id: "vis1e",
+          headline: "Carousel penjelas dengan tata letak yang berulang",
+          points: [
+            "Format utama: carousel yang menjelaskan satu topik secara bertahap dari halaman pertama sampai terakhir.",
+            "Tata letak: halaman pertama berisi pertanyaan atau masalah, halaman berikutnya berisi jawaban, halaman terakhir berisi ajakan.",
+            "Warna dominan: warna latar tiap halaman dibuat berselang-seling agar pembaca terdorong menggeser.",
+            "Konsistensi: pola susunan yang sama dipakai di setiap carousel sehingga pengikut terbiasa dengan alurnya.",
           ],
         },
       ],
@@ -1497,27 +1999,30 @@ const visualisasi: ChoiceGroup = {
       grade: "sebagian",
       variants: [
         {
-          id: "v2a",
-          headline: "Daftar poin tanpa menunjukkan hubungan",
-          narrative:
-            "Hubungan antara segmentasi, target pasar, dan positioning ditulis sebagai daftar poin berikut.",
-          fields: { format: "list" },
+          id: "vis2a",
+          headline: "Fotonya bagus",
           points: [
-            "Isi ketiga tahap sudah lengkap ditulis",
-            "Namun disajikan sebagai daftar biasa, bukan visual",
-            "Hubungan antartahap tidak terlihat sehingga instruksi visualisasi belum terpenuhi",
+            "Foto yang dipakai terlihat bagus dan menarik.",
+            "Belum menjelaskan warna dominan, jenis gambar, maupun tata letaknya.",
+            "Penilaian bagus atau tidak bersifat selera, belum berupa hasil pengamatan yang bisa dibandingkan.",
           ],
         },
         {
-          id: "v2b",
-          headline: "Tabel yang hanya berisi nama segmen",
-          narrative:
-            "Hubungan antara segmentasi, target pasar, dan positioning digambarkan dalam tabel sederhana berikut.",
-          fields: { format: "table-min" },
+          id: "vis2b",
+          headline: "Warna dominan disebut, unsur lain belum",
           points: [
-            "Sudah berbentuk tabel sesuai instruksi",
-            "Namun hanya memuat nama segmen tanpa karakteristik dan kebutuhan",
-            "Target pasar dan positioning tidak dihubungkan dengan segmen mana pun",
+            "Warna dominan akun ini adalah warna gelap dan netral.",
+            "Satu unsur sudah teramati dengan jelas.",
+            "Jenis gambar, tata letak, dan konsistensi antarunggahan belum dibahas.",
+          ],
+        },
+        {
+          id: "vis2c",
+          headline: "Banyak memakai video",
+          points: [
+            "Akun ini banyak mengunggah video pendek.",
+            "Format konten sudah teridentifikasi.",
+            "Belum menjelaskan bagaimana video tersebut disusun secara visual dan apakah gayanya konsisten.",
           ],
         },
       ],
@@ -1526,51 +2031,1113 @@ const visualisasi: ChoiceGroup = {
       grade: "kurang",
       variants: [
         {
-          id: "v3a",
-          headline: "Grafik penjualan bulanan",
-          narrative:
-            "Bagian visualisasi diisi dengan grafik perkiraan penjualan bulanan produk.",
-          fields: { format: "irrelevant-sales" },
+          id: "vis3a",
+          headline: "Tidak diamati",
           points: [
-            "Grafik penjualan tidak menggambarkan hubungan segmentasi, targeting, dan positioning",
-            "Instruksi nomor 4 meminta visual hubungan antartahap STP, bukan proyeksi penjualan",
-            "Pembaca tetap tidak dapat melihat alur strategi yang disusun",
+            "Elemen visual kompetitor tidak diamati.",
+            "Baris wajib pada template analisis konten dibiarkan kosong.",
+            "Peluang dan inspirasi pada langkah 4 kehilangan bahan pembandingnya.",
           ],
         },
         {
-          id: "v3b",
-          headline: "Foto kemasan produk",
-          narrative: "Bagian visualisasi diisi dengan foto kemasan produk.",
-          fields: { format: "irrelevant-photo" },
+          id: "vis3b",
+          headline: "Menilai dari selera pribadi",
           points: [
-            "Foto kemasan tidak memuat informasi strategi sama sekali",
-            "Tidak ada tabel, diagram, maupun mind map seperti yang diminta",
-            "Instruksi nomor 4 tidak terpenuhi",
+            "Konten kompetitor jelek dan tidak enak dilihat.",
+            "Penilaian bersifat selera pribadi, bukan hasil pengamatan unsur visual.",
+            "Tidak menjelaskan satu pun dari warna, jenis gambar, tata letak, atau konsistensi.",
+          ],
+        },
+        {
+          id: "vis3c",
+          headline: "Membahas harga produk",
+          points: [
+            "Harga produk kompetitor lebih mahal dibanding {{brand}}.",
+            "Yang dibahas adalah harga, bukan elemen visual konten.",
+            "Baris ini terisi tetapi tidak menjawab pertanyaan pada template.",
           ],
         },
       ],
     },
   ],
 };
+
+const pesanUtama: ChoiceGroup = {
+  id: "pesan",
+  label: "Pesan Utama",
+  question: "Langkah 2 — Pesan Utama yang disampaikan konten {{kompetitor}}",
+  hint: "Pesan utama adalah gagasan yang ingin ditanamkan lewat konten, bukan sekadar isi caption.",
+  options: [
+    {
+      grade: "tepat",
+      variants: [
+        {
+          id: "pes1a",
+          headline: "Produk mendukung gerak tanpa mengganggu",
+          points: [
+            "Pesan utama: produk dirancang agar pemakainya bisa bergerak bebas tanpa terganggu pakaiannya.",
+            "Cara menyampaikan: memperlihatkan pemakaian saat bergerak, bukan sekadar berpose diam.",
+            "Sasaran pesan: audiens yang pernah terganggu oleh pakaian olahraga yang menempel atau melar.",
+            "Bukti yang ditampilkan: penjelasan bahan dan potongan yang muncul berulang di berbagai unggahan.",
+          ],
+        },
+        {
+          id: "pes1b",
+          headline: "Bangga memakai produk buatan dalam negeri",
+          points: [
+            "Pesan utama: brand lokal sudah setara brand luar sehingga pemakainya tidak perlu ragu.",
+            "Cara menyampaikan: menegaskan asal produksi dan menampilkan orang-orang di balik pembuatannya.",
+            "Sasaran pesan: audiens yang berpihak pada produk dalam negeri tetapi masih meragukan mutunya.",
+            "Bukti yang ditampilkan: cerita proses produksi dan ulasan pemakai dalam negeri.",
+          ],
+        },
+        {
+          id: "pes1c",
+          headline: "Olahraga adalah kebiasaan harian, bukan tren sesaat",
+          points: [
+            "Pesan utama: berolahraga adalah kebiasaan yang dijalani terus-menerus, dan produk menemani prosesnya.",
+            "Cara menyampaikan: menampilkan rutinitas sehari-hari, bukan pencapaian yang muluk.",
+            "Sasaran pesan: audiens yang baru mulai membangun kebiasaan berolahraga.",
+            "Bukti yang ditampilkan: unggahan berkala yang menyorot proses, bukan hasil akhir.",
+          ],
+        },
+        {
+          id: "pes1d",
+          headline: "Mutu tinggi dengan harga yang masih masuk akal",
+          points: [
+            "Pesan utama: pembeli tidak perlu membayar mahal untuk mendapatkan bahan yang layak.",
+            "Cara menyampaikan: menjelaskan bahan secara terbuka lalu menyandingkannya dengan harga.",
+            "Sasaran pesan: audiens yang teliti membandingkan nilai uang sebelum membeli.",
+            "Bukti yang ditampilkan: penjelasan jenis bahan dan perbandingan dengan pilihan lain di pasar.",
+          ],
+        },
+        {
+          id: "pes1e",
+          headline: "Produk pantas dipakai di dalam maupun di luar tempat latihan",
+          points: [
+            "Pesan utama: satu potong pakaian bisa dipakai untuk berlatih sekaligus untuk berkegiatan sehari-hari.",
+            "Cara menyampaikan: menampilkan satu produk pada dua situasi berbeda dalam satu unggahan.",
+            "Sasaran pesan: audiens perkotaan dengan jadwal padat yang tidak sempat berganti pakaian.",
+            "Bukti yang ditampilkan: contoh padu padan produk untuk berbagai kegiatan.",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "sebagian",
+      variants: [
+        {
+          id: "pes2a",
+          headline: "Menjual produk",
+          points: [
+            "Pesan utamanya adalah menjual produk kepada pengikut akun.",
+            "Menjual memang tujuan akhirnya, tetapi itu bukan pesan yang ditanamkan lewat konten.",
+            "Belum menjelaskan gagasan apa yang ingin diingat audiens setelah melihat kontennya.",
+          ],
+        },
+        {
+          id: "pes2b",
+          headline: "Mengajak hidup sehat",
+          points: [
+            "Pesan utamanya mengajak audiens untuk hidup lebih sehat.",
+            "Sudah menangkap arah pesan secara umum.",
+            "Belum menjelaskan bagaimana pesan itu disampaikan dan kepada siapa ditujukan.",
+          ],
+        },
+        {
+          id: "pes2c",
+          headline: "Produknya bagus dan berkualitas",
+          points: [
+            "Pesan utamanya adalah produknya bagus dan berkualitas.",
+            "Klaim ini dipakai hampir semua brand sehingga belum menunjukkan pembeda kompetitor.",
+            "Belum terlihat sudut pandang khas yang bisa dipelajari oleh {{brand}}.",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "kurang",
+      variants: [
+        {
+          id: "pes3a",
+          headline: "Tidak ada pesan",
+          points: [
+            "Konten kompetitor tidak menyampaikan pesan apa pun.",
+            "Setiap konten yang diunggah brand selalu membawa pesan, sekurang-kurangnya secara tersirat.",
+            "Baris wajib pada template analisis konten tidak terisi secara berarti.",
+          ],
+        },
+        {
+          id: "pes3b",
+          headline: "Menyalin caption apa adanya",
+          points: [
+            "Caption unggahan terakhir mereka berbunyi seperti yang tertulis di akunnya.",
+            "Menyalin caption bukan menganalisis pesan utama.",
+            "Gagasan di balik konten tetap tidak terungkap.",
+          ],
+        },
+        {
+          id: "pes3c",
+          headline: "Pesannya sama seperti {{brand}}",
+          points: [
+            "Pesan kompetitor sama persis dengan pesan {{brand}}.",
+            "Disampaikan tanpa pengamatan, sehingga tidak ada pembeda yang ditemukan.",
+            "Riset kompetitor justru bertujuan menemukan perbedaannya.",
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+const ctaGroup: ChoiceGroup = {
+  id: "cta",
+  label: "Call to Action",
+  question: "Langkah 2 — Call to Action (CTA) yang dipakai {{kompetitor}}",
+  hint: "CTA adalah ajakan bertindak yang diberikan kepada audiens di akhir konten.",
+  options: [
+    {
+      grade: "tepat",
+      variants: [
+        {
+          id: "cta1a",
+          headline: "Ajakan berbelanja lewat tautan di bio",
+          points: [
+            "Bentuk CTA: mengarahkan audiens ke tautan di bio untuk menuju toko daring.",
+            "Penempatan: disebut di akhir caption sekaligus ditulis pada gambar terakhir carousel.",
+            "Frekuensi: muncul di hampir seluruh unggahan produk, tetapi tidak dipakai pada konten edukasi.",
+            "Catatan: ajakannya singkat dan tidak mendesak, sehingga tidak terasa seperti jualan terus-menerus.",
+          ],
+        },
+        {
+          id: "cta1b",
+          headline: "Ajakan berinteraksi di kolom komentar",
+          points: [
+            "Bentuk CTA: meminta audiens menyebutkan pilihan favorit atau menandai teman di kolom komentar.",
+            "Penempatan: diletakkan di kalimat pertama caption agar terbaca sebelum caption terpotong.",
+            "Frekuensi: dipakai berselang-seling dengan ajakan berbelanja agar interaksi tetap tumbuh.",
+            "Catatan: cara ini menambah jumlah komentar sehingga unggahan lebih lama bertahan di beranda.",
+          ],
+        },
+        {
+          id: "cta1c",
+          headline: "Ajakan menyimpan unggahan sebagai rujukan",
+          points: [
+            "Bentuk CTA: meminta audiens menyimpan unggahan agar bisa dibuka lagi saat dibutuhkan.",
+            "Penempatan: muncul pada konten panduan ukuran dan penjelasan bahan.",
+            "Frekuensi: khusus dipakai pada konten edukasi, tidak pada konten promosi.",
+            "Catatan: jumlah simpanan yang tinggi membantu unggahan menjangkau audiens di luar pengikut.",
+          ],
+        },
+        {
+          id: "cta1d",
+          headline: "Ajakan bertanya lewat pesan langsung",
+          points: [
+            "Bentuk CTA: mengarahkan audiens mengirim pesan langsung untuk menanyakan ukuran dan ketersediaan.",
+            "Penempatan: disebut di akhir caption dan diulang pada Story.",
+            "Frekuensi: dipakai pada unggahan produk yang pilihan ukurannya beragam.",
+            "Catatan: memindahkan percakapan ke ruang pribadi sehingga peluang penjualan lebih mudah ditutup.",
+          ],
+        },
+        {
+          id: "cta1e",
+          headline: "Ajakan mengikuti kegiatan atau kolaborasi",
+          points: [
+            "Bentuk CTA: mengajak audiens mendaftar kegiatan komunitas atau mengikuti kolaborasi brand.",
+            "Penempatan: ditulis jelas pada gambar dan diulang di caption beserta tenggat waktunya.",
+            "Frekuensi: muncul berkala menjelang kegiatan, tidak pada unggahan harian.",
+            "Catatan: mendorong keterlibatan yang berlanjut ke luar media sosial.",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "sebagian",
+      variants: [
+        {
+          id: "cta2a",
+          headline: "Ada ajakan membeli",
+          points: [
+            "Kompetitor mengajak audiens untuk membeli produknya.",
+            "Bentuk ajakan sudah teridentifikasi secara umum.",
+            "Belum menjelaskan kalimat ajakannya, letaknya, maupun seberapa sering dipakai.",
+          ],
+        },
+        {
+          id: "cta2b",
+          headline: "Menyuruh cek bio",
+          points: [
+            "Kompetitor menulis ajakan untuk mengecek tautan di bio.",
+            "Sudah menyebut bentuk CTA yang dipakai.",
+            "Belum diamati apakah CTA ini dipakai di semua konten atau hanya sebagian.",
+          ],
+        },
+        {
+          id: "cta2c",
+          headline: "CTA-nya biasa saja",
+          points: [
+            "CTA kompetitor terlihat biasa dan tidak menarik.",
+            "Penilaian sudah diberikan, tetapi tanpa menyebut bentuk CTA yang diamati.",
+            "Tidak bisa dipakai sebagai bahan perbandingan bagi {{brand}}.",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "kurang",
+      variants: [
+        {
+          id: "cta3a",
+          headline: "Tidak diamati",
+          points: [
+            "Call to action kompetitor tidak diamati.",
+            "Baris wajib pada template analisis konten dibiarkan kosong.",
+            "{{brand}} kehilangan gambaran cara kompetitor mendorong audiens bertindak.",
+          ],
+        },
+        {
+          id: "cta3b",
+          headline: "Kompetitor tidak pernah memakai CTA",
+          points: [
+            "Kompetitor sama sekali tidak pernah memakai ajakan bertindak.",
+            "Pernyataan ini disampaikan tanpa memeriksa caption unggahannya.",
+            "Hampir semua akun brand memakai CTA dalam bentuk tertentu.",
+          ],
+        },
+        {
+          id: "cta3c",
+          headline: "Membahas jumlah pengikut",
+          points: [
+            "Kompetitor punya pengikut lebih banyak dibanding {{brand}}.",
+            "Yang dibahas adalah jumlah pengikut, bukan bentuk ajakan bertindak.",
+            "Baris terisi tetapi tidak menjawab pertanyaan pada template.",
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+const promoGroup: ChoiceGroup = {
+  id: "promo",
+  label: "Diskon / Promo",
+  question: "Langkah 2 — Diskon atau Promo yang dijalankan {{kompetitor}}",
+  hint: "Amati bentuk penawaran, waktu penayangan, dan cara menyampaikannya.",
+  options: [
+    {
+      grade: "tepat",
+      variants: [
+        {
+          id: "pro1a",
+          headline: "Promo tanggal kembar dengan hitung mundur",
+          points: [
+            "Bentuk promo: potongan harga pada tanggal kembar setiap bulan.",
+            "Waktu penayangan: konten pengingat mulai muncul beberapa hari sebelum tanggalnya.",
+            "Cara menyampaikan: memakai hitung mundur di Story untuk menjaga perhatian audiens.",
+            "Catatan: promo diarahkan ke marketplace, bukan ke toko daring milik brand sendiri.",
+          ],
+        },
+        {
+          id: "pro1b",
+          headline: "Paket hemat pembelian beberapa potong",
+          points: [
+            "Bentuk promo: harga lebih murah bila membeli dua potong atau lebih sekaligus.",
+            "Waktu penayangan: berjalan terus-menerus, bukan hanya pada tanggal tertentu.",
+            "Cara menyampaikan: menampilkan contoh padu padan agar pembelian lebih dari satu terasa masuk akal.",
+            "Catatan: mendorong nilai belanja per pembeli tanpa memangkas harga satuan terlalu dalam.",
+          ],
+        },
+        {
+          id: "pro1c",
+          headline: "Gratis ongkos kirim dengan batas belanja minimum",
+          points: [
+            "Bentuk promo: bebas ongkos kirim untuk pembelian di atas nilai tertentu.",
+            "Waktu penayangan: ditayangkan berkala, terutama menjelang akhir bulan.",
+            "Cara menyampaikan: disebut singkat pada gambar produk, bukan dibuat sebagai unggahan tersendiri.",
+            "Catatan: menekan keraguan pembeli daring yang sering terhalang biaya kirim.",
+          ],
+        },
+        {
+          id: "pro1d",
+          headline: "Promo peluncuran koleksi baru dengan jumlah terbatas",
+          points: [
+            "Bentuk promo: harga khusus pada hari-hari pertama peluncuran koleksi.",
+            "Waktu penayangan: hanya berlangsung beberapa hari sejak koleksi dirilis.",
+            "Cara menyampaikan: menegaskan jumlah terbatas agar audiens tidak menunda pembelian.",
+            "Catatan: mendorong penjualan awal sekaligus menciptakan perbincangan seputar koleksi baru.",
+          ],
+        },
+        {
+          id: "pro1e",
+          headline: "Kode potongan lewat kolaborasi kreator",
+          points: [
+            "Bentuk promo: kode potongan harga yang dibagikan lewat akun kreator yang diajak bekerja sama.",
+            "Waktu penayangan: mengikuti jadwal unggahan kreator, bukan jadwal brand.",
+            "Cara menyampaikan: kode disebut di dalam video kreator dan diulang di caption.",
+            "Catatan: sekaligus menjadi cara mengukur kreator mana yang paling banyak mendatangkan pembeli.",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "sebagian",
+      variants: [
+        {
+          id: "pro2a",
+          headline: "Sering ada diskon",
+          points: [
+            "Kompetitor sering mengadakan diskon.",
+            "Keberadaan promo sudah teramati.",
+            "Belum menjelaskan bentuk, besaran, waktu, maupun cara menyampaikannya.",
+          ],
+        },
+        {
+          id: "pro2b",
+          headline: "Ada promo saat tanggal kembar",
+          points: [
+            "Kompetitor mengadakan promo pada tanggal kembar.",
+            "Waktu promo sudah teridentifikasi dengan jelas.",
+            "Belum diamati bagaimana promo itu disampaikan lewat kontennya.",
+          ],
+        },
+        {
+          id: "pro2c",
+          headline: "Harganya sering murah",
+          points: [
+            "Harga produk kompetitor sering terlihat murah.",
+            "Sudah menyinggung sisi harga.",
+            "Belum membedakan mana harga normal dan mana harga promo.",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "kurang",
+      variants: [
+        {
+          id: "pro3a",
+          headline: "Tidak diamati",
+          points: [
+            "Promo kompetitor tidak diamati.",
+            "Baris wajib pada template analisis konten dibiarkan kosong.",
+            "{{brand}} kehilangan gambaran pola penawaran di kategori yang sama.",
+          ],
+        },
+        {
+          id: "pro3b",
+          headline: "Menebak tanpa memeriksa",
+          points: [
+            "Kemungkinan besar kompetitor memberi diskon besar setiap minggu.",
+            "Disampaikan sebagai dugaan, bukan hasil pengamatan akun.",
+            "Riset kompetitor menuntut pencatatan apa yang benar-benar terlihat.",
+          ],
+        },
+        {
+          id: "pro3c",
+          headline: "Menyarankan menurunkan harga sendiri",
+          points: [
+            "{{brand}} sebaiknya menurunkan harga di bawah kompetitor.",
+            "Ini saran tindakan, bukan hasil pengamatan promo kompetitor.",
+            "Perang harga juga bertentangan dengan keunggulan {{brand}} pada mutu bahan.",
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+const engagementGroup: ChoiceGroup = {
+  id: "engagement",
+  label: "Engagement",
+  question: "Langkah 2 — Engagement pada konten {{kompetitor}}",
+  hint: "Amati jenis konten yang paling banyak menarik interaksi dan isi kolom komentarnya.",
+  options: [
+    {
+      grade: "tepat",
+      variants: [
+        {
+          id: "eng1a",
+          headline: "Video pemakaian produk paling banyak menarik interaksi",
+          points: [
+            "Konten dengan interaksi tertinggi: video pendek yang memperlihatkan produk dipakai bergerak.",
+            "Konten dengan interaksi terendah: foto produk polos tanpa model maupun konteks pemakaian.",
+            "Isi kolom komentar: paling banyak menanyakan ukuran, bahan, dan ketersediaan warna.",
+            "Pola waktu: unggahan malam hari mendapat komentar lebih banyak dibanding unggahan siang.",
+          ],
+        },
+        {
+          id: "eng1b",
+          headline: "Konten edukasi banyak disimpan dan dibagikan",
+          points: [
+            "Konten dengan interaksi tertinggi: carousel panduan ukuran dan penjelasan bahan yang banyak disimpan audiens.",
+            "Konten dengan interaksi terendah: unggahan promo berulang yang isinya mirip satu sama lain.",
+            "Isi kolom komentar: banyak berisi ucapan terima kasih dan pertanyaan lanjutan seputar perawatan produk.",
+            "Pola waktu: interaksi konten edukasi terus bertambah beberapa hari setelah diunggah.",
+          ],
+        },
+        {
+          id: "eng1c",
+          headline: "Unggahan ulang foto pengguna mendapat komentar terbanyak",
+          points: [
+            "Konten dengan interaksi tertinggi: unggahan ulang foto pembeli yang memakai produk.",
+            "Konten dengan interaksi terendah: foto kampanye bergaya profesional yang terasa jauh dari keseharian audiens.",
+            "Isi kolom komentar: banyak audiens menandai teman dan menanyakan tempat pembelian.",
+            "Pola waktu: interaksi memuncak pada hari pertama lalu menurun tajam.",
+          ],
+        },
+        {
+          id: "eng1d",
+          headline: "Konten kegiatan komunitas menumbuhkan percakapan",
+          points: [
+            "Konten dengan interaksi tertinggi: liputan kegiatan komunitas dan latihan bersama.",
+            "Konten dengan interaksi terendah: unggahan berisi pengumuman satu arah tanpa ajakan berinteraksi.",
+            "Isi kolom komentar: peserta kegiatan saling membalas dan menanyakan jadwal berikutnya.",
+            "Pola waktu: percakapan berlanjut beberapa hari setelah kegiatan berlangsung.",
+          ],
+        },
+        {
+          id: "eng1e",
+          headline: "Interaksi tinggi pada konten yang mengangkat keluhan audiens",
+          points: [
+            "Konten dengan interaksi tertinggi: unggahan yang membahas keluhan umum audiens, misalnya pakaian yang gerah atau ukuran yang tidak pas.",
+            "Konten dengan interaksi terendah: unggahan yang hanya memuji produk sendiri.",
+            "Isi kolom komentar: audiens ramai membagikan pengalaman serupa yang mereka alami.",
+            "Pola waktu: unggahan jenis ini bertahan lebih lama di beranda karena komentarnya terus bertambah.",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "sebagian",
+      variants: [
+        {
+          id: "eng2a",
+          headline: "Engagement-nya bagus",
+          points: [
+            "Engagement akun kompetitor terlihat bagus.",
+            "Penilaian sudah diberikan secara umum.",
+            "Belum menyebut jenis konten mana yang paling banyak menarik interaksi.",
+          ],
+        },
+        {
+          id: "eng2b",
+          headline: "Banyak yang like",
+          points: [
+            "Unggahan kompetitor banyak mendapat tanda suka.",
+            "Satu bentuk interaksi sudah teramati.",
+            "Komentar, simpanan, dan bagikan ulang belum diperiksa sama sekali.",
+          ],
+        },
+        {
+          id: "eng2c",
+          headline: "Komentarnya banyak tapi tidak dibaca isinya",
+          points: [
+            "Kolom komentar kompetitor ramai terisi.",
+            "Jumlah komentar sudah teramati.",
+            "Isi komentarnya belum dibaca sehingga kebutuhan audiens tidak tertangkap.",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "kurang",
+      variants: [
+        {
+          id: "eng3a",
+          headline: "Tidak diamati",
+          points: [
+            "Engagement konten kompetitor tidak diamati.",
+            "Baris wajib pada template analisis konten dibiarkan kosong.",
+            "Padahal tantangan utama {{brand}} pada studi kasus justru soal engagement.",
+          ],
+        },
+        {
+          id: "eng3b",
+          headline: "Menuduh interaksinya palsu",
+          points: [
+            "Interaksi di akun kompetitor pasti dibeli dan tidak asli.",
+            "Tuduhan disampaikan tanpa bukti pengamatan apa pun.",
+            "Tidak menghasilkan pelajaran yang bisa dipakai {{brand}}.",
+          ],
+        },
+        {
+          id: "eng3c",
+          headline: "Membahas jumlah produk yang dijual",
+          points: [
+            "Kompetitor menjual banyak jenis produk di tokonya.",
+            "Yang dibahas adalah ragam produk, bukan interaksi pada konten.",
+            "Baris terisi tetapi tidak menjawab pertanyaan pada template.",
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+/* ================================================================== */
+/* 3.3 Identifikasi kekuatan dan kelemahan kompetitor                  */
+/* ================================================================== */
+
+const kekuatanGroup: ChoiceGroup = {
+  id: "kekuatan",
+  label: "Kekuatan",
+  question: "Langkah 3 — Kekuatan konten {{kompetitor}}",
+  hint: "Kekuatan adalah hal yang sudah dikerjakan kompetitor dengan baik dan berdampak pada audiens.",
+  options: [
+    {
+      grade: "tepat",
+      variants: [
+        {
+          id: "kek1a",
+          headline: "Identitas visual konsisten dan mudah dikenali",
+          points: [
+            "Gaya visual yang seragam membuat unggahan mereka langsung dikenali meski muncul di beranda tanpa nama akun.",
+            "Jadwal unggah teratur sehingga akun selalu hadir di beranda pengikutnya.",
+            "Konten edukasi dan konten jualan diselang-seling, sehingga akun tidak terasa berjualan terus-menerus.",
+            "Panduan ukuran yang lengkap mengurangi keraguan calon pembeli sebelum bertransaksi.",
+          ],
+        },
+        {
+          id: "kek1b",
+          headline: "Dekat dengan komunitas dan pemakai nyata",
+          points: [
+            "Rutin mengunggah ulang foto pembeli sehingga audiens merasa dilibatkan, bukan sekadar ditawari produk.",
+            "Aktif membalas komentar dan pertanyaan sehingga kolom komentar terasa hidup.",
+            "Kegiatan komunitas menghasilkan bahan konten tanpa biaya produksi besar.",
+            "Rekomendasi antaraudiens berjalan sendiri karena pemakainya merasa menjadi bagian dari brand.",
+          ],
+        },
+        {
+          id: "kek1c",
+          headline: "Penjelasan produk terbuka dan mudah dipahami",
+          points: [
+            "Jenis bahan dan cara perawatan dijelaskan dengan bahasa sederhana, bukan istilah teknis yang membingungkan.",
+            "Setiap klaim produk disertai penjelasan pendukung sehingga terasa dapat dipercaya.",
+            "Konten panduan banyak disimpan audiens, sehingga jangkauannya bertahan lama.",
+            "Keterbukaan ini menekan jumlah pertanyaan berulang dan mempercepat keputusan membeli.",
+          ],
+        },
+        {
+          id: "kek1d",
+          headline: "Format video pendek digarap dengan matang",
+          points: [
+            "Tiga detik pertama selalu langsung menampilkan produk atau gerakan sehingga penonton tidak cepat menggeser.",
+            "Durasi video dijaga tetap pendek sehingga banyak yang menonton sampai selesai.",
+            "Sampul video dibuat seragam sehingga grid tetap rapi meski isinya video.",
+            "Video yang sama dipakai ulang di kanal lain sehingga biaya produksi lebih hemat.",
+          ],
+        },
+        {
+          id: "kek1e",
+          headline: "Penawaran dikemas rapi tanpa merusak citra brand",
+          points: [
+            "Promo disampaikan dengan tenggat waktu yang jelas sehingga mendorong keputusan cepat.",
+            "Unggahan promo tidak mendominasi grid, sehingga citra brand tidak turun menjadi sekadar toko diskon.",
+            "Paket pembelian beberapa potong menaikkan nilai belanja tanpa memangkas harga satuan terlalu dalam.",
+            "Alur dari konten menuju pembelian pendek karena tautan selalu tersedia dan mudah ditemukan.",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "sebagian",
+      variants: [
+        {
+          id: "kek2a",
+          headline: "Kontennya bagus",
+          points: [
+            "Konten kompetitor terlihat bagus dan menarik.",
+            "Belum menjelaskan bagian mana yang membuatnya bagus.",
+            "Tidak bisa dijadikan pelajaran karena tidak ada hal khusus yang bisa ditiru.",
+          ],
+        },
+        {
+          id: "kek2b",
+          headline: "Followers-nya banyak",
+          points: [
+            "Kompetitor memiliki pengikut yang jauh lebih banyak.",
+            "Jumlah pengikut adalah hasil, bukan kekuatan strategi kontennya.",
+            "Belum menjelaskan apa yang mereka lakukan sehingga pengikutnya bertambah.",
+          ],
+        },
+        {
+          id: "kek2c",
+          headline: "Rajin mengunggah",
+          points: [
+            "Kompetitor rajin mengunggah konten setiap hari.",
+            "Keteraturan unggah memang salah satu kekuatan yang nyata.",
+            "Belum dilengkapi kekuatan lain sehingga gambarannya belum utuh.",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "kurang",
+      variants: [
+        {
+          id: "kek3a",
+          headline: "Tidak punya kekuatan",
+          points: [
+            "Kompetitor tidak punya kekuatan apa pun yang perlu dicatat.",
+            "Penilaian ini menutup kemungkinan belajar dari pesaing.",
+            "Instruksi langkah 3 untuk mengidentifikasi kekuatan tidak terpenuhi.",
+          ],
+        },
+        {
+          id: "kek3b",
+          headline: "Kekuatannya karena modalnya besar",
+          points: [
+            "Kompetitor unggul semata-mata karena punya modal besar.",
+            "Tidak menjelaskan keputusan konten apa yang membuat mereka berhasil.",
+            "Tidak ada satu pun pelajaran yang bisa diterapkan {{brand}}.",
+          ],
+        },
+        {
+          id: "kek3c",
+          headline: "Menyebut kekuatan produk, bukan konten",
+          points: [
+            "Kekuatan kompetitor adalah bahan produknya yang bagus.",
+            "Yang diminta adalah kekuatan pada konten media sosialnya.",
+            "Analisis produk tidak menjawab pertanyaan pada template riset konten.",
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+const kelemahanGroup: ChoiceGroup = {
+  id: "kelemahan",
+  label: "Kelemahan",
+  question: "Langkah 3 — Kelemahan konten {{kompetitor}}",
+  hint: "Kelemahan adalah celah pada konten kompetitor yang bisa dimanfaatkan {{brand}}.",
+  options: [
+    {
+      grade: "tepat",
+      variants: [
+        {
+          id: "kel1a",
+          headline: "Terlalu banyak konten jualan, sedikit konten edukasi",
+          points: [
+            "Sebagian besar unggahan berisi penawaran produk sehingga audiens jenuh dan interaksinya menurun.",
+            "Pertanyaan dasar audiens seperti cara memilih ukuran jarang dijawab lewat konten.",
+            "Nada bicara terasa satu arah, lebih banyak mengumumkan daripada mengajak berbicara.",
+            "Celah ini bisa diisi {{brand}} dengan konten yang menjawab keraguan audiens sebelum membeli.",
+          ],
+        },
+        {
+          id: "kel1b",
+          headline: "Kolom komentar jarang dibalas",
+          points: [
+            "Banyak pertanyaan audiens di kolom komentar dibiarkan tanpa jawaban.",
+            "Audiens yang tidak terjawab berpindah mencari informasi ke akun lain.",
+            "Interaksi berhenti di satu putaran karena percakapan tidak dilanjutkan brand.",
+            "Celah ini bisa diisi {{brand}} dengan membalas komentar secara cepat dan ramah.",
+          ],
+        },
+        {
+          id: "kel1c",
+          headline: "Konten terasa jauh dari keseharian audiens",
+          points: [
+            "Foto kampanye bergaya profesional mendominasi, sementara contoh pemakaian sehari-hari jarang muncul.",
+            "Model yang ditampilkan cenderung seragam sehingga audiens sulit membayangkan produk di tubuhnya sendiri.",
+            "Situasi yang ditampilkan lebih mirip pemotretan daripada kegiatan olahraga sungguhan.",
+            "Celah ini bisa diisi {{brand}} dengan menampilkan pemakai nyata dengan beragam bentuk tubuh.",
+          ],
+        },
+        {
+          id: "kel1d",
+          headline: "Penjelasan bahan dan ukuran kurang lengkap",
+          points: [
+            "Klaim bahan disebut dengan istilah teknis tanpa penjelasan yang mudah dipahami audiens awam.",
+            "Panduan ukuran sulit ditemukan karena tidak disimpan di sorotan akun.",
+            "Pertanyaan tentang ukuran berulang terus di kolom komentar tiap unggahan produk.",
+            "Celah ini bisa diisi {{brand}} dengan panduan ukuran tetap yang mudah diakses.",
+          ],
+        },
+        {
+          id: "kel1e",
+          headline: "Jadwal unggah tidak teratur dan format kurang beragam",
+          points: [
+            "Jeda antarunggahan kadang panjang sehingga akun hilang dari beranda pengikutnya.",
+            "Format yang dipakai berulang pada bentuk yang sama sehingga terasa monoton.",
+            "Fitur Story dan sorotan kurang dimanfaatkan untuk menjaga interaksi harian.",
+            "Celah ini bisa diisi {{brand}} dengan jadwal tetap dan variasi format yang terencana.",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "sebagian",
+      variants: [
+        {
+          id: "kel2a",
+          headline: "Kontennya kurang menarik",
+          points: [
+            "Konten kompetitor kurang menarik untuk dilihat.",
+            "Belum menjelaskan bagian mana yang membuatnya kurang menarik.",
+            "Belum bisa diubah menjadi peluang bagi {{brand}} pada langkah berikutnya.",
+          ],
+        },
+        {
+          id: "kel2b",
+          headline: "Jarang mengunggah",
+          points: [
+            "Kompetitor jarang mengunggah konten baru.",
+            "Satu kelemahan nyata sudah teridentifikasi.",
+            "Belum dilengkapi kelemahan lain sehingga celah yang tersedia belum terlihat utuh.",
+          ],
+        },
+        {
+          id: "kel2c",
+          headline: "Harganya terlalu mahal",
+          points: [
+            "Produk kompetitor dijual dengan harga yang terlalu mahal.",
+            "Ini kelemahan pada sisi produk dan harga, bukan pada kontennya.",
+            "Template langkah 3 meminta kelemahan yang terlihat dari konten media sosialnya.",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "kurang",
+      variants: [
+        {
+          id: "kel3a",
+          headline: "Tidak punya kelemahan",
+          points: [
+            "Kompetitor tidak punya kelemahan sama sekali.",
+            "Menutup peluang yang seharusnya ditemukan pada langkah berikutnya.",
+            "Instruksi langkah 3 untuk mengidentifikasi kelemahan tidak terpenuhi.",
+          ],
+        },
+        {
+          id: "kel3b",
+          headline: "Menjelekkan kompetitor",
+          points: [
+            "Kompetitor payah dan tidak pantas dijadikan pembanding.",
+            "Bukan analisis, melainkan penilaian yang merendahkan.",
+            "Tidak menghasilkan celah yang bisa dimanfaatkan {{brand}}.",
+          ],
+        },
+        {
+          id: "kel3c",
+          headline: "Tidak diamati karena akunnya besar",
+          points: [
+            "Kompetitor terlalu besar sehingga tidak perlu dicari kelemahannya.",
+            "Akun besar tetap memiliki celah, terutama pada kedekatan dengan audiens.",
+            "Baris wajib pada template dibiarkan tanpa hasil pengamatan.",
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+/* ================================================================== */
+/* 3.4 Temukan peluang dan inspirasi                                   */
+/* ================================================================== */
+
+const peluangGroup: ChoiceGroup = {
+  id: "peluang",
+  label: "Peluang",
+  question: "Langkah 4 — Peluang yang bisa diambil {{brand}}",
+  hint: "Peluang lahir dari kelemahan kompetitor yang belum tergarap.",
+  options: [
+    {
+      grade: "tepat",
+      variants: [
+        {
+          id: "pel1a",
+          headline: "Menjadi akun yang paling jelas menjelaskan ukuran dan bahan",
+          points: [
+            "Peluang: mengisi celah penjelasan ukuran dan bahan yang belum digarap kompetitor secara tuntas.",
+            "Bentuk konten: carousel panduan ukuran tetap yang disimpan di sorotan akun dan diperbarui tiap koleksi baru.",
+            "Dampak yang diharapkan: keraguan calon pembeli berkurang sehingga jarak dari melihat konten ke membeli menjadi lebih pendek.",
+            "Ukuran keberhasilan: jumlah simpanan unggahan naik dan pertanyaan ukuran di kolom komentar berkurang.",
+          ],
+        },
+        {
+          id: "pel1b",
+          headline: "Membangun kedekatan lewat balasan komentar dan pesan",
+          points: [
+            "Peluang: memanfaatkan kebiasaan kompetitor yang jarang membalas komentar audiens.",
+            "Bentuk konten: menjawab komentar dalam bentuk video pendek dan mengangkat pertanyaan audiens menjadi bahan unggahan.",
+            "Dampak yang diharapkan: kolom komentar {{brand}} terasa hidup sehingga unggahan bertahan lebih lama di beranda.",
+            "Ukuran keberhasilan: jumlah komentar dan pesan langsung per unggahan meningkat.",
+          ],
+        },
+        {
+          id: "pel1c",
+          headline: "Menampilkan pemakai nyata dengan beragam bentuk tubuh",
+          points: [
+            "Peluang: mengisi celah konten kompetitor yang masih didominasi foto kampanye bergaya profesional.",
+            "Bentuk konten: unggahan ulang foto pembeli dan kolaborasi dengan pegiat komunitas yang bukan model profesional.",
+            "Dampak yang diharapkan: audiens lebih mudah membayangkan produk di tubuhnya sendiri.",
+            "Ukuran keberhasilan: bertambahnya foto pemakaian yang dikirim audiens tanpa diminta.",
+          ],
+        },
+        {
+          id: "pel1d",
+          headline: "Mengangkat keunggulan bahan breathable untuk iklim tropis",
+          points: [
+            "Peluang: kompetitor menyebut istilah bahan secara umum, belum mengaitkannya dengan cuaca panas dan lembap di Indonesia.",
+            "Bentuk konten: uji sederhana yang memperlihatkan perbedaan rasa gerah saat berolahraga di siang hari.",
+            "Dampak yang diharapkan: keunggulan {{brand}} tersambung langsung dengan keluhan nyata audiens.",
+            "Ukuran keberhasilan: bertambahnya komentar yang menceritakan pengalaman gerah saat berolahraga.",
+          ],
+        },
+        {
+          id: "pel1e",
+          headline: "Menjaga jadwal unggah tetap dan format yang beragam",
+          points: [
+            "Peluang: memanfaatkan jadwal unggah kompetitor yang belum teratur.",
+            "Bentuk konten: kalender konten mingguan yang memadukan Reels, carousel edukasi, dan Story interaktif.",
+            "Dampak yang diharapkan: {{brand}} lebih sering hadir di beranda audiens tanpa menambah biaya produksi besar.",
+            "Ukuran keberhasilan: jangkauan mingguan tumbuh stabil dan interaksi tidak lagi naik turun tajam.",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "sebagian",
+      variants: [
+        {
+          id: "pel2a",
+          headline: "Membuat konten lebih bagus",
+          points: [
+            "Peluangnya adalah membuat konten yang lebih bagus dari kompetitor.",
+            "Arahnya benar, tetapi belum menyebut bentuk konten yang akan dibuat.",
+            "Belum jelas celah kompetitor mana yang sedang dimanfaatkan.",
+          ],
+        },
+        {
+          id: "pel2b",
+          headline: "Lebih sering mengunggah",
+          points: [
+            "Peluangnya adalah mengunggah konten lebih sering dibanding kompetitor.",
+            "Sudah memanfaatkan satu celah yang nyata.",
+            "Belum menjelaskan isi kontennya, sehingga menambah frekuensi saja belum tentu menaikkan interaksi.",
+          ],
+        },
+        {
+          id: "pel2c",
+          headline: "Memakai jasa influencer",
+          points: [
+            "Peluangnya adalah bekerja sama dengan influencer.",
+            "Bentuk kegiatannya sudah disebut.",
+            "Belum dikaitkan dengan kelemahan kompetitor maupun kebutuhan audiens yang sudah dipetakan.",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "kurang",
+      variants: [
+        {
+          id: "pel3a",
+          headline: "Meniru seluruh konten kompetitor",
+          points: [
+            "Peluangnya adalah meniru persis seluruh konten kompetitor.",
+            "Meniru bulat-bulat menghapus pembeda {{brand}} di mata audiens.",
+            "Riset kompetitor bertujuan menemukan celah, bukan menyalin.",
+          ],
+        },
+        {
+          id: "pel3b",
+          headline: "Menjatuhkan kompetitor lewat konten",
+          points: [
+            "Peluangnya adalah membuat konten yang menjelekkan kompetitor.",
+            "Berisiko merusak citra {{brand}} di mata audiens.",
+            "Tidak menjawab kebutuhan audiens yang sudah dipetakan pada profil audiens.",
+          ],
+        },
+        {
+          id: "pel3c",
+          headline: "Tidak ada peluang",
+          points: [
+            "Tidak ada peluang yang bisa diambil karena kompetitor sudah unggul.",
+            "Menutup seluruh hasil riset yang sudah dikerjakan pada langkah sebelumnya.",
+            "Instruksi langkah 4 untuk menemukan peluang tidak terpenuhi.",
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+const inspirasiGroup: ChoiceGroup = {
+  id: "inspirasi",
+  label: "Ancaman jadi Inspirasi",
+  question: "Langkah 4 — Ancaman yang bisa diubah menjadi inspirasi bagi {{brand}}",
+  hint: "Kekuatan kompetitor adalah ancaman; ubah menjadi pelajaran yang bisa diterapkan.",
+  options: [
+    {
+      grade: "tepat",
+      variants: [
+        {
+          id: "ins1a",
+          headline: "Konsistensi visual mereka jadi acuan panduan gaya {{brand}}",
+          points: [
+            "Ancaman: identitas visual kompetitor yang konsisten membuat akun mereka lebih mudah dikenali daripada {{brand}}.",
+            "Inspirasi: menyusun panduan gaya sederhana berisi tiga warna utama, satu jenis huruf, dan pola tata letak tetap.",
+            "Penerapan: seluruh unggahan {{brand}} mengikuti panduan tersebut agar grid terbaca sebagai satu kesatuan.",
+            "Pembeda yang dijaga: warna dan nada bicara {{brand}} tetap dibuat berbeda agar tidak terlihat meniru.",
+          ],
+        },
+        {
+          id: "ins1b",
+          headline: "Kedekatan mereka dengan komunitas jadi acuan program komunitas {{brand}}",
+          points: [
+            "Ancaman: kompetitor sudah lebih dulu dekat dengan komunitas olahraga sehingga rekomendasi mengalir sendiri.",
+            "Inspirasi: menjalankan program lari bersama berkala dan mengunggah ulang foto peserta.",
+            "Penerapan: menjadikan kegiatan komunitas sebagai sumber bahan konten mingguan yang murah diproduksi.",
+            "Pembeda yang dijaga: {{brand}} menyasar komunitas pemula yang belum banyak digarap kompetitor.",
+          ],
+        },
+        {
+          id: "ins1c",
+          headline: "Video pendek mereka jadi acuan format konten {{brand}}",
+          points: [
+            "Ancaman: kompetitor sudah mahir menggarap video pendek sehingga menguasai beranda audiens.",
+            "Inspirasi: mengadopsi pola pembuka tiga detik yang langsung menampilkan produk atau gerakan.",
+            "Penerapan: menyiapkan tiga pola video tetap yang bisa diproduksi berulang oleh tim kecil.",
+            "Pembeda yang dijaga: isi video {{brand}} difokuskan pada keluhan gerah di cuaca panas, sudut yang belum digarap kompetitor.",
+          ],
+        },
+        {
+          id: "ins1d",
+          headline: "Kelengkapan panduan produk mereka jadi acuan konten edukasi {{brand}}",
+          points: [
+            "Ancaman: panduan produk kompetitor membuat calon pembeli lebih percaya kepada mereka.",
+            "Inspirasi: membuat sorotan tetap berisi panduan ukuran, jenis bahan, dan cara perawatan.",
+            "Penerapan: memperbarui sorotan tersebut setiap kali koleksi baru dirilis.",
+            "Pembeda yang dijaga: {{brand}} menulis panduannya dengan bahasa sehari-hari tanpa istilah teknis.",
+          ],
+        },
+        {
+          id: "ins1e",
+          headline: "Pengelolaan promo mereka jadi acuan kalender penawaran {{brand}}",
+          points: [
+            "Ancaman: promo kompetitor yang tertata membuat audiens menunggu penawaran mereka setiap bulan.",
+            "Inspirasi: menyusun kalender penawaran {{brand}} dengan tenggat yang jelas dan diumumkan jauh hari.",
+            "Penerapan: menjaga porsi unggahan promo agar tidak mendominasi grid dan menurunkan citra brand.",
+            "Pembeda yang dijaga: penawaran {{brand}} berbentuk paket padu padan, bukan potongan harga besar-besaran.",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "sebagian",
+      variants: [
+        {
+          id: "ins2a",
+          headline: "Belajar dari kompetitor",
+          points: [
+            "{{brand}} sebaiknya belajar dari kompetitor.",
+            "Arahnya sudah benar, tetapi belum menyebut apa yang dipelajari.",
+            "Belum ada bentuk penerapan yang bisa langsung dikerjakan tim konten.",
+          ],
+        },
+        {
+          id: "ins2b",
+          headline: "Ancaman disebut, inspirasinya belum",
+          points: [
+            "Ancamannya adalah kompetitor punya pengikut jauh lebih banyak.",
+            "Ancaman sudah teridentifikasi dengan jelas.",
+            "Belum diubah menjadi pelajaran maupun langkah yang bisa diterapkan {{brand}}.",
+          ],
+        },
+        {
+          id: "ins2c",
+          headline: "Meniru gaya visual kompetitor",
+          points: [
+            "{{brand}} sebaiknya memakai gaya visual yang sama dengan kompetitor.",
+            "Mengambil pelajaran dari konsistensi visual memang tepat.",
+            "Menyamakan gaya justru menghapus pembeda {{brand}} di mata audiens.",
+          ],
+        },
+      ],
+    },
+    {
+      grade: "kurang",
+      variants: [
+        {
+          id: "ins3a",
+          headline: "Tidak ada ancaman",
+          points: [
+            "Kompetitor tidak menjadi ancaman bagi {{brand}} sama sekali.",
+            "Kekuatan kompetitor yang sudah dicatat di langkah 3 diabaikan begitu saja.",
+            "Instruksi langkah 4 tidak terpenuhi.",
+          ],
+        },
+        {
+          id: "ins3b",
+          headline: "Menyerah pada kompetitor",
+          points: [
+            "Kompetitor terlalu kuat sehingga {{brand}} sebaiknya tidak bersaing di Instagram.",
+            "Bertentangan dengan tujuan tugas, yaitu menyusun strategi konten Instagram ke depan.",
+            "Seluruh hasil riset audiens dan kompetitor menjadi tidak terpakai.",
+          ],
+        },
+        {
+          id: "ins3c",
+          headline: "Melaporkan akun kompetitor",
+          points: [
+            "{{brand}} sebaiknya melaporkan akun kompetitor agar tidak bisa mengunggah konten.",
+            "Bukan langkah strategi konten dan berpotensi merugikan brand sendiri.",
+            "Tidak menghasilkan inspirasi apa pun bagi konten {{brand}}.",
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+/* ================================================================== */
 
 export const tpm1Groups: ChoiceGroup[] = [
-  segmen1,
-  segmen2,
-  segmen3,
-  targetUtama,
-  alasanTarget,
-  strategiPositioning,
-  positioningStatement,
-  visualisasi,
+  geographic,
+  sociographic,
+  demographic,
+  behavioral,
+  psychographic,
+  description,
+  keyDemographic,
+  keyPsychographic,
+  painPoints,
+  channelGroup,
+  kompetitorUtama,
+  elemenVisual,
+  pesanUtama,
+  ctaGroup,
+  promoGroup,
+  engagementGroup,
+  kekuatanGroup,
+  kelemahanGroup,
+  peluangGroup,
+  inspirasiGroup,
 ];
 
 export const bankTpm1 = {
-  segmen1,
-  segmen2,
-  segmen3,
-  targetUtama,
-  alasanTarget,
-  strategiPositioning,
-  positioningStatement,
-  visualisasi,
+  geographic,
+  sociographic,
+  demographic,
+  behavioral,
+  psychographic,
+  description,
+  keyDemographic,
+  keyPsychographic,
+  painPoints,
+  channelGroup,
+  kompetitorUtama,
+  elemenVisual,
+  pesanUtama,
+  ctaGroup,
+  promoGroup,
+  engagementGroup,
+  kekuatanGroup,
+  kelemahanGroup,
+  peluangGroup,
+  inspirasiGroup,
 };

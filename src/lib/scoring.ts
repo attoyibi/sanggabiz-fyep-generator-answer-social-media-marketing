@@ -1,5 +1,5 @@
-import type { Grade, TaskDefinition } from "@/tasks/types";
-import { allGroups } from "./resolve";
+import type { Grade, PilihanInput, TaskDefinition } from "@/tasks/types";
+import { allGroups, asPilihan } from "./resolve";
 
 /**
  * Kode program yang dicetak di dokumen. Sama untuk semua tugas.
@@ -20,14 +20,14 @@ const BOBOT: Record<Grade, number> = {
  */
 export function hitungNilai(
   task: TaskDefinition,
-  selections: Record<string, Grade>
+  selections: Record<string, PilihanInput>
 ): number {
   const groups = allGroups(task);
   if (groups.length === 0) return 0;
   let total = 0;
   for (const g of groups) {
-    const grade = selections[g.id];
-    total += grade ? BOBOT[grade] : 0;
+    const pilihan = asPilihan(selections[g.id]);
+    total += pilihan ? BOBOT[pilihan.grade] : 0;
   }
   return Math.round(total / groups.length);
 }
@@ -38,7 +38,7 @@ export function hitungNilai(
  */
 export function kodeNilai(
   task: TaskDefinition,
-  selections: Record<string, Grade>
+  selections: Record<string, PilihanInput>
 ): string {
   const program = task.programCode ?? KODE_PROGRAM;
   return `${program}-${hitungNilai(task, selections)}`;

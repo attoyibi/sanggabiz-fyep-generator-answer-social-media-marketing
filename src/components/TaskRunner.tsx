@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 import ChoiceGroupCard from "./ChoiceGroupCard";
 import DocumentPreview from "./DocumentPreview";
 import { getTask } from "@/tasks/registry";
-import type { Grade } from "@/tasks/types";
+import type { Grade, Pilihan } from "@/tasks/types";
 import { allGroups, buildContext, progressOf } from "@/lib/resolve";
 import { kodeNilai } from "@/lib/scoring";
 import { createSeed } from "@/lib/rng";
@@ -26,8 +26,9 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
   /* ---------- muat & simpan localStorage ---------- */
   useEffect(() => {
     // Nama dan pilihan diambil dari localStorage, tetapi seed selalu dibuat baru.
-    // Akibatnya setiap orang yang membuka halaman ini mendapat varian jawaban
-    // yang berbeda, dan halaman yang dimuat ulang pun menghasilkan isi baru.
+    // Seed baru hanya memengaruhi grup yang BELUM dijawab: isinya berganti tiap
+    // halaman dibuka, sehingga tiap orang mendapat jawaban yang berbeda.
+    // Grup yang sudah dijawab terkunci pada variantId yang tersimpan.
     const loaded = loadState();
     setState({ ...loaded, seed: createSeed() });
     setNamaInput(loaded.nama);
@@ -39,7 +40,7 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
     saveState(state);
   }, [state, hydrated]);
 
-  const selections = useMemo<Record<string, Grade>>(
+  const selections = useMemo<Record<string, Pilihan>>(
     () => state.selections[taskId] ?? {},
     [state.selections, taskId]
   );
@@ -87,13 +88,18 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
     setUbahNama(false);
   }, [state.nama]);
 
+  /**
+   * Menyimpan pilihan peserta beserta id varian yang sedang ia lihat.
+   * Id itulah yang membuat jawaban terpilih tidak berubah saat halaman
+   * dimuat ulang, meskipun seed pengacaknya selalu baru.
+   */
   const pilih = useCallback(
-    (groupId: string, grade: Grade) => {
+    (groupId: string, grade: Grade, variantId: string) => {
       setState((prev) => ({
         ...prev,
         selections: {
           ...prev.selections,
-          [taskId]: { ...(prev.selections[taskId] ?? {}), [groupId]: grade },
+          [taskId]: { ...(prev.selections[taskId] ?? {}), [groupId]: { grade, variantId } },
         },
       }));
     },

@@ -27,7 +27,7 @@ function teks(blocks: DocBlock[]): string {
 
 const N = Number(process.argv[2] ?? 500);
 const hashes = new Set<string>();
-const formats = new Map<string, number>();
+const kompetitors = new Map<string, number>();
 const segmen1 = new Map<string, number>();
 let minLen = Infinity, maxLen = 0;
 
@@ -43,14 +43,14 @@ for (let i = 0; i < N; i++) {
   hashes.add(createHash("sha1").update(isi).digest("hex"));
   minLen = Math.min(minLen, isi.length);
   maxLen = Math.max(maxLen, isi.length);
-  const f = ctx.answers["visual"].variant.fields!.format;
-  formats.set(f, (formats.get(f) ?? 0) + 1);
-  const s1 = ctx.answers["seg1"].variant.headline;
+  const k = ctx.answers["kompetitor"].variant.fields!.nama;
+  kompetitors.set(k, (kompetitors.get(k) ?? 0) + 1);
+  const s1 = ctx.answers["geo"].variant.headline;
   segmen1.set(s1, (segmen1.get(s1) ?? 0) + 1);
 }
 
 console.log(`${N} peserta -> ${hashes.size} dokumen unik (${((hashes.size / N) * 100).toFixed(1)}% unik)`);
 console.log("panjang isi:", minLen, "-", maxLen, "karakter");
-console.log("sebaran bentuk visual:", JSON.stringify(Object.fromEntries(formats)));
-console.log("sebaran segmen 1:");
+console.log("sebaran kompetitor:", JSON.stringify(Object.fromEntries(kompetitors)));
+console.log("sebaran segmen geographic:");
 for (const [k, v] of [...segmen1].sort((a, b) => b[1] - a[1])) console.log(`  ${v.toString().padStart(4)}  ${k}`);

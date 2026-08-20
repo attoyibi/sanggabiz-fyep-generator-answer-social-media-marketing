@@ -1,15 +1,16 @@
 "use client";
 
-import type { ChoiceGroup, Grade } from "@/tasks/types";
+import type { ChoiceGroup, Grade, Pilihan } from "@/tasks/types";
 import { optionOrder, variantFor } from "@/lib/resolve";
 
 interface Props {
   group: ChoiceGroup;
   taskId: string;
   seed: number;
-  selected?: Grade;
+  /** Pilihan tersimpan peserta: tingkat kualitas + varian yang dikunci. */
+  selected?: Pilihan;
   index: number;
-  onSelect: (groupId: string, grade: Grade) => void;
+  onSelect: (groupId: string, grade: Grade, variantId: string) => void;
   fill: (text: string) => string;
 }
 
@@ -57,9 +58,17 @@ export default function ChoiceGroupCard({
 
         <div role="radiogroup" aria-labelledby={`label-${group.id}`} className="grid gap-2.5">
           {order.map((grade) => {
-            const variant = variantFor(seed, taskId, group, grade);
+            const isSelected = selected?.grade === grade;
+            // Hanya kartu yang dipilih peserta yang dikunci; kartu lain tetap
+            // ikut seed sehingga isinya berganti tiap halaman dimuat ulang.
+            const variant = variantFor(
+              seed,
+              taskId,
+              group,
+              grade,
+              isSelected ? selected?.variantId : undefined
+            );
             if (!variant) return null;
-            const isSelected = selected === grade;
 
             return (
               <button
@@ -69,7 +78,7 @@ export default function ChoiceGroupCard({
                 aria-checked={isSelected}
                 data-selected={isSelected}
                 className="opt"
-                onClick={() => onSelect(group.id, grade)}
+                onClick={() => onSelect(group.id, grade, variant.id)}
               >
                 <span className="block text-[0.9rem] font-semibold leading-snug">
                   {fill(variant.headline)}

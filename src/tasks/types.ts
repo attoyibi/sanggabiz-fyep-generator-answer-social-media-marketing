@@ -8,6 +8,27 @@
 export type Grade = "tepat" | "sebagian" | "kurang";
 
 /**
+ * Pilihan peserta yang disimpan di localStorage.
+ *
+ * `variantId` adalah varian yang benar-benar dilihat peserta ketika ia menekan
+ * kartu. Id itu ikut disimpan supaya isi jawaban yang sudah dipilih TIDAK
+ * berubah saat halaman dimuat ulang, walaupun seed pengacaknya selalu baru.
+ * Grup yang belum dijawab tetap mengambil varian dari seed, jadi isinya masih
+ * berganti setiap halaman dibuka.
+ */
+export interface Pilihan {
+  grade: Grade;
+  variantId?: string;
+}
+
+/**
+ * Bentuk pilihan yang diterima fungsi inti. Grade polos tetap didukung supaya
+ * skrip pemeriksaan di folder scripts/ dan data localStorage versi lama
+ * tidak perlu diubah.
+ */
+export type PilihanInput = Grade | Pilihan;
+
+/**
  * Satu varian jawaban di dalam bank jawaban.
  * Varian dipilih acak per-peserta (berdasarkan seed), sehingga dua peserta
  * yang sama-sama memilih opsi "tepat" tetap menghasilkan dokumen yang berbeda.

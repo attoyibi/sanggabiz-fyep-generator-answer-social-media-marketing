@@ -6,11 +6,24 @@ import { kodeNilai } from "../src/lib/scoring.ts";
 import type { Grade } from "../src/tasks/types.ts";
 
 const captured: Blob[] = [];
+// Stub DOM seadanya supaya downloadBlob() bisa jalan di Node.
+// Harus mengikuti properti yang disentuh src/lib/download.ts.
 // @ts-expect-error stub Node
 globalThis.document = {
-  createElement: () => ({ click() {}, href: "", download: "" }),
+  createElement: () => ({
+    click() {},
+    remove() {},
+    style: {},
+    href: "",
+    download: "",
+    rel: "",
+  }),
   body: { appendChild() {}, removeChild() {} },
 };
+// jspdf memakai "window" sebagai objek globalnya dan menuntut atob/btoa/console,
+// jadi window diarahkan ke globalThis Node, bukan diganti objek kosong.
+// @ts-expect-error stub Node
+globalThis.window = globalThis;
 const origCreate = URL.createObjectURL;
 URL.createObjectURL = (b: Blob) => {
   captured.push(b);
@@ -39,3 +52,7 @@ const buf = Buffer.from(await captured[0].arrayBuffer());
 const out = process.argv[5] ?? "/tmp/out.docx";
 writeFileSync(out, buf);
 console.log(`ditulis ${out} (${buf.length} byte)`);
+
+// downloadBlob() memasang timer 60 detik untuk melepas object URL. Di browser itu
+// tidak masalah, tetapi di Node timer tersebut menahan proses tetap hidup.
+process.exit(0);
