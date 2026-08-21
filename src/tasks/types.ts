@@ -260,6 +260,20 @@ export const BRAND_WARNA = {
   red: "#D40D15",
 } as const;
 
+/**
+ * Panduan untuk tugas yang dikerjakan langsung di tools-nya.
+ *
+ * Tugas yang memakai ini tidak menampilkan kartu jawaban maupun tombol unduh:
+ * hasilnya berupa berkas yang memang harus dibuat sendiri oleh peserta.
+ */
+export interface PanduanTugas {
+  judul: string;
+  pengantar: string;
+  langkah: { judul: string; isi: string }[];
+  tautan: { label: string; url: string; catatan?: string }[];
+  catatan: string[];
+}
+
 /** Panduan merek yang ditampilkan di layar, dipakai TPM 4. */
 export interface BrandGuide {
   judul: string;
@@ -360,6 +374,11 @@ export interface TaskDefinition {
   instructionSummary: string[];
   /** Panduan merek yang ditampilkan sebelum daftar pertanyaan. */
   brandGuide?: BrandGuide;
+  /**
+   * Panduan untuk tugas yang dikerjakan sendiri di tools-nya. Bila diisi,
+   * halaman tugas tidak menampilkan kartu jawaban maupun tombol unduh.
+   */
+  panduan?: PanduanTugas;
   submission: Submission;
   steps: TaskStep[];
   /** Token dinamis untuk teks varian, mis. {{brand}}. */

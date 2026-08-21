@@ -3,6 +3,7 @@ import tpm1 from "./tpm-1";
 import tpm2 from "./tpm-2";
 import tpm3 from "./tpm-3";
 import tpm4 from "./tpm-4";
+import tpm5 from "./tpm-5";
 import tpm7 from "./tpm-7";
 import tpm8 from "./tpm-8";
 
@@ -17,7 +18,7 @@ import tpm8 from "./tpm-8";
  *    Navbar, penyimpanan localStorage, preview, dan export PDF/DOCX
  *    otomatis mengikuti tanpa perlu diubah.
  */
-export const TASKS: TaskDefinition[] = [tpm1, tpm2, tpm3, tpm4, tpm7, tpm8];
+export const TASKS: TaskDefinition[] = [tpm1, tpm2, tpm3, tpm4, tpm5, tpm7, tpm8];
 
 /** Jumlah slot yang ditampilkan di navbar, termasuk tugas yang belum tersedia. */
 export const TOTAL_SLOT_TUGAS = 8;

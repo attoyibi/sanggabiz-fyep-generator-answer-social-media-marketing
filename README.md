@@ -99,6 +99,8 @@ src/
     tpm-4/
       bank.ts       Bank jawaban (6 grup: format, layout, warna, teks, safe zone, finalisasi)
       index.ts      Pola desain ala unggahan media sosial + resep Canva, melanjutkan TPM 3
+    tpm-5/
+      index.ts      Halaman panduan tanpa bank jawaban; dikerjakan di CapCut
     tpm-7/
       bank.ts       Bank jawaban (9 grup, studi kasus berdiri sendiri)
       index.ts      Penghitung plotting budget 14 hari + penyusun PDF dan Excel
@@ -172,6 +174,7 @@ di layar dan tampil sebagai tombol utama.
 | TPM 2 | `["xlsx", "pdf"]` | Excel |
 | TPM 3 | `["pdf", "docx"]` | PDF |
 | TPM 4 | `["png", "pdf"]` | PNG |
+| TPM 5 | `[]` | MP4, diekspor sendiri dari CapCut |
 | TPM 7 | `["pdf", "xlsx"]` | PDF |
 | TPM 8 | `["pdf", "docx"]` | PDF |
 
@@ -360,6 +363,39 @@ Dua penambahan kecil pada mesin dokumen dipakai di sini:
 TPM 5 dan TPM 6 belum ada, tetapi TPM 7 sudah. Navbar kini disusun menurut nomor tugas, bukan
 urutan pendaftaran, sehingga slot 5 dan 6 tetap tampil sebagai "segera hadir" di tempatnya dan
 TPM 7 duduk di slot ketujuh.
+
+## Ketentuan TPM 5 yang dipenuhi
+
+Mengikuti PDF *3.12 Praktik Mandiri 2 - Membuat Konten Video di CapCut*, yang di halaman
+pertamanya menyebut dirinya **Praktik Mandiri 5**. Tugas ini melanjutkan TPM 2, TPM 3, dan TPM 4
+pada brand FitActive yang sama.
+
+### Tugas yang sengaja tidak dibantu generator
+
+Hasil yang diminta berupa video MP4, dan video hanya jadi kalau pesertanya sendiri yang
+mengedit. Karena itu halaman TPM 5 **tidak menampilkan kartu jawaban maupun tombol unduh** —
+hanya panduan pengerjaan, tautan ke CapCut dan bahan rujukan, serta ketentuan pengumpulannya.
+
+Dukungannya berupa `panduan` pada `TaskDefinition`. Bila diisi, `TaskRunner` menyembunyikan
+gerbang nama, daftar pertanyaan, pratinjau dokumen, dan bilah unduh di bawah layar. Tugas
+seperti ini memakai `steps: []` dan `downloads: []`.
+
+Pola ini bisa dipakai lagi untuk tugas lain yang hasilnya memang harus dikerjakan di tools-nya
+sendiri.
+
+### Dua keterangan pada panel panduannya
+
+Atas permintaan penyelenggara, panel panduan memuat dua keterangan tambahan:
+
+1. Video yang sudah pernah dibuat sebelumnya boleh dikumpulkan untuk tugas ini, sepanjang isinya
+   sejalan dengan rancangan konten peserta.
+2. Penilaian pelatihan dihitung dari keseluruhan tugas, sehingga peserta yang mengerjakan
+   tugas-tugas lain dengan baik umumnya tetap berada di atas batas kelulusan meskipun bagian
+   video ini belum sempat dikumpulkan.
+
+Keterangan kedua ditulis dengan kata "umumnya" dan ditutup anjuran mengecek ke penyelenggara,
+karena angka batas kelulusannya tidak tersimpan di dalam aplikasi ini dan tidak bisa dipastikan
+dari sini.
 
 ## Ketentuan TPM 4 yang dipenuhi
 

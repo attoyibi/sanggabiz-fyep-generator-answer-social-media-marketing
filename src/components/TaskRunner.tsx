@@ -6,6 +6,7 @@ import ChoiceGroupCard from "./ChoiceGroupCard";
 import DocumentPreview from "./DocumentPreview";
 import DesignPreview from "./DesignPreview";
 import BrandGuidePanel from "./BrandGuidePanel";
+import PanduanPanel from "./PanduanPanel";
 import { getTask } from "@/tasks/registry";
 import type { BuildContext, FormatUnduhan, Grade, Pilihan } from "@/tasks/types";
 import { allGroups, buildContext, progressOf } from "@/lib/resolve";
@@ -226,6 +227,12 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
   }
 
   const sudahMulai = Boolean(state.nama);
+  /**
+   * Tugas yang dikerjakan sendiri di tools-nya: tidak ada kartu jawaban, tidak
+   * ada berkas yang disusun website, jadi gerbang nama dan bilah unduh
+   * disembunyikan seluruhnya.
+   */
+  const dikerjakanSendiri = Boolean(task.panduan);
 
   return (
     <>
@@ -287,8 +294,11 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
         {/* Brand Guideline, bila tugasnya menyediakan */}
         {task.brandGuide && <BrandGuidePanel guide={task.brandGuide} />}
 
+        {/* Panduan tugas yang dikerjakan sendiri di tools-nya */}
+        {task.panduan && <PanduanPanel panduan={task.panduan} />}
+
         {/* Gerbang nama */}
-        {!sudahMulai ? (
+        {dikerjakanSendiri ? null : !sudahMulai ? (
           <section className="card border-brand/30 bg-white p-5 sm:p-7">
             <h2 className="text-lg font-bold">Masukkan nama lengkapmu</h2>
             <p className="mt-1 text-[0.88rem] text-ink-soft">
@@ -514,7 +524,7 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
       </main>
 
       {/* Bilah aksi bawah */}
-      {sudahMulai && (
+      {sudahMulai && !dikerjakanSendiri && (
         <div className="no-print fixed inset-x-0 bottom-0 z-30 border-t border-line bg-white/95 backdrop-blur-md">
           <div className="mx-auto max-w-5xl px-4 py-3">
             {pesan && (
