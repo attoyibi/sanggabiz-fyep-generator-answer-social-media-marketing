@@ -56,6 +56,9 @@ function Block({ block }: { block: DocBlock }) {
     case "byline":
       return <p className="mb-4 text-center text-[0.78rem] italic text-ink-soft">{block.text}</p>;
 
+    case "note":
+      return <p className="mb-2 mt-1 text-[0.85rem] leading-relaxed">{block.text}</p>;
+
     case "label":
       return (
         <p className="mb-2 mt-5">

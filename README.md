@@ -99,6 +99,9 @@ src/
     tpm-4/
       bank.ts       Bank jawaban (6 grup: format, layout, warna, teks, safe zone, finalisasi)
       index.ts      Pola desain ala unggahan media sosial + resep Canva, melanjutkan TPM 3
+    tpm-7/
+      bank.ts       Bank jawaban (9 grup, studi kasus berdiri sendiri)
+      index.ts      Penghitung plotting budget 14 hari + penyusun PDF dan Excel
   lib/
     rng.ts          Pengacak deterministik berbasis seed
     resolve.ts      Menggabungkan pilihan peserta menjadi konteks dokumen
@@ -144,6 +147,7 @@ npm run cek -- render-docx tpm-1 12345 "Putri Amalia" tepat out.docx   # DOCX co
 npm run cek -- render-xlsx tpm-2 12345 "Putri Amalia" tepat out.xlsx   # Excel contoh
 npm run cek -- render-halaman tpm-4 12345 "Putri Amalia" tepat hal     # pecah PDF per halaman
 npm run cek -- cek-safezone                                            # cek batas aman desain TPM 4
+npm run cek -- cek-budget 400                                          # cek aritmetika budget TPM 7
 ```
 
 `render-halaman` ada karena `qlmanage` di macOS hanya merender halaman pertama sebuah PDF.
@@ -165,6 +169,7 @@ di layar dan tampil sebagai tombol utama.
 | TPM 2 | `["xlsx", "pdf"]` | Excel |
 | TPM 3 | `["pdf", "docx"]` | PDF |
 | TPM 4 | `["png", "pdf"]` | PNG |
+| TPM 7 | `["pdf", "xlsx"]` | PDF |
 
 Tugas yang menyertakan `"xlsx"` wajib punya `buildWorkbook`, yang menghasilkan `SheetSpec[]`
 berisi nama sheet, lebar kolom, dan baris berisi sel bergaya. Warna gayanya diambil dari
@@ -235,6 +240,63 @@ sendiri di tugas-tugas sebelumnya.
 
 Caption ditulis memakai salah satu formula yang diminta instruksi: AIDA, FAB, PAS, atau ACCA.
 Strukturnya sengaja ditulis eksplisit di dalam naskah supaya penerapan formulanya bisa diperiksa.
+
+## Ketentuan TPM 7 yang dipenuhi
+
+Mengikuti PDF *4.11 Praktik Mandiri 2 - Membuat Budgeting Campaign*, yang di halaman pertamanya
+menyebut dirinya **Praktik Mandiri 7**, beserta berkas *Studi Kasus Budgeting Campaign* dan
+*Template Budgeting Campaign*.
+
+### Tugas ini sengaja tidak menyambung ke tugas sebelumnya
+
+TPM 1 sampai TPM 4 memakai brand **FitActive** dan saling menyambung lewat `dependsOn`. TPM 7
+tidak, karena studi kasusnya menetapkan brand yang berbeda — **HealthyBite**, brand makanan
+sehat — lengkap dengan budget Rp10.000.000, durasi 14 hari, tiga objective, dan target audiens
+sendiri. Instruksinya pun berbunyi "gunakan studi kasus berikut sebagai dasar".
+
+Menyambungkan tugas ini ke content plan FitActive justru akan bertentangan dengan instruksinya,
+jadi `dependsOn` sengaja dikosongkan dan banknya tidak memakai token dari tugas lain.
+
+### Tabel plotting dihitung, bukan dipilih
+
+Peserta tidak memilih 14 angka satu per satu. Yang dipilih adalah strateginya — persentase tiap
+objective, jumlah hari fase testing, dan bentuk kurva belanja — lalu tabel 14 harinya dihitung
+dari ketiga jawaban itu.
+
+Urutan perhitungannya: kurva belanja harian dibuat lebih dahulu untuk seluruh durasi, lalu
+hari-harinya dipotong menjadi tiga tahap. Pembagian hari antar tahap dicari menyeluruh dari
+semua kemungkinan, dan yang dipilih adalah pembagian yang paling sedikit membuat belanja harian
+turun. Tanpa pencarian itu, kurvanya berbentuk gergaji — naik lalu jatuh setiap pindah tahap —
+dan itu bertentangan dengan alasan yang dipilih peserta sendiri.
+
+Dua sifat yang dijaga sekaligus:
+
+1. **Total selalu tepat Rp10.000.000** untuk 14 hari, dan total tiap objective persis sama
+   dengan persentase yang tertulis di tabel strategi awal. Sisa pembulatan diletakkan pada hari
+   terakhir tiap tahap.
+2. **Kurva belanjanya tidak pernah turun tajam** pada pola yang menjanjikan kenaikan.
+
+Keduanya diperiksa `npm run cek -- cek-budget`, untuk seluruh tingkat kualitas jawaban maupun
+campurannya — bukan sekadar satu contoh. Dokumen budgeting yang angkanya tidak pas tidak ada
+gunanya, jadi sifat ini diperlakukan sebagai syarat, bukan harapan.
+
+### Format dokumen mengikuti template
+
+Ketiga bagian template diikuti apa adanya: tabel *Strategi Budgeting Awal* berisi lima
+pertanyaan yang sama persis kalimatnya, tabel *Plotting Budget Campaign* dengan empat kolom
+berkepala biru dan 14 baris hari, lalu *Alasan Pemilihan Strategi* beserta kalimat pengantarnya.
+
+Dua penambahan kecil pada mesin dokumen dipakai di sini:
+
+- blok `note`, untuk kalimat pengantar biasa di antara label dan tabelnya;
+- `labelWidth` pada `fieldTable`, karena lebar kolom label tiap template berbeda — template ini
+  memakai 24,6% sedangkan template TPM 1 memakai 21,33%.
+
+### Nomor tugas boleh melompat
+
+TPM 5 dan TPM 6 belum ada, tetapi TPM 7 sudah. Navbar kini disusun menurut nomor tugas, bukan
+urutan pendaftaran, sehingga slot 5 dan 6 tetap tampil sebagai "segera hadir" di tempatnya dan
+TPM 7 duduk di slot ketujuh.
 
 ## Ketentuan TPM 4 yang dipenuhi
 

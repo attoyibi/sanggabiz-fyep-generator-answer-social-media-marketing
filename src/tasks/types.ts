@@ -159,6 +159,8 @@ export type DocBlock =
       rows: { label: Rich; value: string }[];
       /** Template memusatkan label pada tabel segmentasi, dan merapatkan kiri pada tabel kompetitor. */
       labelAlign?: "center" | "left";
+      /** Lebar kolom label sebagai pecahan lebar isi; tiap template berbeda. */
+      labelWidth?: number;
     }
   /** Kartu Audience Profile: ilustrasi di kiri, tiga blok berwarna di kanan. */
   | {
@@ -186,6 +188,8 @@ export type DocBlock =
       widths?: number[];
       caption?: string;
     }
+  /** Kalimat pengantar biasa di antara label dan tabelnya. */
+  | { type: "note"; text: string }
   /** Mulai halaman baru. */
   | { type: "pageBreak" };
 

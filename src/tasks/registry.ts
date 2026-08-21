@@ -3,6 +3,7 @@ import tpm1 from "./tpm-1";
 import tpm2 from "./tpm-2";
 import tpm3 from "./tpm-3";
 import tpm4 from "./tpm-4";
+import tpm7 from "./tpm-7";
 
 /**
  * ====================================================================
@@ -15,7 +16,7 @@ import tpm4 from "./tpm-4";
  *    Navbar, penyimpanan localStorage, preview, dan export PDF/DOCX
  *    otomatis mengikuti tanpa perlu diubah.
  */
-export const TASKS: TaskDefinition[] = [tpm1, tpm2, tpm3, tpm4];
+export const TASKS: TaskDefinition[] = [tpm1, tpm2, tpm3, tpm4, tpm7];
 
 /** Jumlah slot yang ditampilkan di navbar, termasuk tugas yang belum tersedia. */
 export const TOTAL_SLOT_TUGAS = 8;
@@ -27,14 +28,22 @@ export interface NavItem {
   available: boolean;
 }
 
+/**
+ * Navbar disusun menurut nomor tugas, bukan urutan pendaftaran.
+ *
+ * Tugas boleh dikerjakan tidak berurutan: bila TPM 7 sudah ada sementara TPM 5
+ * dan TPM 6 belum, slot 5 dan 6 tetap tampil sebagai "segera hadir" di tempatnya
+ * dan TPM 7 tetap duduk di slot ketujuh.
+ */
 export function getNavItems(): NavItem[] {
-  const items: NavItem[] = TASKS.map((t) => ({
-    id: t.id,
-    label: t.navLabel,
-    available: t.available,
-  }));
-  for (let i = items.length; i < TOTAL_SLOT_TUGAS; i++) {
-    items.push({ id: `slot-${i + 1}`, label: `Tugas ${i + 1}`, available: false });
+  const items: NavItem[] = [];
+  for (let n = 1; n <= TOTAL_SLOT_TUGAS; n++) {
+    const tugas = TASKS.find((t) => t.id === `tpm-${n}`);
+    items.push(
+      tugas
+        ? { id: tugas.id, label: tugas.navLabel, available: tugas.available }
+        : { id: `slot-${n}`, label: `Tugas ${n}`, available: false }
+    );
   }
   return items;
 }

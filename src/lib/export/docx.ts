@@ -162,6 +162,15 @@ export async function exportDocx(
         );
         break;
 
+      case "note":
+        push(
+          new Paragraph({
+            spacing: { after: 140 },
+            children: [new TextRun({ text: block.text, font: FONT, size: SZ_TEKS })],
+          })
+        );
+        break;
+
       case "byline":
         push(
           new Paragraph({
@@ -190,7 +199,7 @@ export async function exportDocx(
         break;
 
       case "fieldTable": {
-        const w0 = Math.round(ISI_W * 0.2133);
+        const w0 = Math.round(ISI_W * (block.labelWidth ?? 0.2133));
         const w1 = ISI_W - w0;
         const tengah = (block.labelAlign ?? "center") === "center";
         push(

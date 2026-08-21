@@ -184,6 +184,18 @@ export async function exportPdf(
     y += lh(10) + 4;
   };
 
+  /** Kalimat pengantar di antara label dan tabelnya, seperti pada template. */
+  const blokNote = (text: string) => {
+    set(10.5, false, false, HITAM);
+    const baris = doc.splitTextToSize(text, CONTENT_W - WRAP_SLACK) as string[];
+    muat(baris.length * lh(10.5) + 3);
+    for (const b of baris) {
+      doc.text(b, MARGIN, y + 3.4);
+      y += lh(10.5);
+    }
+    y += 2.5;
+  };
+
   const blokLabel = (text: string) => {
     const size = 13;
     const tinggi = lh(size) + 2.6;
@@ -212,9 +224,10 @@ export async function exportPdf(
 
   const blokFieldTable = (
     rows: { label: Rich; value: string }[],
-    labelAlign: "center" | "left"
+    labelAlign: "center" | "left",
+    labelWidth: number
   ) => {
-    const wLabel = CONTENT_W * 0.2133;
+    const wLabel = CONTENT_W * labelWidth;
     const wIsi = CONTENT_W - wLabel;
     const size = 13;
 
@@ -560,8 +573,11 @@ export async function exportPdf(
       case "label":
         blokLabel(block.text);
         break;
+      case "note":
+        blokNote(block.text);
+        break;
       case "fieldTable":
-        blokFieldTable(block.rows, block.labelAlign ?? "center");
+        blokFieldTable(block.rows, block.labelAlign ?? "center", block.labelWidth ?? 0.2133);
         break;
       case "profile":
         blokProfile(block);

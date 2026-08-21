@@ -30,6 +30,12 @@ function teks(blocks: DocBlock[]): string {
           ].join("~");
         case "analysis":
           return b.observation.lines.join("|") + b.rows.map((r) => r.value).join("|");
+        case "grid":
+          // Tabel ikut dihitung: pada tugas budgeting justru di sinilah
+          // sebagian besar perbedaan antar peserta berada.
+          return b.rows.map((r) => r.join("~")).join("|") + (b.caption ?? "");
+        case "note":
+          return b.text;
         default:
           return "";
       }
