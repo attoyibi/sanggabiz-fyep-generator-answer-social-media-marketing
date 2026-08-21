@@ -3,7 +3,8 @@
 Website untuk membantu peserta pelatihan menyelesaikan Tugas Praktik Mandiri **tanpa mengetik dokumen sendiri**.
 Peserta cukup memasukkan nama lengkap, lalu memilih jawaban dengan klik. Dokumen final langsung tersusun dan
 dapat diunduh dengan nama file sesuai ketentuan — formatnya menyesuaikan tugasnya: **PDF**, **DOCX**,
-**Excel**, atau **PNG**.
+**Excel**, atau **PNG**. Dua tugas yang hasilnya berupa video dan tangkapan layar sengaja tidak
+dibantu generator, dan halamannya hanya memuat panduan pengerjaan.
 
 Seluruh data disimpan di **localStorage** peserta — tidak ada server, tidak ada pengiriman data ke mana pun.
 Nama dan pilihan tetap ada setelah halaman di-reload, dan tersedia tombol **Reset** untuk mulai dari awal
@@ -101,6 +102,8 @@ src/
       index.ts      Pola desain ala unggahan media sosial + resep Canva, melanjutkan TPM 3
     tpm-5/
       index.ts      Halaman panduan tanpa bank jawaban; dikerjakan di CapCut
+    tpm-6/
+      index.ts      Halaman panduan tanpa bank jawaban; dikerjakan di Meta Ads Manager
     tpm-7/
       bank.ts       Bank jawaban (9 grup, studi kasus berdiri sendiri)
       index.ts      Penghitung plotting budget 14 hari + penyusun PDF dan Excel
@@ -175,6 +178,7 @@ di layar dan tampil sebagai tombol utama.
 | TPM 3 | `["pdf", "docx"]` | PDF |
 | TPM 4 | `["png", "pdf"]` | PNG |
 | TPM 5 | `[]` | MP4, diekspor sendiri dari CapCut |
+| TPM 6 | `[]` | PDF berisi screenshot, disusun sendiri |
 | TPM 7 | `["pdf", "xlsx"]` | PDF |
 | TPM 8 | `["pdf", "docx"]` | PDF |
 
@@ -363,6 +367,36 @@ Dua penambahan kecil pada mesin dokumen dipakai di sini:
 TPM 5 dan TPM 6 belum ada, tetapi TPM 7 sudah. Navbar kini disusun menurut nomor tugas, bukan
 urutan pendaftaran, sehingga slot 5 dan 6 tetap tampil sebagai "segera hadir" di tempatnya dan
 TPM 7 duduk di slot ketujuh.
+
+## Ketentuan TPM 6 yang dipenuhi
+
+Mengikuti PDF *4.10 Praktik Mandiri 1 - Setting Meta Ads*, yang di halaman pertamanya menyebut
+dirinya **Praktik Mandiri 6**. Dengan tugas ini, kedelapan slot pada navbar sudah terisi.
+
+Bentuknya sama seperti TPM 5: tugas yang **dikerjakan sendiri di tools-nya**, memakai `panduan`
+sehingga halamannya tidak menampilkan kartu jawaban maupun tombol unduh. Yang diminta adalah
+tangkapan layar dari Meta Ads Manager milik peserta sendiri, dan itu tidak mungkin dibuatkan
+website ini.
+
+Panduannya mengikuti alur pada instruksi: pilih konten dan copywriting dari tugas sebelumnya,
+masuk ke Ads Manager, buat Campaign, atur Ad Set, atur Ad, screenshot tiap tahapan, lalu susun
+menjadi satu PDF.
+
+### Peringatan berhenti di tahap draft
+
+Catatan pertama pada panel panduannya menegaskan iklannya **tidak perlu diaktifkan dan tidak
+perlu dialokasikan budget**, cukup disimpan sebagai draft. Instruksi aslinya memang menyebut hal
+ini, dan peringatan itu ditaruh paling atas supaya peserta tidak menekan publish lalu terkena
+biaya iklan yang tidak mereka maksudkan.
+
+### Dua keterangan dari penyelenggara
+
+Sama seperti TPM 5, panel panduannya memuat keterangan bahwa hasil setting iklan yang sudah
+pernah dibuat sebelumnya boleh langsung dikumpulkan sepanjang sejalan dengan konten dan
+copywriting peserta, serta bahwa penilaian dihitung dari keseluruhan tugas sehingga peserta yang
+mengerjakan tugas lain dengan baik umumnya tetap di atas batas kelulusan meskipun bagian ini
+dikumpulkan seadanya. Keterangan kedua tetap memakai kata "umumnya" dan ditutup anjuran mengecek
+ke penyelenggara, dengan alasan yang sama seperti pada TPM 5.
 
 ## Ketentuan TPM 5 yang dipenuhi
 
