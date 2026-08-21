@@ -186,6 +186,11 @@ export type DocBlock =
       rows: string[][];
       /** Bobot lebar tiap kolom; kosongkan untuk lebar sama rata. */
       widths?: number[];
+      /**
+       * Kolom pertama dicetak tebal karena biasanya berisi nama baris.
+       * Matikan untuk tabel satu kolom yang isinya paragraf biasa.
+       */
+      boldKolomPertama?: boolean;
       caption?: string;
     }
   /** Kalimat pengantar biasa di antara label dan tabelnya. */
@@ -348,6 +353,8 @@ export interface TaskDefinition {
   available: boolean;
   /** Kode program untuk kode nilai di kaki dokumen. Kosongkan untuk memakai bawaan. */
   programCode?: string;
+  /** Orientasi halaman berkas, mengikuti template tugasnya. Bawaannya lanskap. */
+  orientation?: "landscape" | "portrait";
   meta: TaskMeta;
   caseStudy: { title: string; paragraphs: string[] };
   instructionSummary: string[];

@@ -176,7 +176,7 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
       try {
         if (format === "pdf") {
           const { exportPdf } = await import("@/lib/export/pdf");
-          await exportPdf(blocks, namaFile, kode);
+          await exportPdf(blocks, namaFile, kode, task.orientation);
         } else if (format === "xlsx") {
           const { exportXlsx } = await import("@/lib/export/xlsx");
           await exportXlsx(task.buildWorkbook!(ctx), namaFile, kode);
@@ -185,7 +185,7 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
           await exportPng(task.buildDesigns!(ctx), namaFile, kode);
         } else {
           const { exportDocx } = await import("@/lib/export/docx");
-          await exportDocx(blocks, namaFile, kode);
+          await exportDocx(blocks, namaFile, kode, task.orientation);
         }
         setPesan(`Berhasil diunduh: ${namaFile}.${format}`);
       } catch (err) {

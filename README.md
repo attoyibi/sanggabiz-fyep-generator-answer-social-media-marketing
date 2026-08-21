@@ -102,6 +102,9 @@ src/
     tpm-7/
       bank.ts       Bank jawaban (9 grup, studi kasus berdiri sendiri)
       index.ts      Penghitung plotting budget 14 hari + penyusun PDF dan Excel
+    tpm-8/
+      bank.ts       Bank jawaban (9 grup, studi kasus berdiri sendiri)
+      index.ts      Penyusun dokumen A4 potret + lampiran data yang dianalisis
   lib/
     rng.ts          Pengacak deterministik berbasis seed
     resolve.ts      Menggabungkan pilihan peserta menjadi konteks dokumen
@@ -170,6 +173,7 @@ di layar dan tampil sebagai tombol utama.
 | TPM 3 | `["pdf", "docx"]` | PDF |
 | TPM 4 | `["png", "pdf"]` | PNG |
 | TPM 7 | `["pdf", "xlsx"]` | PDF |
+| TPM 8 | `["pdf", "docx"]` | PDF |
 
 Tugas yang menyertakan `"xlsx"` wajib punya `buildWorkbook`, yang menghasilkan `SheetSpec[]`
 berisi nama sheet, lebar kolom, dan baris berisi sel bergaya. Warna gayanya diambil dari
@@ -240,6 +244,65 @@ sendiri di tugas-tugas sebelumnya.
 
 Caption ditulis memakai salah satu formula yang diminta instruksi: AIDA, FAB, PAS, atau ACCA.
 Strukturnya sengaja ditulis eksplisit di dalam naskah supaya penerapan formulanya bisa diperiksa.
+
+## Ketentuan TPM 8 yang dipenuhi
+
+Mengikuti PDF *5.7 Praktik Mandiri 1 - Menganalisis Metrics & Membuat Strategi Optimasi*, yang
+di halaman pertamanya menyebut dirinya **Praktik Mandiri 8**, beserta berkas *Data TikTok
+Insight* dan *Template Membaca TikTok Insight*.
+
+Seperti TPM 7, tugas ini berdiri sendiri: datanya satu berkas TikTok Insight periode
+4-10 Agustus 2025, bukan lanjutan dari brand FitActive pada TPM 1-4.
+
+### Halaman potret
+
+Template tugas ini memakai **A4 potret**, berbeda dari seluruh template sebelumnya yang
+lanskap. Karena itu `TaskDefinition` menerima `orientation`, dan penulis PDF maupun Word
+mengikutinya. Bawaannya tetap lanskap sehingga tugas lain tidak berubah.
+
+Saat menambahkan orientasi, ketahuan bahwa berkas Word selama ini menyimpan ukuran halaman
+yang bertentangan: pustaka `docx` menukar sendiri lebar dan tinggi ketika orientasinya lanskap,
+sehingga memberikan ukuran lanskap justru menghasilkan `w:pgSz w:w="11909" w:h="16834"` — ukuran
+potret dengan penanda lanskap. Sekarang yang diberikan selalu ukuran potret, dan hasilnya cocok
+dengan sectPr pada template: `16834 x 11909` untuk lanskap, `11909 x 16834` untuk potret.
+
+### Angka pada jawaban dihitung dari datanya
+
+Setiap jawaban tingkat *tepat* menyebut angka yang benar-benar ada pada berkas data, termasuk
+angka turunannya. Beberapa yang sering dipakai:
+
+| Turunan | Perhitungan | Hasil |
+| --- | --- | --- |
+| Likes per views video | 24.000 / 137.400 | 17,5% |
+| Komentar per views video | 169 / 137.400 | 0,12% |
+| Shares per views video | 410 / 137.400 | 0,3% |
+| Watch time terhadap durasi | 10,3 / 15,18 detik | 67,9% |
+| Views per orang terjangkau | 137.400 / 124.010 | 1,1 kali |
+| Profile views per video views | 1.774 / 79.700 | 2,2% |
+| Followers baru per pengunjung profil | 1.643 / 1.774 | 92,6% |
+
+Angka terakhir itu yang paling sering dipakai jawaban terbaik: konversi profil sudah sangat
+tinggi, jadi hambatan pertumbuhan akun bukan pada profilnya melainkan pada sedikitnya orang yang
+sampai membuka profil.
+
+Perlu dicatat satu hal pada datanya sendiri: overview mencatat video views 79,7K untuk tujuh
+hari, sedangkan satu postingan video tercatat 137,4K. Keduanya berasal dari cakupan waktu yang
+berbeda dan tidak boleh dijumlahkan — ada satu varian jawaban yang khusus menyebut hal ini.
+
+### Format dokumen mengikuti template
+
+Keempat bagian template diikuti apa adanya: *Hasil Membaca TikTok Insight* dengan tiga
+pertanyaan, *Identifikasi Kekuatan & Kelemahan* dengan dua pertanyaan, *Analisis Lebih Lanjut*
+beserta kalimat pengantarnya, dan *Buat Strategi Optimasi Konten*. Lebar kolom labelnya 30,1%,
+sesuai `tblGrid` template.
+
+Bagian strategi ditulis sebagai tabel satu kolom berisi tiga baris, satu strategi per baris,
+supaya syarat "minimal 3 strategi" terlihat sekali pandang. Tabel satu kolom seperti ini memakai
+`boldKolomPertama: false`, karena kolom pertama biasanya berisi nama baris dan dicetak tebal —
+tidak cocok untuk sel yang isinya paragraf.
+
+Di akhir dokumen ditambahkan lampiran **Data yang Dianalisis**. Template tidak memintanya, tetapi
+tanpa itu pembaca dokumen tidak bisa memeriksa angka-angka pada analisisnya.
 
 ## Ketentuan TPM 7 yang dipenuhi
 

@@ -6,10 +6,10 @@ import { FOTO_JPEG, LOGO_PLAN_PNG } from "./assets";
 /* Geometri halaman — mengikuti template resmi: A4 lanskap, margin 1"   */
 /* ------------------------------------------------------------------ */
 
-const PAGE_W = 297;
-const PAGE_H = 210;
 const MARGIN = 25.4;
-const CONTENT_W = PAGE_W - MARGIN * 2;
+/** Ukuran A4 dalam milimeter. */
+const A4_PANJANG = 297;
+const A4_PENDEK = 210;
 /** Selisih kecil metrik font antara jsPDF dan pembaca PDF. */
 const WRAP_SLACK = 1;
 
@@ -45,8 +45,14 @@ export async function exportPdf(
   blocks: DocBlock[],
   fileBaseName: string,
   /** Kode penilaian untuk pemeriksa, mis. "fyep-90". */
-  kodeNilai?: string
+  kodeNilai?: string,
+  /** Orientasi halaman, mengikuti template tugasnya. */
+  orientasi: "landscape" | "portrait" = "landscape"
 ): Promise<void> {
+  const potret = orientasi === "portrait";
+  const PAGE_W = potret ? A4_PENDEK : A4_PANJANG;
+  const PAGE_H = potret ? A4_PANJANG : A4_PENDEK;
+  const CONTENT_W = PAGE_W - MARGIN * 2;
   const { jsPDF } = await import("jspdf");
   const {
     POPPINS_REGULAR,
@@ -55,7 +61,7 @@ export async function exportPdf(
     POPPINS_BOLDITALIC,
   } = await import("./poppins");
 
-  const doc = new jsPDF({ unit: "mm", format: "a4", orientation: "landscape", compress: true });
+  const doc = new jsPDF({ unit: "mm", format: "a4", orientation: orientasi, compress: true });
 
   // Template memakai Poppins, jadi fontnya disematkan supaya bentuk hurufnya sama.
   const fonts: [string, string, string][] = [
@@ -510,6 +516,7 @@ export async function exportPdf(
     const jumlah = bobot.reduce((a, x) => a + x, 0);
     const lebar = bobot.map((w) => (CONTENT_W * w) / jumlah);
     const x0 = (i: number) => MARGIN + lebar.slice(0, i).reduce((a, x) => a + x, 0);
+    const tebalKolomPertama = b.boldKolomPertama ?? true;
     const s = 9;
 
     const tinggiKepala = b.head
@@ -541,7 +548,7 @@ export async function exportPdf(
       }
       sel.forEach((baris1, i) => {
         kotak(x0(i), y, lebar[i], tinggi);
-        set(s, i === 0, false, HITAM);
+        set(s, i === 0 && tebalKolomPertama, false, HITAM);
         let yi = y + PAD;
         for (const t of baris1) {
           doc.text(t, x0(i) + PAD, yi + s * PT * 0.95);

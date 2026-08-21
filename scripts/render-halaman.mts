@@ -96,14 +96,14 @@ function dokumen(): DokumenPdf {
 }
 
 // Sekali jalan untuk tahu jumlah halaman.
-await exportPdf(blocks, task.submission.fileName(nama), kodeNilai(task, selections));
+await exportPdf(blocks, task.submission.fileName(nama), kodeNilai(task, selections), task.orientation);
 const total = dokumen().getNumberOfPages();
 console.log("jumlah halaman:", total);
 
 for (let p = 1; p <= total; p++) {
   doc = null;
   captured.length = 0;
-  await exportPdf(blocks, task.submission.fileName(nama), kodeNilai(task, selections));
+  await exportPdf(blocks, task.submission.fileName(nama), kodeNilai(task, selections), task.orientation);
   const d = dokumen();
   for (let q = total; q >= 1; q--) if (q !== p) d.deletePage(q);
   const buf = Buffer.from(d.output("arraybuffer"));

@@ -60,7 +60,7 @@ const blocks = task.buildDocument(ctx);
 
 const { exportPdf } = await import("../src/lib/export/pdf.ts");
 const kode = kodeNilai(task, selections);
-await exportPdf(blocks, task.submission.fileName(nama), kode);
+await exportPdf(blocks, task.submission.fileName(nama), kode, task.orientation);
 console.log("kode nilai:", kode);
 
 const buf = Buffer.from(await captured[0].arrayBuffer());

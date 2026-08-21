@@ -19,11 +19,10 @@ const SZ_KEPALA = 30;
 const SZ_TEKS = 26;
 const SZ_KECIL = 20;
 
-/** A4 lanskap dalam twips, sama persis dengan sectPr template. */
-const HAL_W = 16834;
-const HAL_H = 11909;
+/** Ukuran A4 dalam twips, sama persis dengan sectPr template. */
+const A4_PANJANG = 16834;
+const A4_PENDEK = 11909;
 const MARGIN = 1440;
-const ISI_W = HAL_W - MARGIN * 2;
 
 function spans(text: Rich): RichSpan[] {
   return typeof text === "string" ? [{ text }] : text;
@@ -43,8 +42,14 @@ export async function exportDocx(
   blocks: DocBlock[],
   fileBaseName: string,
   /** Kode penilaian untuk pemeriksa, mis. "fyep-90". */
-  kodeNilai?: string
+  kodeNilai?: string,
+  /** Orientasi halaman, mengikuti template tugasnya. */
+  orientasi: "landscape" | "portrait" = "landscape"
 ): Promise<void> {
+  const potret = orientasi === "portrait";
+  // Lebar halaman sebenarnya, dipakai menghitung lebar tabel.
+  const HAL_W = potret ? A4_PENDEK : A4_PANJANG;
+  const ISI_W = HAL_W - MARGIN * 2;
   const d = await import("docx");
   const {
     Document,
@@ -413,7 +418,14 @@ export async function exportDocx(
       {
         properties: {
           page: {
-            size: { width: HAL_W, height: HAL_H, orientation: PageOrientation.LANDSCAPE },
+            // Pustaka docx menukar sendiri lebar dan tinggi ketika orientasinya
+            // lanskap, jadi yang diberikan selalu ukuran potret. Menyerahkan
+            // ukuran lanskap di sini justru menghasilkan w:pgSz yang terbalik.
+            size: {
+              width: A4_PENDEK,
+              height: A4_PANJANG,
+              orientation: potret ? PageOrientation.PORTRAIT : PageOrientation.LANDSCAPE,
+            },
             margin: { top: MARGIN, bottom: MARGIN, left: MARGIN, right: MARGIN, header: 720, footer: 720 },
           },
         },

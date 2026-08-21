@@ -224,7 +224,9 @@ function Block({ block }: { block: DocBlock }) {
                   {baris.map((teks, j) => (
                     <td
                       key={j}
-                      className={`p-1.5 align-top text-[0.7rem] ${j === 0 ? "font-semibold" : ""}`}
+                      className={`p-1.5 align-top text-[0.7rem] ${
+                        j === 0 && (block.boldKolomPertama ?? true) ? "font-semibold" : ""
+                      }`}
                       style={{ border: garis }}
                     >
                       {teks}
