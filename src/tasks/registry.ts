@@ -51,7 +51,7 @@ export interface NavItem {
  * dan TPM 6 belum, slot 5 dan 6 tetap tampil sebagai "segera hadir" di tempatnya
  * dan TPM 7 tetap duduk di slot ketujuh.
  *
- * Tugas tanpa nomor — capstone — ditaruh setelah seluruh slot bernomor.
+ * Tugas tanpa nomor: capstone, ditaruh setelah seluruh slot bernomor.
  */
 export function getNavItems(): NavItem[] {
   const items: NavItem[] = [];

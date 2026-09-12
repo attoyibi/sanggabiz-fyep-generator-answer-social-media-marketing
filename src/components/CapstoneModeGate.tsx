@@ -21,7 +21,7 @@ export default function CapstoneModeGate({
     <section className="mb-6">
       <div className="bar-accent">Pilih Cara Mengerjakan</div>
       <p className="mb-4 mt-2.5 text-[0.85rem] leading-relaxed text-ink-soft">
-        Capstone bisa dikerjakan dengan dua cara. Pilih salah satu — hasil akhirnya sama, yang
+        Capstone bisa dikerjakan dengan dua cara. Pilih salah satu: hasil akhirnya sama, yang
         berbeda hanya dari mana bahannya datang. Kamu bisa berpindah jalur kapan saja.
       </p>
 

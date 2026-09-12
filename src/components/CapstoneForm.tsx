@@ -9,7 +9,7 @@ import { terisi } from "@/lib/capstone";
  *
  * Tiap kolom membawa penjelasan dan contoh siap pakai. Tombol "Pakai contoh"
  * mengisi kolom dengan contohnya supaya peserta punya titik awal untuk
- * disunting — jauh lebih mudah daripada menghadapi kolom kosong, dan sekaligus
+ * disunting: jauh lebih mudah daripada menghadapi kolom kosong, dan sekaligus
  * memperlihatkan sedetail apa isian yang diharapkan.
  */
 export default function CapstoneForm({

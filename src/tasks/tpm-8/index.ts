@@ -101,9 +101,9 @@ const tpm8: TaskDefinition = {
     paragraphs: [
       "Kamu adalah seorang Social Media Specialist yang bertugas memantau performa konten TikTok milik sebuah brand. Kebetulan, brand tempatmu bekerja baru saja memposting sebuah video berdurasi 15 detik dengan tema edukasi singkat.",
       "Setelah berjalan 7 hari, kamu mendapatkan data insight dari TikTok Analytics untuk periode 04 - 10 Agustus 2025. Data itulah yang harus kamu baca, analisis, dan jadikan dasar strategi perbaikan.",
-      "Overview Engagement — Video Views 79,7K (+145,97%), Profile Views 1.774 (+152,35%), Likes 6.860 (+154,45%), Comments 60 (+650%), Shares 714 (+146,21%).",
-      "Followers — Total 74.029, New Followers +1.643, Growth Rate +2,35%, Gender 67,9% Female dan 32,1% Male, Top Territories 98% Indonesia, dengan puncak jam aktif di pukul 8 malam.",
-      "Postingan Video (durasi 15,18 detik) — Video Views 137,4K, Likes 24K, Comments 169, Shares 410, Reached Audience 124.010, Average Watch Time 10,3 detik, Watched Full Video 34,62%, serta Video Views by Section 86% For You Page, 5% Profile, dan 4% Following.",
+      "Overview Engagement: Video Views 79,7K (+145,97%), Profile Views 1.774 (+152,35%), Likes 6.860 (+154,45%), Comments 60 (+650%), Shares 714 (+146,21%).",
+      "Followers: Total 74.029, New Followers +1.643, Growth Rate +2,35%, Gender 67,9% Female dan 32,1% Male, Top Territories 98% Indonesia, dengan puncak jam aktif di pukul 8 malam.",
+      "Postingan Video (durasi 15,18 detik), Video Views 137,4K, Likes 24K, Comments 169, Shares 410, Reached Audience 124.010, Average Watch Time 10,3 detik, Watched Full Video 34,62%, serta Video Views by Section 86% For You Page, 5% Profile, dan 4% Following.",
     ],
   },
   instructionSummary: [

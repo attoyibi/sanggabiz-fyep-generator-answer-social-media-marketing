@@ -1,7 +1,7 @@
 import type { ChoiceGroup } from "../types";
 
 /**
- * BANK JAWABAN TPM 4 — Mendesain Konten Visual brand "FitActive".
+ * BANK JAWABAN TPM 4, Mendesain Konten Visual brand "FitActive".
  *
  * Melanjutkan rancangan konten TPM 3, yang sendirinya melanjutkan content plan
  * TPM 2. Jawaban di sini menentukan bentuk desain yang digambar website:
@@ -12,7 +12,7 @@ import type { ChoiceGroup } from "../types";
  */
 
 /* ================================================================== */
-/* 1. FORMAT KONTEN — ukuran kanvas dan rasio                         */
+/* 1. FORMAT KONTEN: ukuran kanvas dan rasio                         */
 /* ================================================================== */
 
 const format: ChoiceGroup = {
@@ -166,7 +166,7 @@ const format: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 2. TATA LETAK — hierarki visual                                    */
+/* 2. TATA LETAK: hierarki visual                                    */
 /* ================================================================== */
 
 const tataLetak: ChoiceGroup = {
@@ -260,7 +260,7 @@ const tataLetak: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 3. KOMBINASI WARNA — dari Brand Guideline                          */
+/* 3. KOMBINASI WARNA: dari Brand Guideline                          */
 /* ================================================================== */
 
 const warna: ChoiceGroup = {
@@ -414,7 +414,7 @@ const warna: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 4. TEKS DESAIN — isi yang benar-benar tampil di kanvas             */
+/* 4. TEKS DESAIN: isi yang benar-benar tampil di kanvas             */
 /* ================================================================== */
 
 const teks: ChoiceGroup = {
@@ -617,7 +617,7 @@ const teks: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 5. SAFE ZONE — penempatan agar tidak tertutup antarmuka platform    */
+/* 5. SAFE ZONE: penempatan agar tidak tertutup antarmuka platform    */
 /* ================================================================== */
 
 const safeZone: ChoiceGroup = {
@@ -771,7 +771,7 @@ const safeZone: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 6. FINALISASI — pemeriksaan sebelum diekspor                       */
+/* 6. FINALISASI: pemeriksaan sebelum diekspor                       */
 /* ================================================================== */
 
 const finalisasi: ChoiceGroup = {

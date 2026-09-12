@@ -1,7 +1,7 @@
 import type { ChoiceGroup } from "../types";
 
 /**
- * BANK JAWABAN TPM 7 — Menentukan Budgeting Iklan di Meta Ads.
+ * BANK JAWABAN TPM 7, Menentukan Budgeting Iklan di Meta Ads.
  *
  * Studi kasusnya berdiri sendiri: brand "HealthyBite" dengan budget
  * Rp10.000.000 untuk 14 hari, bukan lanjutan dari tugas sebelumnya. Karena itu

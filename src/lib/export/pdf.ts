@@ -3,7 +3,7 @@ import { downloadBlob, safeFileName } from "../download";
 import { FOTO_JPEG, LOGO_PLAN_PNG } from "./assets";
 
 /* ------------------------------------------------------------------ */
-/* Geometri halaman — mengikuti template resmi: A4 lanskap, margin 1"   */
+/* Geometri halaman, mengikuti template resmi: A4 lanskap, margin 1"   */
 /* ------------------------------------------------------------------ */
 
 /** Sisi panjang dan pendek tiap ukuran kertas, dalam milimeter. */

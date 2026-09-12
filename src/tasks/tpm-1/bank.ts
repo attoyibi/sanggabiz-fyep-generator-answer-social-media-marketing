@@ -1,7 +1,7 @@
 import type { ChoiceGroup } from "../types";
 
 /**
- * BANK JAWABAN TPM 1 — Riset Target Audiens dan Konten Kompetitor brand "FitActive".
+ * BANK JAWABAN TPM 1, Riset Target Audiens dan Konten Kompetitor brand "FitActive".
  *
  * Setiap grade punya banyak varian. Satu varian diambil acak per peserta
  * (berdasarkan seed), jadi dua peserta yang sama-sama memilih kartu "tepat"
@@ -12,14 +12,14 @@ import type { ChoiceGroup } from "../types";
  */
 
 /* ================================================================== */
-/* LANGKAH 1 — SEGMENTASI TARGET AUDIENS                              */
+/* LANGKAH 1: SEGMENTASI TARGET AUDIENS                              */
 /* 1.1 Geographic                                                      */
 /* ================================================================== */
 
 const geographic: ChoiceGroup = {
   id: "geo",
   label: "Geographic",
-  question: "Segmen Geographic — lokasi tempat target audiens tinggal",
+  question: "Segmen Geographic: lokasi tempat target audiens tinggal",
   hint: "Geographic menyorot negara, kota, atau wilayah tertentu tempat audiens berada.",
   options: [
     {
@@ -167,7 +167,7 @@ const geographic: ChoiceGroup = {
 const sociographic: ChoiceGroup = {
   id: "socio",
   label: "Sociographic",
-  question: "Segmen Sociographic — hubungan sosial dan status ekonomi audiens",
+  question: "Segmen Sociographic: hubungan sosial dan status ekonomi audiens",
   hint: "Sociographic menyorot lingkungan sosial dan status ekonomi yang memengaruhi keputusan pembelian.",
   options: [
     {
@@ -315,7 +315,7 @@ const sociographic: ChoiceGroup = {
 const demographic: ChoiceGroup = {
   id: "demo",
   label: "Demographic",
-  question: "Segmen Demographic — usia, jenis kelamin, pendapatan, pendidikan, pekerjaan",
+  question: "Segmen Demographic: usia, jenis kelamin, pendapatan, pendidikan, pekerjaan",
   hint: "Demographic berisi data yang bisa diukur dengan angka atau kategori.",
   options: [
     {
@@ -529,7 +529,7 @@ const demographic: ChoiceGroup = {
 const behavioral: ChoiceGroup = {
   id: "behav",
   label: "Behavioral",
-  question: "Segmen Behavioral — kebiasaan, perilaku, dan pola penggunaan produk",
+  question: "Segmen Behavioral: kebiasaan, perilaku, dan pola penggunaan produk",
   hint: "Behavioral menyorot bagaimana audiens berolahraga, mencari, dan membeli produk.",
   options: [
     {
@@ -679,7 +679,7 @@ const behavioral: ChoiceGroup = {
 const psychographic: ChoiceGroup = {
   id: "psycho",
   label: "Psychographic",
-  question: "Segmen Psychographic — gaya hidup, nilai, minat, dan kepribadian audiens",
+  question: "Segmen Psychographic: gaya hidup, nilai, minat, dan kepribadian audiens",
   hint: "Psychographic menyorot apa yang dianggap penting oleh audiens dan bagaimana mereka ingin dilihat.",
   options: [
     {
@@ -871,7 +871,7 @@ const psychographic: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* LANGKAH 2 — PROFIL AUDIENS                                          */
+/* LANGKAH 2: PROFIL AUDIENS                                          */
 /*                                                                     */
 /* Template menampilkan profil audiens sebagai SATU kartu utuh, jadi   */
 /* peserta memilih satu profil lengkap, bukan lima bagian terpisah.    */
@@ -1190,7 +1190,7 @@ const profilAudiens: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* LANGKAH 3 — RISET KONTEN KOMPETITOR                                 */
+/* LANGKAH 3: RISET KONTEN KOMPETITOR                                 */
 /* 3.1 Identifikasi kompetitor utama                                   */
 /*                                                                     */
 /* Baris "Logo" dan "Screenshot" pada template diganti uraian hasil    */
@@ -1202,7 +1202,7 @@ const profilAudiens: ChoiceGroup = {
 const kompetitorUtama: ChoiceGroup = {
   id: "kompetitor",
   label: "Kompetitor",
-  question: "Langkah 1 — identifikasi 1 kompetitor utama beserta akun Instagramnya",
+  question: "Langkah 1: identifikasi 1 kompetitor utama beserta akun Instagramnya",
   hint: "Pilih satu brand. Identitas, isi bio, kesan grid, dan daftar konten feed ikut terisi.",
   options: [
     {
@@ -1481,13 +1481,13 @@ const kompetitorUtama: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 3.2 Analisis konten kompetitor — 5 elemen sesuai template           */
+/* 3.2 Analisis konten kompetitor: 5 elemen sesuai template           */
 /* ================================================================== */
 
 const elemenVisual: ChoiceGroup = {
   id: "visual",
   label: "Elemen Visual",
-  question: "Langkah 2 — Elemen Visual konten {{kompetitor}}",
+  question: "Langkah 2: Elemen Visual konten {{kompetitor}}",
   hint: "Amati warna, jenis foto, tata letak, dan konsistensi tampilan antarunggahan.",
   options: [
     {
@@ -1615,7 +1615,7 @@ const elemenVisual: ChoiceGroup = {
 const pesanUtama: ChoiceGroup = {
   id: "pesan",
   label: "Pesan Utama",
-  question: "Langkah 2 — Pesan Utama yang disampaikan konten {{kompetitor}}",
+  question: "Langkah 2: Pesan Utama yang disampaikan konten {{kompetitor}}",
   hint: "Pesan utama adalah gagasan yang ingin ditanamkan lewat konten, bukan sekadar isi caption.",
   options: [
     {
@@ -1743,7 +1743,7 @@ const pesanUtama: ChoiceGroup = {
 const ctaGroup: ChoiceGroup = {
   id: "cta",
   label: "Call to Action",
-  question: "Langkah 2 — Call to Action (CTA) yang dipakai {{kompetitor}}",
+  question: "Langkah 2: Call to Action (CTA) yang dipakai {{kompetitor}}",
   hint: "CTA adalah ajakan bertindak yang diberikan kepada audiens di akhir konten.",
   options: [
     {
@@ -1871,7 +1871,7 @@ const ctaGroup: ChoiceGroup = {
 const promoGroup: ChoiceGroup = {
   id: "promo",
   label: "Diskon / Promo",
-  question: "Langkah 2 — Diskon atau Promo yang dijalankan {{kompetitor}}",
+  question: "Langkah 2: Diskon atau Promo yang dijalankan {{kompetitor}}",
   hint: "Amati bentuk penawaran, waktu penayangan, dan cara menyampaikannya.",
   options: [
     {
@@ -1999,7 +1999,7 @@ const promoGroup: ChoiceGroup = {
 const engagementGroup: ChoiceGroup = {
   id: "engagement",
   label: "Engagement",
-  question: "Langkah 2 — Engagement pada konten {{kompetitor}}",
+  question: "Langkah 2: Engagement pada konten {{kompetitor}}",
   hint: "Amati jenis konten yang paling banyak menarik interaksi dan isi kolom komentarnya.",
   options: [
     {
@@ -2131,7 +2131,7 @@ const engagementGroup: ChoiceGroup = {
 const kekuatanKelemahan: ChoiceGroup = {
   id: "kuatlemah",
   label: "Kekuatan & Kelemahan",
-  question: "Langkah 3 — kekuatan dan kelemahan konten {{kompetitor}}",
+  question: "Langkah 3: kekuatan dan kelemahan konten {{kompetitor}}",
   hint: "Satu kartu berisi kekuatan sekaligus kelemahan, sesuai bentuk tabelnya pada template.",
   card: "dual",
   dualLabels: ["Kekuatan", "Kelemahan"],
@@ -2293,7 +2293,7 @@ const kekuatanKelemahan: ChoiceGroup = {
 const peluangInspirasi: ChoiceGroup = {
   id: "peluanginspirasi",
   label: "Peluang & Inspirasi",
-  question: "Langkah 4 — peluang dan ancaman yang bisa menjadi inspirasi bagi {{brand}}",
+  question: "Langkah 4: peluang dan ancaman yang bisa menjadi inspirasi bagi {{brand}}",
   hint: "Satu kartu berisi peluang sekaligus ancaman yang diubah menjadi inspirasi.",
   card: "dual",
   dualLabels: ["Peluang", "Ancaman menjadi Inspirasi"],

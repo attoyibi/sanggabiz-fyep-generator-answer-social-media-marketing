@@ -1,7 +1,7 @@
 import type { ChoiceGroup } from "../types";
 
 /**
- * BANK JAWABAN TPM 3 — Rencana Konten dan Copywriting brand "FitActive".
+ * BANK JAWABAN TPM 3, Rencana Konten dan Copywriting brand "FitActive".
  *
  * Tugas ini melanjutkan content plan yang disusun peserta di TPM 2. Konten yang
  * dikembangkan dipilih sendiri oleh peserta, lalu seluruh jawaban di bawah ini
@@ -12,7 +12,7 @@ import type { ChoiceGroup } from "../types";
  */
 
 /* ================================================================== */
-/* 1. PILIH KONTEN — diambil dari content plan TPM 2 (tanpa penilaian) */
+/* 1. PILIH KONTEN: diambil dari content plan TPM 2 (tanpa penilaian) */
 /* ================================================================== */
 
 const pilihKonten: ChoiceGroup = {
@@ -28,7 +28,7 @@ const pilihKonten: ChoiceGroup = {
       variants: [
         {
           id: "kn1",
-          headline: "Hari ke-1 — {{judul1}}",
+          headline: "Hari ke-1: {{judul1}}",
           fields: {
             hari: "1",
             tanggal: "1 September 2025",
@@ -45,7 +45,7 @@ const pilihKonten: ChoiceGroup = {
         },
         {
           id: "kn2",
-          headline: "Hari ke-2 — {{judul2}}",
+          headline: "Hari ke-2: {{judul2}}",
           fields: {
             hari: "2",
             tanggal: "2 September 2025",
@@ -62,7 +62,7 @@ const pilihKonten: ChoiceGroup = {
         },
         {
           id: "kn3",
-          headline: "Hari ke-3 — {{judul3}}",
+          headline: "Hari ke-3: {{judul3}}",
           fields: {
             hari: "3",
             tanggal: "3 September 2025",
@@ -83,7 +83,7 @@ const pilihKonten: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 2. HOOK — kalimat pembuka penarik perhatian                        */
+/* 2. HOOK: kalimat pembuka penarik perhatian                        */
 /* ================================================================== */
 
 const hook: ChoiceGroup = {
@@ -251,7 +251,7 @@ const hook: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 3. VISUAL HOOK — tiga detik pertama secara visual                  */
+/* 3. VISUAL HOOK: tiga detik pertama secara visual                  */
 /* ================================================================== */
 
 const visualHook: ChoiceGroup = {
@@ -421,7 +421,7 @@ const visualHook: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 4. STORYTELLING — struktur narasi konten                           */
+/* 4. STORYTELLING: struktur narasi konten                           */
 /* ================================================================== */
 
 const storytelling: ChoiceGroup = {
@@ -435,7 +435,7 @@ const storytelling: ChoiceGroup = {
       variants: [
         {
           id: "st1a",
-          headline: "Masalah — Perjuangan — Titik balik — Hasil",
+          headline: "Masalah, Perjuangan, Titik balik, Hasil",
           fields: {
             isi: "Konten dibuka dengan masalah yang dialami audiens, dilanjutkan usaha yang sudah dicoba dan gagal, lalu titik balik saat ia mengetahui penyebab sebenarnya, dan ditutup dengan kondisi setelah masalahnya teratasi.",
           },
@@ -448,7 +448,7 @@ const storytelling: ChoiceGroup = {
         },
         {
           id: "st1b",
-          headline: "Sebelum — Sesudah — Jembatan",
+          headline: "Sebelum, Sesudah, Jembatan",
           fields: {
             isi: "Konten menampilkan kondisi sebelum, lalu kondisi sesudah, baru menjelaskan apa yang menjembatani keduanya sehingga audiens tahu langkah yang harus ditiru.",
           },
@@ -474,7 +474,7 @@ const storytelling: ChoiceGroup = {
         },
         {
           id: "st1d",
-          headline: "Kesalahan umum — Penjelasan — Cara benar",
+          headline: "Kesalahan umum, Penjelasan, Cara benar",
           fields: {
             isi: "Konten dibuka dengan kesalahan yang banyak dilakukan audiens, dilanjutkan penjelasan mengapa itu keliru, lalu ditutup dengan cara yang benar beserta alasannya.",
           },
@@ -599,7 +599,7 @@ const storytelling: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 5. UGC — pemanfaatan konten buatan pelanggan                        */
+/* 5. UGC: pemanfaatan konten buatan pelanggan                        */
 /* ================================================================== */
 
 const ugc: ChoiceGroup = {
@@ -777,7 +777,7 @@ const ugc: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 6. IDE VISUAL — rancangan visual secara rinci                      */
+/* 6. IDE VISUAL: rancangan visual secara rinci                      */
 /* ================================================================== */
 
 const ideVisual: ChoiceGroup = {
@@ -951,7 +951,7 @@ const ideVisual: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 7. CAPTION — naskah dengan formula copywriting                     */
+/* 7. CAPTION: naskah dengan formula copywriting                     */
 /* ================================================================== */
 
 const caption: ChoiceGroup = {
@@ -965,7 +965,7 @@ const caption: ChoiceGroup = {
       variants: [
         {
           id: "cp1a",
-          headline: "AIDA — Attention, Interest, Desire, Action",
+          headline: "AIDA: Attention, Interest, Desire, Action",
           fields: {
             formula: "AIDA (Attention, Interest, Desire, Action)",
             isi: "Attention: Selesai olahraga, bajumu masih basah sampai malam?\n\nInterest: Yang bikin gerah ternyata bukan panasnya, tapi bahan yang menahan uap keringat di permukaan kulit. Di udara lembap seperti Jakarta, bedanya terasa setelah 20 menit bergerak.\n\nDesire: Bahan breathable {{brand}} membiarkan uap keluar, jadi badan lebih cepat kering dan latihan tidak terganggu baju yang menempel.\n\nAction: Panduan memilih bahannya kami simpan di sorotan akun. Simpan konten ini biar tidak hilang.",
@@ -979,7 +979,7 @@ const caption: ChoiceGroup = {
         },
         {
           id: "cp1b",
-          headline: "PAS — Problem, Agitate, Solution",
+          headline: "PAS: Problem, Agitate, Solution",
           fields: {
             formula: "PAS (Problem, Agitate, Solution)",
             isi: "Problem: Baju olahraga yang baru dibeli dua bulan lalu sudah melar di bagian bahu.\n\nAgitate: Ganti baru tiap dua bulan artinya empat kali beli dalam setahun. Belum lagi rasa tidak percaya diri saat potongannya sudah tidak rapi lagi di depan orang.\n\nSolution: Jahitan rata dan bahan yang kembali ke bentuk semula bikin satu potong bertahan jauh lebih lama. Cek cara memeriksanya sebelum kamu beli lagi.",
@@ -993,7 +993,7 @@ const caption: ChoiceGroup = {
         },
         {
           id: "cp1c",
-          headline: "FAB — Features, Advantages, Benefits",
+          headline: "FAB: Features, Advantages, Benefits",
           fields: {
             formula: "FAB (Features, Advantages, Benefits)",
             isi: "Features: Bahan breathable dengan rajutan berpori dan jahitan rata di bagian bahu.\n\nAdvantages: Uap keringat keluar lebih cepat dan tidak ada jahitan yang mengganjal saat tangan diangkat.\n\nBenefits: Latihan terasa lebih ringan, badan cepat kering, dan bajunya tetap pantas dipakai berkumpul setelah latihan.\n\nMau lihat detail jahitannya? Ada di unggahan sebelumnya.",
@@ -1007,7 +1007,7 @@ const caption: ChoiceGroup = {
         },
         {
           id: "cp1d",
-          headline: "ACCA — Awareness, Comprehension, Conviction, Action",
+          headline: "ACCA: Awareness, Comprehension, Conviction, Action",
           fields: {
             formula: "ACCA (Awareness, Comprehension, Conviction, Action)",
             isi: "Awareness: Banyak yang mengira baju olahraga yang adem saat dipegang pasti nyaman dipakai.\n\nComprehension: Padahal rasa adem di tangan datang dari bahan yang menyerap, dan bahan yang menyerap justru menahan keringat di kulit.\n\nConviction: Kami uji dua bahan dengan takaran air yang sama. Hasilnya bisa kamu lihat di video ini, tanpa potongan.\n\nAction: Kalau kamu sering latihan siang, coba periksa label bahan bajumu sekarang.",
@@ -1141,7 +1141,7 @@ const caption: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 8. KESESUAIAN DENGAN OBJECTIVE — tahap finalisasi                  */
+/* 8. KESESUAIAN DENGAN OBJECTIVE: tahap finalisasi                  */
 /* ================================================================== */
 
 const kesesuaian: ChoiceGroup = {

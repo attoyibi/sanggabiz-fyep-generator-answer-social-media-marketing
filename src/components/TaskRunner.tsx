@@ -355,7 +355,7 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
           <p className="mt-1 text-[0.95rem] text-ink-soft">{task.subtitle}</p>
         </div>
 
-        {/* Capstone: pertanyaan pertama sebelum apa pun yang lain — mau
+        {/* Capstone: pertanyaan pertama sebelum apa pun yang lain, mau
             mengerjakan dengan UMKM yang sudah disiapkan, atau bawa sendiri. */}
         {task.capstone && belumPilihJalur && (
           <CapstoneModeGate config={task.capstone} onPilih={pilihMode} />

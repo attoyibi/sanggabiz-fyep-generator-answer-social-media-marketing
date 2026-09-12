@@ -62,7 +62,7 @@ function barisPengamatan(ctx: BuildContext): string[] {
     .filter((v) => v.length > 0)
     .map((v, i) => {
       const [format, tema, pesan, cta] = v.split("|").map((x) => x.trim());
-      return `${i + 1}. ${format ?? "-"} — ${tema ?? "-"}\n     Pesan: ${pesan ?? "-"}\n     CTA: ${cta ?? "-"}`;
+      return `${i + 1}. ${format ?? "-"}: ${tema ?? "-"}\n     Pesan: ${pesan ?? "-"}\n     CTA: ${cta ?? "-"}`;
     });
   // Kepala kolomnya sudah berbunyi "Pengamatan", jadi tidak perlu keterangan
   // penutup yang berulang di tiap tabel.
@@ -160,7 +160,7 @@ const tpm1: TaskDefinition = {
       title: "Riset Kompetitor: Identifikasi dan Analisis Konten",
       brief: [
         "Langkah 1: identifikasi 1 kompetitor utama beserta akun Instagramnya.",
-        "Langkah 2: analisis konten kompetitor pada lima elemen — elemen visual, pesan utama, call to action, diskon atau promo, dan engagement.",
+        "Langkah 2: analisis konten kompetitor pada lima elemen, elemen visual, pesan utama, call to action, diskon atau promo, dan engagement.",
       ],
       groups: tpm1Groups.slice(6, 12),
     },

@@ -117,8 +117,8 @@ const tpm2: TaskDefinition = {
   },
 
   /**
-   * Kolom yang muncul berulang di content plan — objective, pilar, jam, PIC,
-   * dan status — diambil dari jawaban bagian lain lewat token, bukan diacak
+   * Kolom yang muncul berulang di content plan, objective, pilar, jam, PIC,
+   * dan status: diambil dari jawaban bagian lain lewat token, bukan diacak
    * sendiri, supaya seluruh berkas tetap saling sejalan.
    */
   tokens: (ctx) => ({
@@ -187,7 +187,7 @@ const tpm2: TaskDefinition = {
       ],
     });
 
-    b.push({ type: "label", text: "Content Calendar — 1 Minggu (1-7 September 2025)" });
+    b.push({ type: "label", text: "Content Calendar: 1 Minggu (1-7 September 2025)" });
     b.push({
       type: "grid",
       head: HARI.map((h) => h as string),
@@ -205,7 +205,7 @@ const tpm2: TaskDefinition = {
 
     for (let i = 0; i < 3; i++) {
       const baris = barisPlan(ctx, i);
-      b.push({ type: "label", text: `Hari ke-${i + 1} — ${TANGGAL_PLAN[i]}` });
+      b.push({ type: "label", text: `Hari ke-${i + 1}: ${TANGGAL_PLAN[i]}` });
       b.push({
         type: "fieldTable",
         labelAlign: "left",

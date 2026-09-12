@@ -1,7 +1,7 @@
 import type { ChoiceGroup } from "../types";
 
 /**
- * BANK JAWABAN TPM 8 — Membaca & Menganalisis TikTok Insight.
+ * BANK JAWABAN TPM 8, Membaca & Menganalisis TikTok Insight.
  *
  * Studi kasusnya berdiri sendiri: satu berkas data TikTok Insight periode
  * 4-10 Agustus 2025, bukan lanjutan tugas sebelumnya.
@@ -32,7 +32,7 @@ const engagement: ChoiceGroup = {
           id: "en1a",
           headline: "Naik menyeluruh, tetapi komentar tertinggal jauh",
           fields: {
-            isi: "Seluruh metrik engagement naik lebih dari 145% dibanding periode sebelumnya: video views 79,7K (+145,97%), likes 6.860 (+154,45%), shares 714 (+146,21%), dan profile views 1.774 (+152,35%). Comments memang naik paling tinggi (+650%), tetapi angkanya hanya 60 — sekitar 0,87% dari jumlah likes. Jadi kenaikannya menyeluruh, dengan komentar sebagai satu-satunya metrik yang besarnya masih tertinggal.",
+            isi: "Seluruh metrik engagement naik lebih dari 145% dibanding periode sebelumnya: video views 79,7K (+145,97%), likes 6.860 (+154,45%), shares 714 (+146,21%), dan profile views 1.774 (+152,35%). Comments memang naik paling tinggi (+650%), tetapi angkanya hanya 60, sekitar 0,87% dari jumlah likes. Jadi kenaikannya menyeluruh, dengan komentar sebagai satu-satunya metrik yang besarnya masih tertinggal.",
           },
           points: [
             "Menyebut angka dan persentase apa adanya dari data, bukan kesan umum.",
@@ -361,7 +361,7 @@ const video: ChoiceGroup = {
           id: "vi1b",
           headline: "Likes 17,5% dari views, tetapi komentar hanya 0,12%",
           fields: {
-            isi: "Dari 137,4K views, video mendapat 24K likes atau sekitar 17,5% — angka yang tinggi untuk ukuran TikTok. Sebaliknya komentar hanya 169 atau sekitar 0,12% dari views, dan shares 410 atau 0,3%. Audiens menyukai kontennya, tetapi hampir tidak ada yang terdorong menulis atau membagikannya.",
+            isi: "Dari 137,4K views, video mendapat 24K likes atau sekitar 17,5%, angka yang tinggi untuk ukuran TikTok. Sebaliknya komentar hanya 169 atau sekitar 0,12% dari views, dan shares 410 atau 0,3%. Audiens menyukai kontennya, tetapi hampir tidak ada yang terdorong menulis atau membagikannya.",
           },
           points: [
             "Mengubah angka mutlak menjadi rasio terhadap views agar sebanding.",
@@ -374,7 +374,7 @@ const video: ChoiceGroup = {
           id: "vi1c",
           headline: "Watch time 10,3 detik menunjukkan penonton bertahan sampai dua pertiga",
           fields: {
-            isi: "Rata-rata waktu tonton 10,3 detik dari durasi 15,18 detik, artinya penonton bertahan sampai sekitar 67,9% bagian video. Angka ini tergolong baik, tetapi selisih dengan penonton yang tuntas — hanya 34,62% — menunjukkan banyak orang berhenti justru di sepertiga terakhir.",
+            isi: "Rata-rata waktu tonton 10,3 detik dari durasi 15,18 detik, artinya penonton bertahan sampai sekitar 67,9% bagian video. Angka ini tergolong baik, tetapi selisih dengan penonton yang tuntas, hanya 34,62%, menunjukkan banyak orang berhenti justru di sepertiga terakhir.",
           },
           points: [
             "Menghitung watch time terhadap durasi, bukan membacanya sebagai detik lepas.",
@@ -796,7 +796,7 @@ const perilaku: ChoiceGroup = {
           id: "pe1a",
           headline: "Jam aktif 8 malam menjelaskan cepatnya sebaran lewat FYP",
           fields: {
-            isi: "Puncak jam aktif followers berada di pukul 8 malam, dan 86% penayangan video datang dari For You Page. Konten yang diunggah menjelang jam itu punya peluang lebih besar mengumpulkan sinyal awal — tontonan, likes, dan shares — dalam waktu singkat, dan sinyal awal itulah yang biasanya menentukan apakah TikTok meneruskan konten ke audiens yang lebih luas. Dengan 98% followers berada di Indonesia, seluruh audiens berada di rentang waktu yang berdekatan sehingga jam unggah cukup ditentukan sekali.",
+            isi: "Puncak jam aktif followers berada di pukul 8 malam, dan 86% penayangan video datang dari For You Page. Konten yang diunggah menjelang jam itu punya peluang lebih besar mengumpulkan sinyal awal, tontonan, likes, dan shares, dalam waktu singkat, dan sinyal awal itulah yang biasanya menentukan apakah TikTok meneruskan konten ke audiens yang lebih luas. Dengan 98% followers berada di Indonesia, seluruh audiens berada di rentang waktu yang berdekatan sehingga jam unggah cukup ditentukan sekali.",
           },
           points: [
             "Menghubungkan jam aktif, distribusi FYP, dan lokasi menjadi satu penjelasan.",
@@ -925,7 +925,7 @@ const perilaku: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 7. STRATEGI OPTIMASI — DISTRIBUSI                                  */
+/* 7. STRATEGI OPTIMASI: DISTRIBUSI                                  */
 /* ================================================================== */
 
 const strategiDistribusi: ChoiceGroup = {
@@ -980,7 +980,7 @@ const strategiDistribusi: ChoiceGroup = {
           id: "sd1d",
           headline: "Terbitkan konten lanjutan dalam 48 jam selagi masih terdorong",
           fields: {
-            isi: "Selagi satu konten masih tersebar luas lewat For You Page, terbitkan konten lanjutan dengan tema serupa dalam 48 jam berikutnya. Penonton yang baru menemukan akun lewat video pertama berpeluang melihat konten kedua, dan itu memperbesar kemungkinan mereka membuka profil — jalan yang selama ini terbukti mengubah 92,6% pengunjung menjadi followers.",
+            isi: "Selagi satu konten masih tersebar luas lewat For You Page, terbitkan konten lanjutan dengan tema serupa dalam 48 jam berikutnya. Penonton yang baru menemukan akun lewat video pertama berpeluang melihat konten kedua, dan itu memperbesar kemungkinan mereka membuka profil, jalan yang selama ini terbukti mengubah 92,6% pengunjung menjadi followers.",
           },
           points: [
             "Memanfaatkan momentum distribusi yang sedang berjalan.",
@@ -1070,7 +1070,7 @@ const strategiDistribusi: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 8. STRATEGI OPTIMASI — KONTEN DAN RETENSI                          */
+/* 8. STRATEGI OPTIMASI: KONTEN DAN RETENSI                          */
 /* ================================================================== */
 
 const strategiKonten: ChoiceGroup = {
@@ -1215,7 +1215,7 @@ const strategiKonten: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 9. STRATEGI OPTIMASI — ENGAGEMENT                                  */
+/* 9. STRATEGI OPTIMASI: ENGAGEMENT                                  */
 /* ================================================================== */
 
 const strategiEngagement: ChoiceGroup = {

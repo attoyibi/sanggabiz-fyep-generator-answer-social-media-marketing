@@ -1028,7 +1028,7 @@ const tpm4: TaskDefinition = {
       : "Lewati langkah ini pada tata letak yang dipilih.";
 
     b.push({ type: "pageBreak" });
-    b.push({ type: "label", text: "Resep Canva — Membuat Ulang Desain Ini" });
+    b.push({ type: "label", text: "Resep Canva: Membuat Ulang Desain Ini" });
     b.push({
       type: "grid",
       head: ["Langkah", "Yang Dilakukan di Canva"],

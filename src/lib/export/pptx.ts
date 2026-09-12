@@ -7,7 +7,7 @@ import { LOGO_PLAN_PNG } from "./assets";
  *
  * Dokumen Capstone meminta PPT sebagai berkas tersendiri, bukan sebagai
  * halaman di dalam dokumen lain, jadi yang dihasilkan di sini benar-benar
- * berkas PowerPoint yang bisa dibuka dan disunting ulang peserta — di
+ * berkas PowerPoint yang bisa dibuka dan disunting ulang peserta, di
  * PowerPoint, Google Slides, maupun Canva.
  *
  * Warnanya mengikuti palet resmi Plan International yang sama dengan berkas
@@ -212,7 +212,7 @@ function renderIsi(slide: Slide, spec: SlideSpec): void {
  *
  * Seluruh blok digabung ke dalam satu kotak supaya PowerPoint bebas
  * menyusutkan teksnya bila slide terlalu padat, alih-alih memotongnya di
- * tengah — isi slide berasal dari jawaban peserta, panjangnya tidak tetap.
+ * tengah: isi slide berasal dari jawaban peserta, panjangnya tidak tetap.
  */
 function isiKeTeks(
   slide: Slide,

@@ -1,7 +1,7 @@
 import type { ChoiceGroup } from "../types";
 
 /**
- * BANK JAWABAN CAPSTONE — jalur mitra, brand "Sanggabiz".
+ * BANK JAWABAN CAPSTONE: jalur mitra, brand "Sanggabiz".
  *
  * Susunannya mengikuti bagian-bagian yang diminta dokumen Capstone Project:
  * Business Context, Strategy Highlights, Technical Skill Evidence, Visual
@@ -16,7 +16,7 @@ import type { ChoiceGroup } from "../types";
  */
 
 /* ================================================================== */
-/* BAGIAN 1 — BUSINESS CONTEXT                                        */
+/* BAGIAN 1: BUSINESS CONTEXT                                        */
 /* ================================================================== */
 
 const konteks: ChoiceGroup = {
@@ -32,7 +32,7 @@ const konteks: ChoiceGroup = {
           id: "kon-t1",
           headline: "Virtual business partner yang menjual kelegaan operasional",
           fields: {
-            isi: "{{brand}} adalah perusahaan konsultan dan pendampingan bisnis berbasis teknologi di Yogyakarta yang bekerja sebagai virtual business partner. Alih-alih menjual satu aplikasi, {{brand}} mengambil alih fungsi-fungsi operasional pemilik usaha — keuangan, penagihan, layanan pelanggan, sampai administrasi tim — lewat lima layanan yang saling terhubung. Yang sebenarnya dibeli pelanggan bukan perangkat lunaknya, melainkan waktu dan ketenangan untuk kembali mengurus pertumbuhan usahanya.",
+            isi: "{{brand}} adalah perusahaan konsultan dan pendampingan bisnis berbasis teknologi di Yogyakarta yang bekerja sebagai virtual business partner. Alih-alih menjual satu aplikasi, {{brand}} mengambil alih fungsi-fungsi operasional pemilik usaha, keuangan, penagihan, layanan pelanggan, sampai administrasi tim, lewat lima layanan yang saling terhubung. Yang sebenarnya dibeli pelanggan bukan perangkat lunaknya, melainkan waktu dan ketenangan untuk kembali mengurus pertumbuhan usahanya.",
           },
           points: [
             "Kategori: konsultan dan pendampingan bisnis berbasis teknologi, berbasis di Yogyakarta",
@@ -44,7 +44,7 @@ const konteks: ChoiceGroup = {
           id: "kon-t2",
           headline: "Satu paket operasional untuk usaha yang sudah digital tapi masih berantakan",
           fields: {
-            isi: "{{brand}} menyasar celah yang jarang dibicarakan: banyak UMKM sudah berjualan daring, tetapi catatan keuangan, faktur, pajak, dan percakapan pelanggannya masih tersebar di banyak tempat. {{brand}} merapikan itu lewat satu rangkaian layanan — dasbor operasional, chatbot multikanal, pembukuan otomatis, sistem tim, dan konsultasi strategis — sehingga adopsi digital yang sudah dilakukan pemilik usaha akhirnya berubah menjadi kendali yang sebenarnya.",
+            isi: "{{brand}} menyasar celah yang jarang dibicarakan: banyak UMKM sudah berjualan daring, tetapi catatan keuangan, faktur, pajak, dan percakapan pelanggannya masih tersebar di banyak tempat. {{brand}} merapikan itu lewat satu rangkaian layanan, dasbor operasional, chatbot multikanal, pembukuan otomatis, sistem tim, dan konsultasi strategis, sehingga adopsi digital yang sudah dilakukan pemilik usaha akhirnya berubah menjadi kendali yang sebenarnya.",
           },
           points: [
             "Masalah yang diangkat: usaha sudah digital, tetapi operasionalnya masih tersebar",
@@ -56,7 +56,7 @@ const konteks: ChoiceGroup = {
           id: "kon-t3",
           headline: "Perusahaan women-led dengan misi inklusi digital",
           fields: {
-            isi: "{{brand}} adalah perusahaan berbasis di Yogyakarta yang dipimpin perempuan dan menempatkan inklusi sebagai bagian dari model bisnisnya, bukan sekadar program sampingan. Lewat inisiatif SanggaTech for Her, {{brand}} membuka akses teknologi dan pendampingan bagi pelaku UMKM perempuan, wirausaha muda, dan penyandang disabilitas — kelompok yang selama ini paling jarang disentuh layanan konsultan bisnis. Posisi ini membuat ceritanya berbeda dari penyedia jasa sejenis.",
+            isi: "{{brand}} adalah perusahaan berbasis di Yogyakarta yang dipimpin perempuan dan menempatkan inklusi sebagai bagian dari model bisnisnya, bukan sekadar program sampingan. Lewat inisiatif SanggaTech for Her, {{brand}} membuka akses teknologi dan pendampingan bagi pelaku UMKM perempuan, wirausaha muda, dan penyandang disabilitas, kelompok yang selama ini paling jarang disentuh layanan konsultan bisnis. Posisi ini membuat ceritanya berbeda dari penyedia jasa sejenis.",
           },
           points: [
             "Identitas: perusahaan women-led berbasis di Yogyakarta",
@@ -68,10 +68,10 @@ const konteks: ChoiceGroup = {
           id: "kon-t4",
           headline: "Pendampingan bertahap lewat metode Realign, Automate, People, Impact",
           fields: {
-            isi: "{{brand}} mendampingi pelaku usaha melalui empat tahap berurutan: Realign untuk memetakan masalah yang sebenarnya, Automate untuk merapikan alur kerja yang berulang, People untuk menguatkan tim dan kepemimpinannya, lalu Impact untuk memastikan perbaikan itu bertahan. Struktur bertahap inilah yang membedakan {{brand}} dari penyedia perangkat lunak biasa — pelanggan tidak dilepas dengan akun baru, melainkan ditemani sampai cara kerjanya benar-benar berubah.",
+            isi: "{{brand}} mendampingi pelaku usaha melalui empat tahap berurutan: Realign untuk memetakan masalah yang sebenarnya, Automate untuk merapikan alur kerja yang berulang, People untuk menguatkan tim dan kepemimpinannya, lalu Impact untuk memastikan perbaikan itu bertahan. Struktur bertahap inilah yang membedakan {{brand}} dari penyedia perangkat lunak biasa, pelanggan tidak dilepas dengan akun baru, melainkan ditemani sampai cara kerjanya benar-benar berubah.",
           },
           points: [
-            "Metode: empat tahap berurutan — Realign, Automate, People, Impact",
+            "Metode: empat tahap berurutan yaitu Realign, Automate, People, Impact",
             "Fokus tiap tahap: memetakan masalah, merapikan alur, menguatkan tim, menjaga hasil",
             "Pembeda: pelanggan didampingi sampai cara kerjanya berubah, bukan sekadar diberi akun",
           ],
@@ -190,7 +190,7 @@ const audiens: ChoiceGroup = {
           headline: "Wirausaha muda yang usahanya tumbuh lebih cepat dari sistemnya",
           fields: {
             nama: "wirausaha muda 23-32 tahun yang usahanya baru melonjak",
-            isi: "Wirausaha berusia 23-32 tahun yang usahanya baru saja melonjak — pesanan naik, tim bertambah dua sampai lima orang, tetapi pencatatannya masih memakai catatan pribadi dan pesan yang berserak. Ia melek teknologi dan tidak takut mencoba alat baru, namun belum tahu mana yang benar-benar perlu. Ia mencari rujukan lewat Instagram dan LinkedIn, dan percaya pada cerita pemilik usaha lain yang keadaannya mirip dengan dirinya.",
+            isi: "Wirausaha berusia 23-32 tahun yang usahanya baru saja melonjak, pesanan naik, tim bertambah dua sampai lima orang, tetapi pencatatannya masih memakai catatan pribadi dan pesan yang berserak. Ia melek teknologi dan tidak takut mencoba alat baru, namun belum tahu mana yang benar-benar perlu. Ia mencari rujukan lewat Instagram dan LinkedIn, dan percaya pada cerita pemilik usaha lain yang keadaannya mirip dengan dirinya.",
           },
           points: [
             "Siapa: wirausaha 23-32 tahun dengan tim 2-5 orang yang baru bertambah",
@@ -203,7 +203,7 @@ const audiens: ChoiceGroup = {
           headline: "Pemilik usaha yang sudah digital tapi datanya tercerai-berai",
           fields: {
             nama: "pemilik usaha 30-45 tahun dengan operasional yang terpencar",
-            isi: "Pemilik usaha berusia 30-45 tahun yang sudah berjualan di marketplace dan media sosial, tetapi datanya terpencar di banyak tempat: penjualan di satu aplikasi, catatan keuangan di lembar kerja, percakapan pelanggan di dua nomor berbeda. Setiap akhir bulan ia kehilangan waktu berjam-jam hanya untuk menyatukannya. Ia bukan orang yang anti teknologi — justru sudah memakai banyak, hanya tidak terhubung satu sama lain.",
+            isi: "Pemilik usaha berusia 30-45 tahun yang sudah berjualan di marketplace dan media sosial, tetapi datanya terpencar di banyak tempat: penjualan di satu aplikasi, catatan keuangan di lembar kerja, percakapan pelanggan di dua nomor berbeda. Setiap akhir bulan ia kehilangan waktu berjam-jam hanya untuk menyatukannya. Ia bukan orang yang anti teknologi, justru sudah memakai banyak, hanya tidak terhubung satu sama lain.",
           },
           points: [
             "Siapa: pemilik usaha 30-45 tahun yang sudah berjualan daring",
@@ -318,7 +318,7 @@ const audiens: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* BAGIAN 2 — STRATEGY HIGHLIGHTS                                     */
+/* BAGIAN 2: STRATEGY HIGHLIGHTS                                     */
 /* ================================================================== */
 
 const pilar: ChoiceGroup = {
@@ -337,22 +337,22 @@ const pilar: ChoiceGroup = {
             isi: "Strategi kontennya bertumpu pada empat pilar yang masing-masing punya tugas berbeda. Masalah mengangkat keadaan sehari-hari {{audiens}} supaya ia merasa dikenali. Bukti menampilkan hasil nyata pendampingan dalam bentuk angka dan cerita. Cara memberi langkah praktis yang bisa langsung dicoba tanpa perlu membeli apa pun. Wajah memperkenalkan tim di balik {{brand}} agar layanan yang tidak kasatmata ini punya sosok yang bisa dipercaya.",
           },
           points: [
-            "Masalah — mengangkat keadaan sehari-hari audiens supaya merasa dikenali",
-            "Bukti — hasil nyata pendampingan dalam bentuk angka dan cerita",
-            "Cara — langkah praktis yang bisa dicoba tanpa membeli apa pun",
-            "Wajah — memperkenalkan tim agar layanan tak kasatmata punya sosok terpercaya",
+            "Masalah: mengangkat keadaan sehari-hari audiens supaya merasa dikenali",
+            "Bukti: hasil nyata pendampingan dalam bentuk angka dan cerita",
+            "Cara: langkah praktis yang bisa dicoba tanpa membeli apa pun",
+            "Wajah: memperkenalkan tim agar layanan tak kasatmata punya sosok terpercaya",
           ],
         },
         {
           id: "pil-t2",
           headline: "Tiga pilar berbasis tahapan pendampingan",
           fields: {
-            isi: "Pilar kontennya mengikuti cara kerja {{brand}} sendiri. Realign berisi konten yang membantu audiens mengenali masalah operasionalnya lebih dahulu — sering kali mereka belum sadar di mana kebocorannya. Automate menunjukkan pekerjaan berulang apa saja yang sebenarnya bisa diserahkan pada sistem. Impact menutup dengan hasil yang terjadi setelah pendampingan berjalan. Urutan ini membuat calon pelanggan bergerak dari sadar, paham, lalu yakin.",
+            isi: "Pilar kontennya mengikuti cara kerja {{brand}} sendiri. Realign berisi konten yang membantu audiens mengenali masalah operasionalnya lebih dahulu, sering kali mereka belum sadar di mana kebocorannya. Automate menunjukkan pekerjaan berulang apa saja yang sebenarnya bisa diserahkan pada sistem. Impact menutup dengan hasil yang terjadi setelah pendampingan berjalan. Urutan ini membuat calon pelanggan bergerak dari sadar, paham, lalu yakin.",
           },
           points: [
-            "Realign — membantu audiens mengenali masalah operasionalnya lebih dahulu",
-            "Automate — menunjukkan pekerjaan berulang yang bisa diserahkan pada sistem",
-            "Impact — menampilkan hasil setelah pendampingan berjalan",
+            "Realign: membantu audiens mengenali masalah operasionalnya lebih dahulu",
+            "Automate: menunjukkan pekerjaan berulang yang bisa diserahkan pada sistem",
+            "Impact: menampilkan hasil setelah pendampingan berjalan",
             "Urutannya menggiring audiens dari sadar, paham, lalu yakin",
           ],
         },
@@ -363,10 +363,10 @@ const pilar: ChoiceGroup = {
             isi: "Empat pilar dijalankan dengan porsi yang sengaja tidak sama rata. Edukasi operasional mendapat porsi terbesar empat puluh persen karena inilah yang membuat audiens kembali. Studi kasus tiga puluh persen untuk membangun kepercayaan. Konten inklusi dua puluh persen mengangkat perempuan dan wirausaha muda yang didampingi, sekaligus menegaskan posisi {{brand}}. Ajakan bertindak hanya sepuluh persen supaya beranda tidak berubah menjadi etalase jualan.",
           },
           points: [
-            "Edukasi operasional 40% — alasan utama audiens kembali",
-            "Studi kasus 30% — membangun kepercayaan lewat hasil nyata",
-            "Konten inklusi 20% — mengangkat audiens yang didampingi sekaligus menegaskan posisi",
-            "Ajakan bertindak 10% — dijaga kecil agar beranda tidak jadi etalase",
+            "Edukasi operasional 40%: alasan utama audiens kembali",
+            "Studi kasus 30%: membangun kepercayaan lewat hasil nyata",
+            "Konten inklusi 20%: mengangkat audiens yang didampingi sekaligus menegaskan posisi",
+            "Ajakan bertindak 10%: dijaga kecil agar beranda tidak jadi etalase",
           ],
         },
         {
@@ -376,9 +376,9 @@ const pilar: ChoiceGroup = {
             isi: "Tiap pilar dirancang membalas satu keberatan yang paling sering muncul. Pilar Hemat Waktu menjawab keraguan \"tidak sempat belajar sistem baru\" dengan menunjukkan berapa jam yang kembali setiap pekan. Pilar Aman menjawab \"data usaha saya bagaimana\" dengan menegaskan kepemilikan data tetap di tangan pemilik usaha. Pilar Terjangkau menjawab \"pasti mahal\" lewat perbandingan biaya dengan merekrut staf tetap.",
           },
           points: [
-            "Hemat Waktu — menjawab keraguan \"tidak sempat belajar sistem baru\"",
-            "Aman — menjawab kekhawatiran soal kepemilikan data usaha",
-            "Terjangkau — menjawab anggapan mahal lewat perbandingan biaya staf tetap",
+            "Hemat Waktu: menjawab keraguan \"tidak sempat belajar sistem baru\"",
+            "Aman: menjawab kekhawatiran soal kepemilikan data usaha",
+            "Terjangkau: menjawab anggapan mahal lewat perbandingan biaya staf tetap",
             "Tiap pilar punya satu keberatan yang jelas untuk dibalas",
           ],
         },
@@ -506,7 +506,7 @@ const kalender: ChoiceGroup = {
           id: "kal-t3",
           headline: "Tiga unggahan sepekan plus cerita harian",
           fields: {
-            isi: "Tiga unggahan utama setiap pekan untuk beranda, ditambah cerita singkat harian yang menampilkan pekerjaan di balik layar. Unggahan utama dikerjakan sekaligus di awal bulan supaya mutunya terjaga, sementara cerita harian dibuat spontan agar akun tetap terasa hidup. Pembagian ini menahan beban produksi tetap masuk akal — bagian yang berat disiapkan jauh hari, bagian yang ringan menyesuaikan keadaan.",
+            isi: "Tiga unggahan utama setiap pekan untuk beranda, ditambah cerita singkat harian yang menampilkan pekerjaan di balik layar. Unggahan utama dikerjakan sekaligus di awal bulan supaya mutunya terjaga, sementara cerita harian dibuat spontan agar akun tetap terasa hidup. Pembagian ini menahan beban produksi tetap masuk akal, bagian yang berat disiapkan jauh hari, bagian yang ringan menyesuaikan keadaan.",
           },
           points: [
             "Tiga unggahan beranda sepekan, disiapkan sekaligus di awal bulan",
@@ -615,7 +615,7 @@ const kalender: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* BAGIAN 3 — TECHNICAL SKILL EVIDENCE                                */
+/* BAGIAN 3: TECHNICAL SKILL EVIDENCE                                */
 /* ================================================================== */
 
 const hook: ChoiceGroup = {
@@ -631,7 +631,7 @@ const hook: ChoiceGroup = {
           id: "hok-t1",
           headline: "Layar terbelah: meja berantakan lawan dasbor rapi",
           fields: {
-            isi: "Bingkai pertama membelah layar menjadi dua: sisi kiri menampilkan meja penuh nota, ponsel dengan pesan menumpuk, dan buku catatan terbuka; sisi kanan menampilkan satu dasbor bersih berisi angka yang sama. Perbandingan ini bekerja karena {{audiens}} mengenali sisi kiri sebagai mejanya sendiri, lalu menyadari ada kemungkinan lain dalam satu tarikan pandang — tanpa perlu satu kata pun dibaca.",
+            isi: "Bingkai pertama membelah layar menjadi dua: sisi kiri menampilkan meja penuh nota, ponsel dengan pesan menumpuk, dan buku catatan terbuka; sisi kanan menampilkan satu dasbor bersih berisi angka yang sama. Perbandingan ini bekerja karena {{audiens}} mengenali sisi kiri sebagai mejanya sendiri, lalu menyadari ada kemungkinan lain dalam satu tarikan pandang, tanpa perlu satu kata pun dibaca.",
           },
           points: [
             "Bentuk: layar terbelah, meja penuh nota di kiri dan dasbor bersih di kanan",
@@ -643,7 +643,7 @@ const hook: ChoiceGroup = {
           id: "hok-t2",
           headline: "Angka besar berwarna magenta di tengah layar kosong",
           fields: {
-            isi: "Satu angka dicetak sangat besar dengan warna magenta di tengah bidang putih yang lapang, misalnya angka jam kerja yang hilang setiap bulan untuk merapikan catatan. Latar yang sengaja dibiarkan kosong membuat angka itu tidak punya saingan di layar. Magenta dipakai justru karena jarang muncul di beranda yang didominasi biru dan hitam, sehingga gulirannya tertahan sepersekian detik — dan sepersekian detik itulah yang dibutuhkan.",
+            isi: "Satu angka dicetak sangat besar dengan warna magenta di tengah bidang putih yang lapang, misalnya angka jam kerja yang hilang setiap bulan untuk merapikan catatan. Latar yang sengaja dibiarkan kosong membuat angka itu tidak punya saingan di layar. Magenta dipakai justru karena jarang muncul di beranda yang didominasi biru dan hitam, sehingga gulirannya tertahan sepersekian detik, dan sepersekian detik itulah yang dibutuhkan.",
           },
           points: [
             "Bentuk: satu angka besar berwarna magenta di tengah bidang putih yang lapang",
@@ -655,7 +655,7 @@ const hook: ChoiceGroup = {
           id: "hok-t3",
           headline: "Tangan menutup belasan tab sekaligus",
           fields: {
-            isi: "Tiga detik pertama menampilkan rekaman layar berisi belasan tab dan aplikasi yang terbuka bersamaan, lalu satu per satu ditutup cepat sampai tersisa satu jendela saja. Gerakan menutup ini memberi rasa lega yang langsung terasa sebelum penjelasan apa pun muncul. Hook ini dipilih karena menjual hasil akhir layanan {{brand}} — berkurangnya hal yang harus diurus — bukan menjual fitur perangkat lunaknya.",
+            isi: "Tiga detik pertama menampilkan rekaman layar berisi belasan tab dan aplikasi yang terbuka bersamaan, lalu satu per satu ditutup cepat sampai tersisa satu jendela saja. Gerakan menutup ini memberi rasa lega yang langsung terasa sebelum penjelasan apa pun muncul. Hook ini dipilih karena menjual hasil akhir layanan {{brand}}, berkurangnya hal yang harus diurus, bukan menjual fitur perangkat lunaknya.",
           },
           points: [
             "Bentuk: rekaman layar belasan tab ditutup cepat sampai tersisa satu",
@@ -773,15 +773,15 @@ const copywriting: ChoiceGroup = {
       variants: [
         {
           id: "cop-t1",
-          headline: "PAS — Problem, Agitate, Solution",
+          headline: "PAS: Problem, Agitate, Solution",
           fields: {
             formula: "PAS (Problem, Agitate, Solution)",
-            isi: "Caption disusun memakai formula PAS. Problem membuka dengan keadaan yang dikenali {{audiens}}, misalnya malam yang habis untuk mencocokkan catatan penjualan. Agitate memperjelas ongkosnya — bukan sekadar lelah, melainkan waktu yang seharusnya dipakai mengurus pelanggan. Solution menutup dengan satu langkah kecil yang bisa dicoba hari itu juga. Formula ini dipilih karena {{brand}} menjual kelegaan, dan kelegaan hanya terasa setelah bebannya lebih dahulu disadari.",
+            isi: "Caption disusun memakai formula PAS. Problem membuka dengan keadaan yang dikenali {{audiens}}, misalnya malam yang habis untuk mencocokkan catatan penjualan. Agitate memperjelas ongkosnya: bukan sekadar lelah, melainkan waktu yang seharusnya dipakai mengurus pelanggan. Solution menutup dengan satu langkah kecil yang bisa dicoba hari itu juga. Formula ini dipilih karena {{brand}} menjual kelegaan, dan kelegaan hanya terasa setelah bebannya lebih dahulu disadari.",
           },
           points: [
-            "Problem — membuka dengan keadaan yang dikenali audiens",
-            "Agitate — memperjelas ongkos sebenarnya, yaitu waktu yang terbuang",
-            "Solution — menutup dengan satu langkah kecil yang bisa dicoba hari itu",
+            "Problem: membuka dengan keadaan yang dikenali audiens",
+            "Agitate: memperjelas ongkos sebenarnya, yaitu waktu yang terbuang",
+            "Solution: menutup dengan satu langkah kecil yang bisa dicoba hari itu",
             "Alasan: kelegaan hanya terasa setelah bebannya lebih dahulu disadari",
           ],
         },
@@ -793,9 +793,9 @@ const copywriting: ChoiceGroup = {
             isi: "Caption memakai Before-After-Bridge yang dibungkus cerita satu orang, bukan penjelasan umum. Before menggambarkan keadaan awal seorang pemilik usaha lengkap dengan angka jam kerjanya. After menggambarkan keadaannya tiga bulan kemudian. Bridge menjelaskan apa yang berubah di antaranya. Cerita satu orang dipilih karena angka rata-rata mudah dilupakan, sementara nama dan keadaan yang mirip dengan diri sendiri jauh lebih melekat.",
           },
           points: [
-            "Before — keadaan awal seorang pemilik usaha lengkap dengan angka jam kerjanya",
-            "After — keadaannya tiga bulan kemudian",
-            "Bridge — apa yang berubah di antara keduanya",
+            "Before: keadaan awal seorang pemilik usaha lengkap dengan angka jam kerjanya",
+            "After: keadaannya tiga bulan kemudian",
+            "Bridge: apa yang berubah di antara keduanya",
             "Alasan: cerita satu orang lebih melekat daripada angka rata-rata",
           ],
         },
@@ -804,13 +804,13 @@ const copywriting: ChoiceGroup = {
           headline: "AIDA dengan bukti di bagian Interest",
           fields: {
             formula: "AIDA (Attention, Interest, Desire, Action)",
-            isi: "Caption mengikuti AIDA dengan penekanan pada bagian Interest. Attention berupa satu kalimat pendek berisi angka yang mengejutkan. Interest diisi bukti — potongan dasbor sungguhan atau kutipan pemilik usaha yang didampingi — karena di titik inilah audiens memutuskan lanjut membaca atau tidak. Desire menggambarkan keadaan setelah masalahnya beres. Action menutup dengan satu ajakan tunggal, sengaja tidak lebih dari satu supaya tidak membingungkan.",
+            isi: "Caption mengikuti AIDA dengan penekanan pada bagian Interest. Attention berupa satu kalimat pendek berisi angka yang mengejutkan. Interest diisi bukti: potongan dasbor sungguhan atau kutipan pemilik usaha yang didampingi, karena di titik inilah audiens memutuskan lanjut membaca atau tidak. Desire menggambarkan keadaan setelah masalahnya beres. Action menutup dengan satu ajakan tunggal, sengaja tidak lebih dari satu supaya tidak membingungkan.",
           },
           points: [
-            "Attention — satu kalimat pendek berisi angka yang mengejutkan",
-            "Interest — diisi bukti nyata, titik tempat audiens memutuskan lanjut atau tidak",
-            "Desire — menggambarkan keadaan setelah masalahnya beres",
-            "Action — satu ajakan tunggal supaya tidak membingungkan",
+            "Attention: satu kalimat pendek berisi angka yang mengejutkan",
+            "Interest: diisi bukti nyata, titik tempat audiens memutuskan lanjut atau tidak",
+            "Desire: menggambarkan keadaan setelah masalahnya beres",
+            "Action: satu ajakan tunggal supaya tidak membingungkan",
           ],
         },
         {
@@ -821,9 +821,9 @@ const copywriting: ChoiceGroup = {
             isi: "Caption ditulis sebagai cerita tiga babak memakai kata \"kamu\", sehingga pembaca menempati sendiri posisi tokohnya. Babak pertama menempatkan pembaca pada malam ketika pekerjaan administratif belum selesai. Babak kedua menghadirkan titik balik berupa satu perubahan cara kerja. Babak ketiga menutup dengan keadaan yang berbeda. Sudut pandang orang kedua dipilih karena {{audiens}} lebih tergerak oleh pengakuan atas keadaannya daripada oleh daftar keunggulan layanan.",
           },
           points: [
-            "Babak 1 — menempatkan pembaca pada malam ketika pekerjaan belum selesai",
-            "Babak 2 — titik balik berupa satu perubahan cara kerja",
-            "Babak 3 — menutup dengan keadaan yang berbeda",
+            "Babak 1: menempatkan pembaca pada malam ketika pekerjaan belum selesai",
+            "Babak 2: titik balik berupa satu perubahan cara kerja",
+            "Babak 3: menutup dengan keadaan yang berbeda",
             "Sudut pandang \"kamu\" dipilih agar pembaca menempati posisi tokohnya",
           ],
         },
@@ -921,7 +921,7 @@ const copywriting: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* BAGIAN 4 — VISUAL GALLERY                                          */
+/* BAGIAN 4: VISUAL GALLERY                                          */
 /* ================================================================== */
 
 const galeri: ChoiceGroup = {
@@ -937,16 +937,16 @@ const galeri: ChoiceGroup = {
           id: "gal-t1",
           headline: "Carousel edukasi, reels perbandingan, poster data, dan cerita tim",
           fields: {
-            k1: "Carousel 6 slide | Feed Instagram | \"5 Pekerjaan yang Diam-diam Menghabiskan Waktumu\" — tiap slide satu pekerjaan berulang beserta perkiraan jam yang hilang, ditutup ajakan menghitung sendiri",
+            k1: "Carousel 6 slide | Feed Instagram | \"5 Pekerjaan yang Diam-diam Menghabiskan Waktumu\": tiap slide satu pekerjaan berulang beserta perkiraan jam yang hilang, ditutup ajakan menghitung sendiri",
             k2: "Reels 25 detik | Reels | Rekaman layar belasan tab ditutup satu per satu sampai tersisa satu dasbor, dengan sulih suara pemilik usaha",
             k3: "Poster tunggal | Feed Instagram | Satu angka besar magenta berisi rata-rata jam yang kembali setiap pekan, berlatar putih lapang",
             k4: "Cerita berseri | Story sorotan | Perkenalan tiga anggota tim beserta peran masing-masing dalam mendampingi pemilik usaha",
           },
           points: [
-            "Carousel edukasi — menahan audiens lebih lama dan menambah simpanan",
-            "Reels perbandingan — menjangkau audiens baru di luar pengikut",
-            "Poster data — mudah dibagikan ulang dan cepat dipahami",
-            "Cerita tim — memberi wajah pada layanan yang tidak kasatmata",
+            "Carousel edukasi: menahan audiens lebih lama dan menambah simpanan",
+            "Reels perbandingan: menjangkau audiens baru di luar pengikut",
+            "Poster data: mudah dibagikan ulang dan cepat dipahami",
+            "Cerita tim: memberi wajah pada layanan yang tidak kasatmata",
           ],
         },
         {
@@ -959,10 +959,10 @@ const galeri: ChoiceGroup = {
             k4: "Carousel tanya jawab | Feed Instagram | Lima pertanyaan yang paling sering masuk ke direct message beserta jawaban singkatnya",
           },
           points: [
-            "Studi kasus — membangun kepercayaan lewat angka dan keadaan nyata",
-            "Langkah praktis — memberi nilai sebelum audiens membeli apa pun",
-            "Bandingan biaya — membalas keberatan \"pasti mahal\" secara langsung",
-            "Tanya jawab — menjawab keraguan yang menahan orang menghubungi",
+            "Studi kasus: membangun kepercayaan lewat angka dan keadaan nyata",
+            "Langkah praktis: memberi nilai sebelum audiens membeli apa pun",
+            "Bandingan biaya: membalas keberatan \"pasti mahal\" secara langsung",
+            "Tanya jawab: menjawab keraguan yang menahan orang menghubungi",
           ],
         },
         {
@@ -975,10 +975,10 @@ const galeri: ChoiceGroup = {
             k4: "Poster ajakan | Feed Instagram | Ajakan konsultasi awal tanpa biaya, memuat satu langkah jelas dan tenggat yang disebutkan",
           },
           points: [
-            "Konten inklusi — menegaskan posisi women-led yang membedakan {{brand}}",
-            "Demo produk — menjawab \"seperti apa sebenarnya\" dengan bahasa sehari-hari",
-            "Kutipan pelanggan — bukti sosial dalam bentuk yang cepat dicerna",
-            "Ajakan konsultasi — satu-satunya konten jualan, ditaruh paling akhir",
+            "Konten inklusi: menegaskan posisi women-led yang membedakan {{brand}}",
+            "Demo produk: menjawab \"seperti apa sebenarnya\" dengan bahasa sehari-hari",
+            "Kutipan pelanggan: bukti sosial dalam bentuk yang cepat dicerna",
+            "Ajakan konsultasi: satu-satunya konten jualan, ditaruh paling akhir",
           ],
         },
         {
@@ -991,10 +991,10 @@ const galeri: ChoiceGroup = {
             k4: "Poster laporan | Feed Instagram | Ringkasan hasil bulan itu: jumlah usaha yang didampingi dan jam kerja yang dihemat bersama",
           },
           points: [
-            "Hook masalah — menahan guliran tanpa perlu satu kata pun",
-            "Pembongkaran mitos — membalas keberatan yang jarang diucapkan terbuka",
-            "Potongan proses — memperlihatkan cara kerja sehingga layanan terasa nyata",
-            "Hasil bulanan — menumpuk bukti secara berkala, bukan sekali lalu hilang",
+            "Hook masalah: menahan guliran tanpa perlu satu kata pun",
+            "Pembongkaran mitos: membalas keberatan yang jarang diucapkan terbuka",
+            "Potongan proses: memperlihatkan cara kerja sehingga layanan terasa nyata",
+            "Hasil bulanan: menumpuk bukti secara berkala, bukan sekali lalu hilang",
           ],
         },
       ],
@@ -1103,7 +1103,7 @@ const galeri: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* BAGIAN 5 — IMPACT & CLOSURE                                        */
+/* BAGIAN 5: IMPACT & CLOSURE                                        */
 /* ================================================================== */
 
 const impact: ChoiceGroup = {
@@ -1119,12 +1119,12 @@ const impact: ChoiceGroup = {
           id: "imp-t1",
           headline: "Tiga ukuran dengan tenggat tiga bulan",
           fields: {
-            isi: "Keberhasilan strategi ini diukur lewat tiga angka dalam tiga bulan. Pertama, jangkauan akun non-pengikut yang ditargetkan naik karena pilar masalah dan reels perbandingan memang dirancang menjangkau ke luar. Kedua, jumlah simpanan per konten edukasi, karena konten yang disimpan menandakan audiens berniat memakainya kembali. Ketiga, jumlah percakapan masuk yang menyebut satu konten tertentu — inilah tanda paling jujur bahwa kontennya benar-benar bekerja.",
+            isi: "Keberhasilan strategi ini diukur lewat tiga angka dalam tiga bulan. Pertama, jangkauan akun non-pengikut yang ditargetkan naik karena pilar masalah dan reels perbandingan memang dirancang menjangkau ke luar. Kedua, jumlah simpanan per konten edukasi, karena konten yang disimpan menandakan audiens berniat memakainya kembali. Ketiga, jumlah percakapan masuk yang menyebut satu konten tertentu, inilah tanda paling jujur bahwa kontennya benar-benar bekerja.",
           },
           points: [
-            "Jangkauan non-pengikut — menguji apakah konten menjangkau ke luar",
-            "Simpanan per konten edukasi — tanda audiens berniat memakainya kembali",
-            "Percakapan masuk yang menyebut konten tertentu — tanda paling jujur",
+            "Jangkauan non-pengikut: menguji apakah konten menjangkau ke luar",
+            "Simpanan per konten edukasi: tanda audiens berniat memakainya kembali",
+            "Percakapan masuk yang menyebut konten tertentu, tanda paling jujur",
             "Ditinjau dalam tenggat tiga bulan, bukan dibiarkan berjalan tanpa batas",
           ],
         },
@@ -1159,9 +1159,9 @@ const impact: ChoiceGroup = {
             isi: "Dampaknya bekerja berlapis. Lapis pertama, kesadaran: makin banyak pemilik usaha tahu bahwa ada yang bisa mengambil alih pekerjaan operasional mereka. Lapis kedua, kepercayaan: konten studi kasus dan wajah tim membuat {{brand}} terasa nyata, bukan sekadar akun. Lapis ketiga yang sering terlewat, perekrutan: akun yang aktif dan berposisi jelas memudahkan {{brand}} menarik talenta perempuan dan penyandang disabilitas, yang justru menjadi inti model bisnisnya.",
           },
           points: [
-            "Lapis 1 kesadaran — makin banyak yang tahu layanan seperti ini ada",
-            "Lapis 2 kepercayaan — studi kasus dan wajah tim membuat {{brand}} terasa nyata",
-            "Lapis 3 perekrutan — akun berposisi jelas memudahkan menarik talenta",
+            "Lapis 1 kesadaran: makin banyak yang tahu layanan seperti ini ada",
+            "Lapis 2 kepercayaan: studi kasus dan wajah tim membuat {{brand}} terasa nyata",
+            "Lapis 3 perekrutan: akun berposisi jelas memudahkan menarik talenta",
             "Lapis ketiga penting karena talenta inklusif adalah inti model bisnisnya",
           ],
         },
@@ -1268,9 +1268,9 @@ const hireme: ChoiceGroup = {
             isi: "Penutup merangkum tiga keterampilan yang sudah dibuktikan sepanjang deck, bukan sekadar dinyatakan: riset audiens yang menghasilkan profil spesifik lengkap dengan titik sakitnya, penyusunan strategi konten berpilar dengan alasan di balik tiap pilihan, serta produksi konten yang mengikuti panduan merek. Tiap butir menunjuk kembali ke slide yang memuat buktinya. Profile Card memuat potret profesional, alamat surel, dan tautan LinkedIn.",
           },
           points: [
-            "Riset audiens — dibuktikan lewat profil spesifik beserta titik sakitnya",
-            "Penyusunan strategi — dibuktikan lewat pilar konten beserta alasannya",
-            "Produksi konten — dibuktikan lewat karya yang mengikuti panduan merek",
+            "Riset audiens: dibuktikan lewat profil spesifik beserta titik sakitnya",
+            "Penyusunan strategi: dibuktikan lewat pilar konten beserta alasannya",
+            "Produksi konten: dibuktikan lewat karya yang mengikuti panduan merek",
             "Tiap butir menunjuk kembali ke slide yang memuat buktinya",
           ],
         },
@@ -1281,10 +1281,10 @@ const hireme: ChoiceGroup = {
             isi: "Penutup tidak berhenti pada pernyataan siap bekerja, melainkan menawarkan rencana tiga puluh hari pertama bila diterima: pekan pertama mengaudit akun dan menyusun ulang sorotan, pekan kedua menyiapkan bank konten satu bulan, pekan ketiga menjalankan pengujian dua gaya hook, pekan keempat menyusun laporan dan usulan perbaikan. Menutup dengan rencana kerja membuat pemberi kerja bisa membayangkan hari pertama peserta bekerja.",
           },
           points: [
-            "Pekan 1 — mengaudit akun dan menyusun ulang sorotan",
-            "Pekan 2 — menyiapkan bank konten untuk satu bulan",
-            "Pekan 3 — menjalankan pengujian dua gaya hook",
-            "Pekan 4 — menyusun laporan dan usulan perbaikan",
+            "Pekan 1: mengaudit akun dan menyusun ulang sorotan",
+            "Pekan 2: menyiapkan bank konten untuk satu bulan",
+            "Pekan 3: menjalankan pengujian dua gaya hook",
+            "Pekan 4: menyusun laporan dan usulan perbaikan",
           ],
         },
         {
@@ -1303,7 +1303,7 @@ const hireme: ChoiceGroup = {
           id: "hir-t4",
           headline: "Profile Card dengan satu kalimat penempatan diri",
           fields: {
-            isi: "Slide penutup dipusatkan pada Profile Card: potret profesional, nama, satu kalimat yang menempatkan diri secara jelas — misalnya social media specialist yang bekerja untuk brand berbasis layanan — beserta tautan LinkedIn dan portofolio dalam bentuk kode QR. Satu kalimat penempatan diri dipilih karena pemberi kerja membaca slide penutup dalam hitungan detik, dan yang paling perlu tertangkap adalah bidang yang dikuasai peserta.",
+            isi: "Slide penutup dipusatkan pada Profile Card: potret profesional, nama, satu kalimat yang menempatkan diri secara jelas, misalnya social media specialist yang bekerja untuk brand berbasis layanan, beserta tautan LinkedIn dan portofolio dalam bentuk kode QR. Satu kalimat penempatan diri dipilih karena pemberi kerja membaca slide penutup dalam hitungan detik, dan yang paling perlu tertangkap adalah bidang yang dikuasai peserta.",
           },
           points: [
             "Isi kartu: potret profesional, nama, kalimat penempatan diri, LinkedIn, kode QR",

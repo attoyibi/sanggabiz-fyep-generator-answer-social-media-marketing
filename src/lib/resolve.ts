@@ -28,7 +28,7 @@ export function allGroups(task: TaskDefinition): ChoiceGroup[] {
 /**
  * Varian yang tampil untuk sebuah (grup, grade).
  *
- * Bila `variantId` diberikan — artinya peserta sudah mengunci jawaban itu —
+ * Bila `variantId` diberikan, artinya peserta sudah mengunci jawaban itu,
  * varian tersebut yang dipakai, sehingga isinya tidak berubah walau halaman
  * dimuat ulang dengan seed baru. Tanpa `variantId`, varian diambil dari seed
  * sehingga tiap kali halaman dibuka isinya berganti.

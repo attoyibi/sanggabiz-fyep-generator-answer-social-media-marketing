@@ -3,7 +3,7 @@ import { KODE_KELAS, type DocBlock, type TaskDefinition } from "../types";
 const BRAND = "FitActive";
 
 /**
- * TPM 5 — Membuat Konten Video di CapCut.
+ * TPM 5: Membuat Konten Video di CapCut.
  *
  * Tugas ini tidak punya bank jawaban dan tidak menghasilkan berkas dari
  * website. Hasil yang diminta berupa video MP4 yang memang harus diedit
@@ -47,7 +47,7 @@ const tpm5: TaskDefinition = {
   panduan: {
     judul: "Cara Mengerjakan Tugas Ini",
     pengantar:
-      "Berbeda dengan tugas lain di website ini, bagian ini tidak menyediakan pilihan jawaban maupun tombol unduh. Hasil yang diminta berupa video, dan video hanya bisa jadi kalau kamu sendiri yang mengeditnya. Kami sarankan mengerjakannya langsung di CapCut — di situlah kemampuan yang dinilai tugas ini benar-benar terlatih.",
+      "Berbeda dengan tugas lain di website ini, bagian ini tidak menyediakan pilihan jawaban maupun tombol unduh. Hasil yang diminta berupa video, dan video hanya bisa jadi kalau kamu sendiri yang mengeditnya. Kami sarankan mengerjakannya langsung di CapCut, di situlah kemampuan yang dinilai tugas ini benar-benar terlatih.",
     tautan: [
       {
         label: "Buka CapCut (web atau aplikasi)",
@@ -87,7 +87,7 @@ const tpm5: TaskDefinition = {
       },
     ],
     catatan: [
-      "Kalau kamu sudah pernah membuat video yang isinya sejalan dengan rancangan kontenmu, video itu boleh dikumpulkan untuk tugas ini — tidak harus membuat yang benar-benar baru.",
+      "Kalau kamu sudah pernah membuat video yang isinya sejalan dengan rancangan kontenmu, video itu boleh dikumpulkan untuk tugas ini, tidak harus membuat yang benar-benar baru.",
       "Perlu diketahui juga, penilaian pelatihan ini dihitung dari keseluruhan tugas. Peserta yang mengerjakan tugas-tugas lain dengan baik umumnya tetap berada di atas batas kelulusan meskipun bagian video ini belum sempat dikumpulkan. Meski begitu, mengerjakannya tetap yang paling kami sarankan, karena di sinilah keterampilan editing-nya benar-benar terbentuk. Untuk kepastian angka kelulusan, silakan cek kembali ke penyelenggara.",
     ],
   },

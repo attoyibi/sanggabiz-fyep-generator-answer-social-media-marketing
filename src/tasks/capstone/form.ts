@@ -100,7 +100,7 @@ export const capstoneForm: CapstoneSection[] = [
         hint: "Tema tetap yang diputar bergantian. Beri keterangan singkat tugas tiap pilar.",
         multiline: true,
         contoh:
-          "Suasana — memperlihatkan keadaan kedai pada jam-jam berbeda\nAsal biji — cerita petani dan proses sangrai setiap pekan\nMenu — perkenalan racikan beserta harganya\nPengunjung — potongan cerita orang yang bekerja di kedai",
+          "Suasana: memperlihatkan keadaan kedai pada jam-jam berbeda\nAsal biji: cerita petani dan proses sangrai setiap pekan\nMenu: perkenalan racikan beserta harganya\nPengunjung: potongan cerita orang yang bekerja di kedai",
         wajib: true,
       },
       {

@@ -66,7 +66,7 @@ function ringkas(
     const isi = dariForm(ctx, sumber.field);
     if (!isi) return BELUM;
     // Isian peserta berbentuk paragraf bebas, jadi tiap baris ikut dipotong
-    // sepanjang satu baris cetak — membatasi jumlah barisnya saja tidak cukup
+    // sepanjang satu baris cetak, membatasi jumlah barisnya saja tidak cukup
     // karena satu paragraf panjang tetap membungkus menjadi beberapa baris.
     return isi
       .split("\n")
@@ -172,7 +172,7 @@ const capstone: TaskDefinition = {
     paragraphs: [
       "Capstone Project adalah tugas penutup pelatihan Social Media Marketing. Di sini kamu tidak lagi mengerjakan satu bagian kecil, melainkan menyatukan seluruh keterampilan yang sudah dilatih pada Tugas 1 sampai 8 menjadi portofolio yang bisa kamu tunjukkan kepada calon pemberi kerja.",
       "Ada dua berkas yang harus dikumpulkan. Pertama, A3 Summary Report: laporan ringkas satu halaman berisi profil UMKM, strategi kunci, dan galeri konten, yang dipakai sebagai alat bantu screening cepat bagi mitra usaha. Kedua, PPT Presentasi: deck detail yang menjelaskan alur riset audiens, teknik copywriting, hingga desain visual yang kamu hasilkan.",
-      "Kamu bisa mengerjakannya dengan dua cara. Memakai mitra UMKM yang sudah kami siapkan, yaitu Sanggabiz, sehingga kamu tinggal memilih jawaban seperti pada tugas-tugas sebelumnya. Atau memakai data UMKM milikmu sendiri — usaha keluarga, usaha teman, atau klien yang benar-benar kamu dampingi — lalu mengisikannya lewat formulir di halaman ini.",
+      "Kamu bisa mengerjakannya dengan dua cara. Memakai mitra UMKM yang sudah kami siapkan, yaitu Sanggabiz, sehingga kamu tinggal memilih jawaban seperti pada tugas-tugas sebelumnya. Atau memakai data UMKM milikmu sendiri, usaha keluarga, usaha teman, atau klien yang benar-benar kamu dampingi, lalu mengisikannya lewat formulir di halaman ini.",
       "Apa pun jalur yang kamu pilih, hasil akhirnya sama: satu dokumen berisi seluruh bahan A3 Summary Report dan kerangka PPT yang sudah tersusun sesuai ketentuan, siap kamu pindahkan ke Canva untuk didesain.",
     ],
   },
@@ -193,8 +193,8 @@ const capstone: TaskDefinition = {
         "Jawabanmu dinilai seperti tugas biasa",
       ],
       caseStudy: [
-        `Kamu adalah seorang Social Media Specialist yang dipercaya menangani akun Instagram ${SANGGABIZ.nama}, sebuah perusahaan di ${SANGGABIZ.kota} yang bekerja sebagai ${SANGGABIZ.model}. Alih-alih menjual satu aplikasi, ${SANGGABIZ.nama} mengambil alih pekerjaan operasional pemilik usaha — keuangan, penagihan, layanan pelanggan, sampai administrasi tim — lewat lima layanan yang saling terhubung.`,
-        `${SANGGABIZ.nama} dipimpin perempuan dan menempatkan inklusi di dalam model bisnisnya. Lewat program ${SANGGABIZ.program}, perusahaan ini membuka akses teknologi dan pendampingan bagi pelaku UMKM perempuan, wirausaha muda, dan penyandang disabilitas — kelompok yang selama ini paling jarang disentuh layanan konsultan bisnis.`,
+        `Kamu adalah seorang Social Media Specialist yang dipercaya menangani akun Instagram ${SANGGABIZ.nama}, sebuah perusahaan di ${SANGGABIZ.kota} yang bekerja sebagai ${SANGGABIZ.model}. Alih-alih menjual satu aplikasi, ${SANGGABIZ.nama} mengambil alih pekerjaan operasional pemilik usaha, keuangan, penagihan, layanan pelanggan, sampai administrasi tim, lewat lima layanan yang saling terhubung.`,
+        `${SANGGABIZ.nama} dipimpin perempuan dan menempatkan inklusi di dalam model bisnisnya. Lewat program ${SANGGABIZ.program}, perusahaan ini membuka akses teknologi dan pendampingan bagi pelaku UMKM perempuan, wirausaha muda, dan penyandang disabilitas, kelompok yang selama ini paling jarang disentuh layanan konsultan bisnis.`,
         `Tantangannya, layanan seperti ini tidak kasatmata. Calon pelanggan tidak bisa memegang produknya, sementara keputusan untuk menyerahkan urusan keuangan dan pelanggan kepada pihak lain butuh kepercayaan yang tidak terbentuk dalam sekali lihat. Akun ${SANGGABIZ.instagram} sudah punya sekitar sembilan ribu pengikut, tetapi belum menjadi alasan orang menghubungi.`,
         "Tugasmu menyusun portofolio yang memperlihatkan bagaimana kamu akan menjawab tantangan itu: siapa yang disasar, konten apa yang dibuat, dan mengapa pilihan-pilihan itu yang diambil. Hasilnya dikemas menjadi A3 Summary Report satu halaman dan deck PPT presentasi.",
       ],
@@ -216,10 +216,10 @@ const capstone: TaskDefinition = {
         "Kelengkapan isian wajib yang menentukan nilainya",
       ],
       caseStudy: [
-        "Kamu mengerjakan capstone ini memakai UMKM pilihanmu sendiri — usaha milikmu, usaha keluarga, usaha teman, atau klien yang benar-benar kamu dampingi. Portofolio yang lahir dari kasus nyata biasanya lebih kuat di mata pemberi kerja, karena kamu bisa menceritakan keputusannya dengan yakin saat ditanya.",
+        "Kamu mengerjakan capstone ini memakai UMKM pilihanmu sendiri, usaha milikmu, usaha keluarga, usaha teman, atau klien yang benar-benar kamu dampingi. Portofolio yang lahir dari kasus nyata biasanya lebih kuat di mata pemberi kerja, karena kamu bisa menceritakan keputusannya dengan yakin saat ditanya.",
         "Yang perlu kamu siapkan hanyalah keterangan dasar usahanya: bidang usaha, lokasi, keunggulan, siapa audiensnya, dan konten apa yang sudah atau akan kamu buat. Tidak perlu data penjualan atau angka rahasia apa pun.",
         "Formulir di bawah akan memandumu bagian demi bagian, mengikuti urutan yang sama dengan A3 Summary Report. Tiap kolom disertai penjelasan dan contoh isian yang bisa kamu pakai sebagai titik awal lalu kamu sunting sesuai usahamu.",
-        "Kalau usaha yang kamu pilih belum punya akun media sosial atau kontennya baru rencana, itu tidak masalah. Tulis saja rencananya — yang dinilai adalah cara berpikirmu menyusun strategi, bukan jumlah pengikut usahanya.",
+        "Kalau usaha yang kamu pilih belum punya akun media sosial atau kontennya baru rencana, itu tidak masalah. Tulis saja rencananya: yang dinilai adalah cara berpikirmu menyusun strategi, bukan jumlah pengikut usahanya.",
       ],
       instruksi: [
         "Isi Profil UMKM: nama, bidang usaha, lokasi, dan keunggulan utamanya.",
@@ -434,7 +434,7 @@ const capstone: TaskDefinition = {
 
   /**
    * Deck presentasi. Penomoran slidenya mengikuti dokumen Capstone resmi,
-   * termasuk rentang "Slide 3-9" untuk Individual Showcase — di situ satu
+   * termasuk rentang "Slide 3-9" untuk Individual Showcase: di situ satu
    * konten memang mendapat satu slide, jadi jumlahnya ikut jumlah konten
    * yang dipilih peserta.
    */
@@ -485,7 +485,7 @@ const capstone: TaskDefinition = {
                 value: bahan(ctx, { grup: "kalender", field: "ritme" }),
               },
               // Pendekatan visual dan copywriting berlaku untuk seluruh konten,
-              // jadi tempatnya di sini — bukan diulang di tiap slide showcase.
+              // jadi tempatnya di sini, bukan diulang di tiap slide showcase.
               { label: "Visual Hook yang Dipakai", value: hook },
               { label: "Formula Copywriting", value: formula },
               { label: "Cara Narasi Bekerja", value: narasi },
@@ -498,7 +498,7 @@ const capstone: TaskDefinition = {
     /*
      * Slide 3-9: satu konten satu slide, sesuai ketentuan dokumen capstone.
      *
-     * Tiap slide hanya memuat hal yang khas konten itu — isinya dan perannya di
+     * Tiap slide hanya memuat hal yang khas konten itu, isinya dan perannya di
      * dalam strategi. Pendekatan visual dan copywriting sudah dinyatakan di
      * Slide 2, sementara alasan yang benar-benar spesifik per konten memang
      * bagian yang harus ditulis sendiri peserta saat mendesain decknya.

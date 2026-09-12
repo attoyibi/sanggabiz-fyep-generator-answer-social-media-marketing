@@ -169,7 +169,7 @@ const tpm3: TaskDefinition = {
     b.push({ type: "byline", text: `Nama Peserta: ${ctx.nama}` });
 
     /* ---- Konten yang dikembangkan, diambil dari content plan TPM 2 ---- */
-    b.push({ type: "label", text: `Konten yang Dikembangkan — Hari ke-${hari}` });
+    b.push({ type: "label", text: `Konten yang Dikembangkan: Hari ke-${hari}` });
     b.push({
       type: "fieldTable",
       labelAlign: "left",

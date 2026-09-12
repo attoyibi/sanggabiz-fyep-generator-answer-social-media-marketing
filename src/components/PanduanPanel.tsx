@@ -3,7 +3,7 @@ import type { PanduanTugas } from "@/tasks/types";
 /**
  * Panel panduan untuk tugas yang dikerjakan langsung di aplikasinya.
  *
- * Sebagian tugas tidak bisa dibantu website ini — hasilnya berupa berkas yang
+ * Sebagian tugas tidak bisa dibantu website ini, hasilnya berupa berkas yang
  * memang harus dibuat sendiri oleh peserta di tools-nya. Halaman tugas seperti
  * itu tidak menampilkan kartu jawaban maupun tombol unduh, hanya panduan ini.
  */

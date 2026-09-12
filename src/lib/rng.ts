@@ -26,7 +26,7 @@ export function mulberry32(seed: number): () => number {
 
 /**
  * Seed acak baru. Dipanggil sekali setiap halaman dimuat, sehingga dua orang
- * yang membuka halaman ini — bahkan orang yang sama membukanya dua kali —
+ * yang membuka halaman ini, bahkan orang yang sama membukanya dua kali,
  * mendapat varian jawaban yang berbeda.
  *
  * Sengaja tidak diturunkan dari nama peserta: dua peserta bernama sama pun

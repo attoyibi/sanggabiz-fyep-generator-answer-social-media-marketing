@@ -1,13 +1,13 @@
 import type { ChoiceGroup } from "../types";
 
 /**
- * BANK JAWABAN TPM 2 — Content Calendar dan Content Plan brand "FitActive".
+ * BANK JAWABAN TPM 2, Content Calendar dan Content Plan brand "FitActive".
  *
  * Setiap grade punya banyak varian. Satu varian diambil acak per peserta
  * (berdasarkan seed), jadi dua peserta yang sama-sama memilih kartu "tepat"
  * tetap menghasilkan isi berkas yang berbeda.
  *
- * Semua varian — termasuk yang sengaja salah — ditulis lengkap. Jawaban yang
+ * Semua varian: termasuk yang sengaja salah, ditulis lengkap. Jawaban yang
  * keliru harus keliru pada isinya, bukan pada kekosongannya.
  *
  * Token yang tersedia: {{nama}}, {{brand}}, {{objective}}, {{pilar1}}..{{pilar4}},
@@ -29,7 +29,7 @@ const objective: ChoiceGroup = {
       variants: [
         {
           id: "ob1a",
-          headline: "Awareness — memperkenalkan {{brand}} ke audiens baru",
+          headline: "Awareness: memperkenalkan {{brand}} ke audiens baru",
           fields: {
             nama: "Awareness",
             isi: "Memperkenalkan {{brand}} kepada audiens yang belum mengenal brand, dengan ukuran keberhasilan berupa jangkauan dan jumlah akun baru yang melihat konten.",
@@ -43,7 +43,7 @@ const objective: ChoiceGroup = {
         },
         {
           id: "ob1b",
-          headline: "Engagement — menaikkan interaksi pada tiap unggahan",
+          headline: "Engagement: menaikkan interaksi pada tiap unggahan",
           fields: {
             nama: "Engagement",
             isi: "Menaikkan interaksi pada tiap unggahan, dengan ukuran keberhasilan berupa jumlah komentar, simpanan, dan bagikan ulang per konten.",
@@ -57,7 +57,7 @@ const objective: ChoiceGroup = {
         },
         {
           id: "ob1c",
-          headline: "Awareness dan Engagement — jangkauan dulu, interaksi menyusul",
+          headline: "Awareness dan Engagement: jangkauan dulu, interaksi menyusul",
           fields: {
             nama: "Awareness dan Engagement",
             isi: "Mengejar jangkauan pada awal pekan lalu mengubahnya menjadi interaksi pada akhir pekan, dengan ukuran keberhasilan berupa jangkauan mingguan sekaligus rasio interaksi per akun terjangkau.",
@@ -99,7 +99,7 @@ const objective: ChoiceGroup = {
         },
         {
           id: "ob1f",
-          headline: "Consideration — membuat audiens menimbang produk {{brand}}",
+          headline: "Consideration: membuat audiens menimbang produk {{brand}}",
           fields: {
             nama: "Consideration",
             isi: "Membuat audiens yang sudah mengenal {{brand}} mulai menimbang produknya, dengan ukuran keberhasilan berupa klik tautan di bio dan pertanyaan yang masuk lewat pesan langsung.",
@@ -431,7 +431,7 @@ const pilar: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 3. JADWAL UNGGAH — jam tayang tiap hari selama sepekan             */
+/* 3. JADWAL UNGGAH: jam tayang tiap hari selama sepekan             */
 /* ================================================================== */
 
 const jadwal: ChoiceGroup = {
@@ -633,7 +633,7 @@ const jadwal: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 4. RENCANA KONTEN — isi kalender tiap hari                          */
+/* 4. RENCANA KONTEN: isi kalender tiap hari                          */
 /* ================================================================== */
 
 const rencana: ChoiceGroup = {
@@ -649,13 +649,13 @@ const rencana: ChoiceGroup = {
           id: "rc1a",
           headline: "Berputar pada empat pilar, ditutup konten komunitas",
           fields: {
-            sen: "{{pilar1}} — Reels: tiga tanda pakaian olahraga sudah tidak layak pakai",
-            sel: "{{pilar2}} — Carousel: rutinitas 15 menit sebelum berangkat kerja",
-            rab: "{{pilar3}} — Reels: kenapa bahan breathable tidak gerah di cuaca panas",
-            kam: "{{pilar1}} — Carousel: panduan memilih ukuran yang pas",
-            jum: "{{pilar3}} — Feed: koleksi pekan ini beserta pilihan warnanya",
-            sab: "{{pilar4}} — Reels: liputan lari bersama komunitas kota",
-            min: "{{pilar4}} — Feed: unggah ulang foto pembeli beserta ceritanya",
+            sen: "{{pilar1}} - Reels: tiga tanda pakaian olahraga sudah tidak layak pakai",
+            sel: "{{pilar2}} - Carousel: rutinitas 15 menit sebelum berangkat kerja",
+            rab: "{{pilar3}} - Reels: kenapa bahan breathable tidak gerah di cuaca panas",
+            kam: "{{pilar1}} - Carousel: panduan memilih ukuran yang pas",
+            jum: "{{pilar3}} - Feed: koleksi pekan ini beserta pilihan warnanya",
+            sab: "{{pilar4}} - Reels: liputan lari bersama komunitas kota",
+            min: "{{pilar4}} - Feed: unggah ulang foto pembeli beserta ceritanya",
           },
           points: [
             "Keempat pilar dipakai bergantian sehingga tidak ada dua hari beruntun bertema sama.",
@@ -668,13 +668,13 @@ const rencana: ChoiceGroup = {
           id: "rc1b",
           headline: "Awal pekan menjangkau, akhir pekan mengajak berinteraksi",
           fields: {
-            sen: "{{pilar1}} — Reels: keluhan gerah saat olahraga siang dan cara mengatasinya",
-            sel: "{{pilar3}} — Feed: detail jahitan dan bahan koleksi terbaru",
-            rab: "{{pilar2}} — Reels: latihan singkat di sela jam kerja",
-            kam: "{{pilar1}} — Carousel: membaca label bahan sebelum membeli",
-            jum: "{{pilar3}} — Reels: satu produk dipakai untuk tiga kegiatan berbeda",
-            sab: "{{pilar4}} — Story: sesi tanya jawab ukuran bersama audiens",
-            min: "{{pilar4}} — Feed: cerita pemakai setelah tiga bulan memakai produk",
+            sen: "{{pilar1}} - Reels: keluhan gerah saat olahraga siang dan cara mengatasinya",
+            sel: "{{pilar3}} - Feed: detail jahitan dan bahan koleksi terbaru",
+            rab: "{{pilar2}} - Reels: latihan singkat di sela jam kerja",
+            kam: "{{pilar1}} - Carousel: membaca label bahan sebelum membeli",
+            jum: "{{pilar3}} - Reels: satu produk dipakai untuk tiga kegiatan berbeda",
+            sab: "{{pilar4}} - Story: sesi tanya jawab ukuran bersama audiens",
+            min: "{{pilar4}} - Feed: cerita pemakai setelah tiga bulan memakai produk",
           },
           points: [
             "Awal pekan memakai konten yang mudah dibagikan untuk menjangkau audiens baru.",
@@ -687,13 +687,13 @@ const rencana: ChoiceGroup = {
           id: "rc1c",
           headline: "Satu masalah audiens dibahas tuntas sepekan",
           fields: {
-            sen: "{{pilar1}} — Reels: kenapa pakaian olahraga terasa gerah di cuaca lembap",
-            sel: "{{pilar1}} — Carousel: perbedaan bahan katun dan bahan breathable",
-            rab: "{{pilar3}} — Reels: uji sederhana bahan {{brand}} saat berkeringat",
-            kam: "{{pilar2}} — Feed: rutinitas latihan sore tanpa berganti pakaian",
-            jum: "{{pilar3}} — Carousel: memilih koleksi sesuai jenis olahraga",
-            sab: "{{pilar4}} — Reels: tanggapan anggota komunitas setelah mencoba",
-            min: "{{pilar4}} — Feed: rangkuman pertanyaan audiens sepekan beserta jawabannya",
+            sen: "{{pilar1}} - Reels: kenapa pakaian olahraga terasa gerah di cuaca lembap",
+            sel: "{{pilar1}} - Carousel: perbedaan bahan katun dan bahan breathable",
+            rab: "{{pilar3}} - Reels: uji sederhana bahan {{brand}} saat berkeringat",
+            kam: "{{pilar2}} - Feed: rutinitas latihan sore tanpa berganti pakaian",
+            jum: "{{pilar3}} - Carousel: memilih koleksi sesuai jenis olahraga",
+            sab: "{{pilar4}} - Reels: tanggapan anggota komunitas setelah mencoba",
+            min: "{{pilar4}} - Feed: rangkuman pertanyaan audiens sepekan beserta jawabannya",
           },
           points: [
             "Satu masalah audiens dibahas bertahap dari Senin sampai Minggu.",
@@ -706,13 +706,13 @@ const rencana: ChoiceGroup = {
           id: "rc1d",
           headline: "Selang-seling konten ringan dan konten mendalam",
           fields: {
-            sen: "{{pilar2}} — Reels: satu gerakan pemanasan yang sering dilewatkan",
-            sel: "{{pilar1}} — Carousel: tiga hal yang menentukan kenyamanan pakaian olahraga",
-            rab: "{{pilar4}} — Feed: foto anggota komunitas memakai koleksi {{brand}}",
-            kam: "{{pilar3}} — Reels: koleksi terbaru dipakai saat berlari",
-            jum: "{{pilar2}} — Story: jajak pendapat jenis olahraga favorit audiens",
-            sab: "{{pilar1}} — Carousel: cara mencuci agar bahan tidak cepat melar",
-            min: "{{pilar4}} — Reels: rangkuman kegiatan komunitas sepekan",
+            sen: "{{pilar2}} - Reels: satu gerakan pemanasan yang sering dilewatkan",
+            sel: "{{pilar1}} - Carousel: tiga hal yang menentukan kenyamanan pakaian olahraga",
+            rab: "{{pilar4}} - Feed: foto anggota komunitas memakai koleksi {{brand}}",
+            kam: "{{pilar3}} - Reels: koleksi terbaru dipakai saat berlari",
+            jum: "{{pilar2}} - Story: jajak pendapat jenis olahraga favorit audiens",
+            sab: "{{pilar1}} - Carousel: cara mencuci agar bahan tidak cepat melar",
+            min: "{{pilar4}} - Reels: rangkuman kegiatan komunitas sepekan",
           },
           points: [
             "Konten ringan dan konten mendalam ditaruh berselang-seling agar audiens tidak lelah.",
@@ -725,13 +725,13 @@ const rencana: ChoiceGroup = {
           id: "rc1e",
           headline: "Mengikuti ritme latihan audiens sepanjang pekan",
           fields: {
-            sen: "{{pilar2}} — Reels: menyusun rencana latihan untuk sepekan",
-            sel: "{{pilar1}} — Carousel: memilih pakaian sesuai jenis latihan",
-            rab: "{{pilar3}} — Feed: koleksi untuk latihan di dalam ruangan",
-            kam: "{{pilar1}} — Reels: menjaga semangat saat latihan mulai terasa berat",
-            jum: "{{pilar3}} — Carousel: paket koleksi untuk akhir pekan aktif",
-            sab: "{{pilar4}} — Reels: lari bersama komunitas dan tips dari pesertanya",
-            min: "{{pilar2}} — Feed: pemulihan setelah latihan berat",
+            sen: "{{pilar2}} - Reels: menyusun rencana latihan untuk sepekan",
+            sel: "{{pilar1}} - Carousel: memilih pakaian sesuai jenis latihan",
+            rab: "{{pilar3}} - Feed: koleksi untuk latihan di dalam ruangan",
+            kam: "{{pilar1}} - Reels: menjaga semangat saat latihan mulai terasa berat",
+            jum: "{{pilar3}} - Carousel: paket koleksi untuk akhir pekan aktif",
+            sab: "{{pilar4}} - Reels: lari bersama komunitas dan tips dari pesertanya",
+            min: "{{pilar2}} - Feed: pemulihan setelah latihan berat",
           },
           points: [
             "Isi konten mengikuti ritme latihan audiens dari awal sampai akhir pekan.",
@@ -744,13 +744,13 @@ const rencana: ChoiceGroup = {
           id: "rc1f",
           headline: "Dua pilar utama per pekan, dua pilar pendukung",
           fields: {
-            sen: "{{pilar1}} — Reels: kesalahan umum saat memilih pakaian olahraga",
-            sel: "{{pilar3}} — Carousel: keunggulan bahan koleksi {{brand}}",
-            rab: "{{pilar1}} — Reels: menjawab pertanyaan audiens dari kolom komentar",
-            kam: "{{pilar3}} — Feed: pilihan warna koleksi pekan ini",
-            jum: "{{pilar2}} — Reels: latihan ringan yang bisa dilakukan di kantor",
-            sab: "{{pilar4}} — Feed: unggah ulang foto pembeli",
-            min: "{{pilar1}} — Carousel: rangkuman tips sepekan",
+            sen: "{{pilar1}} - Reels: kesalahan umum saat memilih pakaian olahraga",
+            sel: "{{pilar3}} - Carousel: keunggulan bahan koleksi {{brand}}",
+            rab: "{{pilar1}} - Reels: menjawab pertanyaan audiens dari kolom komentar",
+            kam: "{{pilar3}} - Feed: pilihan warna koleksi pekan ini",
+            jum: "{{pilar2}} - Reels: latihan ringan yang bisa dilakukan di kantor",
+            sab: "{{pilar4}} - Feed: unggah ulang foto pembeli",
+            min: "{{pilar1}} - Carousel: rangkuman tips sepekan",
           },
           points: [
             "Dua pilar utama mendapat porsi terbesar, dua pilar pendukung mengisi sisanya.",
@@ -798,8 +798,8 @@ const rencana: ChoiceGroup = {
           fields: {
             sen: "Belum ada rencana khusus", sel: "Belum ada rencana khusus",
             rab: "Belum ada rencana khusus", kam: "Belum ada rencana khusus",
-            jum: "{{pilar1}} — Carousel: panduan memilih ukuran",
-            sab: "{{pilar3}} — Reels: koleksi terbaru", min: "{{pilar4}} — Feed: foto pembeli",
+            jum: "{{pilar1}} - Carousel: panduan memilih ukuran",
+            sab: "{{pilar3}} - Reels: koleksi terbaru", min: "{{pilar4}} - Feed: foto pembeli",
             isi: "Rencana konten hanya disiapkan untuk tiga hari terakhir dalam sepekan.",
           },
           points: [
@@ -865,7 +865,7 @@ const rencana: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 5-7. CONTENT PLAN — satu kartu untuk satu hari (13 kolom template)  */
+/* 5-7. CONTENT PLAN: satu kartu untuk satu hari (13 kolom template)  */
 /*                                                                     */
 /* Kolom Marketing Objective, Pilar Konten, PIC, Jam Posting, dan      */
 /* Status Konten memakai token supaya selalu sejalan dengan jawaban    */
@@ -875,7 +875,7 @@ const rencana: ChoiceGroup = {
 const hari1: ChoiceGroup = {
   id: "plan1",
   label: "Plan Hari 1",
-  question: "Content plan hari ke-1 — Senin, 1 September 2025",
+  question: "Content plan hari ke-1: Senin, 1 September 2025",
   hint: "Satu kartu berisi rencana lengkap satu hari: tipe visual, judul, copywriting, sampai catatan.",
   card: "plan",
   options: [
@@ -990,7 +990,7 @@ const hari1: ChoiceGroup = {
             tipeVisual: "Carousel 5 halaman dengan foto jarak dekat",
             judul: "Cara Membaca Label Bahan Baju Olahraga",
             copywriting:
-              "Polyester, spandex, katun — tulisan di label sebenarnya sudah memberi tahu apakah baju itu cocok untuk cuaca panas. Geser untuk tahu tiga istilah yang paling menentukan kenyamanan saat berkeringat.",
+              "Polyester, spandex, katun: tulisan di label sebenarnya sudah memberi tahu apakah baju itu cocok untuk cuaca panas. Geser untuk tahu tiga istilah yang paling menentukan kenyamanan saat berkeringat.",
             platform: "Instagram feed",
             referensi: "Carousel penjelasan bahan di akun @corenationactive sebagai acuan kedalaman isi",
             catatan: "Foto label diambil jarak dekat agar tulisannya terbaca di layar ponsel.",
@@ -1129,7 +1129,7 @@ const hari1: ChoiceGroup = {
 const hari2: ChoiceGroup = {
   id: "plan2",
   label: "Plan Hari 2",
-  question: "Content plan hari ke-2 — Selasa, 2 September 2025",
+  question: "Content plan hari ke-2: Selasa, 2 September 2025",
   hint: "Usahakan pilar dan formatnya berbeda dari hari pertama supaya beranda tidak monoton.",
   card: "plan",
   options: [
@@ -1383,7 +1383,7 @@ const hari2: ChoiceGroup = {
 const hari3: ChoiceGroup = {
   id: "plan3",
   label: "Plan Hari 3",
-  question: "Content plan hari ke-3 — Rabu, 3 September 2025",
+  question: "Content plan hari ke-3: Rabu, 3 September 2025",
   hint: "Hari ketiga baik dipakai untuk konten yang mengundang audiens menjawab atau menyimpan.",
   card: "plan",
   options: [
@@ -1634,7 +1634,7 @@ const hari3: ChoiceGroup = {
 };
 
 /* ================================================================== */
-/* 8. KOLOM OPERASIONAL — PIC dan status konten                        */
+/* 8. KOLOM OPERASIONAL: PIC dan status konten                        */
 /* ================================================================== */
 
 const picGroup: ChoiceGroup = {

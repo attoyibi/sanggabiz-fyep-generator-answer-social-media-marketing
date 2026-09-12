@@ -329,15 +329,15 @@ const tpm7: TaskDefinition = {
       rows: [
         {
           label: "Berapa persentase (%) Budget untuk Objective Awareness?",
-          value: `${f(ctx, "alokasi", "aw", "0")}% — ${rupiah(r.perObjective[0].budget)}`,
+          value: `${f(ctx, "alokasi", "aw", "0")}%: ${rupiah(r.perObjective[0].budget)}`,
         },
         {
           label: "Berapa persentase (%) Budget untuk Objective Consideration?",
-          value: `${f(ctx, "alokasi", "co", "0")}% — ${rupiah(r.perObjective[1].budget)}`,
+          value: `${f(ctx, "alokasi", "co", "0")}%: ${rupiah(r.perObjective[1].budget)}`,
         },
         {
           label: "Berapa persentase (%) Budget untuk Objective Conversion?",
-          value: `${f(ctx, "alokasi", "cv", "0")}% — ${rupiah(r.perObjective[2].budget)}`,
+          value: `${f(ctx, "alokasi", "cv", "0")}%: ${rupiah(r.perObjective[2].budget)}`,
         },
         // Alasannya tidak diulang di sini: seluruhnya sudah diuraikan pada
         // bagian "Alasan Pemilihan Strategi".

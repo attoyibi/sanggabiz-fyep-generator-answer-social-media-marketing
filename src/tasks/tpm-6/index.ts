@@ -1,7 +1,7 @@
 import { KODE_KELAS, type DocBlock, type TaskDefinition } from "../types";
 
 /**
- * TPM 6 — Setting Up Iklan di Meta Ads.
+ * TPM 6: Setting Up Iklan di Meta Ads.
  *
  * Seperti TPM 5, tugas ini tidak punya bank jawaban dan tidak menghasilkan
  * berkas dari website. Yang diminta adalah tangkapan layar dari Meta Ads
@@ -45,7 +45,7 @@ const tpm6: TaskDefinition = {
   panduan: {
     judul: "Cara Mengerjakan Tugas Ini",
     pengantar:
-      "Sama seperti Tugas 5, bagian ini tidak menyediakan pilihan jawaban maupun tombol unduh. Yang diminta adalah tangkapan layar dari Meta Ads Manager milikmu sendiri, jadi tidak ada yang bisa dibuatkan website ini. Kami sarankan mengerjakannya langsung di Ads Manager sambil mengikuti video demonstrasinya — di situlah alur Campaign, Ad Set, dan Ad benar-benar terlihat.",
+      "Sama seperti Tugas 5, bagian ini tidak menyediakan pilihan jawaban maupun tombol unduh. Yang diminta adalah tangkapan layar dari Meta Ads Manager milikmu sendiri, jadi tidak ada yang bisa dibuatkan website ini. Kami sarankan mengerjakannya langsung di Ads Manager sambil mengikuti video demonstrasinya, di situlah alur Campaign, Ad Set, dan Ad benar-benar terlihat.",
     tautan: [
       {
         label: "Video demonstrasi: Setting Up Iklan di Meta Ads",
@@ -61,7 +61,7 @@ const tpm6: TaskDefinition = {
     langkah: [
       {
         judul: "Pilih konten dan copywriting-nya",
-        isi: "Tentukan satu konten beserta copywriting-nya untuk dijadikan materi iklan. Pakai aset yang sudah kamu buat di tugas sebelumnya — desain visual dari Tugas 4 atau video dari Tugas 5, dengan caption dari Tugas 3 — supaya seluruh tugasmu tetap sejalan.",
+        isi: "Tentukan satu konten beserta copywriting-nya untuk dijadikan materi iklan. Pakai aset yang sudah kamu buat di tugas sebelumnya, desain visual dari Tugas 4 atau video dari Tugas 5, dengan caption dari Tugas 3, supaya seluruh tugasmu tetap sejalan.",
       },
       {
         judul: "Masuk ke Meta Ads Manager",
@@ -73,7 +73,7 @@ const tpm6: TaskDefinition = {
       },
       {
         judul: "Atur bagian Ad Set",
-        isi: "Tentukan sistem budgeting dan bidding, target audience berdasarkan demografi, minat, perilaku, atau lokasi, serta placement iklannya — misalnya Facebook Feed, Instagram Feed, atau Instagram Stories.",
+        isi: "Tentukan sistem budgeting dan bidding, target audience berdasarkan demografi, minat, perilaku, atau lokasi, serta placement iklannya, misalnya Facebook Feed, Instagram Feed, atau Instagram Stories.",
       },
       {
         judul: "Atur bagian Ad",
@@ -89,8 +89,8 @@ const tpm6: TaskDefinition = {
       },
     ],
     catatan: [
-      "Berhenti di tahap draft. Instruksi tugas ini menegaskan iklannya tidak perlu diaktifkan dan tidak perlu dialokasikan budget — cukup disimpan sebagai draft. Jadi jangan menekan tombol publish, dan kamu tidak akan dikenai biaya apa pun.",
-      "Kalau kamu sudah pernah melakukan setting iklan di Meta Ads sebelumnya, screenshot-nya boleh langsung dikumpulkan untuk tugas ini — yang penting isinya sejalan dengan konten dan copywriting yang kamu pakai di tugas-tugas sebelumnya.",
+      "Berhenti di tahap draft. Instruksi tugas ini menegaskan iklannya tidak perlu diaktifkan dan tidak perlu dialokasikan budget, cukup disimpan sebagai draft. Jadi jangan menekan tombol publish, dan kamu tidak akan dikenai biaya apa pun.",
+      "Kalau kamu sudah pernah melakukan setting iklan di Meta Ads sebelumnya, screenshot-nya boleh langsung dikumpulkan untuk tugas ini, yang penting isinya sejalan dengan konten dan copywriting yang kamu pakai di tugas-tugas sebelumnya.",
       "Perlu diketahui juga, penilaian pelatihan ini dihitung dari keseluruhan tugas. Peserta yang mengerjakan tugas-tugas lain dengan baik umumnya tetap berada di atas batas kelulusan meskipun bagian ini dikumpulkan seadanya. Meski begitu, mencoba sendiri alurnya tetap yang paling kami sarankan, karena struktur Campaign, Ad Set, dan Ad paling mudah dipahami dengan mempraktikkannya. Untuk kepastian angka kelulusan, silakan cek kembali ke penyelenggara.",
     ],
   },
