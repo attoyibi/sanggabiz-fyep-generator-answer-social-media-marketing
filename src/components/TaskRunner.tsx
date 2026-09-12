@@ -30,6 +30,7 @@ const LABEL_UNDUHAN: Record<FormatUnduhan, string> = {
   docx: "DOCX",
   xlsx: "Excel",
   png: "PNG Desain",
+  pptx: "PPT",
 };
 
 export default function TaskRunner({ taskId }: { taskId: string }) {
@@ -255,7 +256,10 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
       try {
         if (format === "pdf") {
           const { exportPdf } = await import("@/lib/export/pdf");
-          await exportPdf(blocks, namaFile, kode, task.orientation);
+          await exportPdf(blocks, namaFile, kode, task.orientation, task.pageSize);
+        } else if (format === "pptx") {
+          const { exportPptx } = await import("@/lib/export/pptx");
+          await exportPptx(task.buildSlides!(ctx), namaFile, kode);
         } else if (format === "xlsx") {
           const { exportXlsx } = await import("@/lib/export/xlsx");
           await exportXlsx(task.buildWorkbook!(ctx), namaFile, kode);
@@ -673,12 +677,39 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
 
             {/* Pratinjau dokumen */}
             <section className="mb-6">
-              <div className="bar-blue">Pratinjau Dokumen</div>
+              <div className="bar-blue">
+                {task.buildSlides ? "Pratinjau A3 One Pager" : "Pratinjau Dokumen"}
+              </div>
               <p className="mb-2.5 mt-2.5 text-[0.8rem] text-ink-soft">
-                Inilah isi file yang akan diunduh. Perubahan pilihan langsung terlihat di sini.
+                {task.buildSlides
+                  ? "Inilah isi berkas A3 One Pager. Deck PPT-nya diunduh sebagai berkas terpisah, isinya dirangkum di bawah."
+                  : "Inilah isi file yang akan diunduh. Perubahan pilihan langsung terlihat di sini."}
               </p>
               <DocumentPreview blocks={blocks} />
             </section>
+
+            {/* Rangkuman deck, supaya berkas .pptx tidak diunduh tanpa gambaran isinya */}
+            {task.buildSlides && (
+              <section className="mb-6">
+                <div className="bar-blue">Isi Deck PPT</div>
+                <div className="card mt-2.5 p-4 sm:p-5">
+                  <ol className="space-y-1.5">
+                    {task.buildSlides(ctx).map((s, i) => (
+                      <li key={i} className="flex gap-2.5 text-[0.85rem] leading-relaxed">
+                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-soft text-[11px] font-bold text-brand">
+                          {i + 1}
+                        </span>
+                        <span>{s.title}</span>
+                      </li>
+                    ))}
+                  </ol>
+                  <p className="mt-3 border-t border-line pt-2.5 text-[0.78rem] text-ink-soft">
+                    Berkasnya berbentuk .pptx, jadi bisa langsung dibuka dan diubah tampilannya di
+                    PowerPoint, Google Slides, maupun Canva.
+                  </p>
+                </div>
+              </section>
+            )}
 
             {/* Ketentuan pengumpulan */}
             <section className="card mb-6 p-4 sm:p-5">
@@ -782,7 +813,9 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
                         : "rounded-lg border border-brand px-3.5 py-2 text-[0.82rem] font-semibold text-brand transition hover:bg-brand-soft disabled:cursor-not-allowed disabled:opacity-40"
                     }
                   >
-                    {busy === format ? "Menyiapkan..." : `Unduh ${LABEL_UNDUHAN[format]}`}
+                    {busy === format
+                      ? "Menyiapkan..."
+                      : `Unduh ${task.labelUnduhan?.[format] ?? LABEL_UNDUHAN[format]}`}
                   </button>
                 );
               })}

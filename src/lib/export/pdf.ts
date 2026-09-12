@@ -6,10 +6,11 @@ import { FOTO_JPEG, LOGO_PLAN_PNG } from "./assets";
 /* Geometri halaman — mengikuti template resmi: A4 lanskap, margin 1"   */
 /* ------------------------------------------------------------------ */
 
-const MARGIN = 25.4;
-/** Ukuran A4 dalam milimeter. */
-const A4_PANJANG = 297;
-const A4_PENDEK = 210;
+/** Sisi panjang dan pendek tiap ukuran kertas, dalam milimeter. */
+const KERTAS = {
+  a4: { panjang: 297, pendek: 210 },
+  a3: { panjang: 420, pendek: 297 },
+} as const;
 /** Selisih kecil metrik font antara jsPDF dan pembaca PDF. */
 const WRAP_SLACK = 1;
 
@@ -47,11 +48,20 @@ export async function exportPdf(
   /** Kode penilaian untuk pemeriksa, mis. "fyep-90". */
   kodeNilai?: string,
   /** Orientasi halaman, mengikuti template tugasnya. */
-  orientasi: "landscape" | "portrait" = "landscape"
+  orientasi: "landscape" | "portrait" = "landscape",
+  /** Ukuran kertas; capstone memakai A3 karena diminta sebagai A3 Summary Report. */
+  ukuran: "a4" | "a3" = "a4"
 ): Promise<void> {
   const potret = orientasi === "portrait";
-  const PAGE_W = potret ? A4_PENDEK : A4_PANJANG;
-  const PAGE_H = potret ? A4_PANJANG : A4_PENDEK;
+  const kertas = KERTAS[ukuran];
+  /**
+   * Margin 1 inci mengikuti template resmi A4. A3 dipakai untuk laporan
+   * ringkas satu halaman, jadi marginnya dirapatkan supaya isinya muat tanpa
+   * perlu mengecilkan hurufnya.
+   */
+  const MARGIN = ukuran === "a3" ? 9 : 25.4;
+  const PAGE_W = potret ? kertas.pendek : kertas.panjang;
+  const PAGE_H = potret ? kertas.panjang : kertas.pendek;
   const CONTENT_W = PAGE_W - MARGIN * 2;
   const { jsPDF } = await import("jspdf");
   const {
@@ -61,7 +71,7 @@ export async function exportPdf(
     POPPINS_BOLDITALIC,
   } = await import("./poppins");
 
-  const doc = new jsPDF({ unit: "mm", format: "a4", orientation: orientasi, compress: true });
+  const doc = new jsPDF({ unit: "mm", format: ukuran, orientation: orientasi, compress: true });
 
   // Template memakai Poppins, jadi fontnya disematkan supaya bentuk hurufnya sama.
   const fonts: [string, string, string][] = [
@@ -206,8 +216,10 @@ export async function exportPdf(
     const size = 13;
     const tinggi = lh(size) + 2.6;
     // Label ditahan bersama awal isinya: bila sisa halaman hanya cukup untuk
-    // labelnya saja, keduanya dipindah ke halaman berikutnya.
-    const RUANG_ISI = 24;
+    // labelnya saja, keduanya dipindah ke halaman berikutnya. Cadangannya
+    // dikecilkan pada A3, yang dipakai untuk laporan ringkas satu halaman dan
+    // karena itu tidak boleh berpindah halaman hanya demi jarak aman.
+    const RUANG_ISI = ukuran === "a3" ? 6 : 24;
     muat(tinggi + 3 + RUANG_ISI);
     set(size, true, false, BIRU);
     const w = doc.getTextWidth(text) + 7;

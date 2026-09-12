@@ -2,6 +2,7 @@ import {
   KODE_KELAS,
   type BuildContext,
   type DocBlock,
+  type SlideSpec,
   type TaskDefinition,
 } from "../types";
 import { capstoneGroups } from "./bank";
@@ -47,25 +48,92 @@ function bahan(
   return nilai || BELUM;
 }
 
-/** Empat baris Visual Gallery, apa pun jalurnya. */
-function galeriRows(ctx: BuildContext): string[][] {
+/**
+ * Ringkasan pendek untuk A3 Summary Report.
+ *
+ * Dokumen capstone menyebut A3 Report sebagai "laporan ringkas satu halaman"
+ * yang dipakai untuk screening cepat, jadi yang masuk ke sana adalah poin-poin
+ * jawaban, bukan uraian panjangnya. Uraian utuhnya tetap dipakai di deck, yang
+ * memang tempatnya menjelaskan.
+ */
+function ringkas(
+  ctx: BuildContext,
+  sumber: { grup: string; field: string },
+  /** Batas jumlah baris supaya laporannya tetap muat satu halaman. */
+  maksBaris = 2
+): string {
+  if (ctx.mode === "sendiri") {
+    const isi = dariForm(ctx, sumber.field);
+    if (!isi) return BELUM;
+    // Isian peserta berbentuk paragraf bebas, jadi tiap baris ikut dipotong
+    // sepanjang satu baris cetak — membatasi jumlah barisnya saja tidak cukup
+    // karena satu paragraf panjang tetap membungkus menjadi beberapa baris.
+    return isi
+      .split("\n")
+      .filter(Boolean)
+      .slice(0, maksBaris)
+      .map((baris) => penggal(baris.trim(), 108))
+      .join("\n");
+  }
+  const jawaban = ctx.answers[sumber.grup];
+  if (!jawaban) return BELUM;
+  return jawaban.variant.points
+    .slice(0, maksBaris)
+    .map((p) => `- ${ctx.fill(p)}`)
+    .join("\n");
+}
+
+/** Satu konten pada Visual Gallery, sudah dipisah bagiannya. */
+interface KontenGaleri {
+  format: string;
+  kanal: string;
+  penjelasan: string;
+}
+
+/**
+ * Konten Visual Gallery, apa pun jalurnya.
+ *
+ * Pola isinya "format | kanal | penjelasan". Peserta jalur sendiri bisa saja
+ * menulis tanpa pemisah, jadi kalimat utuhnya dipakai sebagai penjelasan
+ * alih-alih menggeser bagian lain.
+ */
+function galeriItems(ctx: BuildContext): KontenGaleri[] {
   const mentah =
     ctx.mode === "sendiri"
       ? ["konten1", "konten2", "konten3", "konten4"].map((f) => dariForm(ctx, f))
       : ["k1", "k2", "k3", "k4"].map((k) => dariKartu(ctx, "galeri", k));
 
-  const baris = mentah
+  return mentah
     .filter((v) => v.length > 0)
-    .map((v, i) => {
-      // Pola isinya "format | kanal | penjelasan". Peserta jalur sendiri bisa
-      // saja menulis tanpa pemisah, jadi bagian yang tidak ada dibiarkan kosong
-      // alih-alih menggeser kolom.
-      const [format = "", kanal = "", penjelasan = ""] = v.split("|").map((x) => x.trim());
-      const isi = penjelasan || format;
-      return [String(i + 1), penjelasan ? `${format}\n${kanal}` : "-", isi];
+    .map((v) => {
+      const [a = "", b = "", c = ""] = v.split("|").map((x) => x.trim());
+      return c ? { format: a, kanal: b, penjelasan: c } : { format: "", kanal: "", penjelasan: a };
     });
+}
 
-  return baris.length > 0 ? baris : [["1", "-", BELUM]];
+/**
+ * Baris tabel Visual Gallery untuk one pager.
+ *
+ * Penjelasannya dipangkas supaya tiap konten cukup satu baris: galeri di A3
+ * Report memang hanya penanda karya, sedangkan uraian utuhnya sudah mendapat
+ * satu slide sendiri di deck.
+ */
+function galeriRows(ctx: BuildContext): string[][] {
+  const items = galeriItems(ctx);
+  if (items.length === 0) return [["1", "-", BELUM]];
+  return items.map((k, i) => [
+    String(i + 1),
+    k.format ? `${k.format} - ${k.kanal}` : "-",
+    penggal(k.penjelasan, 78),
+  ]);
+}
+
+/** Memotong teks pada batas kata terdekat, lalu menutupnya dengan elipsis. */
+function penggal(teks: string, maks: number): string {
+  if (teks.length <= maks) return teks;
+  const potong = teks.slice(0, maks);
+  const spasi = potong.lastIndexOf(" ");
+  return `${(spasi > maks * 0.6 ? potong.slice(0, spasi) : potong).trimEnd()}...`;
 }
 
 /* ------------------------------------------------------------------ */
@@ -156,11 +224,11 @@ const capstone: TaskDefinition = {
     fileNamePattern: `${KODE_KELAS}-capstone-[Nama Lengkap Peserta]`,
     fileName: (nama) => `${KODE_KELAS}-capstone-${nama}`,
     notes: [
-      "Kumpulkan dua berkas: A3 Summary Report satu halaman dan PPT Presentasi.",
-      `Nama file ditulis dengan format ${KODE_KELAS}-capstone-[Nama Lengkap Peserta]. Contoh: ${KODE_KELAS}-capstone-Putri Amalia.pdf`,
-      "Dokumen dari halaman ini berisi bahan dan kerangkanya. Desain akhirnya kamu kerjakan sendiri di Canva, dan kamu bebas berkreasi selama bagian-bagian yang diminta tetap ada.",
+      "Ada dua berkas yang harus dikumpulkan, dan halaman ini menyiapkan keduanya: A3 Summary Report satu halaman (tombol A3 One Pager) dan PPT Presentasi (tombol Deck PPT).",
+      `Nama file ditulis dengan format ${KODE_KELAS}-capstone-[Nama Lengkap Peserta]. Contoh: ${KODE_KELAS}-capstone-Putri Amalia.pdf dan ${KODE_KELAS}-capstone-Putri Amalia.pptx`,
+      "Berkas .pptx-nya bisa langsung dibuka dan disunting di PowerPoint, Google Slides, maupun Canva. Kamu bebas berkreasi mengubah tampilannya selama bagian-bagian yang diminta tetap ada.",
       "Referensi visual A3 Report: cari \"One Page Marketing Case Study\" atau \"Executive Summary Infographic\". Untuk deck, cari \"Digital Marketing Pitch Deck\".",
-      "Jangan lupa cantumkan kode QR yang mengarah ke file PPT lengkapmu pada A3 Report, serta Profile Card berisi foto profesional dan tautan LinkedIn pada slide penutup.",
+      "Sebelum dikirim, tambahkan kode QR yang mengarah ke file PPT lengkapmu pada A3 Report, serta lengkapi Profile Card di slide penutup dengan foto profesional dan tautan LinkedIn.",
       `Kirimkan melalui tautan resmi: ${TAUTAN_PENGUMPULAN}`,
     ],
   },
@@ -233,7 +301,18 @@ const capstone: TaskDefinition = {
     },
   ],
 
-  downloads: ["pdf", "docx"],
+  /**
+   * Dokumen capstone meminta dua berkas terpisah, jadi keduanya dihasilkan
+   * sebagai berkas yang benar-benar berbeda bentuk: PDF A3 satu halaman untuk
+   * Summary Report, dan .pptx yang bisa disunting untuk decknya.
+   */
+  downloads: ["pdf", "pptx"],
+  orientation: "landscape",
+  pageSize: "a3",
+  labelUnduhan: {
+    pdf: "A3 One Pager",
+    pptx: "Deck PPT",
+  },
 
   buildDocument: (ctx) => {
     const b: DocBlock[] = [];
@@ -242,47 +321,47 @@ const capstone: TaskDefinition = {
 
     /* ---------- Halaman 1: A3 Summary Report ---------- */
     b.push({ type: "title", text: "Capstone Project - A3 Summary Report" });
-    b.push({ type: "byline", text: `Nama Peserta: ${ctx.nama}` });
-
-    b.push({ type: "label", text: "Identitas" });
+    // Identitas sengaja dirapatkan menjadi satu baris: laporan ini harus muat
+    // satu halaman, dan tiga baris terpisah menghabiskan ruang tanpa menambah
+    // keterangan apa pun.
     b.push({
-      type: "fieldTable",
-      labelAlign: "left",
-      labelWidth: 0.28,
-      rows: [
-        { label: "Nama Peserta", value: ctx.nama },
-        { label: "Program Pelatihan", value: "Social Media Marketing" },
-        { label: "Mitra UMKM", value: namaUmkm },
-      ],
+      type: "byline",
+      text: `${ctx.nama}  •  Social Media Marketing  •  Mitra UMKM: ${namaUmkm}`,
     });
 
     b.push({ type: "label", text: "Business Context" });
     b.push({
       type: "fieldTable",
       labelAlign: "left",
-      labelWidth: 0.28,
+      labelWidth: 0.24,
       rows:
         ctx.mode === "sendiri"
           ? [
-              { label: "Profil UMKM", value: bahan(ctx, { grup: "konteks", field: "bidang" }) },
-              { label: "Lokasi", value: bahan(ctx, { grup: "konteks", field: "lokasi" }) },
               {
-                label: "Keunggulan Utama",
-                value: bahan(ctx, { grup: "konteks", field: "keunggulan" }),
+                label: "Profil UMKM",
+                value: [
+                  dariForm(ctx, "bidang") || BELUM,
+                  `${dariForm(ctx, "lokasi") || BELUM}  •  ${dariForm(ctx, "akun") || "belum ada akun"}`,
+                  ringkas(ctx, { grup: "konteks", field: "keunggulan" }),
+                ].join("\n"),
               },
-              { label: "Target Audiens", value: bahan(ctx, { grup: "audiens", field: "audiens" }) },
               {
-                label: "Kebutuhan Audiens",
-                value: bahan(ctx, { grup: "audiens", field: "painPoint" }),
+                label: "Target Audiens",
+                value: [
+                  ringkas(ctx, { grup: "audiens", field: "audiens" }),
+                  ringkas(ctx, { grup: "audiens", field: "painPoint" }, 1),
+                ].join("\n"),
               },
-              { label: "Akun Media Sosial", value: bahan(ctx, { grup: "konteks", field: "akun" }) },
             ]
           : [
-              { label: "Profil UMKM", value: bahan(ctx, { grup: "konteks", field: "bidang" }) },
-              { label: "Lokasi", value: SANGGABIZ.kota },
-              { label: "Layanan Utama", value: SANGGABIZ.layanan.join("\n") },
-              { label: "Target Audiens", value: bahan(ctx, { grup: "audiens", field: "audiens" }) },
-              { label: "Akun Media Sosial", value: SANGGABIZ.instagram },
+              {
+                label: "Profil UMKM",
+                value: [
+                  `${SANGGABIZ.nama} - ${SANGGABIZ.tagline}`,
+                  `${SANGGABIZ.kota}  •  ${SANGGABIZ.instagram}`,
+                ].join("\n"),
+              },
+              { label: "Target Audiens", value: ringkas(ctx, { grup: "audiens", field: "audiens" }) },
             ],
     });
 
@@ -290,10 +369,10 @@ const capstone: TaskDefinition = {
     b.push({
       type: "fieldTable",
       labelAlign: "left",
-      labelWidth: 0.28,
+      labelWidth: 0.24,
       rows: [
-        { label: "Pilar Konten", value: bahan(ctx, { grup: "pilar", field: "pilar" }) },
-        { label: "Ritme Konten", value: bahan(ctx, { grup: "kalender", field: "ritme" }) },
+        { label: "Pilar Konten", value: ringkas(ctx, { grup: "pilar", field: "pilar" }) },
+        { label: "Ritme Konten", value: ringkas(ctx, { grup: "kalender", field: "ritme" }) },
       ],
     });
 
@@ -301,135 +380,158 @@ const capstone: TaskDefinition = {
     b.push({
       type: "grid",
       head: ["No", "Format dan Kanal", "Judul dan Penjelasan"],
-      widths: [0.08, 0.24, 0.68],
+      widths: [0.05, 0.23, 0.72],
       rows: galeriRows(ctx),
-      caption:
-        "Tampilkan keempat konten ini sebagai thumbnail kecil pada A3 Report, bukan sebagai tabel.",
     });
 
-    b.push({ type: "label", text: "Technical Skill Evidence" });
+    // Tautan portofolio digabung ke tabel ini, bukan diberi label sendiri:
+    // isinya cuma satu baris, dan A3 Report harus tetap muat satu halaman.
+    b.push({ type: "label", text: "Technical Skill Evidence & Portfolio" });
     b.push({
       type: "fieldTable",
       labelAlign: "left",
-      labelWidth: 0.28,
+      labelWidth: 0.24,
       rows: [
-        { label: "Visual Hook", value: bahan(ctx, { grup: "hook", field: "hook" }) },
+        { label: "Visual Hook", value: ringkas(ctx, { grup: "hook", field: "hook" }) },
         {
-          label: "Formula Copywriting",
+          label: "Copywriting",
           value:
             ctx.mode === "sendiri"
-              ? bahan(ctx, { grup: "copywriting", field: "formula" })
-              : bahan(ctx, { grup: "copywriting", key: "formula", field: "formula" }),
+              ? [dariForm(ctx, "formula") || BELUM, dariForm(ctx, "storytelling")]
+                  .filter(Boolean)
+                  .join("\n")
+              : [
+                  dariKartu(ctx, "copywriting", "formula") || BELUM,
+                  ...(ctx.answers["copywriting"]?.variant.points ?? [])
+                    .slice(0, 1)
+                    .map((p) => `- ${ctx.fill(p)}`),
+                ].join("\n"),
         },
         {
-          label: "Teknik Storytelling",
-          value: bahan(ctx, { grup: "copywriting", field: "storytelling" }),
-        },
-      ],
-    });
-
-    b.push({ type: "label", text: "QR Code Portfolio" });
-    b.push({
-      type: "fieldTable",
-      labelAlign: "left",
-      labelWidth: 0.28,
-      rows: [
-        {
-          label: "Tautan File PPT",
+          label: "QR Code Portfolio",
           value:
             ctx.mode === "sendiri"
-              ? dariForm(ctx, "portfolio") ||
-                "Belum diisi - unggah PPT-mu ke Google Drive, lalu tempelkan tautannya di sini"
-              : "Unggah PPT-mu ke Google Drive, atur aksesnya menjadi dapat dilihat siapa saja, lalu ubah tautannya menjadi kode QR",
-        },
-      ],
-    });
-
-    /* ---------- Halaman 2: Kerangka PPT ---------- */
-    b.push({ type: "pageBreak" });
-    b.push({ type: "title", text: "Capstone Project - Kerangka PPT Presentasi" });
-    b.push({ type: "byline", text: `Nama Peserta: ${ctx.nama}` });
-    b.push({
-      type: "note",
-      text: "Penomoran slide di bawah mengikuti dokumen Capstone Project resmi. Isi tiap slide sudah tersusun dari jawabanmu; tinggal dipindahkan ke Canva dan dirancang tampilannya.",
-    });
-
-    b.push({ type: "label", text: "Slide 1: Profil & Analisis Bisnis" });
-    b.push({
-      type: "fieldTable",
-      labelAlign: "left",
-      labelWidth: 0.28,
-      rows: [
-        { label: "Profil Mitra", value: bahan(ctx, { grup: "konteks", field: "bidang" }) },
-        { label: "Hasil Riset Audiens", value: bahan(ctx, { grup: "audiens", field: "audiens" }) },
-      ],
-    });
-
-    b.push({ type: "label", text: "Slide 2: Strategic Content Plan" });
-    b.push({
-      type: "fieldTable",
-      labelAlign: "left",
-      labelWidth: 0.28,
-      rows: [
-        { label: "Pilar Konten", value: bahan(ctx, { grup: "pilar", field: "pilar" }) },
-        {
-          label: "Kalender dan Alasan Topik",
-          value: bahan(ctx, { grup: "kalender", field: "ritme" }),
-        },
-      ],
-    });
-
-    b.push({ type: "label", text: "Slide 3-9: Individual Showcase" });
-    b.push({
-      type: "grid",
-      head: ["No", "Format dan Kanal", "Judul dan Penjelasan"],
-      widths: [0.08, 0.24, 0.68],
-      rows: galeriRows(ctx),
-      caption:
-        "Satu konten satu slide. Pada tiap slide, jelaskan mengapa visual hook-nya dipilih dan bagaimana narasi copywriting-nya bekerja.",
-    });
-    b.push({
-      type: "fieldTable",
-      labelAlign: "left",
-      labelWidth: 0.28,
-      rows: [
-        { label: "Visual Hook yang Dipakai", value: bahan(ctx, { grup: "hook", field: "hook" }) },
-        {
-          label: "Cara Narasi Bekerja",
-          value: bahan(ctx, { grup: "copywriting", field: "storytelling" }),
-        },
-      ],
-    });
-
-    b.push({ type: "label", text: "Slide 6: Impact & Potential" });
-    b.push({
-      type: "fieldTable",
-      labelAlign: "left",
-      labelWidth: 0.28,
-      rows: [
-        {
-          label: "Potensi Brand Awareness",
-          value: bahan(ctx, { grup: "impact", field: "impact" }),
-        },
-      ],
-    });
-
-    b.push({ type: "label", text: "Slide 7: Closure & Hire Me" });
-    b.push({
-      type: "fieldTable",
-      labelAlign: "left",
-      labelWidth: 0.28,
-      rows: [
-        { label: "Kesiapan Berkontribusi", value: bahan(ctx, { grup: "hireme", field: "hireme" }) },
-        {
-          label: "Profile Card",
-          value:
-            "Cantumkan foto profesional, nama lengkap, satu kalimat penempatan diri, serta tautan profil LinkedIn.",
+              ? dariForm(ctx, "portfolio") || "Belum diisi - tempelkan tautan deck PPT-mu di sini"
+              : "Unggah deck PPT ke Google Drive, buka aksesnya, lalu ubah tautannya jadi kode QR",
         },
       ],
     });
 
     return b;
+  },
+
+  /**
+   * Deck presentasi. Penomoran slidenya mengikuti dokumen Capstone resmi,
+   * termasuk rentang "Slide 3-9" untuk Individual Showcase — di situ satu
+   * konten memang mendapat satu slide, jadi jumlahnya ikut jumlah konten
+   * yang dipilih peserta.
+   */
+  buildSlides: (ctx) => {
+    const namaUmkm =
+      ctx.mode === "sendiri" ? dariForm(ctx, "namaUmkm") || BELUM : SANGGABIZ.nama;
+    const konten = galeriItems(ctx);
+    const hook = bahan(ctx, { grup: "hook", field: "hook" });
+    const narasi = bahan(ctx, { grup: "copywriting", field: "storytelling" });
+    const formula =
+      ctx.mode === "sendiri"
+        ? bahan(ctx, { grup: "copywriting", field: "formula" })
+        : bahan(ctx, { grup: "copywriting", key: "formula", field: "formula" });
+
+    const slides: SlideSpec[] = [
+      {
+        layout: "sampul",
+        title: "Capstone Project",
+        subtitle: `Social Media Marketing untuk ${namaUmkm}\n${ctx.nama}`,
+        body: [],
+      },
+      {
+        title: "Slide 1: Profil & Analisis Bisnis",
+        subtitle: "Hasil riset target audiens dan kompetitor",
+        body: [
+          {
+            type: "fields",
+            rows: [
+              { label: "Profil Mitra", value: bahan(ctx, { grup: "konteks", field: "bidang" }) },
+              {
+                label: "Target Audiens",
+                value: bahan(ctx, { grup: "audiens", field: "audiens" }),
+              },
+            ],
+          },
+        ],
+      },
+      {
+        title: "Slide 2: Strategic Content Plan",
+        subtitle: "Kalender konten dan alasan pemilihan topik",
+        body: [
+          {
+            type: "fields",
+            rows: [
+              { label: "Pilar Konten", value: bahan(ctx, { grup: "pilar", field: "pilar" }) },
+              {
+                label: "Ritme dan Alasan Topik",
+                value: bahan(ctx, { grup: "kalender", field: "ritme" }),
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    // Slide 3-9: satu konten satu slide, sesuai ketentuan dokumen capstone.
+    const daftar = konten.length > 0 ? konten : [{ format: "", kanal: "", penjelasan: BELUM }];
+    daftar.forEach((k, i) => {
+      slides.push({
+        title: `Individual Showcase ${i + 1}`,
+        subtitle: k.format ? `${k.format} - ${k.kanal}` : undefined,
+        body: [
+          { type: "fields", rows: [{ label: "Konten", value: k.penjelasan }] },
+          {
+            type: "fields",
+            rows: [
+              { label: "Mengapa visual hook ini", value: hook },
+              { label: "Bagaimana narasinya bekerja", value: narasi },
+              { label: "Formula copywriting", value: formula },
+            ],
+          },
+        ],
+      });
+    });
+
+    slides.push({
+      title: "Slide 6: Impact & Potential",
+      subtitle: "Potensi peningkatan brand awareness bagi mitra UMKM",
+      body: [
+        {
+          type: "fields",
+          rows: [{ label: "Analisis", value: bahan(ctx, { grup: "impact", field: "impact" }) }],
+        },
+      ],
+    });
+
+    slides.push({
+      layout: "penutup",
+      title: "Slide 7: Closure & Hire Me",
+      subtitle: "Kesiapan berkontribusi di industri",
+      body: [
+        {
+          type: "fields",
+          rows: [
+            {
+              label: "Yang sudah dibuktikan",
+              value: bahan(ctx, { grup: "hireme", field: "hireme" }),
+            },
+            { label: "Profile Card", value: ctx.nama },
+          ],
+        },
+        {
+          type: "note",
+          text: "Ganti bagian Profile Card dengan foto profesionalmu, satu kalimat penempatan diri, dan tautan LinkedIn.",
+        },
+      ],
+    });
+
+    return slides;
   },
 };
 

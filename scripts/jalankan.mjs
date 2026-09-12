@@ -29,6 +29,8 @@ try {
     platform: "node",
     format: "esm",
     target: "node20",
+    // pptxgenjs sengaja TIDAK dieksternalkan: paketnya hanya menyediakan berkas
+    // ESM, sehingga Node akan menolaknya bila dimuat dari bundel ini.
     external: ["jspdf", "docx", "exceljs"],
     outfile: out,
     logLevel: "error",

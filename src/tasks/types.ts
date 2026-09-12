@@ -235,7 +235,35 @@ export interface SheetSpec {
 }
 
 /** Format berkas yang bisa diunduh peserta untuk sebuah tugas. */
-export type FormatUnduhan = "pdf" | "docx" | "xlsx" | "png";
+export type FormatUnduhan = "pdf" | "docx" | "xlsx" | "png" | "pptx";
+
+/* ------------------------------------------------------------------ */
+/* Model deck presentasi: dipakai tugas yang dikumpulkan sebagai PPT    */
+/*                                                                      */
+/* Dokumen Capstone meminta deck presentasi sebagai berkas tersendiri,  */
+/* jadi slidenya disusun sebagai berkas .pptx yang benar-benar bisa     */
+/* dibuka dan disunting peserta di PowerPoint maupun Canva.             */
+/* ------------------------------------------------------------------ */
+
+export type SlideBlock =
+  /** Daftar poin bertanda bulat. */
+  | { type: "bullets"; items: string[] }
+  /** Pasangan label dan isi, dipakai untuk keterangan bertingkat. */
+  | { type: "fields"; rows: { label: string; value: string }[] }
+  /** Kalimat pengingat berwarna magenta, mengikuti gaya catatan template. */
+  | { type: "note"; text: string };
+
+export interface SlideSpec {
+  /**
+   * Judul slide. Nomor slide mengikuti dokumen Capstone resmi, jadi ditulis
+   * di sini apa adanya, mis. "Slide 3-9: Individual Showcase".
+   */
+  title: string;
+  subtitle?: string;
+  body: SlideBlock[];
+  /** "sampul" dan "penutup" memakai tata letak penuh warna; bawaannya "isi". */
+  layout?: "sampul" | "isi" | "penutup";
+}
 
 /* ------------------------------------------------------------------ */
 /* Model desain: dipakai tugas yang hasilnya berupa konten visual       */
@@ -438,6 +466,17 @@ export interface TaskDefinition {
   programCode?: string;
   /** Orientasi halaman berkas, mengikuti template tugasnya. Bawaannya lanskap. */
   orientation?: "landscape" | "portrait";
+  /**
+   * Ukuran kertas PDF. Capstone memakai A3 karena dokumennya memang diminta
+   * sebagai "A3 Summary Report" satu halaman. Bawaannya A4.
+   */
+  pageSize?: "a4" | "a3";
+  /**
+   * Nama tombol unduh, bila nama bawaan formatnya kurang jelas. Capstone
+   * memakainya karena PDF-nya adalah one pager dan PPTX-nya adalah deck,
+   * bukan sekadar dua format dari dokumen yang sama.
+   */
+  labelUnduhan?: Partial<Record<FormatUnduhan, string>>;
   meta: TaskMeta;
   caseStudy: { title: string; paragraphs: string[] };
   instructionSummary: string[];
@@ -474,4 +513,6 @@ export interface TaskDefinition {
   buildWorkbook?: (ctx: BuildContext) => SheetSpec[];
   /** Penyusun desain visual; wajib bila "png" ada di daftar unduhan. */
   buildDesigns?: (ctx: BuildContext) => DesignSpec[];
+  /** Penyusun deck presentasi; wajib bila "pptx" ada di daftar unduhan. */
+  buildSlides?: (ctx: BuildContext) => SlideSpec[];
 }
