@@ -1,5 +1,6 @@
 import type {
   BuildContext,
+  CapstoneMode,
   ChoiceGroup,
   Grade,
   Pilihan,
@@ -71,7 +72,9 @@ export function buildContext(
   seed: number,
   selections: Record<string, PilihanInput>,
   /** Konteks tugas sumber, untuk tugas yang melanjutkan tugas sebelumnya. */
-  sumber?: BuildContext
+  sumber?: BuildContext,
+  /** Jalur capstone beserta isian formulirnya, bila tugas ini capstone. */
+  capstone?: { mode: CapstoneMode; form: Record<string, string> }
 ): BuildContext {
   const answers: Record<string, ResolvedAnswer> = {};
   for (const group of allGroups(task)) {
@@ -97,7 +100,7 @@ export function buildContext(
     pick: <T,>(bucket: string, items: T[]) => pick(`${task.id}:doc:${bucket}`, items),
   };
 
-  const dasar = { ...base, sumber };
+  const dasar = { ...base, sumber, mode: capstone?.mode, form: capstone?.form };
   const tokens = task.tokens ? task.tokens(dasar) : { nama };
   // Token bisa mengandung token lain, jadi diisi dua putaran.
   const resolvedTokens: Record<string, string> = {};

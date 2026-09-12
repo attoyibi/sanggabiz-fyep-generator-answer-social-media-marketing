@@ -7,6 +7,7 @@ import tpm5 from "./tpm-5";
 import tpm6 from "./tpm-6";
 import tpm7 from "./tpm-7";
 import tpm8 from "./tpm-8";
+import capstone from "./capstone";
 
 /**
  * ====================================================================
@@ -19,9 +20,19 @@ import tpm8 from "./tpm-8";
  *    Navbar, penyimpanan localStorage, preview, dan export PDF/DOCX
  *    otomatis mengikuti tanpa perlu diubah.
  */
-export const TASKS: TaskDefinition[] = [tpm1, tpm2, tpm3, tpm4, tpm5, tpm6, tpm7, tpm8];
+export const TASKS: TaskDefinition[] = [
+  tpm1,
+  tpm2,
+  tpm3,
+  tpm4,
+  tpm5,
+  tpm6,
+  tpm7,
+  tpm8,
+  capstone,
+];
 
-/** Jumlah slot yang ditampilkan di navbar, termasuk tugas yang belum tersedia. */
+/** Jumlah slot bernomor yang ditampilkan di navbar, termasuk yang belum tersedia. */
 export const TOTAL_SLOT_TUGAS = 8;
 
 /** Daftar untuk navbar: tugas terdaftar + placeholder "segera hadir". */
@@ -29,6 +40,8 @@ export interface NavItem {
   id: string;
   label: string;
   available: boolean;
+  /** Ditandai khusus: warna tersendiri dan ikon bintang, dipakai capstone. */
+  istimewa?: boolean;
 }
 
 /**
@@ -37,6 +50,8 @@ export interface NavItem {
  * Tugas boleh dikerjakan tidak berurutan: bila TPM 7 sudah ada sementara TPM 5
  * dan TPM 6 belum, slot 5 dan 6 tetap tampil sebagai "segera hadir" di tempatnya
  * dan TPM 7 tetap duduk di slot ketujuh.
+ *
+ * Tugas tanpa nomor — capstone — ditaruh setelah seluruh slot bernomor.
  */
 export function getNavItems(): NavItem[] {
   const items: NavItem[] = [];
@@ -47,6 +62,14 @@ export function getNavItems(): NavItem[] {
         ? { id: tugas.id, label: tugas.navLabel, available: tugas.available }
         : { id: `slot-${n}`, label: `Tugas ${n}`, available: false }
     );
+  }
+  for (const tugas of TASKS.filter((t) => !/^tpm-\d+$/.test(t.id))) {
+    items.push({
+      id: tugas.id,
+      label: tugas.navLabel,
+      available: tugas.available,
+      istimewa: tugas.istimewa,
+    });
   }
   return items;
 }

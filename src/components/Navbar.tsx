@@ -42,18 +42,24 @@ export default function Navbar({ activeId }: { activeId: string }) {
                 </span>
               );
             }
+            // Capstone memakai magenta Plan International supaya terbaca sebagai
+            // tugas penutup, bukan tugas kesembilan yang setara dengan lainnya.
+            const gaya = item.istimewa
+              ? isActive
+                ? "bg-accent text-white shadow-sm"
+                : "border border-accent/40 bg-accent-soft text-accent-dark hover:border-accent"
+              : isActive
+                ? "bg-brand text-white shadow-sm"
+                : "border border-line bg-white text-ink hover:border-brand hover:text-brand";
             return (
               <Link
                 key={item.id}
                 href={`/tugas/${item.id}`}
                 ref={isActive ? activeRef : undefined}
                 aria-current={isActive ? "page" : undefined}
-                className={
-                  isActive
-                    ? "shrink-0 snap-start rounded-full bg-brand px-4 py-2 text-[13px] font-semibold text-white shadow-sm"
-                    : "shrink-0 snap-start rounded-full border border-line bg-white px-4 py-2 text-[13px] font-medium text-ink transition-colors hover:border-brand hover:text-brand"
-                }
+                className={`flex shrink-0 snap-start items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-semibold transition-colors ${gaya}`}
               >
+                {item.istimewa && <StarIcon />}
                 {item.label}
               </Link>
             );
@@ -61,6 +67,14 @@ export default function Navbar({ activeId }: { activeId: string }) {
         </nav>
       </div>
     </header>
+  );
+}
+
+function StarIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2.5l2.9 5.88 6.5.95-4.7 4.58 1.11 6.46L12 17.32l-5.81 3.05 1.11-6.46-4.7-4.58 6.5-.95L12 2.5z" />
+    </svg>
   );
 }
 

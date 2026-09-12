@@ -274,6 +274,60 @@ export interface PanduanTugas {
   catatan: string[];
 }
 
+/* ------------------------------------------------------------------ */
+/* Model capstone: satu tugas, dua jalur pengerjaan                     */
+/*                                                                      */
+/* Peserta memilih mengerjakan memakai mitra UMKM yang sudah disiapkan   */
+/* (jalur pilihan, persis seperti TPM 1-8), atau memasukkan data UMKM    */
+/* miliknya sendiri lewat formulir. Keduanya bermuara pada dokumen yang  */
+/* sama: A3 Summary Report dan kerangka PPT.                             */
+/* ------------------------------------------------------------------ */
+
+/** Jalur pengerjaan capstone yang dipilih peserta. */
+export type CapstoneMode = "mitra" | "sendiri";
+
+/** Satu isian pada formulir "UMKM sendiri". */
+export interface CapstoneField {
+  id: string;
+  label: string;
+  placeholder: string;
+  /** Penjelasan singkat: apa yang harus diisi dan sedetail apa. */
+  hint: string;
+  /** Isian panjang memakai textarea. */
+  multiline?: boolean;
+  /**
+   * Contoh isian siap pakai. Peserta bisa menyalinnya dengan satu klik lalu
+   * menyuntingnya, supaya formulir tidak terasa seperti halaman kosong.
+   */
+  contoh: string;
+  /** Isian wajib ikut menentukan kelengkapan dan nilai. */
+  wajib?: boolean;
+}
+
+/** Satu kelompok isian pada formulir, mis. "Profil UMKM". */
+export interface CapstoneSection {
+  id: string;
+  title: string;
+  description: string;
+  fields: CapstoneField[];
+}
+
+/** Ringkasan satu jalur, dipakai pada kartu pemilihan mode. */
+export interface CapstoneJalur {
+  judul: string;
+  ringkas: string;
+  poin: string[];
+}
+
+export interface CapstoneConfig {
+  /** Jalur kiri: mitra UMKM yang sudah disiapkan. */
+  mitra: CapstoneJalur;
+  /** Jalur kanan: peserta memasukkan data UMKM sendiri. */
+  sendiri: CapstoneJalur;
+  /** Isian pada jalur "sendiri". */
+  form: CapstoneSection[];
+}
+
 /** Panduan merek yang ditampilkan di layar, dipakai TPM 4. */
 export interface BrandGuide {
   judul: string;
@@ -355,6 +409,13 @@ export interface BuildContext {
    * rencana yang ia susun sendiri.
    */
   sumber?: BuildContext;
+  /** Jalur capstone yang sedang dipakai; kosong untuk tugas biasa. */
+  mode?: CapstoneMode;
+  /**
+   * Isian formulir pada jalur "sendiri", dipetakan dari id isian ke nilainya.
+   * Kosong pada jalur "mitra", karena bahannya datang dari kartu pilihan.
+   */
+  form?: Record<string, string>;
 }
 
 export interface TaskDefinition {
@@ -379,6 +440,13 @@ export interface TaskDefinition {
    * halaman tugas tidak menampilkan kartu jawaban maupun tombol unduh.
    */
   panduan?: PanduanTugas;
+  /**
+   * Menandai tugas ini sebagai capstone: peserta memilih dulu jalur
+   * pengerjaannya sebelum gerbang nama muncul.
+   */
+  capstone?: CapstoneConfig;
+  /** Ditandai khusus di navbar: warna tersendiri dan ikon bintang. */
+  istimewa?: boolean;
   submission: Submission;
   steps: TaskStep[];
   /** Token dinamis untuk teks varian, mis. {{brand}}. */

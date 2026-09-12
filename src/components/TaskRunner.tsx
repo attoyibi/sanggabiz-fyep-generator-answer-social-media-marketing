@@ -7,10 +7,19 @@ import DocumentPreview from "./DocumentPreview";
 import DesignPreview from "./DesignPreview";
 import BrandGuidePanel from "./BrandGuidePanel";
 import PanduanPanel from "./PanduanPanel";
+import CapstoneModeGate from "./CapstoneModeGate";
+import CapstoneForm from "./CapstoneForm";
 import { getTask } from "@/tasks/registry";
-import type { BuildContext, FormatUnduhan, Grade, Pilihan } from "@/tasks/types";
+import type {
+  BuildContext,
+  CapstoneMode,
+  FormatUnduhan,
+  Grade,
+  Pilihan,
+} from "@/tasks/types";
 import { allGroups, buildContext, progressOf } from "@/lib/resolve";
-import { kodeNilai } from "@/lib/scoring";
+import { kodeNilai, KODE_PROGRAM } from "@/lib/scoring";
+import { nilaiFormulir, progresFormulir } from "@/lib/capstone";
 import { createSeed } from "@/lib/rng";
 import { EMPTY_TERSIMPAN, loadState, saveState, clearState, type PesertaState } from "@/lib/storage";
 import { safeFileName } from "@/lib/download";
@@ -58,6 +67,36 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
 
   const groups = useMemo(() => allGroups(task), [task]);
 
+  /* ---------- capstone: jalur pengerjaan dan isian formulir ---------- */
+  const mode = task.capstone ? state.modes[taskId] : undefined;
+  const formValues = useMemo<Record<string, string>>(
+    () => state.forms[taskId] ?? {},
+    [state.forms, taskId]
+  );
+  /** Jalur "sendiri" mengganti kartu pilihan dengan formulir. */
+  const pakaiFormulir = mode === "sendiri";
+
+  const pilihMode = useCallback(
+    (pilihan: CapstoneMode) => {
+      setState((prev) => ({ ...prev, modes: { ...prev.modes, [taskId]: pilihan } }));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    [taskId]
+  );
+
+  const ubahIsian = useCallback(
+    (fieldId: string, value: string) => {
+      setState((prev) => ({
+        ...prev,
+        forms: {
+          ...prev.forms,
+          [taskId]: { ...(prev.forms[taskId] ?? {}), [fieldId]: value },
+        },
+      }));
+    },
+    [taskId]
+  );
+
   /**
    * Tugas yang melanjutkan tugas sebelumnya membaca jawaban tugas itu dari
    * localStorage. Jawaban di sana sudah terkunci lewat variantId, jadi isinya
@@ -98,15 +137,36 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
   }, [task.dependsOn, state.selections]);
 
   const ctx = useMemo(
-    () => buildContext(task, state.nama || "Nama Peserta", state.seed, selections, sumber),
-    [task, state.nama, state.seed, selections, sumber]
+    () =>
+      buildContext(
+        task,
+        state.nama || "Nama Peserta",
+        state.seed,
+        selections,
+        sumber,
+        mode ? { mode, form: formValues } : undefined
+      ),
+    [task, state.nama, state.seed, selections, sumber, mode, formValues]
   );
 
   const blocks = useMemo(() => task.buildDocument(ctx), [task, ctx]);
-  const progres = useMemo(() => progressOf(task, selections), [task, selections]);
-  const lengkap = progres.belum === 0;
+  /**
+   * Di jalur formulir tidak ada kartu pilihan, jadi kelengkapan dan nilainya
+   * dihitung dari isian wajib yang sudah terisi.
+   */
+  const progres = useMemo(
+    () => (pakaiFormulir ? progresFormulir(task, formValues) : progressOf(task, selections)),
+    [pakaiFormulir, task, formValues, selections]
+  );
+  const lengkap = progres.total > 0 && progres.belum === 0;
   // Kode untuk pemeriksa; hanya ikut ke berkas hasil unduhan, tidak pernah tampil di layar.
-  const kode = useMemo(() => kodeNilai(task, selections), [task, selections]);
+  const kode = useMemo(
+    () =>
+      pakaiFormulir
+        ? `${task.programCode ?? KODE_PROGRAM}-${nilaiFormulir(task, formValues)}`
+        : kodeNilai(task, selections),
+    [pakaiFormulir, task, formValues, selections]
+  );
   const namaFile = safeFileName(task.submission.fileName(state.nama || "Nama Peserta"));
   // Format pengumpulan tugas ini, yaitu format pertama pada daftar unduhan.
   const formatUtama = task.downloads[0];
@@ -233,6 +293,8 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
    * disembunyikan seluruhnya.
    */
   const dikerjakanSendiri = Boolean(task.panduan);
+  /** Capstone menahan seluruh isi halaman sampai jalur pengerjaannya dipilih. */
+  const belumPilihJalur = Boolean(task.capstone) && !mode;
 
   return (
     <>
@@ -241,8 +303,16 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
       <main className="mx-auto max-w-5xl px-4 pb-40 pt-6">
         {/* Judul tugas */}
         <div className="mb-5">
-          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-brand">
-            Tugas Praktik Mandiri - {task.code.replace(/\D/g, "")}
+          {/* Tugas bernomor tampil sebagai "Tugas Praktik Mandiri - 3"; capstone
+              tidak bernomor, jadi kodenya dipakai apa adanya. */}
+          <p
+            className={`text-[11px] font-bold uppercase tracking-[0.16em] ${
+              task.istimewa ? "text-accent" : "text-brand"
+            }`}
+          >
+            {/\d/.test(task.code)
+              ? `Tugas Praktik Mandiri - ${task.code.replace(/\D/g, "")}`
+              : task.code}
           </p>
           <h1 className="mt-1 text-[1.6rem] font-extrabold leading-tight sm:text-[2rem]">
             {task.title}
@@ -297,8 +367,34 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
         {/* Panduan tugas yang dikerjakan sendiri di tools-nya */}
         {task.panduan && <PanduanPanel panduan={task.panduan} />}
 
+        {/* Capstone: pemilihan jalur sebelum apa pun yang lain */}
+        {task.capstone && belumPilihJalur && (
+          <CapstoneModeGate config={task.capstone} onPilih={pilihMode} />
+        )}
+
+        {/* Capstone: jalur yang sedang dipakai, bisa diganti kapan saja */}
+        {task.capstone && mode && (
+          <div className="card mb-5 flex flex-wrap items-center gap-3 border-accent/30 bg-accent-soft/40 p-4">
+            <div className="min-w-0 flex-1">
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-accent-dark">
+                Cara Mengerjakan
+              </p>
+              <p className="mt-0.5 text-[0.88rem] font-semibold">
+                {mode === "mitra" ? task.capstone.mitra.judul : task.capstone.sendiri.judul}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => pilihMode(mode === "mitra" ? "sendiri" : "mitra")}
+              className="rounded-lg border border-accent/40 bg-white px-3.5 py-2 text-[0.8rem] font-semibold text-accent transition hover:bg-accent hover:text-white"
+            >
+              Ganti cara
+            </button>
+          </div>
+        )}
+
         {/* Gerbang nama */}
-        {dikerjakanSendiri ? null : !sudahMulai ? (
+        {dikerjakanSendiri || belumPilihJalur ? null : !sudahMulai ? (
           <section className="card border-brand/30 bg-white p-5 sm:p-7">
             <h2 className="text-lg font-bold">Masukkan nama lengkapmu</h2>
             <p className="mt-1 text-[0.88rem] text-ink-soft">
@@ -426,7 +522,24 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
               </section>
             )}
 
-            {!prasyarat &&
+            {/* Jalur "UMKM sendiri": formulir menggantikan kartu pilihan */}
+            {pakaiFormulir && task.capstone && (
+              <section className="mb-8">
+                <div className="bar-accent">Data UMKM Kamu</div>
+                <p className="mb-4 mt-2.5 text-[0.82rem] leading-relaxed text-ink-soft">
+                  Isi bagian demi bagian. Tiap kolom punya contoh yang bisa kamu pakai sebagai
+                  titik awal lalu disunting sesuai usahamu. Isianmu tersimpan otomatis.
+                </p>
+                <CapstoneForm
+                  sections={task.capstone.form}
+                  nilai={formValues}
+                  onUbah={ubahIsian}
+                />
+              </section>
+            )}
+
+            {!pakaiFormulir &&
+              !prasyarat &&
               task.steps.map((step) => {
               const mulaiIndex = groups.findIndex((g) => g.id === step.groups[0]?.id);
               return (
@@ -471,18 +584,19 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
               {lengkap ? (
                 <p className="mt-1 text-[0.85rem] text-ink-soft">
                   Semua {progres.total} bagian sudah terisi. Periksa kembali pratinjau dokumen di
-                  bawah, lalu unduh berkasnya. Kamu masih bisa mengganti pilihan kapan saja sebelum
+                  bawah, lalu unduh berkasnya. Kamu masih bisa menyuntingnya kapan saja sebelum
                   mengunduh.
                 </p>
               ) : (
                 <p className="mt-1 text-[0.85rem] text-ink-soft">
-                  Masih ada {progres.belum} bagian yang belum dipilih. Lengkapi semuanya untuk bisa
-                  mengunduh dokumen.
+                  Masih ada {progres.belum} bagian yang belum {pakaiFormulir ? "diisi" : "dipilih"}.
+                  Lengkapi semuanya untuk bisa mengunduh dokumen.
                 </p>
               )}
               <p className="mt-2.5 border-t border-line pt-2.5 text-[0.78rem] text-ink-soft">
-                Pilihan jawaban disusun ulang setiap kali halaman dibuka, sehingga isi dokumen
-                setiap peserta berbeda. Pilihan yang sudah kamu tentukan tetap tersimpan.
+                {pakaiFormulir
+                  ? "Isianmu tersimpan otomatis di peramban ini dan tidak dikirim ke mana pun. Kamu bisa menutup halaman lalu melanjutkannya nanti."
+                  : "Pilihan jawaban disusun ulang setiap kali halaman dibuka, sehingga isi dokumen setiap peserta berbeda. Pilihan yang sudah kamu tentukan tetap tersimpan."}
               </p>
             </section>
 
@@ -524,7 +638,7 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
       </main>
 
       {/* Bilah aksi bawah */}
-      {sudahMulai && !dikerjakanSendiri && (
+      {sudahMulai && !dikerjakanSendiri && !belumPilihJalur && (
         <div className="no-print fixed inset-x-0 bottom-0 z-30 border-t border-line bg-white/95 backdrop-blur-md">
           <div className="mx-auto max-w-5xl px-4 py-3">
             {pesan && (

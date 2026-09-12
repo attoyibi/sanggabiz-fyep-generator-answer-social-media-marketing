@@ -1,6 +1,6 @@
 "use client";
 
-import type { Grade, Pilihan } from "@/tasks/types";
+import type { CapstoneMode, Grade, Pilihan } from "@/tasks/types";
 
 const KEY = "tpg:v1";
 
@@ -19,6 +19,10 @@ export interface PesertaTersimpan {
   nama: string;
   /** taskId -> groupId -> pilihan (grade + varian yang dikunci) */
   selections: Record<string, Record<string, Pilihan>>;
+  /** taskId -> jalur capstone yang dipilih peserta. */
+  modes: Record<string, CapstoneMode>;
+  /** taskId -> id isian formulir -> nilai yang diketik peserta. */
+  forms: Record<string, Record<string, string>>;
   updatedAt: string;
 }
 
@@ -30,10 +34,40 @@ export interface PesertaState extends PesertaTersimpan {
 export const EMPTY_TERSIMPAN: PesertaTersimpan = {
   nama: "",
   selections: {},
+  modes: {},
+  forms: {},
   updatedAt: "",
 };
 
 const GRADE_SAH: Grade[] = ["tepat", "sebagian", "kurang"];
+const MODE_SAH: CapstoneMode[] = ["mitra", "sendiri"];
+
+/** Peta taskId -> jalur capstone, mengabaikan nilai yang tidak dikenal. */
+function bacaModes(raw: unknown): Record<string, CapstoneMode> {
+  if (!raw || typeof raw !== "object") return {};
+  const out: Record<string, CapstoneMode> = {};
+  for (const [taskId, nilai] of Object.entries(raw as Record<string, unknown>)) {
+    if (typeof nilai === "string" && MODE_SAH.includes(nilai as CapstoneMode)) {
+      out[taskId] = nilai as CapstoneMode;
+    }
+  }
+  return out;
+}
+
+/** Peta taskId -> isian formulir, hanya menerima pasangan teks. */
+function bacaForms(raw: unknown): Record<string, Record<string, string>> {
+  if (!raw || typeof raw !== "object") return {};
+  const out: Record<string, Record<string, string>> = {};
+  for (const [taskId, isian] of Object.entries(raw as Record<string, unknown>)) {
+    if (!isian || typeof isian !== "object") continue;
+    const perIsian: Record<string, string> = {};
+    for (const [fieldId, nilai] of Object.entries(isian as Record<string, unknown>)) {
+      if (typeof nilai === "string") perIsian[fieldId] = nilai;
+    }
+    if (Object.keys(perIsian).length > 0) out[taskId] = perIsian;
+  }
+  return out;
+}
 
 /**
  * Data versi lama menyimpan pilihan sebagai grade polos ("tepat"), tanpa
@@ -74,6 +108,8 @@ export function loadState(): PesertaTersimpan {
     return {
       nama: parsed.nama,
       selections: bacaSelections(parsed.selections),
+      modes: bacaModes(parsed.modes),
+      forms: bacaForms(parsed.forms),
       updatedAt: parsed.updatedAt ?? "",
     };
   } catch {
@@ -84,10 +120,10 @@ export function loadState(): PesertaTersimpan {
 export function saveState(state: PesertaState): void {
   if (typeof window === "undefined") return;
   try {
-    const { nama, selections } = state;
+    const { nama, selections, modes, forms } = state;
     window.localStorage.setItem(
       KEY,
-      JSON.stringify({ nama, selections, updatedAt: new Date().toISOString() })
+      JSON.stringify({ nama, selections, modes, forms, updatedAt: new Date().toISOString() })
     );
   } catch {
     /* localStorage penuh atau diblokir: jawaban tetap jalan untuk sesi ini */
