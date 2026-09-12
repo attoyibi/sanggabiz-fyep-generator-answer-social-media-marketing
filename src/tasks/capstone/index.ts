@@ -128,6 +128,18 @@ function galeriRows(ctx: BuildContext): string[][] {
   ]);
 }
 
+/**
+ * Peran tiap konten di dalam strategi, sejajar urutannya dengan galeriItems().
+ *
+ * Pada jalur mitra, poin-poin kartu galeri memang ditulis satu poin untuk satu
+ * konten, jadi poin ke-i menjelaskan konten ke-i. Jalur sendiri tidak punya
+ * padanannya karena kontennya dituliskan peserta.
+ */
+function galeriPeran(ctx: BuildContext): string[] {
+  if (ctx.mode === "sendiri") return [];
+  return (ctx.answers["galeri"]?.variant.points ?? []).map((p) => ctx.fill(p));
+}
+
 /** Memotong teks pada batas kata terdekat, lalu menutupnya dengan elipsis. */
 function penggal(teks: string, maks: number): string {
   if (teks.length <= maks) return teks;
@@ -472,27 +484,38 @@ const capstone: TaskDefinition = {
                 label: "Ritme dan Alasan Topik",
                 value: bahan(ctx, { grup: "kalender", field: "ritme" }),
               },
+              // Pendekatan visual dan copywriting berlaku untuk seluruh konten,
+              // jadi tempatnya di sini — bukan diulang di tiap slide showcase.
+              { label: "Visual Hook yang Dipakai", value: hook },
+              { label: "Formula Copywriting", value: formula },
+              { label: "Cara Narasi Bekerja", value: narasi },
             ],
           },
         ],
       },
     ];
 
-    // Slide 3-9: satu konten satu slide, sesuai ketentuan dokumen capstone.
+    /*
+     * Slide 3-9: satu konten satu slide, sesuai ketentuan dokumen capstone.
+     *
+     * Tiap slide hanya memuat hal yang khas konten itu — isinya dan perannya di
+     * dalam strategi. Pendekatan visual dan copywriting sudah dinyatakan di
+     * Slide 2, sementara alasan yang benar-benar spesifik per konten memang
+     * bagian yang harus ditulis sendiri peserta saat mendesain decknya.
+     */
     const daftar = konten.length > 0 ? konten : [{ format: "", kanal: "", penjelasan: BELUM }];
+    const peran = galeriPeran(ctx);
     daftar.forEach((k, i) => {
+      const baris = [{ label: "Konten", value: k.penjelasan }];
+      if (peran[i]) baris.push({ label: "Peran dalam Strategi", value: peran[i] });
       slides.push({
         title: `Individual Showcase ${i + 1}`,
         subtitle: k.format ? `${k.format} - ${k.kanal}` : undefined,
         body: [
-          { type: "fields", rows: [{ label: "Konten", value: k.penjelasan }] },
+          { type: "fields", rows: baris },
           {
-            type: "fields",
-            rows: [
-              { label: "Mengapa visual hook ini", value: hook },
-              { label: "Bagaimana narasinya bekerja", value: narasi },
-              { label: "Formula copywriting", value: formula },
-            ],
+            type: "note",
+            text: `Lengkapi slide ini: tempelkan visualnya, lalu jelaskan mengapa hook "${penggal(hook, 60)}" bekerja untuk konten ini dan bagaimana caption-nya dibangun.`,
           },
         ],
       });
