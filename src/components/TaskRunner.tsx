@@ -41,6 +41,7 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
   const [busy, setBusy] = useState<null | FormatUnduhan>(null);
   const [pesan, setPesan] = useState<string | null>(null);
   const [konfirmasiReset, setKonfirmasiReset] = useState(false);
+  const [konfirmasiGantiJalur, setKonfirmasiGantiJalur] = useState(false);
   const [ubahNama, setUbahNama] = useState(false);
 
   /* ---------- muat & simpan localStorage ---------- */
@@ -83,6 +84,22 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
     },
     [taskId]
   );
+
+  /**
+   * Kembali ke dua kartu pemilihan cara.
+   *
+   * Jawaban kartu dan isian formulir disimpan di tempat terpisah, jadi keduanya
+   * tetap utuh saat peserta berpindah jalur atau kembali ke jalur semula.
+   */
+  const lupakanMode = useCallback(() => {
+    setState((prev) => {
+      const modes = { ...prev.modes };
+      delete modes[taskId];
+      return { ...prev, modes };
+    });
+    setKonfirmasiGantiJalur(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [taskId]);
 
   const ubahIsian = useCallback(
     (fieldId: string, value: string) => {
@@ -225,6 +242,7 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
     setState({ ...EMPTY_TERSIMPAN, seed: createSeed() });
     setNamaInput("");
     setKonfirmasiReset(false);
+    setKonfirmasiGantiJalur(false);
     setUbahNama(false);
     setPesan(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -350,20 +368,49 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
 
         {/* Capstone: jalur yang sedang dipakai, bisa diganti kapan saja */}
         {task.capstone && jalur && (
-          <div className="card mb-5 flex flex-wrap items-center gap-3 border-accent/30 bg-accent-soft/40 p-4">
-            <div className="min-w-0 flex-1">
-              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-accent-dark">
-                Cara Mengerjakan
-              </p>
-              <p className="mt-0.5 text-[0.88rem] font-semibold">{jalur.judul}</p>
+          <div className="card mb-5 border-accent/30 bg-accent-soft/40 p-4">
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-accent-dark">
+                  Cara Mengerjakan
+                </p>
+                <p className="mt-0.5 text-[0.88rem] font-semibold">{jalur.judul}</p>
+              </div>
+              {!konfirmasiGantiJalur && (
+                <button
+                  type="button"
+                  onClick={() => setKonfirmasiGantiJalur(true)}
+                  className="rounded-lg border border-accent/40 bg-white px-3.5 py-2 text-[0.8rem] font-semibold text-accent transition hover:bg-accent hover:text-white"
+                >
+                  Ganti cara
+                </button>
+              )}
             </div>
-            <button
-              type="button"
-              onClick={() => pilihMode(mode === "mitra" ? "sendiri" : "mitra")}
-              className="rounded-lg border border-accent/40 bg-white px-3.5 py-2 text-[0.8rem] font-semibold text-accent transition hover:bg-accent hover:text-white"
-            >
-              Ganti cara
-            </button>
+
+            {konfirmasiGantiJalur && (
+              <div className="mt-3 border-t border-accent/25 pt-3">
+                <p className="text-[0.83rem] leading-relaxed text-ink-soft">
+                  Kembali memilih cara mengerjakan? Jawaban dan isian yang sudah kamu buat tetap
+                  tersimpan, jadi kamu bisa kembali ke cara ini kapan saja.
+                </p>
+                <div className="mt-2.5 flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={lupakanMode}
+                    className="rounded-lg bg-accent px-4 py-2 text-[0.82rem] font-semibold text-white transition hover:bg-accent-dark"
+                  >
+                    Ya, pilih ulang
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setKonfirmasiGantiJalur(false)}
+                    className="rounded-lg border border-line bg-white px-4 py-2 text-[0.82rem] font-semibold transition hover:border-ink-soft"
+                  >
+                    Batal
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
