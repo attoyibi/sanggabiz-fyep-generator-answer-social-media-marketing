@@ -295,6 +295,19 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
   const dikerjakanSendiri = Boolean(task.panduan);
   /** Capstone menahan seluruh isi halaman sampai jalur pengerjaannya dipilih. */
   const belumPilihJalur = Boolean(task.capstone) && !mode;
+  /**
+   * Jalur capstone yang sedang dipakai. Studi kasus dan instruksinya
+   * menggantikan milik tugas, karena mengerjakan untuk mitra yang sudah
+   * disiapkan dan membawa UMKM sendiri adalah dua situasi yang berbeda.
+   */
+  const jalur =
+    task.capstone && mode
+      ? mode === "mitra"
+        ? task.capstone.mitra
+        : task.capstone.sendiri
+      : undefined;
+  const paragrafKasus = jalur?.caseStudy ?? task.caseStudy.paragraphs;
+  const daftarInstruksi = jalur?.instruksi ?? task.instructionSummary;
 
   return (
     <>
@@ -320,6 +333,14 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
           <p className="mt-1 text-[0.95rem] text-ink-soft">{task.subtitle}</p>
         </div>
 
+        {/* Capstone: pertanyaan pertama sebelum apa pun yang lain — mau
+            mengerjakan dengan UMKM yang sudah disiapkan, atau bawa sendiri. */}
+        {task.capstone && belumPilihJalur && (
+          <CapstoneModeGate config={task.capstone} onPilih={pilihMode} />
+        )}
+
+        {belumPilihJalur ? null : (
+          <>
         {/* Kartu info pelatihan */}
         <div className="card mb-5 grid gap-3 p-4 sm:grid-cols-3 sm:p-5">
           <Info label="Judul Pelatihan" value={task.meta.judulPelatihan} />
@@ -327,11 +348,30 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
           <Info label="Tujuan" value={task.meta.tujuan} />
         </div>
 
+        {/* Capstone: jalur yang sedang dipakai, bisa diganti kapan saja */}
+        {task.capstone && jalur && (
+          <div className="card mb-5 flex flex-wrap items-center gap-3 border-accent/30 bg-accent-soft/40 p-4">
+            <div className="min-w-0 flex-1">
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-accent-dark">
+                Cara Mengerjakan
+              </p>
+              <p className="mt-0.5 text-[0.88rem] font-semibold">{jalur.judul}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => pilihMode(mode === "mitra" ? "sendiri" : "mitra")}
+              className="rounded-lg border border-accent/40 bg-white px-3.5 py-2 text-[0.8rem] font-semibold text-accent transition hover:bg-accent hover:text-white"
+            >
+              Ganti cara
+            </button>
+          </div>
+        )}
+
         {/* Studi kasus */}
         <div className="mb-5">
           <div className="bar-blue">Studi Kasus</div>
           <div className="card mt-2.5 p-4 sm:p-5">
-            {task.caseStudy.paragraphs.map((p, i) => (
+            {paragrafKasus.map((p, i) => (
               <p
                 key={i}
                 className={`text-justify text-[0.9rem] leading-relaxed ${
@@ -349,7 +389,7 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
           <div className="bar-blue">Instruksi Tugas</div>
           <div className="card mt-2.5 p-4 sm:p-5">
             <ol className="space-y-2">
-              {task.instructionSummary.map((item, i) => (
+              {daftarInstruksi.map((item, i) => (
                 <li key={i} className="flex gap-2.5 text-[0.9rem] leading-relaxed">
                   <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-soft text-[11px] font-bold text-brand">
                     {i + 1}
@@ -367,34 +407,8 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
         {/* Panduan tugas yang dikerjakan sendiri di tools-nya */}
         {task.panduan && <PanduanPanel panduan={task.panduan} />}
 
-        {/* Capstone: pemilihan jalur sebelum apa pun yang lain */}
-        {task.capstone && belumPilihJalur && (
-          <CapstoneModeGate config={task.capstone} onPilih={pilihMode} />
-        )}
-
-        {/* Capstone: jalur yang sedang dipakai, bisa diganti kapan saja */}
-        {task.capstone && mode && (
-          <div className="card mb-5 flex flex-wrap items-center gap-3 border-accent/30 bg-accent-soft/40 p-4">
-            <div className="min-w-0 flex-1">
-              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-accent-dark">
-                Cara Mengerjakan
-              </p>
-              <p className="mt-0.5 text-[0.88rem] font-semibold">
-                {mode === "mitra" ? task.capstone.mitra.judul : task.capstone.sendiri.judul}
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => pilihMode(mode === "mitra" ? "sendiri" : "mitra")}
-              className="rounded-lg border border-accent/40 bg-white px-3.5 py-2 text-[0.8rem] font-semibold text-accent transition hover:bg-accent hover:text-white"
-            >
-              Ganti cara
-            </button>
-          </div>
-        )}
-
         {/* Gerbang nama */}
-        {dikerjakanSendiri || belumPilihJalur ? null : !sudahMulai ? (
+        {dikerjakanSendiri ? null : !sudahMulai ? (
           <section className="card border-brand/30 bg-white p-5 sm:p-7">
             <h2 className="text-lg font-bold">Masukkan nama lengkapmu</h2>
             <p className="mt-1 text-[0.88rem] text-ink-soft">
@@ -633,6 +647,8 @@ export default function TaskRunner({ taskId }: { taskId: string }) {
                 ))}
               </ul>
             </section>
+          </>
+        )}
           </>
         )}
       </main>

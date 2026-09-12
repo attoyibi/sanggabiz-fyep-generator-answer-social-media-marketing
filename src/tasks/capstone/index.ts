@@ -105,22 +105,48 @@ const capstone: TaskDefinition = {
 
   capstone: {
     mitra: {
-      judul: `Pakai mitra UMKM yang sudah disiapkan`,
-      ringkas: `Kerjakan untuk ${SANGGABIZ.nama}, perusahaan ${SANGGABIZ.model} di ${SANGGABIZ.kota}. Bahannya sudah kami riset, kamu tinggal memilih jawaban.`,
+      judul: "Pakai UMKM yang sudah disiapkan",
+      ringkas: `Kerjakan untuk ${SANGGABIZ.nama}, perusahaan ${SANGGABIZ.model} di ${SANGGABIZ.kota}. Risetnya sudah kami siapkan, kamu tinggal memilih jawaban.`,
       poin: [
         "Cara mengerjakannya sama persis dengan Tugas 1 sampai 8: tinggal klik dan pilih",
         "Pilihan jawaban disusun ulang setiap halaman dibuka, jadi dokumenmu tidak kembar dengan peserta lain",
         "Jawabanmu dinilai seperti tugas biasa",
       ],
+      caseStudy: [
+        `Kamu adalah seorang Social Media Specialist yang dipercaya menangani akun Instagram ${SANGGABIZ.nama}, sebuah perusahaan di ${SANGGABIZ.kota} yang bekerja sebagai ${SANGGABIZ.model}. Alih-alih menjual satu aplikasi, ${SANGGABIZ.nama} mengambil alih pekerjaan operasional pemilik usaha — keuangan, penagihan, layanan pelanggan, sampai administrasi tim — lewat lima layanan yang saling terhubung.`,
+        `${SANGGABIZ.nama} dipimpin perempuan dan menempatkan inklusi di dalam model bisnisnya. Lewat program ${SANGGABIZ.program}, perusahaan ini membuka akses teknologi dan pendampingan bagi pelaku UMKM perempuan, wirausaha muda, dan penyandang disabilitas — kelompok yang selama ini paling jarang disentuh layanan konsultan bisnis.`,
+        `Tantangannya, layanan seperti ini tidak kasatmata. Calon pelanggan tidak bisa memegang produknya, sementara keputusan untuk menyerahkan urusan keuangan dan pelanggan kepada pihak lain butuh kepercayaan yang tidak terbentuk dalam sekali lihat. Akun ${SANGGABIZ.instagram} sudah punya sekitar sembilan ribu pengikut, tetapi belum menjadi alasan orang menghubungi.`,
+        "Tugasmu menyusun portofolio yang memperlihatkan bagaimana kamu akan menjawab tantangan itu: siapa yang disasar, konten apa yang dibuat, dan mengapa pilihan-pilihan itu yang diambil. Hasilnya dikemas menjadi A3 Summary Report satu halaman dan deck PPT presentasi.",
+      ],
+      instruksi: [
+        `Tentukan Business Context: ringkasan profil ${SANGGABIZ.nama} dan target audiens yang disasar.`,
+        "Susun Strategy Highlights: pilar konten beserta ritme unggahannya, lengkap dengan alasan pemilihan topik.",
+        "Tunjukkan Technical Skill Evidence: visual hook yang dipakai beserta alasannya, dan formula copywriting yang menopang narasinya.",
+        "Pilih empat konten untuk Visual Gallery, lalu tentukan analisis dampak dan slide penutup Hire Me.",
+        "Unduh dokumennya, pindahkan ke Canva untuk dirancang, lalu kumpulkan A3 Report dan PPT lewat tautan resmi.",
+      ],
     },
     sendiri: {
       judul: "Masukkan data UMKM sendiri",
       ringkas:
-        "Pakai usaha milikmu, usaha keluarga, atau klien yang benar-benar kamu dampingi. Isi lewat formulir bertahap yang sudah dilengkapi contoh.",
+        "Pakai usaha milikmu, usaha keluarga, atau klien yang benar-benar kamu dampingi. Isi lewat formulir bertahap yang sudah dilengkapi contoh di tiap kolom.",
       poin: [
-        "Tiap kolom punya penjelasan dan contoh isian yang bisa disalin sekali klik",
+        "Tiap kolom punya penjelasan dan contoh isian yang bisa dipakai sekali klik",
         "Cocok bila kamu ingin portofolio yang memakai kasus nyata",
         "Kelengkapan isian wajib yang menentukan nilainya",
+      ],
+      caseStudy: [
+        "Kamu mengerjakan capstone ini memakai UMKM pilihanmu sendiri — usaha milikmu, usaha keluarga, usaha teman, atau klien yang benar-benar kamu dampingi. Portofolio yang lahir dari kasus nyata biasanya lebih kuat di mata pemberi kerja, karena kamu bisa menceritakan keputusannya dengan yakin saat ditanya.",
+        "Yang perlu kamu siapkan hanyalah keterangan dasar usahanya: bidang usaha, lokasi, keunggulan, siapa audiensnya, dan konten apa yang sudah atau akan kamu buat. Tidak perlu data penjualan atau angka rahasia apa pun.",
+        "Formulir di bawah akan memandumu bagian demi bagian, mengikuti urutan yang sama dengan A3 Summary Report. Tiap kolom disertai penjelasan dan contoh isian yang bisa kamu pakai sebagai titik awal lalu kamu sunting sesuai usahamu.",
+        "Kalau usaha yang kamu pilih belum punya akun media sosial atau kontennya baru rencana, itu tidak masalah. Tulis saja rencananya — yang dinilai adalah cara berpikirmu menyusun strategi, bukan jumlah pengikut usahanya.",
+      ],
+      instruksi: [
+        "Isi Profil UMKM: nama, bidang usaha, lokasi, dan keunggulan utamanya.",
+        "Tentukan Target Audiens beserta masalah atau kebutuhan yang bisa dijawab usaha ini.",
+        "Susun Strategy Highlights: pilar konten dan ritme unggahan, lengkap dengan alasannya.",
+        "Isi Technical Skill Evidence dan Visual Gallery: visual hook, formula copywriting, serta konten yang kamu buat.",
+        "Lengkapi analisis dampak dan penutup, unduh dokumennya, lalu rancang di Canva sebelum dikumpulkan.",
       ],
     },
     form: capstoneForm,

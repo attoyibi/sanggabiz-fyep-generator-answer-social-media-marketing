@@ -312,11 +312,19 @@ export interface CapstoneSection {
   fields: CapstoneField[];
 }
 
-/** Ringkasan satu jalur, dipakai pada kartu pemilihan mode. */
+/** Satu jalur pengerjaan: ringkasannya di kartu pemilihan, lalu isi halamannya. */
 export interface CapstoneJalur {
   judul: string;
   ringkas: string;
+  /** Poin pembeda yang tampil di kartu pemilihan. */
   poin: string[];
+  /**
+   * Studi kasus dan instruksi khusus jalur ini. Keduanya menggantikan milik
+   * tugas begitu jalurnya dipilih, karena mengerjakan untuk mitra yang sudah
+   * disiapkan dan membawa UMKM sendiri adalah dua situasi yang berbeda.
+   */
+  caseStudy: string[];
+  instruksi: string[];
 }
 
 export interface CapstoneConfig {
