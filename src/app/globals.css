@@ -40,6 +40,17 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/*
+ * Tailwind v4 tidak lagi memberi cursor: pointer pada tombol, jadi seluruh
+ * tombol memakai panah biasa dan terasa tidak bisa ditekan. Dikembalikan di
+ * sini supaya berlaku untuk semua tombol sekaligus. Tombol yang dimatikan
+ * tetap memakai penanda "tidak bisa ditekan".
+ */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]) {
+  cursor: pointer;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 96px;
