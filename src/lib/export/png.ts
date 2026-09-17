@@ -60,6 +60,38 @@ export function gambarDesain(canvas: HTMLCanvasElement, spec: DesignSpec): void 
       continue;
     }
 
+    if (l.type === "icon") {
+      // Digambar pada ruang koordinat viewBox aslinya (Lucide: 24x24), lalu
+      // diskalakan ke ukuran akhir lewat transform kanvas, sama seperti
+      // Lucide sendiri menskalakan ikonnya lewat atribut width/height.
+      c.save();
+      c.translate(l.x, l.y);
+      const skala = l.size / l.viewBox;
+      c.scale(skala, skala);
+      c.strokeStyle = l.color;
+      c.lineWidth = l.strokeWidth ?? 2;
+      c.lineCap = "round";
+      c.lineJoin = "round";
+      for (const [tag, atr] of l.node) {
+        if (tag === "path") {
+          c.stroke(new Path2D(atr.d));
+        } else if (tag === "rect") {
+          c.strokeRect(atr.x, atr.y, atr.width, atr.height);
+        } else if (tag === "circle") {
+          c.beginPath();
+          c.arc(atr.cx, atr.cy, atr.r, 0, Math.PI * 2);
+          c.stroke();
+        } else {
+          c.beginPath();
+          c.moveTo(atr.x1, atr.y1);
+          c.lineTo(atr.x2, atr.y2);
+          c.stroke();
+        }
+      }
+      c.restore();
+      continue;
+    }
+
     c.fillStyle = l.color;
     c.font = `${l.weight ?? "normal"} ${l.size}px ${KELUARGA[l.font]}`;
     c.textAlign = l.align ?? "left";

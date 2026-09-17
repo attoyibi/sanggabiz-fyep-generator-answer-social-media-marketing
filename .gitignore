@@ -43,3 +43,7 @@ next-env.d.ts
 # artefak skrip pemeriksaan
 .render-*.mjs
 .cek-*.mjs
+
+# referensi desain pribadi (aset pihak ketiga, bukan milik proyek ini —
+# jangan ikut di-deploy sebagai berkas statis publik)
+/public/layout_reference/

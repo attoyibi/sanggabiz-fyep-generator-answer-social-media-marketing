@@ -263,6 +263,13 @@ export interface SlideSpec {
   body: SlideBlock[];
   /** "sampul" dan "penutup" memakai tata letak penuh warna; bawaannya "isi". */
   layout?: "sampul" | "isi" | "penutup";
+  /**
+   * Visual yang digambar otomatis lalu ditempel sebagai gambar sungguhan di
+   * slide (kartu showcase, profile card, dst.), dipakai lewat sistem kanvas
+   * yang sama dengan ekspor PNG TPM 4. Dengan ini slide tidak punya bagian
+   * kosong yang masih harus diisi manual oleh peserta setelah diekspor.
+   */
+  visual?: DesignSpec;
 }
 
 /* ------------------------------------------------------------------ */
@@ -400,7 +407,34 @@ export type DesignLayer =
       highlight?: { fill: string; radius?: number; padX?: number; padY?: number };
     }
   | { type: "ellipse"; cx: number; cy: number; rx: number; ry: number; fill: string }
-  | { type: "line"; x1: number; y1: number; x2: number; y2: number; color: string; width: number };
+  | { type: "line"; x1: number; y1: number; x2: number; y2: number; color: string; width: number }
+  /**
+   * Ikon garis, disusun dari data mentah pustaka Lucide (lucide-react) supaya
+   * desain di kanvas punya sumber ikon yang konsisten, bukan bentuk primitif
+   * yang digambar tangan. Elemen ikonnya ditulis pada viewBox persegi (Lucide
+   * memakai 24), lalu digambar dengan garis (stroke), sesuai gaya asli Lucide.
+   */
+  | {
+      type: "icon";
+      node: IconNode[];
+      /** Lebar/tinggi viewBox asal ikon; Lucide selalu 24. */
+      viewBox: number;
+      /** Pojok kiri-atas kotak tempat ikon digambar. */
+      x: number;
+      y: number;
+      /** Sisi kotak ikon dalam piksel kanvas. */
+      size: number;
+      color: string;
+      /** Tebal garis dalam satuan viewBox, sebelum diskalakan. Bawaan 2, sama seperti Lucide. */
+      strokeWidth?: number;
+    };
+
+/** Satu elemen SVG di dalam definisi ikon Lucide. */
+export type IconNode =
+  | ["path", { d: string }]
+  | ["rect", { x: number; y: number; width: number; height: number }]
+  | ["circle", { cx: number; cy: number; r: number }]
+  | ["line", { x1: number; y1: number; x2: number; y2: number }];
 
 export interface DesignSpec {
   /** Nama berkas tanpa ekstensi, mis. "slide-1". */

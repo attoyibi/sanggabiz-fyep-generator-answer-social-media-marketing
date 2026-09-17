@@ -1,7 +1,11 @@
 import {
+  BRAND_WARNA,
   KODE_KELAS,
   type BuildContext,
+  type DesignLayer,
+  type DesignSpec,
   type DocBlock,
+  type IconNode,
   type SlideSpec,
   type TaskDefinition,
 } from "../types";
@@ -146,6 +150,398 @@ function penggal(teks: string, maks: number): string {
   const potong = teks.slice(0, maks);
   const spasi = potong.lastIndexOf(" ");
   return `${(spasi > maks * 0.6 ? potong.slice(0, spasi) : potong).trimEnd()}...`;
+}
+
+/* ------------------------------------------------------------------ */
+/* Visual otomatis untuk deck PPT                                       */
+/*                                                                      */
+/* Dokumen capstone resminya meminta peserta menempelkan visual sendiri */
+/* di tiap slide showcase dan melengkapi Profile Card dengan foto. Deck */
+/* yang dihasilkan di sini malah menggambar kartu bermerek untuk kedua  */
+/* bagian itu, supaya berkas yang diunduh langsung lengkap tanpa bagian */
+/* kosong yang masih menunggu peserta menambahkan sesuatu secara manual.*/
+/* Peserta tetap bebas menimpanya dengan visual asli saat menyunting    */
+/* ulang deck-nya di Canva/PowerPoint, ini hanya isian siap pakai.      */
+/* ------------------------------------------------------------------ */
+
+/** Warna aksen kartu showcase (badge, ikon pil), dipilih acak per peserta lewat ctx.pick(). */
+const PALET_SHOWCASE = [
+  BRAND_WARNA.planBlue,
+  BRAND_WARNA.magenta,
+  BRAND_WARNA.darkBlue,
+  BRAND_WARNA.orange,
+  BRAND_WARNA.lightBlue,
+  BRAND_WARNA.purple,
+] as const;
+
+/** Krem hangat, dipakai sebagai latar netral mengikuti gaya referensi tata letak. */
+const KREM = "#FBF6E9";
+const HITAM_JUDUL = "#1A1A1A";
+const ABU_TEKS = "#4A4A4A";
+
+/**
+ * Jenis konten ditebak dari teks format, supaya ikonnya benar-benar mewakili
+ * bentuk visual yang dimaksud (Reels menampilkan ikon putar, carousel
+ * menampilkan tumpukan kartu, dst.), bukan sekadar kotak warna polos.
+ */
+type JenisKonten = "video" | "carousel" | "story" | "poster" | "dokumen";
+
+function tebakJenis(format: string): JenisKonten {
+  const f = format.toLowerCase();
+  if (/reels|video|capcut/.test(f)) return "video";
+  if (/carousel/.test(f)) return "carousel";
+  if (/story|cerita berseri|sorotan/.test(f)) return "story";
+  if (/poster|gambar|feed tunggal|single/.test(f)) return "poster";
+  return "dokumen";
+}
+
+/* ------------------------------------------------------------------ */
+/* Ikon: data mentah dari lucide-react (lihat package.json)             */
+/*                                                                      */
+/* Kanvas 2D tidak bisa merender komponen React secara langsung, jadi   */
+/* path/rect/circle tiap ikon disalin apa adanya dari berkas sumber     */
+/* lucide-react (node_modules/lucide-react/dist/esm/icons/*.mjs) lalu   */
+/* digambar lewat DesignLayer bertipe "icon" (lihat src/tasks/types.ts  */
+/* dan penggambarnya di src/lib/export/png.ts). Dengan ini proyek punya */
+/* satu sumber ikon yang konsisten, bukan bentuk primitif gambar tangan.*/
+/* ------------------------------------------------------------------ */
+const IKON_VIDEO: IconNode[] = [
+  ["path", { d: "m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5" }],
+  ["rect", { x: 2, y: 6, width: 14, height: 12 }],
+];
+const IKON_CAROUSEL: IconNode[] = [
+  ["path", { d: "M2 7v10" }],
+  ["path", { d: "M6 5v14" }],
+  ["rect", { x: 10, y: 3, width: 12, height: 18 }],
+];
+const IKON_STORY: IconNode[] = [
+  ["rect", { x: 5, y: 2, width: 14, height: 20 }],
+  ["path", { d: "M12 18h.01" }],
+];
+const IKON_POSTER: IconNode[] = [
+  ["rect", { x: 3, y: 3, width: 18, height: 18 }],
+  ["circle", { cx: 9, cy: 9, r: 2 }],
+  ["path", { d: "m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" }],
+];
+const IKON_DOKUMEN: IconNode[] = [
+  [
+    "path",
+    {
+      d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
+    },
+  ],
+  ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5" }],
+  ["path", { d: "M10 9H8" }],
+  ["path", { d: "M16 13H8" }],
+  ["path", { d: "M16 17H8" }],
+];
+const IKON_TARGET: IconNode[] = [
+  ["circle", { cx: 12, cy: 12, r: 10 }],
+  ["circle", { cx: 12, cy: 12, r: 6 }],
+  ["circle", { cx: 12, cy: 12, r: 2 }],
+];
+const IKON_CHEVRON: IconNode[] = [["path", { d: "m9 18 6-6-6-6" }]];
+
+function ikonJenis(jenis: JenisKonten): IconNode[] {
+  switch (jenis) {
+    case "video":
+      return IKON_VIDEO;
+    case "carousel":
+      return IKON_CAROUSEL;
+    case "story":
+      return IKON_STORY;
+    case "poster":
+      return IKON_POSTER;
+    default:
+      return IKON_DOKUMEN;
+  }
+}
+
+/**
+ * Kartu untuk satu konten pada Individual Showcase, mengikuti pola tata
+ * letak pada referensi di public/layout_reference: badge logo pojok kiri
+ * atas, judul besar-bold, subteks deskripsi, lalu dua kartu pil kuning
+ * berisi ikon + label tebal + keterangan.
+ *
+ * Warna aksen dan latar (krem/kuning) dipilih acak lewat ctx.pick() supaya
+ * tiap peserta mendapat kombinasi berbeda, sama seperti bank jawaban tugas
+ * lain. Ikonnya sendiri mengikuti jenis konten yang sebenarnya dipilih
+ * (Reels, carousel, story, dst.), bukan gambar generik.
+ */
+function desainShowcase(
+  item: KontenGaleri,
+  index: number,
+  brand: string,
+  peran: string | undefined,
+  pick: BuildContext["pick"]
+): DesignSpec {
+  const aksen = pick(`capstone-showcase-warna-${index}`, [...PALET_SHOWCASE]);
+  const latar = pick(`capstone-showcase-latar-${index}`, [KREM, KREM, BRAND_WARNA.yellow]);
+  // Dua gaya tata letak dipilih acak per peserta: "tumpuk" (dua kartu pil
+  // berdiri, judul rata kiri) dan "alur" (satu pil lebar dengan panah
+  // penghubung, judul rata tengah) — supaya slide showcase antar-konten dan
+  // antar-peserta tidak terasa seragam, meniru variasi gaya pada referensi.
+  const gaya = pick(`capstone-showcase-gaya-${index}`, ["tumpuk", "alur"]);
+  const rataTengah = gaya === "alur";
+  // Kartu pil selalu kuning, kecuali latarnya sendiri sudah kuning — dalam
+  // kondisi itu pilnya dibuat krem supaya tetap kontras dan batasnya tetap
+  // terlihat, bukan menyatu dengan latar belakang.
+  const warnaPil = latar === BRAND_WARNA.yellow ? KREM : BRAND_WARNA.yellow;
+  const jenis = tebakJenis(item.format);
+  const W = 1000;
+  const H = 1250;
+  const M = 64;
+  const lebarIsi = W - M * 2;
+
+  const layers: DesignLayer[] = [];
+
+  // Badge logo/inisial, pojok kiri atas — posisinya tetap di setiap kartu,
+  // meniru badge logo pada referensi.
+  const inisial = (brand.trim()[0] ?? "?").toUpperCase();
+  layers.push({ type: "ellipse", cx: M + 34, cy: M + 34, rx: 34, ry: 34, fill: aksen });
+  layers.push({
+    type: "text",
+    x: M,
+    y: M + 19,
+    w: 68,
+    text: inisial,
+    size: 28,
+    color: BRAND_WARNA.white,
+    font: "judul",
+    weight: "bold",
+    align: "center",
+  });
+
+  // Judul besar: nama format kontennya.
+  const judulTeks = item.format || "Konten";
+  const judulY = M + 110;
+  const judulSize = 56;
+  layers.push({
+    type: "text",
+    x: M,
+    y: judulY,
+    w: lebarIsi,
+    text: judulTeks,
+    size: judulSize,
+    color: HITAM_JUDUL,
+    font: "judul",
+    weight: "bold",
+    leading: 1.15,
+    align: rataTengah ? "center" : "left",
+  });
+
+  // Taksiran jumlah baris supaya subteks dan kartu pil di bawahnya tidak
+  // tertindih judul, sama seperti pola taksiran baris pada TPM 4. Dibuat
+  // sengaja konservatif (chars/baris kecil) supaya jarak yang dihasilkan
+  // lebih longgar, bukan lebih sempit, bila taksirannya meleset.
+  const barisJudul = Math.max(1, Math.ceil(judulTeks.length / 18));
+  const subteksY = judulY + barisJudul * judulSize * 1.15 + 28;
+  const subteksTeks = penggal(item.penjelasan || "Konten belum dijelaskan", 140);
+  const subteksSize = 30;
+  layers.push({
+    type: "text",
+    x: M,
+    y: subteksY,
+    w: lebarIsi,
+    text: subteksTeks,
+    size: subteksSize,
+    color: ABU_TEKS,
+    font: "teks",
+    leading: 1.35,
+    align: rataTengah ? "center" : "left",
+  });
+
+  const barisSub = Math.max(1, Math.ceil(subteksTeks.length / 46));
+  const pilAtas = subteksY + barisSub * subteksSize * 1.35 + 56;
+  const peranIsi = peran || [item.format, item.kanal].filter(Boolean).join(" • ") || "Bagian dari rangkaian konten";
+
+  if (gaya === "tumpuk") {
+    const pilTinggi = 130;
+    const pilJarak = 28;
+
+    /** Satu kartu pil kuning: lingkaran ikon di kiri, label tebal + keterangan di kanan. */
+    function pil(label: string, isi: string, node: IconNode[], y: number): void {
+      layers.push({ type: "rect", x: M, y, w: lebarIsi, h: pilTinggi, fill: warnaPil, radius: 24 });
+      const bulatCx = M + 28 + 26;
+      const bulatCy = y + pilTinggi / 2;
+      layers.push({ type: "ellipse", cx: bulatCx, cy: bulatCy, rx: 26, ry: 26, fill: BRAND_WARNA.white });
+      layers.push({ type: "icon", node, viewBox: 24, x: bulatCx - 15, y: bulatCy - 15, size: 30, color: aksen, strokeWidth: 2.2 });
+
+      const teksX = M + 28 + 66;
+      const teksW = lebarIsi - 28 * 2 - 66;
+      layers.push({
+        type: "text",
+        x: teksX,
+        y: y + 22,
+        w: teksW,
+        text: label,
+        size: 24,
+        color: HITAM_JUDUL,
+        font: "judul",
+        weight: "bold",
+        leading: 1.2,
+      });
+      layers.push({
+        type: "text",
+        x: teksX,
+        y: y + 56,
+        w: teksW,
+        text: penggal(isi, 70),
+        size: 22,
+        color: ABU_TEKS,
+        font: "teks",
+        leading: 1.3,
+      });
+    }
+
+    pil("Kanal", item.kanal || "Belum ditentukan", ikonJenis(jenis), pilAtas);
+    pil("Peran dalam Strategi", peranIsi, IKON_TARGET, pilAtas + pilTinggi + pilJarak);
+  } else {
+    // Gaya "alur": satu pil lebar terbagi dua, dihubungkan panah di tengah —
+    // meniru pola "Data Mentah → Proses → Dasbor" pada referensi.
+    const pilTinggi = 170;
+    const gapTengah = 70;
+    const halfW = (lebarIsi - gapTengah) / 2;
+
+    layers.push({ type: "rect", x: M, y: pilAtas, w: lebarIsi, h: pilTinggi, fill: warnaPil, radius: 24 });
+
+    function separuh(label: string, isi: string, node: IconNode[], kiri: boolean): void {
+      const x0 = kiri ? M + 24 : M + halfW + gapTengah;
+      const bulatCx = x0 + 22;
+      const bulatCy = pilAtas + 64;
+      layers.push({ type: "ellipse", cx: bulatCx, cy: bulatCy, rx: 22, ry: 22, fill: BRAND_WARNA.white });
+      layers.push({ type: "icon", node, viewBox: 24, x: bulatCx - 13, y: bulatCy - 13, size: 26, color: aksen, strokeWidth: 2.2 });
+
+      const teksX = x0 + 56;
+      const teksW = halfW - 24 - 56;
+      layers.push({
+        type: "text",
+        x: teksX,
+        y: pilAtas + 26,
+        w: teksW,
+        text: label,
+        size: 21,
+        color: HITAM_JUDUL,
+        font: "judul",
+        weight: "bold",
+        leading: 1.2,
+      });
+      layers.push({
+        type: "text",
+        x: teksX,
+        y: pilAtas + 58,
+        w: teksW,
+        text: penggal(isi, 46),
+        size: 19,
+        color: ABU_TEKS,
+        font: "teks",
+        leading: 1.3,
+      });
+    }
+
+    separuh("Kanal", item.kanal || "Belum ditentukan", ikonJenis(jenis), true);
+    separuh("Peran", peranIsi, IKON_TARGET, false);
+
+    layers.push({
+      type: "icon",
+      node: IKON_CHEVRON,
+      viewBox: 24,
+      x: M + halfW + gapTengah / 2 - 12,
+      y: pilAtas + 64 - 12,
+      size: 24,
+      color: aksen,
+      strokeWidth: 2.5,
+    });
+  }
+
+  // Footer: nama akun di kiri, ikon panah di kanan — meniru penanda "Geser"
+  // pada referensi.
+  layers.push({
+    type: "text",
+    x: M,
+    y: H - M - 26,
+    w: lebarIsi * 0.7,
+    text: `@${brand.toLowerCase().replace(/\s+/g, "")}`,
+    size: 22,
+    color: ABU_TEKS,
+    font: "teks",
+    weight: "bold",
+  });
+  layers.push({ type: "icon", node: IKON_CHEVRON, viewBox: 24, x: W - M - 24, y: H - M - 38, size: 24, color: aksen });
+
+  return {
+    name: `showcase-${index + 1}`,
+    label: `Individual Showcase ${index + 1}`,
+    width: W,
+    height: H,
+    background: latar,
+    layers,
+    safeZone: { top: 40, bottom: 40, left: 40, right: 40 },
+  };
+}
+
+/** Kartu profil untuk slide penutup: inisial, nama, dan peran. Warna dipilih acak per peserta. */
+function desainProfilCard(nama: string, pick: BuildContext["pick"]): DesignSpec {
+  const latar = pick("capstone-profil-warna", [...PALET_SHOWCASE]);
+  const inisial =
+    nama
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((s) => s[0]?.toUpperCase() ?? "")
+      .join("") || "?";
+  const W = 900;
+  const H = 900;
+
+  const layers: DesignLayer[] = [
+    { type: "ellipse", cx: W / 2, cy: 320, rx: 170, ry: 170, fill: BRAND_WARNA.white },
+    {
+      type: "text",
+      x: W / 2 - 170,
+      y: 320 - 78,
+      w: 340,
+      text: inisial,
+      size: 130,
+      color: latar,
+      font: "judul",
+      weight: "bold",
+      align: "center",
+    },
+    {
+      type: "text",
+      x: 50,
+      y: 540,
+      w: W - 100,
+      text: nama || "Nama Peserta",
+      size: 52,
+      color: BRAND_WARNA.white,
+      font: "judul",
+      weight: "bold",
+      align: "center",
+    },
+    {
+      type: "text",
+      x: 50,
+      y: 616,
+      w: W - 100,
+      text: "Social Media Specialist",
+      size: 28,
+      color: BRAND_WARNA.white,
+      font: "teks",
+      align: "center",
+    },
+  ];
+
+  return {
+    name: "profile-card",
+    label: "Profile Card",
+    width: W,
+    height: H,
+    background: latar,
+    layers,
+    safeZone: { top: 40, bottom: 40, left: 40, right: 40 },
+  };
 }
 
 /* ------------------------------------------------------------------ */
@@ -498,26 +894,27 @@ const capstone: TaskDefinition = {
     /*
      * Slide 3-9: satu konten satu slide, sesuai ketentuan dokumen capstone.
      *
-     * Tiap slide hanya memuat hal yang khas konten itu, isinya dan perannya di
-     * dalam strategi. Pendekatan visual dan copywriting sudah dinyatakan di
-     * Slide 2, sementara alasan yang benar-benar spesifik per konten memang
-     * bagian yang harus ditulis sendiri peserta saat mendesain decknya.
+     * Tiap slide memuat hal yang khas konten itu (isi dan perannya di dalam
+     * strategi) beserta kartu visual bermerek yang digambar otomatis lewat
+     * desainShowcase(), supaya slide-nya tidak punya bagian kosong yang masih
+     * harus diisi manual. Pendekatan visual dan copywriting sudah dinyatakan
+     * di Slide 2; peserta tetap bebas mengganti kartu ini dengan visual asli
+     * saat menyunting ulang deck-nya di Canva/PowerPoint.
      */
     const daftar = konten.length > 0 ? konten : [{ format: "", kanal: "", penjelasan: BELUM }];
     const peran = galeriPeran(ctx);
     daftar.forEach((k, i) => {
       const baris = [{ label: "Konten", value: k.penjelasan }];
       if (peran[i]) baris.push({ label: "Peran dalam Strategi", value: peran[i] });
+      baris.push({
+        label: "Mengapa Hook Ini Bekerja",
+        value: `Hook "${penggal(hook, 80)}" dipakai karena konsisten dengan formula copywriting dan narasi yang sudah ditetapkan di Slide 2.`,
+      });
       slides.push({
         title: `Individual Showcase ${i + 1}`,
         subtitle: k.format ? `${k.format} - ${k.kanal}` : undefined,
-        body: [
-          { type: "fields", rows: baris },
-          {
-            type: "note",
-            text: `Lengkapi slide ini: tempelkan visualnya, lalu jelaskan mengapa hook "${penggal(hook, 60)}" bekerja untuk konten ini dan bagaimana caption-nya dibangun.`,
-          },
-        ],
+        body: [{ type: "fields", rows: baris }],
+        visual: desainShowcase(k, i, namaUmkm, peran[i], ctx.pick),
       });
     });
 
@@ -544,14 +941,14 @@ const capstone: TaskDefinition = {
               label: "Yang sudah dibuktikan",
               value: bahan(ctx, { grup: "hireme", field: "hireme" }),
             },
-            { label: "Profile Card", value: ctx.nama },
           ],
         },
-        {
-          type: "note",
-          text: "Ganti bagian Profile Card dengan foto profesionalmu, satu kalimat penempatan diri, dan tautan LinkedIn.",
-        },
       ],
+      // Kartu profil (inisial, nama, peran) digambar otomatis lewat
+      // desainProfilCard(), menggantikan foto profesional peserta yang tidak
+      // tersedia bagi generator ini. Peserta bebas menimpanya dengan foto
+      // asli dan tautan LinkedIn saat menyunting ulang deck-nya.
+      visual: desainProfilCard(ctx.nama, ctx.pick),
     });
 
     return slides;

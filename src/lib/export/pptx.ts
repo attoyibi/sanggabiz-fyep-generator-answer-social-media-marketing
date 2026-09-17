@@ -1,6 +1,7 @@
 import type { SlideSpec } from "@/tasks/types";
 import { downloadBlob, safeFileName } from "../download";
 import { LOGO_PLAN_PNG } from "./assets";
+import { gambarDesain } from "./png";
 
 /**
  * Penyusun deck presentasi .pptx.
@@ -79,12 +80,40 @@ export async function exportPptx(
       h: logoH,
     });
 
+    // Visual yang dihasilkan otomatis (kartu showcase, profile card, dst.)
+    // digambar ke kanvas lepas lalu ditempel sebagai gambar sungguhan.
+    // Dengan ini slide tidak punya area kosong yang masih harus diisi
+    // manual oleh peserta setelah diunduh — deck-nya langsung lengkap.
+    //
+    // Dijaga dengan try/catch: skrip pemeriksaan di folder scripts/ menjalankan
+    // fungsi ini di Node dengan document.createElement yang di-stub tanpa
+    // Canvas asli. Di lingkungan itu, visual dilewati dan teksnya memakai
+    // lebar penuh — hanya peramban sungguhan yang perlu digambar Canvas-nya.
+    let potonganLebar = 0;
+    if (spec.visual) {
+      try {
+        const canvas = document.createElement("canvas");
+        if (typeof canvas.getContext === "function") {
+          gambarDesain(canvas, spec.visual);
+          const dataUrl = canvas.toDataURL("image/png");
+          const tinggiGambar = 4.55;
+          const lebarGambar = (tinggiGambar * spec.visual.width) / spec.visual.height;
+          const x = W - TEPI - lebarGambar;
+          const y = (H - tinggiGambar) / 2 + 0.15;
+          slide.addImage({ data: dataUrl, x, y, w: lebarGambar, h: tinggiGambar });
+          potonganLebar = lebarGambar + 0.45;
+        }
+      } catch {
+        /* Lingkungan tanpa Canvas asli — visual dilewati, teks tetap penuh lebar. */
+      }
+    }
+
     if (sampul) {
       renderSampul(slide, spec);
     } else if (penutup) {
-      renderPenutup(slide, spec);
+      renderPenutup(slide, spec, potonganLebar);
     } else {
-      renderIsi(slide, spec);
+      renderIsi(slide, spec, potonganLebar);
     }
   }
 
@@ -143,11 +172,12 @@ function renderSampul(slide: Slide, spec: SlideSpec): void {
   }
 }
 
-function renderPenutup(slide: Slide, spec: SlideSpec): void {
+function renderPenutup(slide: Slide, spec: SlideSpec, potonganLebar = 0): void {
+  const lebar = ISI_W - potonganLebar;
   slide.addText(spec.title, {
     x: TEPI,
     y: 1.5,
-    w: ISI_W * 0.8,
+    w: Math.min(ISI_W * 0.8, lebar),
     h: 0.9,
     fontFace: FONT,
     fontSize: 32,
@@ -158,17 +188,19 @@ function renderPenutup(slide: Slide, spec: SlideSpec): void {
     slide.addText(spec.subtitle, {
       x: TEPI,
       y: 2.45,
-      w: ISI_W * 0.74,
+      w: Math.min(ISI_W * 0.74, lebar),
       h: 0.6,
       fontFace: FONT,
       fontSize: 15,
       color: KUNING,
     });
   }
-  isiKeTeks(slide, spec, { atas: 3.2, warnaTeks: PUTIH, warnaLabel: KUNING });
+  isiKeTeks(slide, spec, { atas: 3.2, warnaTeks: PUTIH, warnaLabel: KUNING, lebar });
 }
 
-function renderIsi(slide: Slide, spec: SlideSpec): void {
+function renderIsi(slide: Slide, spec: SlideSpec, potonganLebar = 0): void {
+  const lebar = ISI_W - potonganLebar;
+
   // Percikan kuning di kiri judul, menirukan ornamen pada template resmi.
   slide.addShape("rect", {
     x: TEPI,
@@ -182,7 +214,7 @@ function renderIsi(slide: Slide, spec: SlideSpec): void {
   slide.addText(spec.title, {
     x: TEPI,
     y: 0.62,
-    w: ISI_W - 2,
+    w: Math.min(ISI_W - 2, lebar),
     h: 0.66,
     fontFace: FONT,
     fontSize: 25,
@@ -195,7 +227,7 @@ function renderIsi(slide: Slide, spec: SlideSpec): void {
     slide.addText(spec.subtitle, {
       x: TEPI,
       y: atas,
-      w: ISI_W,
+      w: lebar,
       h: 0.42,
       fontFace: FONT,
       fontSize: 13,
@@ -204,7 +236,7 @@ function renderIsi(slide: Slide, spec: SlideSpec): void {
     atas += 0.56;
   }
 
-  isiKeTeks(slide, spec, { atas, warnaTeks: HITAM, warnaLabel: BIRU });
+  isiKeTeks(slide, spec, { atas, warnaTeks: HITAM, warnaLabel: BIRU, lebar });
 }
 
 /**
@@ -217,8 +249,9 @@ function renderIsi(slide: Slide, spec: SlideSpec): void {
 function isiKeTeks(
   slide: Slide,
   spec: SlideSpec,
-  opsi: { atas: number; warnaTeks: string; warnaLabel: string }
+  opsi: { atas: number; warnaTeks: string; warnaLabel: string; lebar?: number }
 ): void {
+  const lebar = opsi.lebar ?? ISI_W;
   const baris: {
     text: string;
     options: Record<string, unknown>;
@@ -280,7 +313,7 @@ function isiKeTeks(
   slide.addText(baris, {
     x: TEPI,
     y: opsi.atas,
-    w: ISI_W,
+    w: lebar,
     h: H - opsi.atas - 0.6,
     fontFace: FONT,
     valign: "top",
