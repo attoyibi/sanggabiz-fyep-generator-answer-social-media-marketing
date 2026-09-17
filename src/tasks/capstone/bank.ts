@@ -997,6 +997,70 @@ const galeri: ChoiceGroup = {
             "Hasil bulanan: menumpuk bukti secara berkala, bukan sekali lalu hilang",
           ],
         },
+        {
+          id: "gal-t5",
+          headline: "Transformasi sebelum-sesudah, asal-usul pendiri, mitos vs fakta, dan hasil pelanggan",
+          fields: {
+            k1: "Reels 25 detik | Reels | Notifikasi WhatsApp menumpuk tak terbalas berubah menjadi satu dasbor SanggaChat yang rapi, direkam dalam satu tarikan layar",
+            k2: "Carousel 5 slide | Feed Instagram | Cerita asal mula {{brand}} didirikan: masalah yang dilihat pendiri pada usaha kecil di sekitarnya, sampai keputusan membangun layanan ini",
+            k3: "Poster mitos vs fakta | Feed Instagram | \"Mitos: pendampingan operasional cuma buat usaha besar. Fakta: usaha kecil justru paling butuh, karena pemiliknya merangkap semua peran\"",
+            k4: "Cerita berseri | Story sorotan | Satu hari kerja tim pendamping membantu klien menyelesaikan laporan bulanan, direkam apa adanya",
+          },
+          points: [
+            "Transformasi sebelum-sesudah: memperlihatkan hasil tanpa menjelaskan fitur satu per satu",
+            "Asal-usul pendiri: membangun kepercayaan lewat cerita, bukan klaim",
+            "Mitos vs fakta: membalas keberatan yang sering muncul secara langsung",
+            "Hasil pelanggan: bukti kerja nyata dari sudut pandang tim sendiri",
+          ],
+        },
+        {
+          id: "gal-t6",
+          headline: "Checklist masalah, tips cepat diterapkan, kalkulasi biaya, dan kutipan singkat",
+          fields: {
+            k1: "Carousel 5 slide | Feed Instagram | \"3 Tanda Operasional Usahamu Sudah Waktunya Dibereskan\": tiap slide satu tanda beserta akibatnya bila dibiarkan",
+            k2: "Reels 20 detik | Reels | Satu trik merapikan folder invoice digital yang bisa langsung dicoba malam itu juga, tanpa alat berbayar",
+            k3: "Poster kalkulasi | Feed Instagram | Simulasi sederhana: biaya menggaji satu staf administrasi penuh waktu dibandingkan biaya layanan {{brand}} untuk pekerjaan yang sama",
+            k4: "Poster kutipan | Feed Instagram | Satu kalimat pendek dari pemilik usaha yang didampingi, dicetak besar tanpa embel-embel tambahan",
+          },
+          points: [
+            "Checklist masalah: membuat audiens memeriksa diri sendiri, bukan sekadar membaca",
+            "Tips cepat diterapkan: memberi nilai nyata sebelum audiens membayar apa pun",
+            "Kalkulasi biaya: mengubah keberatan \"mahal\" menjadi perbandingan angka yang jelas",
+            "Kutipan singkat: bukti sosial yang cepat dibaca sambil menggulir",
+          ],
+        },
+        {
+          id: "gal-t7",
+          headline: "Balik layar tim, tonggak pencapaian, tanya-jawab keberatan, dan ajakan santai",
+          fields: {
+            k1: "Reels 30 detik | Reels | Suasana rapat kecil tim {{brand}} membahas satu masalah klien, direkam natural tanpa naskah kaku",
+            k2: "Poster tonggak | Feed Instagram | Angka jumlah pelaku usaha perempuan yang sudah didampingi lewat program SanggaTech for Her, disajikan sebagai pencapaian bersama",
+            k3: "Carousel 4 slide | Feed Instagram | Empat keberatan yang paling sering muncul sebelum orang menghubungi {{brand}}, tiap slide satu keberatan beserta jawaban singkatnya",
+            k4: "Poster ajakan | Feed Instagram | Ajakan mengobrol santai lewat direct message tanpa tekanan, bukan ajakan \"beli sekarang\"",
+          },
+          points: [
+            "Balik layar tim: memberi wajah manusia pada layanan yang serba digital",
+            "Tonggak pencapaian: bukti dampak program inklusi, bukan sekadar klaim visi",
+            "Tanya-jawab keberatan: membalas keraguan sebelum sempat diucapkan",
+            "Ajakan santai: menurunkan tekanan membeli, cocok untuk audiens yang baru kenal",
+          ],
+        },
+        {
+          id: "gal-t8",
+          headline: "Anatomi hari kerja, hemat waktu dalam angka, testimoni bersuara, dan penutup bulan",
+          fields: {
+            k1: "Carousel 6 slide | Feed Instagram | \"Anatomi Satu Hari Operasional\": versi berantakan di slide awal, versi rapi memakai {{brand}} di slide akhir, dibandingkan jam demi jam",
+            k2: "Poster angka | Feed Instagram | Estimasi jam kerja yang dikembalikan ke pemilik usaha per pekan setelah pekerjaan administratif diambil alih, ditulis sebagai satu angka besar",
+            k3: "Reels 35 detik | Reels | Cuplikan suara pelanggan diperagakan ulang sebagai teks bergerak, menceritakan momen paling terbantu selama didampingi",
+            k4: "Carousel 4 slide | Feed Instagram | Ringkasan penutup bulan: apa yang sudah dikerjakan tim untuk klien-klien dampingan, ditulis seperti laporan singkat yang jujur",
+          },
+          points: [
+            "Anatomi hari kerja: membuat perubahan terasa konkret jam demi jam, bukan abstrak",
+            "Hemat waktu dalam angka: satu ukuran yang paling mudah dirasakan pemilik usaha",
+            "Testimoni bersuara: terasa lebih personal daripada kutipan teks biasa",
+            "Penutup bulan: menunjukkan konsistensi kerja, bukan hanya sesekali muncul",
+          ],
+        },
       ],
     },
     {
